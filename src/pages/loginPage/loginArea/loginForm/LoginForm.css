@@ -1,0 +1,17 @@
+.login-button {
+    display: block;
+    margin-top: 10px;
+    background-color: rgb(103, 103, 255);
+    color: white;
+    width: 220px;
+    font-size: 18px;
+}
+
+.login-input {
+    margin-top: 10px;
+}
+
+.error-message {
+    color: rgb(255, 87, 87);
+    font-size: 14px;
+}

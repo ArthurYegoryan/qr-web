@@ -1,0 +1,7 @@
+.logo {
+    width: 220px;
+}
+
+.logo > img {
+    width: 100%;
+}
