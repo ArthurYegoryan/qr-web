@@ -4,7 +4,9 @@ const Layout = () => {
     return (
         <>
             <header>
-                Header
+                <div className="nav-button">
+                    
+                </div>
             </header>
             <main>
                 <Outlet />

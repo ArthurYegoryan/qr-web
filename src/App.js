@@ -1,30 +1,41 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import LoginContainer from './pages/loginPage/LoginContainer';
 import TerminalsPage from './pages/terminalsPage/TerminalsPage';
-import Layout from './pages/layout/Layout';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  const [ token, setToken ] = useState("");
+
+  useEffect(() => {
+    const tokenData = localStorage.getItem("token");
+    console.log(tokenData);
+    setToken(tokenData);
+  }, []);
 
   return (
     <>
-      <Routes>
       {
-        isLoggedIn ?
-          <Route path='/' element={<Layout />}>
-            <Route index element={<TerminalsPage />} />
-          </Route> :
-          <Route path='/' element={<LoginContainer
-                          setIsLoggedIn={setIsLoggedIn} />}
-          >
-            <Route path='*' element={<LoginContainer />} />
-          </Route>
+        token ?
+          <TerminalsPage /> 
+        :
+          <Routes>
+            <Route path='/' element={<LoginContainer />} /> 
+            <Route path='/terminals' element={<TerminalsPage />} />                       
+            <Route path='/*' element={<Navigate to="/" />} />
+          </Routes>
       }
-      </Routes>
-    </>    
+    </>      
   );
 }
 
 export default App;
+
+
+// <Route path='/terminals' element={<TerminalsPage />} />            
+// <Route path='/transactions' element={<TransactionsPage />} />

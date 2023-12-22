@@ -1,10 +1,10 @@
 import './LoginContainer.css';
 import LoginArea from './loginArea/LoginArea';
 
-const LoginContainer = ({ setIsLoggedIn }) => {
+const LoginContainer = () => {
     return (
         <div className="login-container">
-            <LoginArea setIsLoggedIn={setIsLoggedIn} />
+            <LoginArea />
         </div>       
     );
 };

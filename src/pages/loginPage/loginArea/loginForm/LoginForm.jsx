@@ -3,17 +3,11 @@ import InputField from "../../../../generalComponents/inputFields/InputField";
 import Button from "../../../../generalComponents/buttons/Button";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { urls } from '../../../../constants/urls/urls';
+import getToken from '../../../../api/getToken';
 
-const LoginForm = ({ setIsLoggedIn }) => {
-    // User info must be taken from back
-
-    const userInfo = {
-        id: 1,
-        bank: "FPS",
-        username: "admin",
-        password: "admin1234",
-        email: "arthur.yegoryan.97@gmail.com"
-    };
+const LoginForm = () => {
+    const [ token, setToken ] = useState("");
 
     const navigate = useNavigate();
 
@@ -31,21 +25,26 @@ const LoginForm = ({ setIsLoggedIn }) => {
         setPassword(evt.target.value);
     }
 
-    const onClickHandler = (evt) => {
+    const onClickHandler = async (evt) => {
         evt.preventDefault();
 
         setEmptyUsernameError(false);
         setEmptyPasswordError(false);
         setWrongUsernamePasswordError(false);
 
-        if (!username.length) setEmptyUsernameError(true);
-        if (!password.length) setEmptyPasswordError(true);
+        if (!username.length || !password.length) {
+            if (!username.length) setEmptyUsernameError(true);
+            if (!password.length) setEmptyPasswordError(true);
+        } else {
+            const result = await getToken(urls.GET_TOKEN_URL, username, password);
 
-        if (username === userInfo.username && password === userInfo.password) {
-            setIsLoggedIn(true);
-            // navigate("/terminals");
-        } else if (username.length && password.length) {
-            setWrongUsernamePasswordError(true);
+            if (result) {                                                               // result.token
+                setToken(result);
+                localStorage.setItem("token", token);
+                navigate("/terminals");
+            } else {
+                setWrongUsernamePasswordError(true);
+            }
         }
     }
 

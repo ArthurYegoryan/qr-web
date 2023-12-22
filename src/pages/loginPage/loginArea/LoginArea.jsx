@@ -3,11 +3,11 @@ import Logo from './logo/Logo';
 import LoginForm from './loginForm/LoginForm';
 import ForgotPassword from './forgotPassword/ForgotPassword';
 
-const LoginArea = ({ setIsLoggedIn }) => {
+const LoginArea = () => {
     return (
         <div className="login-area">
             <Logo />
-            <LoginForm setIsLoggedIn={setIsLoggedIn} />
+            <LoginForm />
             <ForgotPassword />
         </div>
     );
