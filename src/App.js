@@ -1,8 +1,9 @@
 import './App.css';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import LoginContainer from './pages/loginPage/LoginContainer';
-import TerminalsPage from './pages/terminalsPage/TerminalsPage';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import AppRoutes from './routes/AppRoutes';
+import { loginUser } from './redux/slices/auth';
 
 function App() {
   const location = useLocation();
@@ -10,32 +11,17 @@ function App() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const [ token, setToken ] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const tokenData = localStorage.getItem("token");
-    console.log(tokenData);
-    setToken(tokenData);
-  }, []);
+    
+    if (tokenData) {
+      dispatch(loginUser());
+    }
+  }, [dispatch]);
 
-  return (
-    <>
-      {
-        token ?
-          <TerminalsPage /> 
-        :
-          <Routes>
-            <Route path='/' element={<LoginContainer />} /> 
-            <Route path='/terminals' element={<TerminalsPage />} />                       
-            <Route path='/*' element={<Navigate to="/" />} />
-          </Routes>
-      }
-    </>      
-  );
+  return <AppRoutes />;
 }
 
 export default App;
-
-
-// <Route path='/terminals' element={<TerminalsPage />} />            
-// <Route path='/transactions' element={<TransactionsPage />} />

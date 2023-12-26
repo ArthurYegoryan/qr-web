@@ -4,10 +4,10 @@ import Button from "../../../../generalComponents/buttons/Button";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urls } from '../../../../constants/urls/urls';
-import getToken from '../../../../api/getToken';
+import getUserInfo from '../../../../api/getUserInfo';
 
 const LoginForm = () => {
-    const [ token, setToken ] = useState("");
+    const [ token, setToken ] = useState(null);
 
     const navigate = useNavigate();
 
@@ -36,11 +36,12 @@ const LoginForm = () => {
             if (!username.length) setEmptyUsernameError(true);
             if (!password.length) setEmptyPasswordError(true);
         } else {
-            const result = await getToken(urls.GET_TOKEN_URL, username, password);
+            // const result = await getUserInfo(urls.GET_USER_INFO_URL, username);
 
-            if (result) {                                                               // result.token
-                setToken(result);
+            if ("token") {                   // result.token
+                // setToken(result.token);
                 localStorage.setItem("token", token);
+                console.log("Hasanq");
                 navigate("/terminals");
             } else {
                 setWrongUsernamePasswordError(true);
