@@ -3,13 +3,14 @@ import InputField from "../../../../generalComponents/inputFields/InputField";
 import Button from "../../../../generalComponents/buttons/Button";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { urls } from '../../../../constants/urls/urls';
-import getUserInfo from '../../../../api/getUserInfo';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUserInfo } from '../../../../redux/slices/authorization/auth';
 
 const LoginForm = () => {
-    const [ token, setToken ] = useState(null);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { token } = useSelector((state) => state.auth);
 
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
@@ -36,14 +37,12 @@ const LoginForm = () => {
             if (!username.length) setEmptyUsernameError(true);
             if (!password.length) setEmptyPasswordError(true);
         } else {
-            // const result = await getUserInfo(urls.GET_USER_INFO_URL, username);
+            try {
+                dispatch(loadUserInfo(username, password));
 
-            if ("token") {                   // result.token
-                // setToken(result.token);
                 localStorage.setItem("token", token);
-                console.log("Hasanq");
                 navigate("/terminals");
-            } else {
+            } catch(err) {
                 setWrongUsernamePasswordError(true);
             }
         }
@@ -58,7 +57,7 @@ const LoginForm = () => {
             />
             {
                 emptyUsernameError ?
-                    <label className="error-message">User Name can't be empty!</label> 
+                    <label className="error-message">Username can't be empty!</label> 
                 : null
             }
             <InputField type="password" 
@@ -73,7 +72,7 @@ const LoginForm = () => {
             }
             {
                 wrongUsernamePasswordError ?
-                    <label className="error-message">Invalid User name or password!</label> 
+                    <label className="error-message">Invalid username or password!</label> 
                 : null
             }
             <Button type="submit" 

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import AppRoutes from './routes/AppRoutes';
-import { loginUser } from './redux/slices/auth';
+import { loginUser } from './redux/slices/authorization/auth';
 
 function App() {
   const location = useLocation();
@@ -16,10 +16,12 @@ function App() {
   useEffect(() => {
     const tokenData = localStorage.getItem("token");
     
+    dispatch(loginUser());
+    
     if (tokenData) {
       dispatch(loginUser());
     }
-  }, [dispatch]);
+  }, []);
 
   return <AppRoutes />;
 }
