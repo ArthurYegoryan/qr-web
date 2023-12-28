@@ -1,0 +1,29 @@
+.link-component {
+    list-style: none;
+    font-size: 20px;
+    margin-bottom: 25px;
+    padding: 5px;
+}
+
+.link-component:hover {
+    border-bottom: 3px solid white;
+    animation: border_anim 0.2s linear forwards;
+}
+
+.route-link {
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    color: lightskyblue;
+}
+
+@keyframes border_anim {
+	0%{
+		width: 0%;
+	}
+	100%{
+		width: 100%;
+	}
+}

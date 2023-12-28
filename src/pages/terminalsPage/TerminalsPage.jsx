@@ -1,10 +1,10 @@
-import Button from "../../generalComponents/buttons/Button";
-
 const TerminalsPage = () => {
     return (
-        <header>
-            <Button label="am" className="button-language" />
-        </header>
+        <div>
+            <h1>
+                Terminals Page
+            </h1>
+        </div>
     );
 };
 
