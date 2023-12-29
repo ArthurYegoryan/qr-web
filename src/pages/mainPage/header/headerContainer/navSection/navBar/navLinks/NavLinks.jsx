@@ -8,10 +8,19 @@ const NavLinks = () => {
     return (
         <nav className="nav-links">
             <ul>
-                <LinkComponent routePath="/terminals" label="Տերմինալներ" imageName="terminal" />
-                <LinkComponent routePath="/transactions" label="Գործարքներ" />
+                <LinkComponent routePath="/terminals" 
+                               label="Տերմինալներ" 
+                               imageName="terminal" 
+                               imageType=".svg" />
+                <LinkComponent routePath="/transactions" 
+                               label="Գործարքներ"
+                               imageName="transaction"
+                               imageType=".svg" />
                 {username === "admin" && 
-                    <LinkComponent routePath="/users" label="Օգտագործողներ" />
+                    <LinkComponent routePath="/users" 
+                                   label="Օգտագործողներ"
+                                   imageName="users"
+                                   imageType=".svg" />
                 }
             </ul>
         </nav>

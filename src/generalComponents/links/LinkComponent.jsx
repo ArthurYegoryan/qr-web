@@ -3,11 +3,16 @@ import "./LinkComponent.css";
 
 const LinkComponent = ({
     routePath,
-    label
+    label,
+    imageName,
+    imageType
 }) => {
     return (
         <li className="link-component">
-            <NavLink to={routePath} className="route-link">{label}</NavLink>
+            <NavLink to={routePath} className="route-link">
+                <img src={process.env.PUBLIC_URL + imageName + imageType} alt={imageName} />
+                {label}
+            </NavLink>
         </li>       
     );
 };

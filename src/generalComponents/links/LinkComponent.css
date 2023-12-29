@@ -13,6 +13,12 @@
 .route-link {
     text-decoration: none;
     color: white;
+    display: flex;
+}
+
+.route-link > img {
+    width: 20px;
+    margin-right: 10px;
 }
 
 .active {
