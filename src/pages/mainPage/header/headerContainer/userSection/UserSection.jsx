@@ -1,3 +1,4 @@
+import "./UserSection.css";
 import { useSelector } from "react-redux";
 import Button from "../../../../../generalComponents/buttons/Button";
 
