@@ -1,0 +1,14 @@
+.user-container {
+    margin-right: 10px;
+    border-right: 1px solid gray;
+}
+
+.user-container > img {
+    width: 25px;
+}
+
+.user-container > span {
+    color: gray;
+    vertical-align: top;
+    margin-right: 15px;
+}
