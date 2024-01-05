@@ -83,8 +83,12 @@ export const loadUserInfo = (username, password) => {
         return getUserInfo(urls.GET_USER_INFO_URL, username, password).then((response) => {
             return response.data;
         }).then((userData) => {
-            dispatch(editUsername(userData.username));
-            dispatch(editToken(userData.token));
+            if (userData.message === "success") {
+                dispatch(editUsername(userData.username));
+                dispatch(editToken(userData.token));
+            } else {
+                throw new Error();
+            }            
         });
     };
 };
