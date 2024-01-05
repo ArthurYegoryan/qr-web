@@ -4,13 +4,13 @@ import Button from "../../../../generalComponents/buttons/Button";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUserInfo } from '../../../../redux/slices/authorization/auth';
+import { initialAuthState, loadUserInfo, selectToken } from '../../../../redux/slices/authorization/auth';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { token } = useSelector((state) => state.auth);
+    // const { token } = useSelector((state) => state.auth);
 
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
@@ -39,9 +39,18 @@ const LoginForm = () => {
         } else {
             try {
                 dispatch(loadUserInfo(username, password));
+                
+                setTimeout(() => {
+                    console.log("Continue Login Form ...");
 
-                localStorage.setItem("token", token);
-                navigate("/terminals");
+                    const token = dispatch(selectToken(initialAuthState));   // don't work
+                    console.log("Token: " + token);
+
+                    localStorage.setItem("token", token);
+                    console.log(localStorage.getItem("token"));
+
+                    navigate("/terminals");
+                }, 500);
             } catch(err) {
                 setWrongUsernamePasswordError(true);
             }

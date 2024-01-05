@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const tokenData = localStorage.getItem("token");
     
-    dispatch(loginUser());
+    // dispatch(loginUser());
     
     if (tokenData) {
       dispatch(loginUser());

@@ -66,6 +66,7 @@ export const editUsername = (newUsername) => {
 };
 
 export const selectToken = (state) => {
+    console.log(state);
     return state.auth.token;
 };
 
@@ -79,12 +80,17 @@ export const editToken = (newToken) => {
 };
 
 export const loadUserInfo = (username, password) => {
+    console.log("LoadUserInfo");
     return (dispatch, getState) => {
+        console.log("LoadUserInfo2");
         return getUserInfo(urls.GET_USER_INFO_URL, username, password).then((response) => {
+            console.log("getUserInfo first then");
             return response.data;
         }).then((userData) => {
+            console.log("UserInfo: " + JSON.stringify(userData, null, 2));
+            console.log("Username: " + userData.userInfo.username);
             if (userData.message === "success") {
-                dispatch(editUsername(userData.username));
+                dispatch(editUsername(userData.userInfo.username));
                 dispatch(editToken(userData.token));
             } else {
                 throw new Error();

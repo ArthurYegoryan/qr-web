@@ -29,7 +29,9 @@ export const editTerminals = (terminals) => {
 export const loadTerminals = (token) => {
     return (dispatch, getState) => {
         return getAllTerminals(urls.GET_ALL_TERMINALS_URL, token)
-            .then(response => response.data)
+            .then((response) => {
+                return response.data;
+            })
             .then((terminalsData) => {
                 if (terminalsData.message === "success") {
                     dispatch(editTerminals(terminalsData.terminals));
