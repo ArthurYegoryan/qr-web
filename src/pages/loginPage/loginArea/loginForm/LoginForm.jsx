@@ -3,14 +3,11 @@ import InputField from "../../../../generalComponents/inputFields/InputField";
 import Button from "../../../../generalComponents/buttons/Button";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { initialAuthState, loadUserInfo, selectToken } from '../../../../redux/slices/authorization/auth';
-
+import { useDispatch } from 'react-redux';
+import { loadUserInfo, loginUser } from '../../../../redux/slices/authorization/auth';
 const LoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    // const { token } = useSelector((state) => state.auth);
 
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
@@ -42,12 +39,9 @@ const LoginForm = () => {
                 
                 setTimeout(() => {
                     console.log("Continue Login Form ...");
+                    console.log("Token: " + localStorage.getItem("token"));
 
-                    const token = dispatch(selectToken(initialAuthState));   // don't work
-                    console.log("Token: " + token);
-
-                    localStorage.setItem("token", token);
-                    console.log(localStorage.getItem("token"));
+                    dispatch(loginUser());
 
                     navigate("/terminals");
                 }, 500);

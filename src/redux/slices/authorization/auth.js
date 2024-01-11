@@ -65,11 +65,6 @@ export const editUsername = (newUsername) => {
     };
 };
 
-export const selectToken = (state) => {
-    console.log(state);
-    return state.auth.token;
-};
-
 export const editToken = (newToken) => {
     return {
         type: "edit-token",
@@ -92,6 +87,7 @@ export const loadUserInfo = (username, password) => {
             if (userData.message === "success") {
                 dispatch(editUsername(userData.userInfo.username));
                 dispatch(editToken(userData.token));
+                localStorage.setItem("token", userData.token);
             } else {
                 throw new Error();
             }            

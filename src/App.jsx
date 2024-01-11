@@ -16,11 +16,11 @@ function App() {
   useEffect(() => {
     const tokenData = localStorage.getItem("token");
     
-    // dispatch(loginUser());
-    
-    if (tokenData) {
+    if (tokenData && tokenData !== "undefined") {
       dispatch(loginUser());
     }
+
+    return localStorage.clear();                   // Clear localstorage during refreshes for test
   }, []);
 
   return <AppRoutes />;

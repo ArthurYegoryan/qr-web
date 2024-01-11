@@ -1,4 +1,5 @@
 import axios from "axios";
+import { HeaderTokenConfig } from "../constants/configs/configs";
 import user from "../test-json/userInfo.json";
 
 const getUserInfo = async (url, username, password) => {
@@ -7,6 +8,7 @@ const getUserInfo = async (url, username, password) => {
     return user[0];
 
     // return await axios.get(url, {
+    //     ...HeaderTokenConfig,
     //     username,
     //     password
     // });
