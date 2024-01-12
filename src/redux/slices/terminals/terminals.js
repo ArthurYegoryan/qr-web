@@ -26,18 +26,16 @@ export const editTerminals = (terminals) => {
     };
 };
 
-export const loadTerminals = (token) => {
+export const loadTerminals = () => {
     return (dispatch, getState) => {
-        return getAllTerminals(urls.GET_ALL_TERMINALS_URL, token)
-            .then((response) => {
-                return response.data;
-            })
-            .then((terminalsData) => {
-                if (terminalsData.message === "success") {
-                    dispatch(editTerminals(terminalsData.terminals));
-                } else {
-                    throw new Error();
-                }
-            });
+        return getAllTerminals(urls.GET_ALL_TERMINALS_URL).then((response) => {
+            return response.data;
+        }).then((terminalsData) => {
+            if (terminalsData.message === "success") {
+                dispatch(editTerminals(terminalsData.terminals));
+            } else {
+                throw new Error();
+            }
+        });
     };
 };
