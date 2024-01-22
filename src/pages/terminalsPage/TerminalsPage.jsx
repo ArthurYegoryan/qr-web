@@ -1,15 +1,14 @@
 import "./TerminalsPage.css";
+import TerminalsTable from "./terminalsTable/TerminalsTable";
 import { useDispatch } from "react-redux";
 import getAllTerminals from "../../api/getAllTerminals";
 import { urls } from "../../constants/urls/urls";
 import { Navigate } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
-import { terminalsTableFieldsAdmin as columns } from "../../constants/tableFields/terminalsTableFields";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
-    const [ isTableRowBackColorPink, setIsTableRowBackColorPink ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -39,34 +38,7 @@ const TerminalsPage = () => {
             <h1>
                 Terminals Page
             </h1>
-            {terminals.length !== 0 &&
-                <table>
-                    <thead>
-                        <tr>
-                            {
-                                columns.map(({ name }) => (
-                                    <th key={ name }>{ name }</th>
-                                ))
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            terminals.map((terminal) => {
-                                return (
-                                    <tr key={terminal.id} className={`table-row row-bc-pink-${isTableRowBackColorPink}`}>
-                                        {
-                                            columns.map(({ key }) => (
-                                                <td key={terminal[key + Math.E]}>{terminal[key]}</td>
-                                            ))
-                                        }
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            }
+            <TerminalsTable terminals={terminals} />
         </div>
     );
 };

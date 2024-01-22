@@ -7,7 +7,7 @@ const NavLinks = () => {
 
     return (
         <nav className="nav-links">
-            <ul>
+            <ul className="nav-ul">
                 <LinkComponent routePath="/terminals" 
                                label="Տերմինալներ" 
                                imageName="terminal" 

@@ -17,6 +17,7 @@ function App() {
     const tokenData = localStorage.getItem("token");
     
     if (tokenData && tokenData !== "undefined") {
+      console.log("User logged in");
       dispatch(loginUser());
     }
 

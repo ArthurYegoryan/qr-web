@@ -1,13 +1,21 @@
 .link-component {
     list-style: none;
     font-size: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     padding: 5px;
 }
 
-.link-component:hover {
+.link-component::after {
+    display: block;
+    content: '';
     border-bottom: 3px solid white;
-    animation: border_anim 0.2s linear forwards;
+    transform: scaleX(0);
+    transition: transform 200ms ease-in-out;
+    transform-origin: 0% 50%;
+}
+
+.link-component:hover::after {
+    transform: scaleX(1);
 }
 
 .route-link {
@@ -23,13 +31,4 @@
 
 .active {
     color: lightskyblue;
-}
-
-@keyframes border_anim {
-	0%{
-		width: 0%;
-	}
-	100%{
-		width: 100%;
-	}
 }
