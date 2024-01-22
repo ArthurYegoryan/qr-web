@@ -4,7 +4,7 @@ import terminals from "../test-json/terminals.json";
 
 const getAllTerminals = async (url) => {
     console.log("getAllTerminals")
-    return terminals[0];
+    return terminals[0].data;
 
     // return await axios.get(url, HeaderTokenConfig);
 };

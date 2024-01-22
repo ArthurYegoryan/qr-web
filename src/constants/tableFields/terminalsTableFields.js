@@ -17,7 +17,7 @@ export const terminalsTableFieldsAdmin = [
     },
     {
         name: "MCC",
-        kay: "mcc"
+        key: "mcc"
     },
     {
         name: "Is Active",

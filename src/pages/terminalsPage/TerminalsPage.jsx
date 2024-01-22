@@ -1,19 +1,30 @@
-import { useDispatch, useSelector } from "react-redux";
-import { loadTerminals } from "../../redux/slices/terminals/terminals";
+import "./TerminalsPage.css";
+import { useDispatch } from "react-redux";
+import getAllTerminals from "../../api/getAllTerminals";
+import { urls } from "../../constants/urls/urls";
 import { Navigate } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
-import { useEffect, useMemo, useReducer, useState } from "react";
-import { terminalsTableFieldsAdmin } from "../../constants/tableFields/terminalsTableFields";
+import { useEffect, useState } from "react";
+import { terminalsTableFieldsAdmin as columns } from "../../constants/tableFields/terminalsTableFields";
 
 const TerminalsPage = () => {
-    const [ isTerminalsDataOK, setIsTerminalsDataOK ] = useState(false);
+    const [ terminals, setTerminals ] = useState([]);
+    const [ isTableRowBackColorPink, setIsTableRowBackColorPink ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         try {
-            dispatch(loadTerminals());
-            console.log("Finish loadTerminals");
-            setIsTerminalsDataOK(true);
+            const getTerminalsData = async () => {
+                const response = await(getAllTerminals(urls.GET_ALL_TERMINALS_URL));
+
+                if (response.message === "success") {
+                    setTerminals(response.terminals);
+                    console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`)
+                } else {
+                    throw new Error("Invalid error!");
+                }                
+            }
+            getTerminalsData();
         } catch(err) {
             localStorage.clear();
             dispatch(editToken(""));
@@ -23,22 +34,12 @@ const TerminalsPage = () => {
         }
     }, []);
 
-    console.log(1);
-
-    const { terminals } = useSelector((state) => state.terminals);
-    console.log("Terminals: " + JSON.stringify(terminals, null, 2));
-
-    const terminalsMemoData = useMemo(() => terminals, []);
-
-    const columns = useMemo(() => terminalsTableFieldsAdmin, []);
-    console.log("Columns: " + JSON.stringify(columns, null, 2));
-
     return (
         <div>
             <h1>
                 Terminals Page
             </h1>
-            {isTerminalsDataOK &&
+            {terminals.length !== 0 &&
                 <table>
                     <thead>
                         <tr>
@@ -51,12 +52,12 @@ const TerminalsPage = () => {
                     </thead>
                     <tbody>
                         {
-                            terminalsMemoData.map((terminal) => {
+                            terminals.map((terminal) => {
                                 return (
-                                    <tr key={terminal.id}>
+                                    <tr key={terminal.id} className={`table-row row-bc-pink-${isTableRowBackColorPink}`}>
                                         {
                                             columns.map(({ key }) => (
-                                                <td key={terminal[key]}>{terminal[key]}</td>
+                                                <td key={terminal[key + Math.E]}>{terminal[key]}</td>
                                             ))
                                         }
                                     </tr>

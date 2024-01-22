@@ -1,0 +1,15 @@
+.row-bc-pink-true {
+    background-color: pink;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+tr {
+    margin-right: 5px;
+}
