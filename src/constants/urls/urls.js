@@ -2,4 +2,6 @@ export const urls = {
     GET_TOKEN_URL: "",
     GET_USER_INFO_URL: "https://fakestoreapi.com/users/1",
     GET_ALL_TERMINALS_URL: "",
+    GET_TERMINALS_TYPES_URL: "",
+    PUT_TERMINAL_DATA_URL: "",
 };

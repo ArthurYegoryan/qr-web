@@ -8,6 +8,11 @@ export const authReducer = (state = {}, action) => {
                 ...state,
                 username: action.payload.username,
             };
+        case "edit-role":
+            return {
+                ...state,
+                role: action.payload.role,
+            };
         case "edit-token":
             return {
                 ...state,
@@ -30,6 +35,7 @@ export const authReducer = (state = {}, action) => {
 
 export const initialAuthState = {
     username: "",
+    role: "",
     isLoggedIn: false,
     token: ""
 };
@@ -65,6 +71,15 @@ export const editUsername = (newUsername) => {
     };
 };
 
+export const editRole = (newRole) => {
+    return {
+        type: "edit-role",
+        payload: {
+            role: newRole
+        }
+    };
+};
+
 export const editToken = (newToken) => {
     return {
         type: "edit-token",
@@ -81,6 +96,7 @@ export const loadUserInfo = (username, password) => {
         }).then((userData) => {
             if (userData.message === "success") {
                 dispatch(editUsername(userData.userInfo.username));
+                dispatch(editRole(userData.userInfo.role));
                 dispatch(editToken(userData.token));
                 localStorage.setItem("token", userData.token);
             } else {

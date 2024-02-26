@@ -1,8 +1,19 @@
 import "./TerminalsTable.css";
 import { terminalsTableFieldsAdmin as columns } from "../../../constants/tableFields/terminalsTableFields";
-import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs"
+import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
+import ChangeTerminalData from "../changeTerminalData/ChangeTerminalData";
+import { useState } from "react";
 
 const TerminalsTable = ({ terminals }) => {
+    const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ selectedTerminal, setSelectedTerminal ] = useState({})
+
+    const onClickPencilButton = (terminal) => {
+        setSelectedTerminal(terminal);
+        setOpenCloseModal(true);
+    };
+
     return (
         <>
             {terminals.length !== 0 &&
@@ -29,7 +40,7 @@ const TerminalsTable = ({ terminals }) => {
                                         }
                                         <td key={terminal.id + Math.E}>
                                             <span className="actions">
-                                                <BsFillPencilFill className="table-row-edit-button" onClick={() => console.log("Clicked edit command")} />
+                                                <BsFillPencilFill className="table-row-edit-button" onClick={() => onClickPencilButton(terminal)} />
                                                 <BsFillTrashFill className="table-row-delete-button" />
                                             </span>
                                         </td>
@@ -39,6 +50,13 @@ const TerminalsTable = ({ terminals }) => {
                         }
                     </tbody>
                 </table>
+            }
+            {openCloseModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
+                                isOpen={openCloseModal} 
+                                title="Փոփոխել տերմինալի տվյալները"
+                                body={<ChangeTerminalData terminal={selectedTerminal} />}
+                />
             }
         </>
     );

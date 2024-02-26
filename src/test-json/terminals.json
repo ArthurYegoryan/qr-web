@@ -12,10 +12,16 @@
                     "mcc": "5411",
                     "active": "true",
                     "pos_type": "MOVE 3500",
+                    "merchant_name": "QR Test Ameria",
                     "merchant_name_in_am": "QR տեստ Ամերիա",
                     "merchant_tax_number": "03219440",
+                    "merchant_city": "YEREVAN",
                     "merchant_city_in_am": "Երևան",
+                    "merchant_address": "Agatangeghos 7",
                     "merchant_address_in_am": "Ագաթանգեղոս 7",
+                    "merchant_phone_number": "+37477777777",
+                    "merchant_web_page": "www.justqr.am",
+                    "merchant_email": "",
                     "bank": "Ameria"
                 },
                 {
@@ -26,10 +32,16 @@
                     "mcc": "5411",
                     "active": "true",
                     "pos_type": "MOVE 3500",
+                    "merchant_name": "QR Test Ingenico ECR",
                     "merchant_name_in_am": "QR տեստ Ingenico ECR",
                     "merchant_tax_number": "03219440",
+                    "merchant_city": "YEREVAN",
                     "merchant_city_in_am": "Երևան",
+                    "merchant_address": "Agatangeghos 7",
                     "merchant_address_in_am": "Ագաթանգեղոս 7",
+                    "merchant_phone_number": "+37477777777",
+                    "merchant_web_page": "www.justqr.am",
+                    "merchant_email": "",
                     "bank": "ACBA"
                 },
                 {
@@ -40,10 +52,16 @@
                     "mcc": "5411",
                     "active": "true",
                     "pos_type": "SUNMI P2",
+                    "merchant_name": "QR Test SunMi Real",
                     "merchant_name_in_am": "QR տեստ SunMi Real",
                     "merchant_tax_number": "03219440",
+                    "merchant_city": "YEREVAN",
                     "merchant_city_in_am": "Երևան",
+                    "merchant_address": "Agatangeghos 7",
                     "merchant_address_in_am": "Ագաթանգեղոս 7",
+                    "merchant_phone_number": "+37477777777",
+                    "merchant_web_page": "www.justqr.am",
+                    "merchant_email": "",
                     "bank": "ACBA"
                 }
             ]

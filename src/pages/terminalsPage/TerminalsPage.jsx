@@ -6,9 +6,12 @@ import { urls } from "../../constants/urls/urls";
 import { Navigate } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
+import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
+import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
+    const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,17 +22,19 @@ const TerminalsPage = () => {
                 if (response.message === "success") {
                     setTerminals(response.terminals);
                     console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`)
+                } else if (response.message === "expired token") {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+                    dispatch(logoutUser());
+            
+                    <Navigate to="/login" />;
                 } else {
-                    throw new Error("Invalid error!");
+                    throw new Error("Connection error!");
                 }                
             }
             getTerminalsData();
         } catch(err) {
-            localStorage.clear();
-            dispatch(editToken(""));
-            dispatch(logoutUser());
-    
-            <Navigate to="/login" />;
+            setOpenCloseModal(true);
         }
     }, []);
 
@@ -39,6 +44,14 @@ const TerminalsPage = () => {
                 Terminals Page
             </h1>
             <TerminalsTable terminals={terminals} />
+            {openCloseModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
+                                isOpen={openCloseModal} 
+                                title="Connection error!"
+                                body={<ErrorModalBody />}
+                                bgcolor="red"
+                />
+            }
         </div>
     );
 };

@@ -1,0 +1,19 @@
+.modal-close-button-div {
+    text-align: end;
+    margin-top: 0;
+    margin-right: 10px;
+}
+
+.modal-close-button {
+    width: 20px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    position: absolute;
+}
+
+.modal-close-button > img {
+    width: 100%;
+}

@@ -1,0 +1,25 @@
+.change-term-data-content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.change-term-data-fields {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.change-term-data-field {
+    margin-left: 1px;
+    margin-bottom: 10px;
+}
+
+.change-term-data-label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.change-term-data-activ-label {
+    margin-left: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}

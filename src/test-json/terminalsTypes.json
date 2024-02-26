@@ -1,0 +1,18 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success", 
+            "terminalsTypes": [
+                "MOVE 3500",
+                "MOVE 2500",
+                "MOVE 5000",
+                "LANE 3000",
+                "SUNMI P2",
+                "Aisino A90",
+                "iWL 251",
+                "iCT 250"
+            ]
+        }
+    }
+]

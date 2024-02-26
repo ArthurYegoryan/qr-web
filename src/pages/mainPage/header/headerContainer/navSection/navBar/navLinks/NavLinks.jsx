@@ -3,7 +3,7 @@ import LinkComponent from "../../../../../../../generalComponents/links/LinkComp
 import "./NavLinks.css";
 
 const NavLinks = () => {
-    const { username } = useSelector((state) => state.auth);
+    const { role } = useSelector((state) => state.auth);
 
     return (
         <nav className="nav-links">
@@ -16,7 +16,7 @@ const NavLinks = () => {
                                label="Գործարքներ"
                                imageName="transaction"
                                imageType=".svg" />
-                {username === "admin" && 
+                {role === "admin" && 
                     <LinkComponent routePath="/users" 
                                    label="Օգտագործողներ"
                                    imageName="users"
