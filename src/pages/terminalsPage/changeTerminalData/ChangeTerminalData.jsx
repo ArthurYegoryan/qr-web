@@ -11,6 +11,7 @@ import { editToken, logoutUser } from "../../../redux/slices/authorization/auth"
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import Button from "../../../generalComponents/buttons/Button";
+import { serialValidation } from "../../../utils/fieldsValidations/serialValidation";
 
 const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
     console.log("Terminal: ", JSON.stringify(terminal, null, 2));
@@ -77,6 +78,8 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
     }, []);
 
     const onClickSaveButton = async () => {
+        console.log("Serial validation: ", serialValidation(serial));
+
         const newTerminalData = {
             serial,
             tid,
