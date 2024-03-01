@@ -23,3 +23,21 @@
     font-size: 15px;
     font-weight: 600;
 }
+
+.change-term-data-buttons {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.change-term-data-save-btn {
+    background-color: green;
+    color: white;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.change-term-data-cancel-btn {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+}

@@ -55,7 +55,7 @@ const TerminalsTable = ({ terminals }) => {
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
                                 title="Փոփոխել տերմինալի տվյալները"
-                                body={<ChangeTerminalData terminal={selectedTerminal} />}
+                                body={<ChangeTerminalData terminal={selectedTerminal} onCloseHandler={() => setOpenCloseModal(false)} />}
                 />
             }
         </>

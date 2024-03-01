@@ -1,0 +1,34 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "banks": [
+                {
+                    "id": 1,
+                    "short_name": "ACBAB",
+                    "full_name_am": "ACBA Bank",
+                    "full_name_en": "ACBA Bank"
+                },
+                {
+                    "id": 2,
+                    "short_name": "CONVS",
+                    "full_name_am": "Converse Bank",
+                    "full_name_en": "Converse Bank"
+                },
+                {
+                    "id": 3,
+                    "short_name": "EVOCA",
+                    "full_name_am": "EVOCA Bank",
+                    "full_name_en": "EVOCA Bank"
+                },
+                {
+                    "id": 4,
+                    "short_name": "AMERIA",
+                    "full_name_am": "Ameria Bank",
+                    "full_name_en": "Ameria Bank"
+                }
+            ]
+        }
+    }
+]

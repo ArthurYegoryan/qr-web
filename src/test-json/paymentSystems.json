@@ -1,0 +1,46 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "paymentSystems": [
+                {
+                    "id": 1,
+                    "short_name": "MobiDram",
+                    "full_name_am": "ՄՈԲԻԴՐԱՄ",
+                    "full_name_en": "MOBIDRAM"
+                },
+                {
+                    "id": 2,
+                    "short_name": "ConverseBank",
+                    "full_name_am": "CONVERSE BANK",
+                    "full_name_en": "CONVERSE BANK"
+                },
+                {
+                    "id": 3,
+                    "short_name": "Evocabank",
+                    "full_name_am": "EVOCA Bank",
+                    "full_name_en": "EVOCA Bank"
+                },
+                {
+                    "id": 5,
+                    "short_name": "FPS",
+                    "full_name_am": "FPS",
+                    "full_name_en": "FPS"
+                },
+                {
+                    "id": 7,
+                    "short_name": "TelCell",
+                    "full_name_am": "TELCELL",
+                    "full_name_en": "TELCELL"
+                },
+                {
+                    "id": 8,
+                    "short_name": "Ameria",
+                    "full_name_am": "Ամերիա Բանկ",
+                    "full_name_en": "Ameria Bank"
+                }
+            ]
+        }
+    }
+]
