@@ -13,13 +13,14 @@ import ErrorModalBody from "../../../generalComponents/modalComponent/errorModal
 import Button from "../../../generalComponents/buttons/Button";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 
-const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
+const ChangeTerminalData = ({ terminal, setIsTermDataChanged, onCloseHandler }) => {
     const { role } = useSelector((state) => state.auth);
 
     const [ terminalsTypes, setTerminalsTypes ] = useState([]);
     const [ banks, setBanks ] = useState([]);
     const [ paymentSystems, setPaymentSystems ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    // const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ terminalData, setTerminalData ] = useState({
         serial: terminal.serial,
         tid: terminal.tid,
@@ -53,7 +54,7 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchTerminalsTypes = async () => {
+        const fetchTerminalsTypesBanksPaysys = async () => {
             try {
                 const responseTermTypes = await getTerminalsTypes(urls.GET_TERMINALS_TYPES_URL);
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
@@ -82,7 +83,7 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
                 setOpenCloseModal(true);
             }
         }
-        fetchTerminalsTypes();
+        fetchTerminalsTypesBanksPaysys();
     }, []);
 
     const checkFieldsValidation = ({ serial, tid, mid, mcc, tax, merchantName, 
@@ -145,7 +146,13 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
         resetPrevValidations();
 
         if (!checkFieldsValidation(terminalData)) {
-            
+            const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
+
+            if (responseChangeTermData.message === "success") {
+                setIsTermDataChanged(true);
+                console.log("Hasanq");
+                onCloseHandler();
+            }
         }
 
         console.log("New terminal data: ", JSON.stringify(terminalData, null, 2));

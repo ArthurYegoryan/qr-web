@@ -5,7 +5,7 @@ import ModalComponent from "../../../generalComponents/modalComponent/ModalCompo
 import ChangeTerminalData from "../changeTerminalData/ChangeTerminalData";
 import { useState } from "react";
 
-const TerminalsTable = ({ terminals }) => {
+const TerminalsTable = ({ terminals, setIsTermDataChanged }) => {
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ selectedTerminal, setSelectedTerminal ] = useState({})
 
@@ -55,7 +55,9 @@ const TerminalsTable = ({ terminals }) => {
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
                                 title="Փոփոխել տերմինալի տվյալները"
-                                body={<ChangeTerminalData terminal={selectedTerminal} onCloseHandler={() => setOpenCloseModal(false)} />}
+                                body={<ChangeTerminalData terminal={selectedTerminal}
+                                                          setIsTermDataChanged={setIsTermDataChanged} 
+                                                          onCloseHandler={() => setOpenCloseModal(false)} />}
                 />
             }
         </>

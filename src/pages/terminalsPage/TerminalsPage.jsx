@@ -12,6 +12,7 @@ import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBod
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -36,14 +37,14 @@ const TerminalsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, []);
+    }, [isTermDataChanged]);
 
     return (
         <div>
             <h1>
                 Terminals Page
             </h1>
-            <TerminalsTable terminals={terminals} />
+            <TerminalsTable terminals={terminals} setIsTermDataChanged={setIsTermDataChanged} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
