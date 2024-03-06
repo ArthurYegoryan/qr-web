@@ -11,7 +11,7 @@ import { editToken, logoutUser } from "../../../redux/slices/authorization/auth"
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import Button from "../../../generalComponents/buttons/Button";
-import { serialMidTidTaxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
+import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 
 const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
     const { role } = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
         mid: terminal.mid,
         posType: terminal.pos_type,
         mcc: terminal.mcc,
-        tax: terminal.tax,
+        tax: terminal.merchant_tax_number,
         merchantName: terminal.merchant_name,
         merchantNameInAm: terminal.merchant_name_in_am,
         merchantAddress: terminal.merchant_address,
@@ -40,6 +40,15 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
         bank: terminal.bank,
         paymentSystem: "",
     });
+    const [ serialError, setSerialError ] = useState(false);
+    const [ tidError, setTidError ] = useState(false);
+    const [ midError, setMidError ] = useState(false);
+    const [ mccError, setMccError ] = useState(false);
+    const [ taxError, setTaxError ] = useState(false);
+    const [ merchantNameError, setMerchantNameError ] = useState(false);
+    const [ merchantNameInAmError, setMerchantNameInAmError ] = useState(false);
+    const [ merchantAddressError, setMerchantAddressError ] = useState(false);
+    const [ merchantAddressInAmError, setMerchantAddressInAmError ] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -76,12 +85,68 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
         fetchTerminalsTypes();
     }, []);
 
-    const checkFieldsValidation = () => {
+    const checkFieldsValidation = ({ serial, tid, mid, mcc, tax, merchantName, 
+                                    merchantNameInAm, merchantAddress, merchantAddressInAm }) => {
+        let existsError = false;
 
+        if (!serialValidation(serial)) {
+            existsError = true;
+            setSerialError(true);
+        }
+        if (!midTidValidation(tid)) {
+            existsError = true;
+            setTidError(true);
+        }
+        if (!midTidValidation(mid)) {
+            existsError = true;
+            setMidError(true);
+        }
+        if (!mccValidation(mcc)) {
+            existsError = true;
+            setMccError(true);
+        }
+        if (!taxValidation(tax)) {
+            existsError = true;
+            setTaxError(true);
+        }
+        if (!merchantName.length) {
+            existsError = true;
+            setMerchantNameError(true);
+        }
+        if (!merchantNameInAm.length) {
+            existsError = true;
+            setMerchantNameInAmError(true);
+        }
+        if (!merchantAddress.length) {
+            existsError = true;
+            setMerchantAddressError(true);
+        }
+        if (!merchantAddressInAm.length) {
+            existsError = true;
+            setMerchantAddressInAmError(true);
+        }
+
+        return existsError;
+    };
+
+    const resetPrevValidations = () => {
+        setSerialError(false);
+        setTidError(false);
+        setMidError(false);
+        setMccError(false);
+        setTaxError(false);
+        setMerchantNameError(false);
+        setMerchantNameInAmError(false);
+        setMerchantAddressError(false);
+        setMerchantAddressInAmError(false);
     };
 
     const onClickSaveButton = async () => {
-        console.log("Serial validation: ", serialMidTidTaxValidation(terminalData.serial));
+        resetPrevValidations();
+
+        if (!checkFieldsValidation(terminalData)) {
+            
+        }
 
         console.log("New terminal data: ", JSON.stringify(terminalData, null, 2));
 
@@ -96,16 +161,25 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
                             <label htmlFor="serial" className="change-term-data-label">*Serial number</label> <br />
                             <input type="text" id="serial" name="serial" defaultValue={terminal.serial} 
                                    onChange={(evt) => setTerminalData({...terminalData, serial: evt.target.value})} />
+                            {serialError &&
+                                <small className="change-term-data-field-error-text">Serial length must be 8!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="tid" className="change-term-data-label">Terminal ID</label> <br />
                             <input type="text" id="tid" name="tid" defaultValue={terminal.tid} 
                                    onChange={(evt) => setTerminalData({...terminalData, tid: evt.target.value})} />
+                            {tidError &&
+                                <small className="change-term-data-field-error-text">TID must contain only numbers!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="mid" className="change-term-data-label">Merchant ID</label> <br />
                             <input type="text" id="mid" name="mid" defaultValue={terminal.mid} 
                                    onChange={(evt) => setTerminalData({...terminalData, mid: evt.target.value})} />
+                            {midError &&
+                                <small className="change-term-data-field-error-text">MID must contain only numbers!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label className="change-term-data-label">POS type</label> <br />
@@ -126,11 +200,17 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
                             <label htmlFor="mcc" className="change-term-data-label">MCC</label> <br />
                             <input type="text" id="mcc" name="mcc" defaultValue={terminal.mcc} 
                                 onChange={(evt) => setTerminalData({...terminalData, mcc: evt.target.value})} />
+                            {mccError &&
+                                <small className="change-term-data-field-error-text">MCC must contain 4 numbers!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="tax" className="change-term-data-label">TAX</label> <br />
                             <input type="text" id="tax" name="tax" defaultValue={terminal.merchant_tax_number} 
                                 onChange={(evt) => setTerminalData({...terminalData, tax: evt.target.value})} />
+                            {taxError &&
+                                <small className="change-term-data-field-error-text">TAX must contain 8 numbers!</small>
+                            }
                         </div>
                     </div>
                     <div className="change-term-data-fields">
@@ -138,23 +218,35 @@ const ChangeTerminalData = ({ terminal, onCloseHandler }) => {
                             <label htmlFor="merchant_name" className="change-term-data-label">Merchant name</label> <br />
                             <input type="text" id="merchant_name" name="merchant_name" defaultValue={terminal.merchant_name} 
                                 onChange={(evt) => setTerminalData({...terminalData, merchantName: evt.target.value})} />
+                            {merchantNameError &&
+                                <small className="change-term-data-field-error-text">Merchant name can't be empty!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="merchant_name_in_am" className="change-term-data-label">Merchant name in am</label> <br />
                             <input type="text" id="merchant_name_in_am" name="merchant_name_in_am" 
                                 defaultValue={terminal.merchant_name_in_am} 
                                 onChange={(evt) => setTerminalData({...terminalData, merchantNameInAm: evt.target.value})} />
+                            {merchantNameInAmError &&
+                                <small className="change-term-data-field-error-text">Merchant name in am can't be empty!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="merchant_address" className="change-term-data-label">Merchant address</label> <br />
                             <input type="text" id="merchant_address" name="merchant_address" defaultValue={terminal.merchant_address} 
                                 onChange={(evt) => setTerminalData({...terminalData, merchantAddress: evt.target.value})} />
+                            {merchantAddressError &&
+                                <small className="change-term-data-field-error-text">Merchant address can't be empty!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="merchant_address_in_am" className="change-term-data-label">Merchant address in am</label> <br />
                             <input type="text" id="merchant_address_in_am" name="merchant_address_in_am" 
                                 defaultValue={terminal.merchant_address_in_am} 
                                 onChange={(evt) => setTerminalData({...terminalData, merchantAddressInAm: evt.target.value})} />
+                            {merchantAddressInAmError &&
+                                <small className="change-term-data-field-error-text">Merchant address in am can't be empty!</small>
+                            }
                         </div>
                         <div className="change-term-data-field">
                             <label htmlFor="merchant_city" className="change-term-data-label">Merchant city</label> <br />
