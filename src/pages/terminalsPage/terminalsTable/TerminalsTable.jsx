@@ -4,14 +4,21 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ChangeTerminalData from "../changeTerminalData/ChangeTerminalData";
 import { useState } from "react";
+import DeleteTerminalData from "../deleteTerminalData/DeleteTerminalData";
 
-const TerminalsTable = ({ terminals, setIsTermDataChanged }) => {
-    const [ openCloseModal, setOpenCloseModal ] = useState(false);
+const TerminalsTable = ({ terminals, setIsTermDataChanged, setIsTermDataDeleted }) => {
+    const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
+    const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ selectedTerminal, setSelectedTerminal ] = useState({})
 
     const onClickPencilButton = (terminal) => {
         setSelectedTerminal(terminal);
-        setOpenCloseModal(true);
+        setOpenCloseEditModal(true);
+    };
+
+    const onClickTrashButton = (terminal) => {
+        setSelectedTerminal(terminal);
+        setOpenCloseDeleteModal(true);
     };
 
     return (
@@ -41,7 +48,7 @@ const TerminalsTable = ({ terminals, setIsTermDataChanged }) => {
                                         <td key={terminal.id + Math.E}>
                                             <span className="actions">
                                                 <BsFillPencilFill className="table-row-edit-button" onClick={() => onClickPencilButton(terminal)} />
-                                                <BsFillTrashFill className="table-row-delete-button" />
+                                                <BsFillTrashFill className="table-row-delete-button" onClick={() => onClickTrashButton(terminal)} />
                                             </span>
                                         </td>
                                     </tr>
@@ -51,13 +58,22 @@ const TerminalsTable = ({ terminals, setIsTermDataChanged }) => {
                     </tbody>
                 </table>
             }
-            {openCloseModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
-                                isOpen={openCloseModal} 
+            {openCloseEditModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
+                                isOpen={openCloseEditModal} 
                                 title="Փոփոխել տերմինալի տվյալները"
                                 body={<ChangeTerminalData terminal={selectedTerminal}
                                                           setIsTermDataChanged={setIsTermDataChanged} 
-                                                          onCloseHandler={() => setOpenCloseModal(false)} />}
+                                                          onCloseHandler={() => setOpenCloseEditModal(false)} />}
+                />
+            }
+            {openCloseDeleteModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
+                                isOpen={openCloseDeleteModal}
+                                title="Ջնջել տերմինլի տվյալները"
+                                body={<DeleteTerminalData terminal={selectedTerminal}
+                                                          setIsTermDataDeleted={setIsTermDataDeleted}
+                                                          onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
                 />
             }
         </>

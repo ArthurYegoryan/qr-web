@@ -13,6 +13,7 @@ const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
+    const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,7 +45,9 @@ const TerminalsPage = () => {
             <h1>
                 Terminals Page
             </h1>
-            <TerminalsTable terminals={terminals} setIsTermDataChanged={setIsTermDataChanged} />
+            <TerminalsTable terminals={terminals} 
+                            setIsTermDataChanged={setIsTermDataChanged} 
+                            setIsTermDataDeleted={setIsTermDataDeleted} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
