@@ -1,0 +1,11 @@
+.search-area-button {
+    background-color: blue;
+    color: white;
+    font-size: 16px;
+    height: 30px;
+}
+
+.search-area-button > img {
+    margin-left: 5px;
+    width: 15px;
+}
