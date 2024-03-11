@@ -23,7 +23,7 @@ const TerminalsPage = () => {
 
                 if (response.message === "success") {
                     setTerminals(response.terminals);
-                    console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`)
+                    console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -38,7 +38,7 @@ const TerminalsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [isTermDataChanged]);
+    }, [isTermDataChanged, isTermDataDeleted]);
 
     return (
         <div>
@@ -46,8 +46,10 @@ const TerminalsPage = () => {
                 Terminals Page
             </h1>
             <TerminalsTable terminals={terminals} 
-                            setIsTermDataChanged={setIsTermDataChanged} 
-                            setIsTermDataDeleted={setIsTermDataDeleted} />
+                            setIsTermDataChanged={setIsTermDataChanged}
+                            isTermDataChanged={isTermDataChanged} 
+                            setIsTermDataDeleted={setIsTermDataDeleted}
+                            isTermDataDeleted={isTermDataDeleted} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 

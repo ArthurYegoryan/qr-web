@@ -13,14 +13,18 @@ import ErrorModalBody from "../../../generalComponents/modalComponent/errorModal
 import Button from "../../../generalComponents/buttons/Button";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 
-const ChangeTerminalData = ({ terminal, setIsTermDataChanged, onCloseHandler }) => {
+const ChangeTerminalData = ({ 
+    terminal, 
+    setIsTermDataChanged, 
+    isTermDataChanged,
+    onCloseHandler 
+}) => {
     const { role } = useSelector((state) => state.auth);
 
     const [ terminalsTypes, setTerminalsTypes ] = useState([]);
     const [ banks, setBanks ] = useState([]);
     const [ paymentSystems, setPaymentSystems ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
-    // const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ terminalData, setTerminalData ] = useState({
         serial: terminal.serial,
         tid: terminal.tid,
@@ -68,9 +72,9 @@ const ChangeTerminalData = ({ terminal, setIsTermDataChanged, onCloseHandler }) 
                     setBanks(responseBanks.banks);
                     setPaymentSystems(responsePaySystems.paymentSystems);
 
-                } else if (responseTermTypes.message === "expired token" ||
-                           responseBanks.message === "expired token" ||
-                           responsePaySystems.message === "expired token") {
+                } else if (responseTermTypes.message === "invalid token" ||
+                           responseBanks.message === "invalid token" ||
+                           responsePaySystems.message === "invalid token") {
                     localStorage.clear();
                     dispatch(editToken(""));
                     dispatch(logoutUser());
@@ -149,14 +153,13 @@ const ChangeTerminalData = ({ terminal, setIsTermDataChanged, onCloseHandler }) 
             const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
 
             if (responseChangeTermData.message === "success") {
-                setIsTermDataChanged(true);
+                setIsTermDataChanged(!isTermDataChanged);
                 console.log("Hasanq");
                 onCloseHandler();
             }
         }
 
         console.log("New terminal data: ", JSON.stringify(terminalData, null, 2));
-
     };
 
     return (

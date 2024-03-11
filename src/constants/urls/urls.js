@@ -6,4 +6,5 @@ export const urls = {
     GET_BANKS_URL: "",
     GET_PAYMENT_SYSTEMS_URL: "",
     PUT_TERMINAL_DATA_URL: "",
+    DELETE_TERMINAL_DATA_URL: "",
 };

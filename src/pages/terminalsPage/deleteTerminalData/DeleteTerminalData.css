@@ -1,0 +1,12 @@
+.delete-term-data-delete-btn {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.delete-term-data-cancel-btn {
+    font-size: 16px;
+    background-color: white;
+    color: red;
+}

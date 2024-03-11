@@ -6,7 +6,13 @@ import ChangeTerminalData from "../changeTerminalData/ChangeTerminalData";
 import { useState } from "react";
 import DeleteTerminalData from "../deleteTerminalData/DeleteTerminalData";
 
-const TerminalsTable = ({ terminals, setIsTermDataChanged, setIsTermDataDeleted }) => {
+const TerminalsTable = ({ 
+    terminals, 
+    setIsTermDataChanged, 
+    isTermDataChanged,
+    setIsTermDataDeleted,
+    isTermDataDeleted
+}) => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ selectedTerminal, setSelectedTerminal ] = useState({})
@@ -63,7 +69,8 @@ const TerminalsTable = ({ terminals, setIsTermDataChanged, setIsTermDataDeleted 
                                 isOpen={openCloseEditModal} 
                                 title="Փոփոխել տերմինալի տվյալները"
                                 body={<ChangeTerminalData terminal={selectedTerminal}
-                                                          setIsTermDataChanged={setIsTermDataChanged} 
+                                                          setIsTermDataChanged={setIsTermDataChanged}
+                                                          isTermDataChanged={isTermDataChanged}
                                                           onCloseHandler={() => setOpenCloseEditModal(false)} />}
                 />
             }
@@ -73,6 +80,7 @@ const TerminalsTable = ({ terminals, setIsTermDataChanged, setIsTermDataDeleted 
                                 title="Ջնջել տերմինլի տվյալները"
                                 body={<DeleteTerminalData terminal={selectedTerminal}
                                                           setIsTermDataDeleted={setIsTermDataDeleted}
+                                                          isTermDataDeleted={isTermDataDeleted}
                                                           onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
                 />
             }
