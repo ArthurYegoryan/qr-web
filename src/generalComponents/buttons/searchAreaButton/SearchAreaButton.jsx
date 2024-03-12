@@ -1,12 +1,14 @@
 import "./SearchAreaButton.css";
 
 const SearchAreaButton = ({ 
+    type,
     label,
     searchIcon,
-    classNameBtn
+    classNameBtn,
+    onClickHandler
 }) => {
     return (
-        <button className={`search-area-button ${classNameBtn}`}>
+        <button type={type} className={`search-area-button ${classNameBtn}`} onClick={onClickHandler}>
             {label}
             {searchIcon &&
                 <img src={process.env.PUBLIC_URL + "search.svg"} alt="search" />

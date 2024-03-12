@@ -8,8 +8,7 @@ import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import SearchInputField from "../../generalComponents/inputFields/searchInputField/SearchInputField";
-import SearchAreaButton from "../../generalComponents/buttons/searchAreaButton/SearchAreaButton";
+import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
@@ -44,15 +43,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <div className="terminals-page-search-area">
-                <div className="terminals-page-search-export-content">
-                    <SearchInputField label="Որոնում" />
-                    <div className="terminals-page-search-buttons">
-                        <SearchAreaButton label="Որոնել" searchIcon={true} />
-                        <SearchAreaButton label="Արտահանել" />
-                    </div>                    
-                </div>                
-            </div>
+            <TermPageSearchArea />
             <TerminalsTable terminals={terminals} 
                             setIsTermDataChanged={setIsTermDataChanged}
                             isTermDataChanged={isTermDataChanged} 

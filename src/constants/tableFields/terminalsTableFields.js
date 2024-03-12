@@ -1,6 +1,6 @@
 export const terminalsTableFieldsAdmin = [
     {
-        name: "ID",
+        name: "#",
         key: "id"
     },
     {

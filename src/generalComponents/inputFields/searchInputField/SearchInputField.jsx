@@ -2,6 +2,7 @@ import "./SearchInputField.css";
 
 const SearchInputField = ({
     label,
+    onChangeHandler,
     classNameDiv,
     classNameLabel,
     classNameInput
@@ -16,6 +17,7 @@ const SearchInputField = ({
             <input type="text" 
                    name="searchInput" 
                    id="forSearchInput" 
+                   onChange={onChangeHandler}
                    className={`search-input-field ${classNameInput}`} 
             />
         </div>       

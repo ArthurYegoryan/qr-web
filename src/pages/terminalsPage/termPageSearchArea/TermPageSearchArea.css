@@ -1,0 +1,27 @@
+.terminals-page-search-area {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.terminals-page-search-export-content {
+    display: flex;
+}
+
+.terminals-page-search-form {
+    display: flex;
+}
+
+.terminals-page-search-btn,
+.terminals-page-export-btn {
+    margin-left: 20px;
+    margin-top: 24px;
+}
+
+.terminals-page-export-btn {
+    margin-left: 10px;
+}
+
+.terminals-page-add-new-term {
+    margin-top: 24px;
+}
