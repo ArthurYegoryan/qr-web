@@ -3,24 +3,27 @@ import TerminalsTable from "./terminalsTable/TerminalsTable";
 import { useDispatch } from "react-redux";
 import getAllTerminals from "../../api/getAllTerminals";
 import { urls } from "../../constants/urls/urls";
-import { Navigate } from "react-router-dom";
+import { Navigate, json } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
+import getTerminalsByParam from "../../api/getTerminalsByParam";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
+    const [ inputValue, setInputValue ] = useState("");
+    const [ xForSearch, setXForSearch ] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         try {
             const getTerminalsData = async () => {
-                const response = await(getAllTerminals(urls.GET_ALL_TERMINALS_URL));
+                const response = await getAllTerminals(urls.GET_ALL_TERMINALS_URL);
 
                 if (response.message === "success") {
                     setTerminals(response.terminals);
@@ -41,9 +44,58 @@ const TerminalsPage = () => {
         }
     }, [isTermDataChanged, isTermDataDeleted]);
 
+    const searchHandler = async (evt) => {
+        evt.preventDefault();
+
+        try {
+            const response = await getTerminalsByParam(urls.GET_TERMINALS_BY_PARAM, {param: inputValue});
+
+            if (response.message === "success") {
+                setTerminals(response.searched_terminals);
+                setXForSearch(true);
+            } else if (response.message === "expired token") {
+                localStorage.clear();
+                dispatch(editToken(""));
+                dispatch(logoutUser());
+        
+                <Navigate to="/login" />;
+            } else {
+                throw new Error("Connection error!");
+            }
+        } catch (err) {
+            setOpenCloseModal(true);
+        }
+    };
+
+    const resetSearchHandler = async (evt) => {
+        try {
+            const response = await getAllTerminals(urls.GET_TERMINALS_BY_PARAM);
+
+            if (response.message === "success") {
+                console.log("Reset search")
+                setTerminals(response.terminals);
+                setXForSearch(false);
+                setInputValue("");
+            } else if (response.message === "expired token") {
+                localStorage.clear();
+                dispatch(editToken(""));
+                dispatch(logoutUser());
+        
+                <Navigate to="/login" />;
+            } else {
+                throw new Error("Connection error!");
+            }
+        } catch (err) {
+            setOpenCloseModal(true);
+        }
+    };
+
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea />
+            <TermPageSearchArea searchHandler={searchHandler} 
+                                setInputValue={setInputValue}
+                                isSearched={xForSearch}
+                                resetSearch={resetSearchHandler} />
             <TerminalsTable terminals={terminals} 
                             setIsTermDataChanged={setIsTermDataChanged}
                             isTermDataChanged={isTermDataChanged} 

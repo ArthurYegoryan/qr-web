@@ -3,6 +3,8 @@ import "./SearchInputField.css";
 const SearchInputField = ({
     label,
     onChangeHandler,
+    isSearched,
+    resetSearch,
     classNameDiv,
     classNameLabel,
     classNameInput
@@ -14,12 +16,20 @@ const SearchInputField = ({
             >
                 {label}
             </label> <br />
+            {console.log("Is searched: ", isSearched)}
             <input type="text" 
                    name="searchInput" 
-                   id="forSearchInput" 
+                   id="forSearchInput"
                    onChange={onChangeHandler}
                    className={`search-input-field ${classNameInput}`} 
             />
+            {isSearched &&
+                <button className="search-input-reset-btn"
+                        onClick={() => resetSearch()}
+                >
+                    X
+                </button>
+            }
         </div>       
     );
 };
