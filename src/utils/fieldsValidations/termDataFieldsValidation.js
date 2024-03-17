@@ -3,7 +3,8 @@ export const serialValidation = (fieldInfo) => {
 };
 
 export const midTidValidation = (fieldInfo) => {
-    return /^[0-9]*$/.test(fieldInfo);
+    // return /^[0-9]*$/.test(fieldInfo);
+    return /^[1-9]\d{7,}$/.test(fieldInfo);
 };
 
 export const taxValidation = (fieldInfo) => {

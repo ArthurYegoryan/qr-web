@@ -6,6 +6,7 @@ export const urls = {
     GET_TERMINALS_BY_PARAM: "",
     GET_BANKS_URL: "",
     GET_PAYMENT_SYSTEMS_URL: "",
+    POST_NEW_TERMINAL_URL: "",
     PUT_TERMINAL_DATA_URL: "",
     DELETE_TERMINAL_DATA_URL: "",
 };

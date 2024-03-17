@@ -95,7 +95,8 @@ const TerminalsPage = () => {
             <TermPageSearchArea searchHandler={searchHandler} 
                                 setInputValue={setInputValue}
                                 isSearched={xForSearch}
-                                resetSearch={resetSearchHandler} />
+                                resetSearch={resetSearchHandler}
+                                setIsTermDataChanged={setIsTermDataChanged} />
             <TerminalsTable terminals={terminals} 
                             setIsTermDataChanged={setIsTermDataChanged}
                             isTermDataChanged={isTermDataChanged} 

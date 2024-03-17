@@ -1,51 +1,51 @@
-.change-term-data-content {
+.add-term-data-content {
     display: flex;
     justify-content: space-around;
 }
 
-.change-term-data-fields {
+.add-term-data-fields {
     margin-right: 10px;
     margin-left: 10px;
 }
 
-.change-term-data-field {
+.add-term-data-field {
     margin-left: 1px;
     margin-bottom: 10px;
 }
 
-.change-term-data-label {
+.add-term-data-label {
     font-size: 12px;
     font-weight: bold;
 }
 
-.change-term-data-field > input {
+.add-term-data-field > input {
     margin-top: 3.5px;
 }
 
-.change-term-data-field-error-text {
+.add-term-data-field-error-text {
     font-size: 12px;
     color: red;
 }
 
-.change-term-data-activ-label {
+.add-term-data-activ-label {
     margin-left: 5px;
     font-size: 15px;
     font-weight: 600;
 }
 
-.change-term-data-buttons {
+.add-term-data-buttons {
     margin-top: 20px;
     margin-left: 10px;
 }
 
-.change-term-data-save-btn {
+.add-term-data-add-btn {
     background-color: green;
     color: white;
     margin-right: 10px;
     font-size: 16px;
 }
 
-.change-term-data-cancel-btn {
+.add-term-data-cancel-btn {
     background-color: red;
     color: white;
     font-size: 16px;

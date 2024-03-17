@@ -17,7 +17,7 @@ const ChangeTerminalData = ({
     terminal, 
     setIsTermDataChanged, 
     isTermDataChanged,
-    onCloseHandler 
+    onCloseHandler
 }) => {
     const { role } = useSelector((state) => state.auth);
 
@@ -154,12 +154,17 @@ const ChangeTerminalData = ({
 
             if (responseChangeTermData.message === "success") {
                 setIsTermDataChanged(!isTermDataChanged);
-                console.log("Hasanq");
                 onCloseHandler();
+            } else if (responseChangeTermData.message === "invalid token") {
+                localStorage.clear();
+                dispatch(editToken(""));
+                dispatch(logoutUser());
+
+                <Navigate to="/login" />;
+            } else {
+                throw Error("Connection error!");
             }
         }
-
-        console.log("New terminal data: ", JSON.stringify(terminalData, null, 2));
     };
 
     return (

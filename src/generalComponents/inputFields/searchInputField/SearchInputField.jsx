@@ -25,7 +25,7 @@ const SearchInputField = ({
             />
             {isSearched &&
                 <button className="search-input-reset-btn"
-                        onClick={() => resetSearch()}
+                        onClick={() =>  resetSearch()}
                 >
                     X
                 </button>
