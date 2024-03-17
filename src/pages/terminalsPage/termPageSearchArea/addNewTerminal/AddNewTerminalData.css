@@ -11,6 +11,7 @@
 .add-term-data-field {
     margin-left: 1px;
     margin-bottom: 10px;
+    max-width: 170px;
 }
 
 .add-term-data-label {
