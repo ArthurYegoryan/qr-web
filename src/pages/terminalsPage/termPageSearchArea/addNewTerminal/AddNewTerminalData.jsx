@@ -240,7 +240,7 @@ const AddNewTerminalData = ({
                                 {                                    
                                     terminalsTypes.map((terminalType) => {
                                         return (
-                                            <option value={terminalType}>
+                                            <option value={terminalType} key={Math.random()}>
                                                 {terminalType}
                                             </option>
                                         )

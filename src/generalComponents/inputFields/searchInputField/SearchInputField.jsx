@@ -16,7 +16,6 @@ const SearchInputField = ({
             >
                 {label}
             </label> <br />
-            {console.log("Is searched: ", isSearched)}
             <input type="text" 
                    name="searchInput" 
                    id="forSearchInput"
