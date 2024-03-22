@@ -5,12 +5,15 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function PaginationComponent({ terminalsPageCount }) {
+export default function PaginationComponent({ terminalsPageCount, setTerminalsPage }) {
   return (
     <Stack spacing={2}>
       <Pagination
         count={terminalsPageCount}
-        onChange={(e, p) => console.log(e, p)}
+        onChange={(e, p) => {
+          setTerminalsPage(p);
+          console.log("Page: ", p);
+        }}
         renderItem={(item) => (
           <PaginationItem
             slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}

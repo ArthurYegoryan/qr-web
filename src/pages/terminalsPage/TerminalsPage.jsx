@@ -1,7 +1,7 @@
 import "./TerminalsPage.css";
 import TerminalsTable from "./terminalsTable/TerminalsTable";
 import { useDispatch, useSelector } from "react-redux";
-import getAllTerminals from "../../api/getAllTerminals";
+import getTerminalsByPage from "../../api/getTerminalsByPage";
 import { urls } from "../../constants/urls/urls";
 import { Navigate, json } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
@@ -14,13 +14,14 @@ import PaginationComponent from "../../generalComponents/pagination/Pagination";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
-    const [ terminalsPageCount, setTerminalsPageCount ] = useState(0);
+    const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ inputValue, setInputValue ] = useState("");
     const [ xForSearch, setXForSearch ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const [ terminalsPage, setTerminalsPage ] = useState(1);
     const dispatch = useDispatch();
 
     let paginationLeftMarginClassname = "";
@@ -30,12 +31,11 @@ const TerminalsPage = () => {
     useEffect(() => {
         try {
             const getTerminalsData = async () => {
-                const response = await getAllTerminals(urls.GET_ALL_TERMINALS_URL);
+                const response = await getTerminalsByPage(urls.GET_TERMINALS_BY_PAGE_URL, {page: terminalsPage});
 
                 if (response.message === "success") {
                     setTerminals(response.terminals);
                     setTerminalsPageCount(response.terminals_page_count);
-                    console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -50,7 +50,7 @@ const TerminalsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [isTermDataChanged, isTermDataDeleted]);
+    }, [isTermDataChanged, isTermDataDeleted, terminalsPage]);
 
     const searchHandler = async (evt) => {
         evt.preventDefault();
@@ -77,10 +77,9 @@ const TerminalsPage = () => {
 
     const resetSearchHandler = async (evt) => {
         try {
-            const response = await getAllTerminals(urls.GET_TERMINALS_BY_PARAM);
+            const response = await getTerminalsByPage(urls.GET_TERMINALS_BY_PAGE_URL, {page: terminalsPage});
 
             if (response.message === "success") {
-                console.log("Reset search")
                 setTerminals(response.terminals);
                 setXForSearch(false);
                 setInputValue("");
@@ -119,7 +118,8 @@ const TerminalsPage = () => {
                 />
             }
             <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
-                <PaginationComponent terminalsPageCount={terminalsPageCount} />
+                <PaginationComponent terminalsPageCount={terminalsPageCount}
+                                     setTerminalsPage={setTerminalsPage} />
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import getAllTerminals from "../../../api/getAllTerminals"
+import getTerminalsByPage from "../../../api/getTerminalsByPage"
 import { urls } from "../../../constants/urls/urls"
 
 export const terminalsReducer = (state = {}, action) => {
@@ -28,7 +28,7 @@ export const editTerminals = (terminals) => {
 
 export const loadTerminals = () => {
     return (dispatch, getState) => {
-        return getAllTerminals(urls.GET_ALL_TERMINALS_URL).then((response) => {
+        return getTerminalsByPage(urls.GET_TERMINALS_BY_PAGE_URL, {page: 1}).then((response) => {
             return response.data;
         }).then((terminalsData) => {
             if (terminalsData.message === "success") {
