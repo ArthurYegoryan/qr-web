@@ -1,0 +1,11 @@
+.terminals-page-pagination-open-menu {
+   position: fixed;
+   bottom: 0;
+   left: 55%;
+}
+
+.terminals-page-pagination-close-menu {
+    position: fixed;
+    bottom: 0;
+    left: 45%;
+ }

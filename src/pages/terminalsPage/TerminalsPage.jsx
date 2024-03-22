@@ -1,6 +1,6 @@
 import "./TerminalsPage.css";
 import TerminalsTable from "./terminalsTable/TerminalsTable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import getAllTerminals from "../../api/getAllTerminals";
 import { urls } from "../../constants/urls/urls";
 import { Navigate, json } from "react-router-dom";
@@ -10,15 +10,22 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import getTerminalsByParam from "../../api/getTerminalsByParam";
+import PaginationComponent from "../../generalComponents/pagination/Pagination";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
+    const [ terminalsPageCount, setTerminalsPageCount ] = useState(0);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ inputValue, setInputValue ] = useState("");
     const [ xForSearch, setXForSearch ] = useState(false);
+    const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
+
+    let paginationLeftMarginClassname = "";
+    if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
+    else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
         try {
@@ -27,6 +34,7 @@ const TerminalsPage = () => {
 
                 if (response.message === "success") {
                     setTerminals(response.terminals);
+                    setTerminalsPageCount(response.terminals_page_count);
                     console.log(`Terminals: ${JSON.stringify(terminals, null, 2)}`);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
@@ -110,6 +118,9 @@ const TerminalsPage = () => {
                                 bgcolor="red"
                 />
             }
+            <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
+                <PaginationComponent terminalsPageCount={terminalsPageCount} />
+            </div>
         </div>
     );
 };
