@@ -1,0 +1,191 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "transactions": [
+                {
+                    "id": "36278",
+                    "rrn": "36352",
+                    "tid": "19017777",
+                    "mid": "19007777",
+                    "amount": "1000",
+                    "date": "2024-03-22 16:13:43",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36277",
+                    "rrn": "36351",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "23000",
+                    "date": "2024-03-22 15:29:56",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36276",
+                    "rrn": "36350",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "2356000",
+                    "date": "2024-03-22 15:28:33",
+                    "status": "0",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36275",
+                    "rrn": "36349",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "235600",
+                    "date": "2024-03-22 11:26:07",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36274",
+                    "rrn": "36348",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "12000",
+                    "date": "2024-03-22 11:15:25",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36273",
+                    "rrn": "36347",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "2350000",
+                    "date": "2024-03-22 10:44:27",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36272",
+                    "rrn": "36346",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "15000000",
+                    "date": "2024-03-21 19:42:45",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36271",
+                    "rrn": "36345",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "1200000",
+                    "date": "2024-03-21 19:40:56",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36270",
+                    "rrn": "36344",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "1500000",
+                    "date": "2024-03-21 19:21:09",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36269",
+                    "rrn": "36343",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "2500000",
+                    "date": "2024-03-21 11:28:44",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36268",
+                    "rrn": "36342",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "23500",
+                    "date": "2024-03-21 11:23:19",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36267",
+                    "rrn": "36341",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "230000",
+                    "date": "2024-03-20 15:33:46",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36266",
+                    "rrn": "36340",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "210000",
+                    "date": "2024-03-20 14:51:31",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36265",
+                    "rrn": "36339",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "235000",
+                    "date": "2024-03-20 14:25:34",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                },
+                {
+                    "id": "36264",
+                    "rrn": "36338",
+                    "tid": "19019999",
+                    "mid": "19009999",
+                    "amount": "235000",
+                    "date": "2024-03-20 10:04:23",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "Ameria",
+                    "payment_system": "Ameria"
+                }
+            ],
+            "transactions_page_count": 2
+        }
+    }
+]
