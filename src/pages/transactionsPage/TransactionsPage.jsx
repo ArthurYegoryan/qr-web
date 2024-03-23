@@ -44,7 +44,7 @@ const TransactionsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, []);
+    }, [transactionsPage]);
 
     return (
         <div className="transactions-page-area">
