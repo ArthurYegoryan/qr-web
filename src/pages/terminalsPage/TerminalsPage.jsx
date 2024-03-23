@@ -3,7 +3,7 @@ import TerminalsTable from "./terminalsTable/TerminalsTable";
 import { useDispatch, useSelector } from "react-redux";
 import getTerminalsByPage from "../../api/getTerminalsByPage";
 import { urls } from "../../constants/urls/urls";
-import { Navigate, json } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
@@ -56,7 +56,7 @@ const TerminalsPage = () => {
         evt.preventDefault();
 
         try {
-            const response = await getTerminalsByParam(urls.GET_TERMINALS_BY_PARAM, {param: inputValue});
+            const response = await getTerminalsByParam(urls.GET_TERMINALS_BY_PARAM_URL, {param: inputValue});
 
             if (response.message === "success") {
                 setTerminals(response.searched_terminals);

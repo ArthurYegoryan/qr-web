@@ -13,8 +13,8 @@
                     "date": "2024-03-20 09:11:51",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36262",
@@ -25,8 +25,8 @@
                     "date": "2024-03-20 08:45:45",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36261",
@@ -49,8 +49,8 @@
                     "date": "2024-03-19 15:39:32",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 }
             ],
             "transactions_page_count": 2

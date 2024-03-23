@@ -13,8 +13,8 @@
                     "date": "2024-03-22 16:13:43",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36277",
@@ -25,8 +25,8 @@
                     "date": "2024-03-22 15:29:56",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36276",
@@ -49,8 +49,8 @@
                     "date": "2024-03-22 11:26:07",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36274",
@@ -61,8 +61,8 @@
                     "date": "2024-03-22 11:15:25",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36273",
@@ -73,8 +73,8 @@
                     "date": "2024-03-22 10:44:27",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36272",
@@ -85,8 +85,8 @@
                     "date": "2024-03-21 19:42:45",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36271",
@@ -97,8 +97,8 @@
                     "date": "2024-03-21 19:40:56",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36270",
@@ -109,8 +109,8 @@
                     "date": "2024-03-21 19:21:09",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36269",
@@ -121,8 +121,8 @@
                     "date": "2024-03-21 11:28:44",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36268",
@@ -133,8 +133,8 @@
                     "date": "2024-03-21 11:23:19",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36267",
@@ -145,8 +145,8 @@
                     "date": "2024-03-20 15:33:46",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36266",
@@ -157,8 +157,8 @@
                     "date": "2024-03-20 14:51:31",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36265",
@@ -169,8 +169,8 @@
                     "date": "2024-03-20 14:25:34",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 },
                 {
                     "id": "36264",
@@ -181,8 +181,8 @@
                     "date": "2024-03-20 10:04:23",
                     "status": "1002",
                     "trx_type": "0",
-                    "bank": "Ameria",
-                    "payment_system": "Ameria"
+                    "bank": "",
+                    "payment_system": ""
                 }
             ],
             "transactions_page_count": 2
