@@ -3,9 +3,10 @@ import TransactionsTable from "./transactionsTable/TransactionsTable";
 import getTransactionsByPage from "../../api/getTransactionsByPage";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import { urls } from "../../constants/urls/urls";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 
@@ -14,7 +15,12 @@ const TransactionsPage = () => {
     const [ transactionsPageCount, setTransactionsPageCount ] = useState(1);
     const [ transactionsPage, setTransactionsPage ] = useState(1);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
+
+    let paginationLeftMarginClassname = "";
+    if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
+    else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
         try {
@@ -54,6 +60,10 @@ const TransactionsPage = () => {
                                 bgcolor="red"
                 />
             }
+            <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
+                <PaginationComponent pageCount={transactionsPageCount}
+                                     setPage={setTransactionsPage} />
+            </div>
         </div>
     );
 };

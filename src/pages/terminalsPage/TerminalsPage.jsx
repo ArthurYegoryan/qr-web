@@ -118,8 +118,8 @@ const TerminalsPage = () => {
                 />
             }
             <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
-                <PaginationComponent terminalsPageCount={terminalsPageCount}
-                                     setTerminalsPage={setTerminalsPage} />
+                <PaginationComponent pageCount={terminalsPageCount}
+                                     setPage={setTerminalsPage} />
             </div>
         </div>
     );

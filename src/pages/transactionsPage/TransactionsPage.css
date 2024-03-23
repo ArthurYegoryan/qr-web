@@ -1,0 +1,11 @@
+.transactions-page-pagination-open-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 55%;
+}
+
+.transactions-page-pagination-close-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 45%;
+}
