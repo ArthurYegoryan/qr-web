@@ -1,9 +1,11 @@
 import "./TransactionsPage.css";
 import TransactionsTable from "./transactionsTable/TransactionsTable";
 import getTransactionsByPage from "../../api/getTransactionsByPage";
+import getTransactionTypes from "../../api/getTransactionTypes";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
+import TransactionsSearchArea from "./transactionsSearchArea/TransactionsSearchArea";
 import { urls } from "../../constants/urls/urls";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +16,14 @@ const TransactionsPage = () => {
     const [ transactions, setTransactions ] = useState([]);
     const [ transactionsPageCount, setTransactionsPageCount ] = useState(1);
     const [ transactionsPage, setTransactionsPage ] = useState(1);
+    const [ transactionTypes, setTransactionTypes ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
+        searchValue: "",
+        transactionType: "",
+        startDate: "",
+        endDate: ""
+    });
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
 
@@ -46,11 +55,34 @@ const TransactionsPage = () => {
         }
     }, [transactionsPage]);
 
+    useEffect(() => {
+        try {
+            const getTransactionTypesMethod = async () => {
+                const response = await getTransactionTypes(urls.GET_TRANSACTION_TYPES_URL);
+
+                if (response.message === "success") {
+                    setTransactionTypes(response.transaction_types);
+                } else if (response.message === "expired token") {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+                    dispatch(logoutUser());
+            
+                    <Navigate to="/login" />;
+                } else {
+                    throw new Error("Connection error!");
+                }                
+            }
+            getTransactionTypesMethod();
+        } catch(err) {
+            setOpenCloseModal(true);
+        }
+    }, []);
+
     return (
         <div className="transactions-page-area">
-            <h1>
-                Transactions Page
-            </h1>
+            <TransactionsSearchArea transactionTypes={transactionTypes} 
+                                    transactionsSearchInfo={transactionsSearchInfo}
+                                    setTransactionsSearchInfo={setTransactionsSearchInfo} />
             <TransactionsTable transactions={transactions} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 

@@ -1,0 +1,50 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+export default function SelectComponent({ 
+    label, 
+    chooseData, 
+    data, 
+    field, 
+    setField, 
+    width,
+    marginTop
+}) {
+    const [ value, setValue ] = React.useState("");
+  
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        setField({ ...data, [field]: event.target.value });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120, width: width, marginTop: marginTop }}>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={value}
+                    label={label}
+                    onChange={handleChange}
+                >
+                    <MenuItem value="All">Ամբողջը</MenuItem>
+                    {
+                        chooseData.map(({ name_am, name_en }) => {
+                            return (
+                                <MenuItem value={name_en}>{name_am}</MenuItem>
+                            );
+                        })
+                    }
+                {/* <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem> */}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+}

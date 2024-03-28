@@ -29,7 +29,7 @@ const SearchInputField = ({
                     X
                 </button>
             }
-        </div>       
+        </div>
     );
 };
 
