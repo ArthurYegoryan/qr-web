@@ -1,0 +1,23 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "transactions": [
+                {
+                    "id": "36278",
+                    "rrn": "36352",
+                    "tid": "19017777",
+                    "mid": "19007777",
+                    "amount": "1000",
+                    "date": "2024-03-22 16:13:43",
+                    "status": "1002",
+                    "trx_type": "0",
+                    "bank": "",
+                    "payment_system": ""
+                }
+            ],
+            "transactions_page_count": 1
+        }
+    }
+]

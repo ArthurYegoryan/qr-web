@@ -14,7 +14,26 @@ const TransactionsSearchArea = ({
         <div className="transactions-search-area">
             <form className="transactions-search-form" onSubmit={(evt) => {
                 evt.preventDefault();
-                console.log(transactionsSearchInfo);
+
+                let hasSearchParam = false;
+
+                for (const key in transactionsSearchInfo) {
+                    if (transactionsSearchInfo[key] && key !== "hasSearchParams") {
+                        hasSearchParam = true;
+                    }
+                }
+
+                if (hasSearchParam) {
+                    setTransactionsSearchInfo({
+                        ...transactionsSearchInfo, 
+                        hasSearchParams: true
+                    });
+                } else {
+                    setTransactionsSearchInfo({
+                        ...transactionsSearchInfo, 
+                        hasSearchParams: false
+                    });
+                }
             }}>
                 <div className="transactions-search-inputs">
                     <div className="transactions-search-input-fields">
@@ -39,7 +58,6 @@ const TransactionsSearchArea = ({
                                   setField={setTransactionsSearchInfo} 
                                   changeFieldName="startDate" />
                         <Calendar label="Ավարտ"
-                                  defaultDate={Date.now()}
                                   marginLeft="10px" 
                                   fields={transactionsSearchInfo}
                                   setField={setTransactionsSearchInfo} 

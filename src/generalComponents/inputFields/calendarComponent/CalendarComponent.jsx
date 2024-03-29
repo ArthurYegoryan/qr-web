@@ -4,10 +4,12 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+// import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 
 export default function Calendar({
     label,
-    defaultDate,
+    defaultDate = Date.now(),
+    // defaultTime = `${(new Date()).getHours()}: ${(new Date()).getMinutes()}`,
     marginLeft,
     fields,
     setField,
@@ -25,6 +27,8 @@ export default function Calendar({
                     <DesktopDatePicker defaultValue={dayjs(defaultDate)} 
                                        slotProps={{textField: {size: "small"}}}
                                        onChange={(date) => setField({ ...fields, [changeFieldName]: date.toString().slice(5, 16)})} />
+                    {/* <DesktopTimePicker defaultValue={dayjs(defaultTime)}
+                                       slotProps={{textField: {size: "small"}}} /> */}
                 </DemoItem>
             </DemoContainer>
         </LocalizationProvider>

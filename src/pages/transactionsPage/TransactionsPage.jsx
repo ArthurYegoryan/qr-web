@@ -19,6 +19,7 @@ const TransactionsPage = () => {
     const [ transactionTypes, setTransactionTypes ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
+        hasSearchParams: false,
         searchValue: "",
         transactionType: "",
         startDate: "",
@@ -34,7 +35,13 @@ const TransactionsPage = () => {
     useEffect(() => {
         try {
             const getTransactionsData = async () => {
-                const response = await getTransactionsByPage(urls.GET_TRANSACTIONS_BY_PAGE_URL, {page: transactionsPage});
+                const response = await getTransactionsByPage(
+                    urls.GET_TRANSACTIONS_BY_PAGE_URL, 
+                    {
+                        page: transactionsPage,
+                        searchParams: transactionsSearchInfo 
+                    }
+                );
 
                 if (response.message === "success") {
                     setTransactions(response.transactions);
@@ -53,7 +60,7 @@ const TransactionsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [transactionsPage]);
+    }, [transactionsPage, transactionsSearchInfo]);
 
     useEffect(() => {
         try {
