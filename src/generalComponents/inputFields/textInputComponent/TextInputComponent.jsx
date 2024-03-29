@@ -5,7 +5,8 @@ import TextField from '@mui/material/TextField';
 export default function TextInput({
     label,
     setField,
-    marginTop
+    marginTop,
+    marginLeft
 }) {
     return (
         <Box
@@ -13,13 +14,18 @@ export default function TextInput({
             sx={{
                 '& > :not(style)': { m: 1, width: '25ch' },
                 marginTop: marginTop,
+                marginLeft: marginLeft,
             }}
             noValidate
             autoComplete="off"
             onChange={(event) => setField(event.target.value)}
             onSubmit={(event) => setField(event.target.value)}
         >
-            <TextField id="outlined-basic" label={label} variant="outlined" sx={{ margin: 0 }} />
+            <TextField id="outlined-basic" 
+                       label={label} 
+                       variant="outlined" 
+                       sx={{ marginLeft: marginLeft }}
+                       size='small' />
         </Box>
     );
 };

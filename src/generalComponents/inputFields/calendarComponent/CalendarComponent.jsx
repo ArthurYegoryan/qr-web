@@ -19,7 +19,7 @@ export default function Calendar({
                 sx={{marginLeft: marginLeft}}
             >
                 <DemoItem label={label}>
-                    <DesktopDatePicker defaultValue={dayjs(defaultDate)} />
+                    <DesktopDatePicker defaultValue={dayjs(defaultDate)} slotProps={{textField: {size: "small"}}} />
                 </DemoItem>
             </DemoContainer>
         </LocalizationProvider>
