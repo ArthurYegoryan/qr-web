@@ -8,7 +8,10 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 export default function Calendar({
     label,
     defaultDate,
-    marginLeft
+    marginLeft,
+    fields,
+    setField,
+    changeFieldName
 }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -18,8 +21,10 @@ export default function Calendar({
                 ]}
                 sx={{marginLeft: marginLeft}}
             >
-                <DemoItem label={label}>
-                    <DesktopDatePicker defaultValue={dayjs(defaultDate)} slotProps={{textField: {size: "small"}}} />
+                <DemoItem label={label} >
+                    <DesktopDatePicker defaultValue={dayjs(defaultDate)} 
+                                       slotProps={{textField: {size: "small"}}}
+                                       onChange={(date) => setField({ ...fields, [changeFieldName]: date.toString().slice(5, 16)})} />
                 </DemoItem>
             </DemoContainer>
         </LocalizationProvider>

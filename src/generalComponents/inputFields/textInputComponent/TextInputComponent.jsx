@@ -4,27 +4,24 @@ import TextField from '@mui/material/TextField';
 
 export default function TextInput({
     label,
+    fields,
+    changeFieldName,
     setField,
     marginTop,
-    marginLeft
 }) {
     return (
         <Box
-            component="form"
             sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 0, width: '25ch' },
                 marginTop: marginTop,
-                marginLeft: marginLeft,
             }}
             noValidate
             autoComplete="off"
-            onChange={(event) => setField(event.target.value)}
-            onSubmit={(event) => setField(event.target.value)}
+            onChange={(event) => setField({ ...fields, [changeFieldName]: event.target.value })}
         >
             <TextField id="outlined-basic" 
                        label={label} 
-                       variant="outlined" 
-                       sx={{ marginLeft: marginLeft }}
+                       variant="outlined"
                        size='small' />
         </Box>
     );

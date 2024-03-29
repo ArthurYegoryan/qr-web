@@ -8,21 +8,22 @@ import Select from '@mui/material/Select';
 export default function SelectComponent({ 
     label, 
     chooseData, 
-    data, 
-    field, 
+    fields, 
+    changeFieldName, 
     setField, 
     width,
-    marginTop
+    marginTop,
+    marginLeft
 }) {
     const [ value, setValue ] = React.useState("");
   
     const handleChange = (event) => {
         setValue(event.target.value);
-        setField({ ...data, [field]: event.target.value });
+        setField({ ...fields, [changeFieldName]: event.target.value });
     };
 
     return (
-        <Box sx={{ minWidth: 120, width: width, marginTop: marginTop }}>
+        <Box sx={{ minWidth: 120, width: width, marginTop: marginTop, marginLeft: marginLeft }}>
             <FormControl fullWidth size='small'>
                 <InputLabel id="demo-simple-select-label">{label}</InputLabel>
                 <Select

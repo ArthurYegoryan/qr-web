@@ -1,3 +1,19 @@
-.transactions-search-form {
+.transactions-search-inputs {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.transactions-search-input-fields {
+    display: flex;
+}
+
+.transactions-search-calendar-fields {
+    display: flex;
+}
+
+.transactions-search-buttons {
+    display: flex;
+    margin-bottom: 30px;
 }

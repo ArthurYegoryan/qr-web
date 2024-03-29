@@ -2,6 +2,8 @@ import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
+import SearchButton from "../../../generalComponents/buttons/SearchButton";
+import SearchIcon from '@mui/icons-material/Search';
 
 const TransactionsSearchArea = ({ 
     transactionTypes, 
@@ -10,24 +12,47 @@ const TransactionsSearchArea = ({
 }) => {
     return (
         <div className="transactions-search-area">
-            <form className="transactions-search-form" onSubmit={() => console.log(transactionsSearchInfo)}>
-                <TextInput label="Որոնում"
-                           setField={setTransactionsSearchInfo}
-                           marginTop={"28px"}
-                           marginLeft={"0"} />
-                <SelectComponent label="Ընտրել գործարքի տեսակը" 
-                                 chooseData={transactionTypes}
-                                 data={transactionsSearchInfo}
-                                 field="transactionType"
-                                 setField={setTransactionsSearchInfo}
-                                 width={250}
-                                 marginTop={"36px"} />
-                <Calendar label="Սկիզբ"
-                          defaultDate={Date.now() - 86400000}
-                          marginLeft="200px" />
-                <Calendar label="Ավարտ"
-                          defaultDate={Date.now()}
-                          marginLeft="10px" />
+            <form className="transactions-search-form" onSubmit={(evt) => {
+                evt.preventDefault();
+                console.log(transactionsSearchInfo);
+            }}>
+                <div className="transactions-search-inputs">
+                    <div className="transactions-search-input-fields">
+                        <TextInput label="Որոնում"
+                                   fields={transactionsSearchInfo}
+                                   changeFieldName="searchValue"
+                                   setField={setTransactionsSearchInfo}
+                                   marginTop={"36px"} />
+                        <SelectComponent label="Ընտրել գործարքի տեսակը" 
+                                         chooseData={transactionTypes}
+                                         fields={transactionsSearchInfo}
+                                         changeFieldName="transactionType"
+                                         setField={setTransactionsSearchInfo}
+                                         width={250}
+                                         marginTop={"36px"}
+                                         marginLeft={"10px"} />
+                    </div>
+                    <div className="transactions-search-calendar-fields">
+                        <Calendar label="Սկիզբ"
+                                  defaultDate={Date.now() - 86400000}
+                                  fields={transactionsSearchInfo}
+                                  setField={setTransactionsSearchInfo} 
+                                  changeFieldName="startDate" />
+                        <Calendar label="Ավարտ"
+                                  defaultDate={Date.now()}
+                                  marginLeft="10px" 
+                                  fields={transactionsSearchInfo}
+                                  setField={setTransactionsSearchInfo} 
+                                  changeFieldName="endDate" />
+                    </div>                    
+                </div>
+                <div className="transactions-search-buttons">
+                    <SearchButton label="Որոնում"
+                                  type="submit"
+                                  endIcon={<SearchIcon />}
+                                  marginRight="10px" />
+                    <SearchButton label="Հաշվետվություն" />
+                </div>
             </form>
         </div>
     );
