@@ -1,16 +1,16 @@
 import "./TermPageSearchArea.css";
-import SearchInputField from "../../../generalComponents/inputFields/searchInputField/SearchInputField";
-import SearchAreaButton from "../../../generalComponents/buttons/searchAreaButton/SearchAreaButton";
+import SearchButton from "../../../generalComponents/buttons/SearchButton";
+import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
+import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 
 const TermPageSearchArea = ({ 
-    searchHandler, 
-    setInputValue, 
-    isSearched, 
-    resetSearch,
+    terminalsSearchInfo,
+    setTerminalsSearchInfo,
+    setIsSearched,
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
@@ -21,26 +21,42 @@ const TermPageSearchArea = ({
         <>
             <div className="terminals-page-search-area">
                 <div className="terminals-page-search-export-content">
-                    <form className="terminals-page-search-form" onSubmit={searchHandler}>
-                        <SearchInputField label="Որոնում"
-                                        isSearched={isSearched}
-                                        resetSearch={resetSearch}
-                                        onChangeHandler={
-                                            (evt) => setInputValue(evt.target.value)
-                                        }
-                        />
-                        <SearchAreaButton type="submit"
-                                        label="Որոնել" 
-                                        searchIcon={true} 
-                                        classNameBtn="terminals-page-search-btn"
-                        />
+                    <form className="terminals-page-search-form" onSubmit={(evt) => {
+                        evt.preventDefault();
+
+                        if(!terminalsSearchInfo.searchValue) {
+                            setTerminalsSearchInfo({
+                                ...terminalsSearchInfo,
+                                hasSearchParams: false
+                            });
+                            setIsSearched(false);
+                        } else {
+                            setIsSearched(true);
+                        }
+                    }}>
+                        <TextInput label="Որոնման տվյալ" 
+                                   onChangeHandler={(evt) => setTerminalsSearchInfo({ 
+                                       ...terminalsSearchInfo,
+                                       hasSearchParams: true,
+                                       searchValue: (evt.target.value)
+                                   })} />
+                        <SearchButton type="submit" 
+                                      label="Որոնում"
+                                      endIcon={<SearchIcon />}
+                                      height="30px"
+                                      marginLeft="10px"
+                                      marginTop="5px" />
                     </form>
-                    <SearchAreaButton label="Արտահանել" classNameBtn="terminals-page-export-btn" />
+                    <SearchButton label="Արտահանել" 
+                                  height="30px"
+                                  marginTop="5px"
+                                  marginLeft="10px" 
+                                  onClickHandler={() => console.log("Export terminals data")} />
                 </div>            
                 <div className="terminals-page-add-new-term">
-                    <SearchAreaButton label="Ավելացնել նոր տերմինալ"
-                                    onClickHandler={() => setIsOpenAddTermModal(true)} 
-                    />
+                    <SearchButton label="Ավելացնել նոր տերմինալ"
+                                  marginTop="5px" 
+                                  onClickHandler={() => setIsOpenAddTermModal(true)} />
                 </div>                
             </div>
             {isOpenAddTermModal &&

@@ -7,6 +7,7 @@ export default function TextInput({
     fields,
     changeFieldName,
     setField,
+    onChangeHandler,
     marginTop,
 }) {
     return (
@@ -17,7 +18,7 @@ export default function TextInput({
             }}
             noValidate
             autoComplete="off"
-            onChange={(event) => setField({ ...fields, [changeFieldName]: event.target.value })}
+            onChange={onChangeHandler ? onChangeHandler : (event) => setField({ ...fields, [changeFieldName]: event.target.value })}
         >
             <TextField id="outlined-basic" 
                        label={label} 

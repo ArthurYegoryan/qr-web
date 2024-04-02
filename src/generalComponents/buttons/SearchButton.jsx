@@ -10,14 +10,23 @@ export default function SearchButton({
     size = "small",
     backgroundColor = "blue",
     color = "white",
+    width,
+    height,
     marginLeft,
+    marginTop,
     marginRight,
+    marginBottom,
     onClickHandler
 }) {
     return (
         <Stack direction="row" 
                spacing={2} 
-               sx={{marginRight: marginRight, marginLeft: marginLeft}}
+               sx={{
+                   marginRight: marginRight, 
+                   marginLeft: marginLeft,
+                   marginTop: marginTop,
+                   marginBottom: marginBottom
+               }}
         >
             <Button variant="contained"
                     type={type}
@@ -25,8 +34,10 @@ export default function SearchButton({
                     endIcon={endIcon} 
                     size={size} 
                     sx={{
+                        width: width,
+                        height: height,
                         backgroundColor: backgroundColor,
-                        color: color
+                        color: color                        
                     }}
                     onClick={onClickHandler}
             >

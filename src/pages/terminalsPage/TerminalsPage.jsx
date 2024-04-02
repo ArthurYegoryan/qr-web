@@ -9,17 +9,19 @@ import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
-import getTerminalsByParam from "../../api/getTerminalsByParam";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
+    const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
+        hasSearchParams: false,
+        searchValue: ""
+    });
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
-    const [ inputValue, setInputValue ] = useState("");
-    const [ xForSearch, setXForSearch ] = useState(false);
+    const [ isTermDataSearched, setIsTermDataSearched ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const [ terminalsPage, setTerminalsPage ] = useState(1);
     const dispatch = useDispatch();
@@ -31,7 +33,13 @@ const TerminalsPage = () => {
     useEffect(() => {
         try {
             const getTerminalsData = async () => {
-                const response = await getTerminalsByPage(urls.GET_TERMINALS_BY_PAGE_URL, {page: terminalsPage});
+                const response = await getTerminalsByPage(
+                    urls.GET_TERMINALS_BY_PAGE_URL, 
+                    {
+                        page: terminalsPage,
+                        searchParams: terminalsSearchInfo 
+                    }
+                );
 
                 if (response.message === "success") {
                     setTerminals(response.terminals);
@@ -50,60 +58,17 @@ const TerminalsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [isTermDataChanged, isTermDataDeleted, terminalsPage]);
-
-    const searchHandler = async (evt) => {
-        evt.preventDefault();
-
-        try {
-            const response = await getTerminalsByParam(urls.GET_TERMINALS_BY_PARAM_URL, {param: inputValue});
-
-            if (response.message === "success") {
-                setTerminals(response.searched_terminals);
-                setXForSearch(true);
-            } else if (response.message === "expired token") {
-                localStorage.clear();
-                dispatch(editToken(""));
-                dispatch(logoutUser());
-        
-                <Navigate to="/login" />;
-            } else {
-                throw new Error("Connection error!");
-            }
-        } catch (err) {
-            setOpenCloseModal(true);
-        }
-    };
-
-    const resetSearchHandler = async (evt) => {
-        try {
-            const response = await getTerminalsByPage(urls.GET_TERMINALS_BY_PAGE_URL, {page: terminalsPage});
-
-            if (response.message === "success") {
-                setTerminals(response.terminals);
-                setXForSearch(false);
-                setInputValue("");
-            } else if (response.message === "expired token") {
-                localStorage.clear();
-                dispatch(editToken(""));
-                dispatch(logoutUser());
-        
-                <Navigate to="/login" />;
-            } else {
-                throw new Error("Connection error!");
-            }
-        } catch (err) {
-            setOpenCloseModal(true);
-        }
-    };
+    }, [isTermDataChanged, isTermDataDeleted, terminalsPage, isTermDataSearched]);
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea searchHandler={searchHandler} 
-                                setInputValue={setInputValue}
-                                isSearched={xForSearch}
-                                resetSearch={resetSearchHandler}
-                                setIsTermDataChanged={setIsTermDataChanged} />
+            <TermPageSearchArea terminalsSearchInfo={terminalsSearchInfo} 
+                                setTerminalsSearchInfo={setTerminalsSearchInfo}
+                                isSearched={isTermDataSearched}
+                                setIsSearched={setIsTermDataSearched}
+                                isTermDataChanged={isTermDataChanged}
+                                setIsTermDataChanged={setIsTermDataChanged} 
+            />
             <TerminalsTable terminals={terminals} 
                             setIsTermDataChanged={setIsTermDataChanged}
                             isTermDataChanged={isTermDataChanged} 
