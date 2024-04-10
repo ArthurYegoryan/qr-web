@@ -6,7 +6,7 @@ const UserContainer = () => {
 
     return (
         <div className="user-container">
-            <img src={process.env.PUBLIC_URL + "user.svg"} alt="user" />
+            <img src={process.env.PUBLIC_URL + "img/user.svg"} alt="user" />
             <span>{username}</span>
         </div>
     );

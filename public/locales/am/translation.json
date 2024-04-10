@@ -1,0 +1,30 @@
+{
+    "nav": {
+        "terminals": "Տերմինալներ",
+        "transactions": "Գորժարքներ",
+        "users": "Օգտագործողներ"
+    },
+    "userSection": {
+        "changePassword": "Փոխել գաղտնաբառը",
+        "logout": "Դուրս գալ"
+    },
+    "searchArea": {
+        "searchData": "Որոնման տվյալ",
+        "chooseTrxType": "Ընտրել գորժարքի տեսակը",
+        "startDate": "Սկիզբ",
+        "endDate": "Ավարտ",
+        "searchBtn": "Որոնել"
+    },
+    "export": {
+        "export": "Արտահանել",
+        "reporting": "Հաշվետվություն"
+    },
+    "addNewTerminal": {
+        "addNewTerminal": "Ավելացնել նոր տերմինալ",
+        "addBtn": "Ավելացնել",
+        "cancelBtn": "Չեղարկել"
+    },
+    "changeTerminalData": {
+        "changeTerminalData": "Փոփոխել տերմինալի տվյալները"
+    }
+}

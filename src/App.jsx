@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import AppRoutes from './routes/AppRoutes';
 import { loginUser } from './redux/slices/authorization/auth';
+import { Suspense } from 'react';
 
 function App() {
   const location = useLocation();
@@ -27,4 +28,10 @@ function App() {
   return <AppRoutes />;
 }
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...loading">
+      <App />
+    </Suspense>
+  )
+}

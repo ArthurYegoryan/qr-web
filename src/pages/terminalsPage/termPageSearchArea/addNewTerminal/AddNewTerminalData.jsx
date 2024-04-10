@@ -13,6 +13,7 @@ import ErrorModalBody from "../../../../generalComponents/modalComponent/errorMo
 import Button from "../../../../generalComponents/buttons/Button";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from 
                                     "../../../../utils/fieldsValidations/termDataFieldsValidation";
+import { useTranslation } from 'react-i18next';
 
 const AddNewTerminalData = ({
     setIsTermDataChanged, 
@@ -61,6 +62,7 @@ const AddNewTerminalData = ({
     const [ paySysError, setPaySysError ] = useState(false);
 
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchTerminalsTypesBanksPaysys = async () => {
@@ -412,12 +414,13 @@ const AddNewTerminalData = ({
                     </div>
                 </div>
                 <div className="add-term-data-buttons">
-                    <Button label="Ավելացնել" 
-                            className="add-term-data-add-btn"
+                    <Button label={t("addNewTerminal.addBtn")} 
+                            marginRight="10px"
+                            backgroundColor="green"
                             onClickHandler={() => onClickAddButton()} 
                     />
-                    <Button label="Չեղարկել" 
-                            className="add-term-data-cancel-btn"
+                    <Button label={t("addNewTerminal.cancelBtn")} 
+                            backgroundColor="red"
                             onClickHandler={() => onCloseHandler()} 
                     />
                 </div>

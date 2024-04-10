@@ -7,7 +7,12 @@ import Select from '@mui/material/Select';
 
 export default function SelectComponent({ 
     label, 
+    hasFirstRow,
+    firstRowLabel,
+    firstRowValue,
     chooseData, 
+    chooseDataLabel,
+    chooseDataValue,
     fields, 
     changeFieldName, 
     setField, 
@@ -19,7 +24,8 @@ export default function SelectComponent({
   
     const handleChange = (event) => {
         setValue(event.target.value);
-        setField({ ...fields, [changeFieldName]: event.target.value });
+        fields ? setField({ ...fields, [changeFieldName]: event.target.value }) 
+               : setField(value);
     };
 
     return (
@@ -33,11 +39,13 @@ export default function SelectComponent({
                     label={label}
                     onChange={handleChange}
                 >
-                    <MenuItem value="All">Ամբողջը</MenuItem>
+                    {hasFirstRow &&
+                        <MenuItem value={firstRowValue}>{firstRowLabel}</MenuItem>
+                    }
                     {
-                        chooseData.map(({ name_am, name_en }) => {
+                        chooseData.map((data) => {
                             return (
-                                <MenuItem value={name_en}>{name_am}</MenuItem>
+                                <MenuItem value={data[chooseDataValue]}>{data[chooseDataLabel]}</MenuItem>
                             );
                         })
                     }

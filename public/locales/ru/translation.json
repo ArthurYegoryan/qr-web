@@ -1,0 +1,30 @@
+{
+    "nav": {
+        "terminals": "Терминалы",
+        "transactions": "Транзакции",
+        "users": "Пользователи"
+    },
+    "userSection": {
+        "changePassword": "Сменить пароль",
+        "logout": "Выходить"
+    },
+    "searchArea": {
+        "searchData": "Данные для поиска",
+        "chooseTrxType": "Выберите тип транзакции",
+        "startDate": "Дата начала",
+        "endDate": "Дата окончания",
+        "searchBtn": "Поиск"
+    },
+    "export": {
+        "export": "Экспорт",
+        "reporting": "Отчет"
+    },
+    "addNewTerminal": {
+        "addNewTerminal": "Добавить новый терминал",
+        "addBtn": "Добавить",
+        "cancelBtn": "Отменить"
+    },
+    "changeTerminalData": {
+        "changeTerminalData": "Измененить данные терминала"
+    }
+}

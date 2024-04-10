@@ -1,19 +1,49 @@
-import './Button.css';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
-const Button = ({
-    type,
-    label,
-    className,
-    onClickHandler
-}) => {
+export default function ButtonComponent({
+    type = "button",
+    label = "Button",
+    startIcon,
+    endIcon,
+    size = "small",
+    backgroundColor = "blue",
+    color = "white",
+    width,
+    height,
+    marginLeft,
+    marginTop,
+    marginRight,
+    marginBottom,
+    onClickHandler,
+    onMouseEnterHandler
+}) {
     return (
-        <button type={type} 
-                className={`button ${className}`}
-                onClick={onClickHandler}
+        <Stack direction="row" 
+               spacing={2} 
+               sx={{
+                   marginRight: marginRight, 
+                   marginLeft: marginLeft,
+                   marginTop: marginTop,
+                   marginBottom: marginBottom
+               }}
         >
-            {label}
-        </button>
+            <Button variant="contained"
+                    type={type}
+                    startIcon={startIcon}
+                    endIcon={endIcon} 
+                    size={size} 
+                    sx={{
+                        width: width,
+                        height: height,
+                        backgroundColor: backgroundColor,
+                        color: color                        
+                    }}
+                    onClick={onClickHandler}
+            >
+                {label}
+            </Button>
+        </Stack>
     );
-};
-
-export default Button;
+}

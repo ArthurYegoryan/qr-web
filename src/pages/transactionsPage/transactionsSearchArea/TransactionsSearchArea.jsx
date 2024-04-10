@@ -2,7 +2,7 @@ import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
-import SearchButton from "../../../generalComponents/buttons/SearchButton";
+import Button from "../../../generalComponents/buttons/Button";
 import SearchIcon from '@mui/icons-material/Search';
 
 const TransactionsSearchArea = ({ 
@@ -43,7 +43,12 @@ const TransactionsSearchArea = ({
                                    setField={setTransactionsSearchInfo}
                                    marginTop={"36px"} />
                         <SelectComponent label="Ընտրել գործարքի տեսակը" 
+                                         hasFirstRow={true}
+                                         firstRowLabel="Ամբողջը"
+                                         firstRowValue="All"
                                          chooseData={transactionTypes}
+                                         chooseDataValue="name_en"
+                                         chooseDataLabel="name_am"
                                          fields={transactionsSearchInfo}
                                          changeFieldName="transactionType"
                                          setField={setTransactionsSearchInfo}
@@ -65,11 +70,11 @@ const TransactionsSearchArea = ({
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">
-                    <SearchButton label="Որոնում"
-                                  type="submit"
-                                  endIcon={<SearchIcon />}
-                                  marginRight="10px" />
-                    <SearchButton label="Հաշվետվություն" />
+                    <Button label="Որոնում"
+                            type="submit"
+                            endIcon={<SearchIcon />}
+                            marginRight="10px" />
+                    <Button label="Հաշվետվություն" />
                 </div>
             </form>
         </div>

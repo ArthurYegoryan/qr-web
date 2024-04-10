@@ -1,11 +1,12 @@
 import "./TermPageSearchArea.css";
-import SearchButton from "../../../generalComponents/buttons/SearchButton";
+import SearchButton from "../../../generalComponents/buttons/Button";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
     terminalsSearchInfo,
@@ -16,6 +17,8 @@ const TermPageSearchArea = ({
 }) => {
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
+
+    const { t } = useTranslation();
 
     return (
         <>
@@ -34,27 +37,27 @@ const TermPageSearchArea = ({
                             setIsSearched(true);
                         }
                     }}>
-                        <TextInput label="Որոնման տվյալ" 
+                        <TextInput label={t("searchArea.searchData")}
                                    onChangeHandler={(evt) => setTerminalsSearchInfo({ 
                                        ...terminalsSearchInfo,
                                        hasSearchParams: true,
                                        searchValue: (evt.target.value)
                                    })} />
                         <SearchButton type="submit" 
-                                      label="Որոնում"
+                                      label={t("searchArea.searchBtn")}
                                       endIcon={<SearchIcon />}
                                       height="30px"
                                       marginLeft="10px"
                                       marginTop="5px" />
                     </form>
-                    <SearchButton label="Արտահանել" 
+                    <SearchButton label={t("export.export")} 
                                   height="30px"
                                   marginTop="5px"
                                   marginLeft="10px" 
                                   onClickHandler={() => console.log("Export terminals data")} />
                 </div>            
                 <div className="terminals-page-add-new-term">
-                    <SearchButton label="Ավելացնել նոր տերմինալ"
+                    <SearchButton label={t("addNewTerminal.addNewTerminal")}
                                   marginTop="5px" 
                                   onClickHandler={() => setIsOpenAddTermModal(true)} />
                 </div>                
@@ -62,7 +65,7 @@ const TermPageSearchArea = ({
             {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
                                 isOpen={isOpenAddTermModal}
-                                title="Ավելացնել նոր տերմինալ"
+                                title={t("addNewTerminal.addNewTerminal")}
                                 body={<AddNewTerminalData setIsTermDataChanged={setIsTermDataChanged}
                                                         isTermDataChanged={isTermDataChanged}
                                                         onCloseHandler={() => setIsOpenAddTermModal(false)} 
