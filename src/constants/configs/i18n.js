@@ -12,6 +12,6 @@ i18n
         fallbackLang: "am",
     });
 
-// i18n.changeLanguage("am");
+i18n.changeLanguage("am");
 
 export default i18n;
