@@ -35,19 +35,7 @@
 }
 
 .change-term-data-buttons {
+    display: flex;
     margin-top: 20px;
     margin-left: 10px;
-}
-
-.change-term-data-save-btn {
-    background-color: green;
-    color: white;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.change-term-data-cancel-btn {
-    background-color: red;
-    color: white;
-    font-size: 16px;
 }

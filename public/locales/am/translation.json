@@ -25,6 +25,10 @@
         "cancelBtn": "Չեղարկել"
     },
     "changeTerminalData": {
-        "changeTerminalData": "Փոփոխել տերմինալի տվյալները"
+        "changeTerminalData": "Փոփոխել տերմինալի տվյալները",
+        "saveBtn": "Պահպանել"
+    },
+    "deleteTerminalData": {
+        "deleteTerminalData": "Ջնջել տերմինալի տվյալները"
     }
 }

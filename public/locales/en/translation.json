@@ -25,6 +25,10 @@
         "cancelBtn": "Cancel"
     },
     "changeTerminalData": {
-        "changeTerminalData": "Change terminal data"
+        "changeTerminalData": "Change terminal data",
+        "saveBtn": "Save"
+    },
+    "deleteTerminalData": {
+        "deleteTerminalData": "Delete terminal data"
     }
 }

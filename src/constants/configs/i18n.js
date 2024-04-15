@@ -9,7 +9,9 @@ i18n
     .use(initReactI18next)
     .init({
         debug: true,
-        fallbackLang: "en",
+        fallbackLang: "am",
     });
+
+// i18n.changeLanguage("am");
 
 export default i18n;

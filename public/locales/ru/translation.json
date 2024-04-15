@@ -25,6 +25,10 @@
         "cancelBtn": "Отменить"
     },
     "changeTerminalData": {
-        "changeTerminalData": "Измененить данные терминала"
+        "changeTerminalData": "Измененить данные терминала",
+        "saveBtn": "Сохранить"
+    },
+    "deleteTerminalData": {
+        "deleteTerminalData": "Удалить данные терминала"
     }
 }
