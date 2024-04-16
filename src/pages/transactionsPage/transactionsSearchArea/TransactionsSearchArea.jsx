@@ -4,12 +4,16 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
 import Button from "../../../generalComponents/buttons/Button";
 import SearchIcon from '@mui/icons-material/Search';
+import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
     transactionTypes, 
     transactionsSearchInfo, 
     setTransactionsSearchInfo 
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="transactions-search-area">
             <form className="transactions-search-form" onSubmit={(evt) => {
@@ -37,18 +41,17 @@ const TransactionsSearchArea = ({
             }}>
                 <div className="transactions-search-inputs">
                     <div className="transactions-search-input-fields">
-                        <TextInput label="Որոնում"
+                        <TextInput label={t("searchArea.searchData")}
                                    fields={transactionsSearchInfo}
                                    changeFieldName="searchValue"
                                    setField={setTransactionsSearchInfo}
                                    marginTop={"36px"} />
-                        <SelectComponent label="Ընտրել գործարքի տեսակը" 
+                        <SelectComponent label={t("searchArea.chooseTrxType")}
                                          hasFirstRow={true}
-                                         firstRowLabel="Ամբողջը"
+                                         firstRowLabel={t("trxTypes.all")}
                                          firstRowValue="All"
                                          chooseData={transactionTypes}
                                          chooseDataValue="name_en"
-                                         chooseDataLabel="name_am"
                                          fields={transactionsSearchInfo}
                                          changeFieldName="transactionType"
                                          setField={setTransactionsSearchInfo}
@@ -57,24 +60,30 @@ const TransactionsSearchArea = ({
                                          marginLeft={"10px"} />
                     </div>
                     <div className="transactions-search-calendar-fields">
-                        <Calendar label="Սկիզբ"
+                        <Calendar label={t("searchArea.startDate")}
                                   defaultDate={Date.now() - 86400000}
+                                  width="100px"
                                   fields={transactionsSearchInfo}
                                   setField={setTransactionsSearchInfo} 
                                   changeFieldName="startDate" />
-                        <Calendar label="Ավարտ"
-                                  marginLeft="10px" 
+                        <Time label={t("searchArea.startTime")}
+                              width="100px" />
+                        <Calendar label={t("searchArea.endDate")}
+                                  marginLeft="25px" 
+                                  width="100px"
                                   fields={transactionsSearchInfo}
                                   setField={setTransactionsSearchInfo} 
                                   changeFieldName="endDate" />
+                        <Time label={t("searchArea.endTime")}
+                              width="100px" />
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">
-                    <Button label="Որոնում"
+                    <Button label={t("searchArea.searchBtn")}
                             type="submit"
                             endIcon={<SearchIcon />}
                             marginRight="10px" />
-                    <Button label="Հաշվետվություն" />
+                    <Button label={t("export.reporting")} />
                 </div>
             </form>
         </div>

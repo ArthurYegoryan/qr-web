@@ -12,7 +12,9 @@
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
         "startDate": "Дата начала",
+        "startTime": "Время начала",
         "endDate": "Дата окончания",
+        "endTime": "Время окончания",
         "searchBtn": "Поиск"
     },
     "export": {
@@ -30,5 +32,10 @@
     },
     "deleteTerminalData": {
         "deleteTerminalData": "Удалить данные терминала"
+    },
+    "trxTypes": {
+        "all": "Все",
+        "sale": "Оплата",
+        "cancel": "Отмена"
     }
 }

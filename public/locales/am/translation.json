@@ -10,9 +10,11 @@
     },
     "searchArea": {
         "searchData": "Որոնման տվյալ",
-        "chooseTrxType": "Ընտրել գորժարքի տեսակը",
-        "startDate": "Սկիզբ",
-        "endDate": "Ավարտ",
+        "chooseTrxType": "Ընտրել գործարքի տեսակը",
+        "startDate": "Սկզբի ամսաթիվ",
+        "startTime": "Սկզբի ժամանակ",
+        "endDate": "Ավարտի ամսաթիվ",
+        "endTime": "Ավարտի ժամանակ",
         "searchBtn": "Որոնել"
     },
     "export": {
@@ -30,5 +32,10 @@
     },
     "deleteTerminalData": {
         "deleteTerminalData": "Ջնջել տերմինալի տվյալները"
+    },
+    "trxTypes": {
+        "all": "Ամբողջը",
+        "sale": "Վաճառք",
+        "cancel": "Չեղարկում"
     }
 }

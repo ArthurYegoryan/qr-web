@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useTranslation } from 'react-i18next';
 
 export default function SelectComponent({ 
     label, 
@@ -11,7 +12,6 @@ export default function SelectComponent({
     firstRowLabel,
     firstRowValue,
     chooseData, 
-    chooseDataLabel,
     chooseDataValue,
     fields, 
     changeFieldName, 
@@ -21,6 +21,7 @@ export default function SelectComponent({
     marginLeft
 }) {
     const [ value, setValue ] = React.useState("");
+    const { t } = useTranslation();
   
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -45,7 +46,7 @@ export default function SelectComponent({
                     {
                         chooseData.map((data) => {
                             return (
-                                <MenuItem value={data[chooseDataValue]}>{data[chooseDataLabel]}</MenuItem>
+                                <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
                             );
                         })
                     }

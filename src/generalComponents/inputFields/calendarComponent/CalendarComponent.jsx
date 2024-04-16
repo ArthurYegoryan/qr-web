@@ -9,8 +9,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 export default function Calendar({
     label,
     defaultDate = Date.now(),
-    // defaultTime = `${(new Date()).getHours()}: ${(new Date()).getMinutes()}`,
+    width,
     marginLeft,
+    marginRight,
     fields,
     setField,
     changeFieldName
@@ -21,14 +22,13 @@ export default function Calendar({
                 components={[
                     'DesktopDatePicker'
                 ]}
-                sx={{marginLeft: marginLeft}}
+                sx={{marginLeft: marginLeft, marginRight: marginRight}}
             >
                 <DemoItem label={label} >
                     <DesktopDatePicker defaultValue={dayjs(defaultDate)} 
                                        slotProps={{textField: {size: "small"}}}
+                                       sx={{width: width}}
                                        onChange={(date) => setField({ ...fields, [changeFieldName]: date.toString().slice(5, 16)})} />
-                    {/* <DesktopTimePicker defaultValue={dayjs(defaultTime)}
-                                       slotProps={{textField: {size: "small"}}} /> */}
                 </DemoItem>
             </DemoContainer>
         </LocalizationProvider>
