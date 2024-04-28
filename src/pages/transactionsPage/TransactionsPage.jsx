@@ -23,7 +23,9 @@ const TransactionsPage = () => {
         searchValue: "",
         transactionType: "",
         startDate: "",
-        endDate: ""
+        startTime: "",        
+        endDate: "",
+        endTime: ""
     });
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
@@ -35,6 +37,8 @@ const TransactionsPage = () => {
     useEffect(() => {
         try {
             const getTransactionsData = async () => {
+                console.log("Search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
+
                 const response = await getTransactionsByPage(
                     urls.GET_TRANSACTIONS_BY_PAGE_URL, 
                     {

@@ -7,7 +7,11 @@ import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 
 export default function Time({
     label,
-    width
+    defaultTime,
+    width,
+    fields,
+    setField,
+    changeFieldName
 }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -17,9 +21,10 @@ export default function Time({
         ]}
       >
         <DemoItem label={label}>
-          <DesktopTimePicker defaultValue={dayjs()}
+          <DesktopTimePicker defaultValue={dayjs(defaultTime)}
                              slotProps={{textField: {size: "small"}}}
-                             sx={{width: width}} />
+                             sx={{width: width}}
+                             onChange={(time) => setField({ ...fields, [changeFieldName]: time.toString().slice(17, 22)})} />
         </DemoItem>
       </DemoContainer>
     </LocalizationProvider>

@@ -61,13 +61,16 @@ const TransactionsSearchArea = ({
                     </div>
                     <div className="transactions-search-calendar-fields">
                         <Calendar label={t("searchArea.startDate")}
-                                  defaultDate={Date.now() - 86400000}
+                                  defaultDate={null}
                                   width="100px"
                                   fields={transactionsSearchInfo}
                                   setField={setTransactionsSearchInfo} 
                                   changeFieldName="startDate" />
                         <Time label={t("searchArea.startTime")}
-                              width="100px" />
+                              width="100px"
+                              fields={transactionsSearchInfo}
+                              setField={setTransactionsSearchInfo} 
+                              changeFieldName="startTime" />
                         <Calendar label={t("searchArea.endDate")}
                                   marginLeft="25px" 
                                   width="100px"
@@ -75,7 +78,10 @@ const TransactionsSearchArea = ({
                                   setField={setTransactionsSearchInfo} 
                                   changeFieldName="endDate" />
                         <Time label={t("searchArea.endTime")}
-                              width="100px" />
+                              width="100px"
+                              fields={transactionsSearchInfo}
+                              setField={setTransactionsSearchInfo} 
+                              changeFieldName="endTime" />
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">
