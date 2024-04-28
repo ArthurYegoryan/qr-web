@@ -5,7 +5,7 @@ const LogoComponent = ({
 }) => {
     return (
         <div className={`logo ${className}`}>
-            <img src={process.env.PUBLIC_URL + 'logo.webp'} alt="Logo" />
+            <img src={process.env.PUBLIC_URL + 'img/logo.webp'} alt="Logo" />
         </div>
     );
 };

@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     height: 80px;
+    margin-top: 50px;
 }
 
 .terminals-page-search-export-content {
@@ -20,8 +21,4 @@
 
 .terminals-page-export-btn {
     margin-left: 10px;
-}
-
-.terminals-page-add-new-term {
-    margin-top: 24px;
 }

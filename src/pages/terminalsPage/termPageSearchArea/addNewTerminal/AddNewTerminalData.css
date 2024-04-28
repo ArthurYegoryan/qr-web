@@ -35,19 +35,7 @@
 }
 
 .add-term-data-buttons {
+    display: flex;
     margin-top: 20px;
     margin-left: 10px;
-}
-
-.add-term-data-add-btn {
-    background-color: green;
-    color: white;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.add-term-data-cancel-btn {
-    background-color: red;
-    color: white;
-    font-size: 16px;
 }

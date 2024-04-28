@@ -12,6 +12,7 @@ import ModalComponent from "../../../generalComponents/modalComponent/ModalCompo
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import Button from "../../../generalComponents/buttons/Button";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
+import { useTranslation } from 'react-i18next';
 
 const ChangeTerminalData = ({ 
     terminal, 
@@ -56,6 +57,7 @@ const ChangeTerminalData = ({
     const [ merchantAddressInAmError, setMerchantAddressInAmError ] = useState(false);
 
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchTerminalsTypesBanksPaysys = async () => {
@@ -338,12 +340,13 @@ const ChangeTerminalData = ({
                     </div>
                 </div>
                 <div className="change-term-data-buttons">
-                    <Button label="Պահպանել" 
-                            className="change-term-data-save-btn"
+                    <Button label={t("changeTerminalData.saveBtn")}
+                            backgroundColor="green"
+                            marginRight="10px"
                             onClickHandler={() => onClickSaveButton()} 
                     />
-                    <Button label="Չեղարկել" 
-                            className="change-term-data-cancel-btn"
+                    <Button label={t("addNewTerminal.cancelBtn")} 
+                            backgroundColor="red"
                             onClickHandler={() => onCloseHandler()} 
                     />
                 </div>

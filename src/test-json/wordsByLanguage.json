@@ -1,0 +1,34 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "words": [
+                {
+                    "id": 1,
+                    "full_name_am": "ԱԿԲԱ Բանկ",
+                    "full_name_ru": "АКБА Банк",
+                    "full_name_en": "ACBA Bank"
+                },
+                {
+                    "id": 2,
+                    "full_name_am": "Կոնվերս Բանկ",
+                    "full_name_ru": "Конверс Банк",
+                    "full_name_en": "Converse Bank"
+                },
+                {
+                    "id": 3,
+                    "full_name_am": "Էվոկա Բանկ",
+                    "full_name_ru": "Эвока Банк",
+                    "full_name_en": "Evoca Bank"
+                },
+                {
+                    "id": 4,
+                    "full_name_am": "Ամերիա Բանկ",
+                    "full_name_ru": "Америа Банк",
+                    "full_name_en": "Ameria Bank"
+                }
+            ]
+        }
+    }
+]

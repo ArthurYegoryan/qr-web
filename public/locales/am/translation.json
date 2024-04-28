@@ -1,0 +1,41 @@
+{
+    "nav": {
+        "terminals": "Տերմինալներ",
+        "transactions": "Գործարքներ",
+        "users": "Օգտագործողներ"
+    },
+    "userSection": {
+        "changePassword": "Փոխել գաղտնաբառը",
+        "logout": "Դուրս գալ"
+    },
+    "searchArea": {
+        "searchData": "Որոնման տվյալ",
+        "chooseTrxType": "Ընտրել գործարքի տեսակը",
+        "startDate": "Սկզբի ամսաթիվ",
+        "startTime": "Սկզբի ժամանակ",
+        "endDate": "Ավարտի ամսաթիվ",
+        "endTime": "Ավարտի ժամանակ",
+        "searchBtn": "Որոնել"
+    },
+    "export": {
+        "export": "Արտահանել",
+        "reporting": "Հաշվետվություն"
+    },
+    "addNewTerminal": {
+        "addNewTerminal": "Ավելացնել նոր տերմինալ",
+        "addBtn": "Ավելացնել",
+        "cancelBtn": "Չեղարկել"
+    },
+    "changeTerminalData": {
+        "changeTerminalData": "Փոփոխել տերմինալի տվյալները",
+        "saveBtn": "Պահպանել"
+    },
+    "deleteTerminalData": {
+        "deleteTerminalData": "Ջնջել տերմինալի տվյալները"
+    },
+    "trxTypes": {
+        "all": "Ամբողջը",
+        "sale": "Վաճառք",
+        "cancel": "Չեղարկում"
+    }
+}

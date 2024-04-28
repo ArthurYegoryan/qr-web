@@ -5,6 +5,7 @@ import ModalComponent from "../../../generalComponents/modalComponent/ModalCompo
 import ChangeTerminalData from "../changeTerminalData/ChangeTerminalData";
 import { useState } from "react";
 import DeleteTerminalData from "../deleteTerminalData/DeleteTerminalData";
+import { useTranslation } from 'react-i18next';
 
 const TerminalsTable = ({ 
     terminals, 
@@ -15,7 +16,8 @@ const TerminalsTable = ({
 }) => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
-    const [ selectedTerminal, setSelectedTerminal ] = useState({})
+    const [ selectedTerminal, setSelectedTerminal ] = useState({});
+    const { t } = useTranslation();
 
     const onClickPencilButton = (terminal) => {
         setSelectedTerminal(terminal);
@@ -67,7 +69,7 @@ const TerminalsTable = ({
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
                                 isOpen={openCloseEditModal} 
-                                title="Փոփոխել տերմինալի տվյալները"
+                                title={t("changeTerminalData.changeTerminalData")}
                                 body={<ChangeTerminalData terminal={selectedTerminal}
                                                           setIsTermDataChanged={setIsTermDataChanged}
                                                           isTermDataChanged={isTermDataChanged}
@@ -77,7 +79,7 @@ const TerminalsTable = ({
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
-                                title="Ջնջել տերմինլի տվյալները"
+                                title={t("deleteTerminalData.deleteTerminalData")}
                                 body={<DeleteTerminalData terminal={selectedTerminal}
                                                           setIsTermDataDeleted={setIsTermDataDeleted}
                                                           isTermDataDeleted={isTermDataDeleted}

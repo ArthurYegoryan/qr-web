@@ -3,7 +3,7 @@
         "status": "200 OK",
         "data": {
             "message": "success",
-            "searched_terminals": [
+            "terminals": [
                 {
                     "id": "2682",
                     "tid": "19019999",

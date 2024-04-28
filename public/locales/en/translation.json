@@ -1,0 +1,41 @@
+{
+    "nav": {
+        "terminals": "Terminals",
+        "transactions": "Transactions",
+        "users": "Users"
+    },
+    "userSection": {
+        "changePassword": "Change password",
+        "logout": "Logout"
+    },
+    "searchArea": {
+        "searchData": "Search data",
+        "chooseTrxType": "Choose transaction type",
+        "startDate": "Start date",
+        "startTime": "Start time",
+        "endDate": "End date",
+        "endTime": "End time",
+        "searchBtn": "Search"
+    },
+    "export": {
+        "export": "Export",
+        "reporting": "Reporting"
+    },
+    "addNewTerminal": {
+        "addNewTerminal": "Add new terminal",
+        "addBtn": "Add",
+        "cancelBtn": "Cancel"
+    },
+    "changeTerminalData": {
+        "changeTerminalData": "Change terminal data",
+        "saveBtn": "Save"
+    },
+    "deleteTerminalData": {
+        "deleteTerminalData": "Delete terminal data"
+    },
+    "trxTypes": {
+        "all": "All",
+        "sale": "Sale",
+        "cancel": "Cancel"
+    }
+}

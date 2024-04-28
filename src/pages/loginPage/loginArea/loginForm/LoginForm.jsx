@@ -81,7 +81,9 @@ const LoginForm = () => {
             }
             <Button type="submit" 
                     label="Login" 
-                    className="login-button"
+                    backgroundColor='rgb(103, 103, 255)'
+                    width="220px"
+                    marginTop="10px"
                     onClickHandler={onClickHandler}
             />
         </form>
