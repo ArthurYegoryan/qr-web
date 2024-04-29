@@ -1,3 +1,5 @@
+import "./UsersPage.css";
+
 const UsersPage = () => {
     return (
         <h1>
