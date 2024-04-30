@@ -8,22 +8,35 @@ import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import UsersTable from "./usersTable/UsersTable";
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
-    const [ banks, setBanks ] = useState([]);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         try {
-            const getUsersData = async () => {
-                const response = await getUsers(urls.GET_USERS_URL);
+            const getUsersBanksData = async () => {
+                const responseBanks = await getBanks(urls.GET_BANKS_URL);
+                const responseUsers = await getUsers(urls.GET_USERS_URL);
 
-                if (response.message === "success") {
-                    setUsers(response.users);
-                } else if (response.message === "expired token") {
+                const banks = {};
+
+                if (responseBanks.message === "success" && responseUsers.message === "success") {
+                    responseBanks.banks.map((bank) => {
+                        banks[bank.id] = bank.short_name;
+                    });
+
+                    responseUsers.users.map((user) => {
+                        if (user.bank !== "FPS") {
+                            user.bank = banks[user.bank];
+                        }
+                    });
+
+                    setUsers(responseUsers.users);
+                } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
                     localStorage.clear();
                     dispatch(editToken(""));
                     dispatch(logoutUser());
@@ -33,30 +46,7 @@ const UsersPage = () => {
                     throw new Error("Connection error!");
                 }                
             }
-            getUsersData();
-        } catch(err) {
-            setOpenCloseModal(true);
-        }
-    }, []);
-
-    useEffect(() => {
-        try {
-            const getBanksData = async () => {
-                const response = await getBanks(urls.GET_BANKS_URL);
-
-                if (response.message === "success") {
-                    setBanks(response.banks);
-                } else if (response.message === "expired token") {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-                    dispatch(logoutUser());
-            
-                    <Navigate to="/login" />;
-                } else {
-                    throw new Error("Connection error!");
-                }                
-            }
-            getBanksData();
+            getUsersBanksData();
         } catch(err) {
             setOpenCloseModal(true);
         }
@@ -67,6 +57,9 @@ const UsersPage = () => {
             <h1>
                 Users page
             </h1>
+            <div className="users-table-div">
+                <UsersTable users={users} />
+            </div>            
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
