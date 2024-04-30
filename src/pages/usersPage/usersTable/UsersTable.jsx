@@ -3,9 +3,16 @@ import { usersTableFields as columns } from "../../../constants/tableFields/user
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { useState } from "react";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
+import ChangeUserData from "../changeUserData/ChangeUserData";
 import { useTranslation } from 'react-i18next';
 
-const UsersTable = ({ users }) => {
+const UsersTable = ({ 
+    users,
+    setIsUserDataChanged, 
+    isUserDataChanged,
+    setIsUserDataDeleted,
+    isUserDataDeleted
+ }) => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ selectedUser, setSelectedUser ] = useState({});
@@ -62,11 +69,10 @@ const UsersTable = ({ users }) => {
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
                                 isOpen={openCloseEditModal} 
                                 // title={t("changeTerminalData.changeTerminalData")}
-                                // body={<ChangeTerminalData terminal={selectedTerminal}
-                                //                           setIsTermDataChanged={setIsTermDataChanged}
-                                //                           isTermDataChanged={isTermDataChanged}
-                                //                           onCloseHandler={() => setOpenCloseEditModal(false)} 
-                                                        //   />}
+                                body={<ChangeUserData user={selectedUser}
+                                                      setIsUserDataChanged={setIsUserDataChanged}
+                                                      isUserDataChanged={isUserDataChanged}
+                                                      onCloseHandler={() => setOpenCloseEditModal(false)} />}
                 />
             }
             {openCloseDeleteModal &&
