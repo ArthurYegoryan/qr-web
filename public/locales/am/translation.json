@@ -37,5 +37,8 @@
         "all": "Ամբողջը",
         "sale": "Վաճառք",
         "cancel": "Չեղարկում"
+    },
+    "changeUserData": {
+        "changeUserData": "Փոփոխել օգտատիրոջ տվյալները"
     }
 }

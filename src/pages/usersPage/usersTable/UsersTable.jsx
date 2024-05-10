@@ -68,7 +68,7 @@ const UsersTable = ({
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
                                 isOpen={openCloseEditModal} 
-                                // title={t("changeTerminalData.changeTerminalData")}
+                                title={t("changeUserData.changeUserData")}
                                 body={<ChangeUserData user={selectedUser}
                                                       setIsUserDataChanged={setIsUserDataChanged}
                                                       isUserDataChanged={isUserDataChanged}

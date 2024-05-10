@@ -13,5 +13,6 @@ export const urls = {
     GET_LANGUAGES_URL: "",
     POST_NEW_TERMINAL_URL: "",
     PUT_TERMINAL_DATA_URL: "",
+    PUT_USER_DATA_URL: "",
     DELETE_TERMINAL_DATA_URL: "",
 };

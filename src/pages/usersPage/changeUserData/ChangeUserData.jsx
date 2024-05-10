@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import getBanks from "../../../api/getBanks";
+import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux"
 import { editToken, logoutUser } from "../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import Button from "../../../generalComponents/buttons/Button";
 import { useTranslation } from 'react-i18next';
+import { emailValidation } from "../../../utils/fieldsValidations/userDataFieldsValidation";
 
 const ChangeUserData = ({
     user,
@@ -57,9 +59,13 @@ const ChangeUserData = ({
     const checkFieldsValidation = ({ username, email }) => {
         let existsError = false;
 
-        if (username.length <= 3) {
+        if (username.length < 3) {
             existsError = true;
             setUsernameError(true);
+        }
+        if (!emailValidation(email)) {
+            existsError = true;
+            setEmailError(true);
         }
 
         return existsError;
@@ -74,20 +80,28 @@ const ChangeUserData = ({
         resetPrevValidations();
 
         if (!checkFieldsValidation(userData)) {
-            // const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
+            if (user.username === userData.username &&
+                user.bank === userData.bank &&
+                user.email === userData.email) {
+                
+                onCloseHandler();
+            } else {
+                const responseChangeUserData = await changeUserData(urls.PUT_USER_DATA_URL, userData);
 
-            // if (responseChangeTermData.message === "success") {
-            //     setIsTermDataChanged(!isTermDataChanged);
-            //     onCloseHandler();
-            // } else if (responseChangeTermData.message === "invalid token") {
-            //     localStorage.clear();
-            //     dispatch(editToken(""));
-            //     dispatch(logoutUser());
+                if (responseChangeUserData.message === "success") {
+                    console.log("Chishta")
+                    setIsUserDataChanged(!isUserDataChanged);
+                    onCloseHandler();
+                } else if (responseChangeUserData.message === "invalid token") {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+                    dispatch(logoutUser());
 
-            //     <Navigate to="/login" />;
-            // } else {
-            //     throw Error("Connection error!");
-            // }
+                    <Navigate to="/login" />;
+                } else {
+                    throw Error("Connection error!");
+                }
+            }            
         }
     };
 
@@ -121,14 +135,12 @@ const ChangeUserData = ({
                         </select>                        
                     </div>
                     <div className="change-user-data-field">
-                        <div className="change-user-data-field">
-                            <label htmlFor="email" className="change-user-data-label">Email</label> <br />
-                            <input type="text" id="email" name="email" defaultValue={user.email} 
-                                   onChange={(evt) => setUserData({...userData, email: evt.target.value})} />
-                            {emailError &&
-                                <small className="change-user-data-field-error-text">Email is not with valid format!</small>
-                            }
-                        </div>
+                        <label htmlFor="email" className="change-user-data-label">Email</label> <br />
+                        <input type="text" id="email" name="email" defaultValue={user.email} 
+                                onChange={(evt) => setUserData({...userData, email: evt.target.value})} /> <br />
+                        {emailError &&
+                            <small className="change-user-data-field-error-text">Email is not with valid format!</small>
+                        }
                     </div>
                 </div>
                 <div className="change-user-data-buttons">

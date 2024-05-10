@@ -12,6 +12,8 @@ import UsersTable from "./usersTable/UsersTable";
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
+    const [ isUserDataChanged, setIsUserDataChanged ] = useState(false);
+    const [ isUserDataDeleted, setIsUserDataDeleted ] = useState(false);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
 
     const dispatch = useDispatch();
@@ -19,6 +21,7 @@ const UsersPage = () => {
     useEffect(() => {
         try {
             const getUsersBanksData = async () => {
+                console.log("Tpma")
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
                 const responseUsers = await getUsers(urls.GET_USERS_URL);
 
@@ -50,15 +53,15 @@ const UsersPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, []);
+    }, [isUserDataChanged, isUserDataDeleted]);
 
     return (
         <div className="users-page-area">
-            <h1>
-                Users page
-            </h1>
+            
             <div className="users-table-div">
-                <UsersTable users={users} />
+                <UsersTable users={users}
+                            setIsUserDataChanged={setIsUserDataChanged}
+                            isUserDataChanged={isUserDataChanged} />
             </div>            
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
