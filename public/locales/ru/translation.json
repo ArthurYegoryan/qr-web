@@ -40,5 +40,8 @@
     },
     "changeUserData": {
         "changeUserData": "Изменить данные пользователя"
+    },
+    "deleteUserData": {
+        "deleteUserData": "Удалить данные пользователя"
     }
 }

@@ -15,4 +15,5 @@ export const urls = {
     PUT_TERMINAL_DATA_URL: "",
     PUT_USER_DATA_URL: "",
     DELETE_TERMINAL_DATA_URL: "",
+    DELETE_USER_DATA_URL: "",
 };

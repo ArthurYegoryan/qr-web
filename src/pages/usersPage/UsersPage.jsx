@@ -21,7 +21,6 @@ const UsersPage = () => {
     useEffect(() => {
         try {
             const getUsersBanksData = async () => {
-                console.log("Tpma")
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
                 const responseUsers = await getUsers(urls.GET_USERS_URL);
 
@@ -61,8 +60,10 @@ const UsersPage = () => {
             <div className="users-table-div">
                 <UsersTable users={users}
                             setIsUserDataChanged={setIsUserDataChanged}
-                            isUserDataChanged={isUserDataChanged} />
-            </div>            
+                            isUserDataChanged={isUserDataChanged}
+                            setIsUserDataDeleted={setIsUserDataDeleted}
+                            isUserDataDeleted={isUserDataDeleted} />
+            </div>
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 

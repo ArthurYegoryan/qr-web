@@ -4,6 +4,7 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { useState } from "react";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ChangeUserData from "../changeUserData/ChangeUserData";
+import DeleteUserData from "../deleteUserData/DeleteUserData";
 import { useTranslation } from 'react-i18next';
 
 const UsersTable = ({ 
@@ -78,12 +79,11 @@ const UsersTable = ({
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
-                                // title={t("deleteTerminalData.deleteTerminalData")}
-                                // body={<DeleteTerminalData terminal={selectedTerminal}
-                                //                           setIsTermDataDeleted={setIsTermDataDeleted}
-                                //                           isTermDataDeleted={isTermDataDeleted}
-                                //                           onCloseHandler={() => setOpenCloseDeleteModal(false)} 
-                                                        //   />}
+                                title={t("deleteUserData.deleteUserData")}
+                                body={<DeleteUserData user={selectedUser}
+                                                      setIsUserDataDeleted={setIsUserDataDeleted}
+                                                      isUserDataDeleted={isUserDataDeleted}
+                                                      onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
                 />
             }
         </>

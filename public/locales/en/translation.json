@@ -40,5 +40,8 @@
     },
     "changeUserData": {
         "changeUserData": "Change user data"
+    },
+    "deleteUserData": {
+        "deleteUserData": "Delete user's data"
     }
 }
