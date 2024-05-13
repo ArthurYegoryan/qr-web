@@ -1,0 +1,24 @@
+.users-page-search-area {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    margin-top: 50px;
+}
+
+.users-page-search-export-content {
+    display: flex;
+}
+
+.users-page-search-form {
+    display: flex;
+}
+
+/* .users-page-search-btn,
+.users-page-export-btn {
+    margin-left: 20px;
+    margin-top: 24px;
+} */
+
+/* .users-page-export-btn {
+    margin-left: 10px;
+} */

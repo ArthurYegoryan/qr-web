@@ -1,35 +1,34 @@
-import "./TermPageSearchArea.css";
+import "./UsersSearchArea.css";
 import Button from "../../../generalComponents/buttons/Button";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
-const TermPageSearchArea = ({ 
-    terminalsSearchInfo,
-    setTerminalsSearchInfo,
+const UsersSearchArea = ({ 
+    usersSearchInfo,
+    setUsersSearchInfo,
     setIsSearched,
-    setIsTermDataChanged,
-    isTermDataChanged
+    setIsUserDataChanged,
+    isUserDataChanged
 }) => {
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
-    const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
+    const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
 
     const { t } = useTranslation();
 
     return (
         <>
-            <div className="terminals-page-search-area">
-                <div className="terminals-page-search-export-content">
-                    <form className="terminals-page-search-form" onSubmit={(evt) => {
+            <div className="users-page-search-area">
+                <div className="users-page-search-export-content">
+                    <form className="users-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        if(!terminalsSearchInfo.searchValue) {
-                            setTerminalsSearchInfo({
-                                ...terminalsSearchInfo,
+                        if(!usersSearchInfo.searchValue) {
+                            setUsersSearchInfo({
+                                ...usersSearchInfo,
                                 hasSearchParams: false
                             });
                             setIsSearched(false);
@@ -38,8 +37,8 @@ const TermPageSearchArea = ({
                         }
                     }}>
                         <TextInput label={t("searchArea.searchData")}
-                                   onChangeHandler={(evt) => setTerminalsSearchInfo({ 
-                                       ...terminalsSearchInfo,
+                                   onChangeHandler={(evt) => setUsersSearchInfo({ 
+                                       ...usersSearchInfo,
                                        hasSearchParams: true,
                                        searchValue: (evt.target.value)
                                    })} />
@@ -54,15 +53,15 @@ const TermPageSearchArea = ({
                             height="30px"
                             marginTop="5px"
                             marginLeft="10px" 
-                            onClickHandler={() => console.log("Export terminals data")} />
+                            onClickHandler={() => console.log("Export users data")} />
                 </div>            
-                <div className="terminals-page-add-new-term">
+                {/* <div className="terminals-page-add-new-term">
                     <Button label={t("addNewTerminal.addNewTerminal")}
                             marginTop="5px" 
                             onClickHandler={() => setIsOpenAddTermModal(true)} />
-                </div>                
+                </div>                 */}
             </div>
-            {isOpenAddTermModal &&
+            {/* {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
                                 isOpen={isOpenAddTermModal}
                                 title={t("addNewTerminal.addNewTerminal")}
@@ -71,7 +70,7 @@ const TermPageSearchArea = ({
                                                         onCloseHandler={() => setIsOpenAddTermModal(false)} 
                                     />}
                 />
-            }
+            } */}
             {isOpenErrorModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenErrorModal(false)}
                                 isOpen={isOpenErrorModal}
@@ -80,8 +79,8 @@ const TermPageSearchArea = ({
                                 bgcolor="red" 
                 />
             }
-        </>        
+        </>
     );
 };
 
-export default TermPageSearchArea;
+export default UsersSearchArea;

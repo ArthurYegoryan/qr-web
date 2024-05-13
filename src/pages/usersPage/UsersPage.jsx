@@ -1,6 +1,7 @@
 import "./UsersPage.css";
 import { useState, useEffect } from "react";
-import getUsers from "../../api/getUsers";
+import { useSelector } from "react-redux"
+import getUsersByPage from "../../api/getUsersByPage";
 import getBanks from "../../api/getBanks";
 import { urls } from "../../constants/urls/urls";
 import { useDispatch } from "react-redux";
@@ -9,20 +10,40 @@ import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import UsersTable from "./usersTable/UsersTable";
+import PaginationComponent from "../../generalComponents/pagination/Pagination";
+import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
+    const [ usersPageCount, setUsersPageCount ] = useState(1);
+    const [ usersSearchInfo, setUsersSearchInfo ] = useState({
+        hasSearchParams: false,
+        searchField: "",
+        searchValue: ""
+    });
+    const [ usersPage, setUsersPage ] = useState(1);
     const [ isUserDataChanged, setIsUserDataChanged ] = useState(false);
     const [ isUserDataDeleted, setIsUserDataDeleted ] = useState(false);
+    const [ isUserDataSearched, setIsUserDataSearched ] = useState(false);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
-
+    const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
+
+    let paginationLeftMarginClassname = "";
+    if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
+    else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
         try {
             const getUsersBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
-                const responseUsers = await getUsers(urls.GET_USERS_URL);
+                const responseUsers = await getUsersByPage(
+                    urls.GET_USERS_URL,
+                    {
+                        page: usersPage,
+                        searchParams: usersSearchInfo 
+                    }
+                );
 
                 const banks = {};
 
@@ -38,6 +59,7 @@ const UsersPage = () => {
                     });
 
                     setUsers(responseUsers.users);
+                    setUsersPageCount(responseUsers.users_page_count);
                 } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -52,11 +74,15 @@ const UsersPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [isUserDataChanged, isUserDataDeleted]);
+    }, [isUserDataChanged, isUserDataDeleted, usersPage, isUserDataSearched]);
 
     return (
         <div className="users-page-area">
-            
+            <UsersSearchArea usersSearchInfo={usersSearchInfo}
+                             setUsersSearchInfo={setUsersSearchInfo}
+                             setIsSearched={setIsUserDataSearched}
+                             setIsUserDataChanged={setIsUserDataChanged}
+                             isUserDataChanged={isUserDataChanged} />
             <div className="users-table-div">
                 <UsersTable users={users}
                             setIsUserDataChanged={setIsUserDataChanged}
@@ -72,6 +98,10 @@ const UsersPage = () => {
                                 bgcolor="red"
                 />
             }
+            <div className={`users-page-pagination${paginationLeftMarginClassname}`}>
+                <PaginationComponent pageCount={usersPageCount}
+                                     setPage={setUsersPage} />
+            </div>
         </div>
     );
 };

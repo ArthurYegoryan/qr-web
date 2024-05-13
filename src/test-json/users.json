@@ -39,7 +39,8 @@
                     "email": "ameria@gmail.com",
                     "role": "bank"
                 }
-            ]
+            ],
+            "users_page_count": 1
         }
     }
 ]

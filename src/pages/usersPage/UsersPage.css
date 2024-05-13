@@ -1,3 +1,15 @@
 .users-table-div {
     width: 50%;
 }
+
+.users-page-pagination-open-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 55%;
+}
+
+.users-page-pagination-close-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 45%;
+}

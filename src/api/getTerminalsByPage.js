@@ -9,7 +9,7 @@ const getTerminalsByPage = async (url, params) => {
     else if (params.page === 1) return terminalsPage1[0].data;
     else if (params.page === 2) return terminalsPage2[0].data;
     
-    // return await axios.get(url, { params } HeaderTokenConfig);
+    // return await axios.get(url, { params }, HeaderTokenConfig);
 };
 
 export default getTerminalsByPage;
