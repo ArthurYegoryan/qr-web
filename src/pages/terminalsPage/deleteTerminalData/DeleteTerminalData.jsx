@@ -32,12 +32,16 @@ const DeleteTerminalData = ({
     return (
         <div className="delete-term-data-content">
             <p>Դուք ցանկանու՞մ եք ջնջել <b>{terminal.serial}</b> սերիալ համարով տերմինալի տվյալները:</p>
-            <Button label="Ջնջել" 
-                    className="delete-term-data-delete-btn"
-                    onClickHandler={() => onDeleteClickHandler()} />
-            <Button label="Չեղարկել" 
-                    className="delete-term-data-cancel-btn"
-                    onClickHandler={() => onCloseHandler()} />
+            <div className="delete-term-data-buttons">
+                <Button label="Ջնջել" 
+                        backgroundColor="red"
+                        marginRight="10px"
+                        onClickHandler={() => onDeleteClickHandler()} />
+                <Button label="Չեղարկել" 
+                        backgroundColor="white"
+                        color="red"
+                        onClickHandler={() => onCloseHandler()} />
+            </div>            
         </div>
     )
 };
