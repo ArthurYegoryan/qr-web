@@ -43,5 +43,6 @@
     },
     "deleteUserData": {
         "deleteUserData": "Ջնջել օգտատիրոջ տվյալները"
-    }
+    },
+    "addNewUser": "Ավելացնել նոր օգտատեր"
 }

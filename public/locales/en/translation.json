@@ -43,5 +43,6 @@
     },
     "deleteUserData": {
         "deleteUserData": "Delete user's data"
-    }
+    },
+    "addNewUser": "Add new user"
 }

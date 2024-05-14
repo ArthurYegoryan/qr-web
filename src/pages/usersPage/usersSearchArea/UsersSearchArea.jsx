@@ -3,6 +3,7 @@ import Button from "../../../generalComponents/buttons/Button";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import AddNewUser from "./addNewUser/AddNewUser";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -55,22 +56,22 @@ const UsersSearchArea = ({
                             marginLeft="10px" 
                             onClickHandler={() => console.log("Export users data")} />
                 </div>            
-                {/* <div className="terminals-page-add-new-term">
-                    <Button label={t("addNewTerminal.addNewTerminal")}
+                <div className="users-page-add-new-user">
+                    <Button label={t("addNewUser")}
                             marginTop="5px" 
-                            onClickHandler={() => setIsOpenAddTermModal(true)} />
-                </div>                 */}
+                            onClickHandler={() => setIsOpenAddUserModal(true)} />
+                </div>
             </div>
-            {/* {isOpenAddTermModal &&
-                <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
-                                isOpen={isOpenAddTermModal}
-                                title={t("addNewTerminal.addNewTerminal")}
-                                body={<AddNewTerminalData setIsTermDataChanged={setIsTermDataChanged}
-                                                        isTermDataChanged={isTermDataChanged}
-                                                        onCloseHandler={() => setIsOpenAddTermModal(false)} 
+            {isOpenAddUser &&
+                <ModalComponent onCloseHandler={() => setIsOpenAddUserModal(false)} 
+                                isOpen={isOpenAddUser}
+                                title={t("addNewUser")}
+                                body={<AddNewUser setIsUserDataChanged={setIsUserDataChanged}
+                                                  isUserDataChanged={isUserDataChanged}
+                                                  onCloseHandler={() => setIsOpenAddUserModal(false)} 
                                     />}
                 />
-            } */}
+            }
             {isOpenErrorModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenErrorModal(false)}
                                 isOpen={isOpenErrorModal}

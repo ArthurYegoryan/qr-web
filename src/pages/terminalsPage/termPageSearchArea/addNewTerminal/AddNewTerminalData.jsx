@@ -181,8 +181,6 @@ const AddNewTerminalData = ({
             const responseAddNewTerminal = await addNewTerminal(urls.POST_NEW_TERMINAL_URL, newTerminalData);
 
             if (responseAddNewTerminal.message === "success") {
-                console.log("Added");
-                console.log("New terminal: ", JSON.stringify(newTerminalData, null, 2));
                 setIsTermDataChanged(!isTermDataChanged);
                 onCloseHandler();
             } else if (responseAddNewTerminal.message === "invalid token") {
@@ -432,7 +430,7 @@ const AddNewTerminalData = ({
                                 body={<ErrorModalBody />}
                                 bgcolor="red" />
             }
-        </>        
+        </>
     );
 };
 
