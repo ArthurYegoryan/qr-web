@@ -9,6 +9,7 @@
         "logout": "Выходить"
     },
     "searchArea": {
+        "searchBy": "Поиск по",
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
         "startDate": "Дата начала",

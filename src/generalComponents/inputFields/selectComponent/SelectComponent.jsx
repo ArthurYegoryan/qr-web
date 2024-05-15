@@ -45,9 +45,15 @@ export default function SelectComponent({
                     }
                     {
                         chooseData.map((data) => {
-                            return (
-                                <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
-                            );
+                            if (typeof data === "string") {
+                                return (
+                                    <MenuItem value={data.toLowerCase()}>{data}</MenuItem>
+                                );
+                            } else {
+                                return (
+                                    <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
+                                );
+                            }                            
                         })
                     }
                 </Select>

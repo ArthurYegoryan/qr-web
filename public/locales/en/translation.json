@@ -9,6 +9,7 @@
         "logout": "Logout"
     },
     "searchArea": {
+        "searchBy": "Search by",
         "searchData": "Search data",
         "chooseTrxType": "Choose transaction type",
         "startDate": "Start date",

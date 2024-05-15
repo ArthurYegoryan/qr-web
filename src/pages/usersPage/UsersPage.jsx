@@ -12,12 +12,13 @@ import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBod
 import UsersTable from "./usersTable/UsersTable";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
+import { usersTableFields } from "../../constants/tableFields/usersTableFields";
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
     const [ usersPageCount, setUsersPageCount ] = useState(1);
     const [ usersSearchInfo, setUsersSearchInfo ] = useState({
-        hasSearchParams: false,
+        // hasSearchParams: false,
         searchField: "",
         searchValue: ""
     });
@@ -29,11 +30,19 @@ const UsersPage = () => {
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
 
+    const searchFields = [];
+    usersTableFields.map(field => {
+        if (field.name !== "#") {
+            searchFields.push(field.name);
+        }        
+    });
+
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
+        console.log("User search info", JSON.stringify(usersSearchInfo, null, 2));
         try {
             const getUsersBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
@@ -78,9 +87,11 @@ const UsersPage = () => {
 
     return (
         <div className="users-page-area">
-            <UsersSearchArea usersSearchInfo={usersSearchInfo}
+            <UsersSearchArea searchFields={searchFields}
+                             usersSearchInfo={usersSearchInfo}
                              setUsersSearchInfo={setUsersSearchInfo}
                              setIsSearched={setIsUserDataSearched}
+                             isSearched={isUserDataSearched}
                              setIsUserDataChanged={setIsUserDataChanged}
                              isUserDataChanged={isUserDataChanged} />
             <div className="users-table-div">

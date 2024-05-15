@@ -1,6 +1,7 @@
 import "./UsersSearchArea.css";
 import Button from "../../../generalComponents/buttons/Button";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import AddNewUser from "./addNewUser/AddNewUser";
@@ -9,14 +10,18 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
 const UsersSearchArea = ({ 
+    searchFields,
     usersSearchInfo,
     setUsersSearchInfo,
     setIsSearched,
+    isSearched,
     setIsUserDataChanged,
     isUserDataChanged
 }) => {
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
+    const [ prevSearchInfo, setPrevSearchInfo ] = useState({...usersSearchInfo});
+    const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
 
     const { t } = useTranslation();
 
@@ -27,20 +32,79 @@ const UsersSearchArea = ({
                     <form className="users-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        if(!usersSearchInfo.searchValue) {
-                            setUsersSearchInfo({
-                                ...usersSearchInfo,
-                                hasSearchParams: false
-                            });
-                            setIsSearched(false);
+                        let searchInfoIsOK = true;
+                        let doSearch = false;
+
+                        if (!onceAlreadySearced) {
+                            for (const key in usersSearchInfo) {
+                                if (!usersSearchInfo[key]) {
+                                    searchInfoIsOK = false;
+                                }
+                            }
+    
+                            if (searchInfoIsOK) {
+                                for (const key in usersSearchInfo) {
+                                    if (usersSearchInfo[key] !== prevSearchInfo[key]) {
+                                        doSearch = true;
+                                    }
+                                } 
+                            }
+    
+                            if (doSearch) {
+                                setPrevSearchInfo(usersSearchInfo);
+                                setIsSearched(!isSearched);
+                                setOnceAlreadySearched(true);
+                            }
                         } else {
-                            setIsSearched(true);
+                            let allValuesExist = true;
+                            let allValuesDontExist = true;
+                            let allFieldsLength = 0;
+
+                            Object.values(usersSearchInfo).map((field => {
+                                if (!field.length) {
+                                    allValuesExist = false;
+                                }
+                                
+                                allFieldsLength += field.length;
+                            }));
+
+                            if (allFieldsLength) allValuesDontExist = false;
+
+                            if (allValuesExist) {
+                                let doSearch = false;
+
+                                for (const key in usersSearchInfo) {
+                                    if (usersSearchInfo[key] !== prevSearchInfo[key]) {
+                                        doSearch = true;
+                                    }
+                                }
+
+                                if (doSearch) {
+                                    setPrevSearchInfo(usersSearchInfo);
+                                    setIsSearched(!isSearched);
+                                }
+                            }
+                            
+                            if (allValuesDontExist) {
+                                setPrevSearchInfo(usersSearchInfo);
+                                setIsSearched(!isSearched);
+                                setOnceAlreadySearched(false);
+                            }
                         }
                     }}>
+                        <SelectComponent label={t("searchArea.searchBy")}
+                                         chooseData={searchFields}
+                                         fields={usersSearchInfo}
+                                         changeFieldName="searchField"
+                                         setField={setUsersSearchInfo}
+                                         hasFirstRow={true}
+                                         firstRowLabel="------"
+                                         firstRowValue=""
+                                         width="150px" />
                         <TextInput label={t("searchArea.searchData")}
                                    onChangeHandler={(evt) => setUsersSearchInfo({ 
                                        ...usersSearchInfo,
-                                       hasSearchParams: true,
+                                    //    hasSearchParams: true,
                                        searchValue: (evt.target.value)
                                    })} />
                         <Button type="submit" 

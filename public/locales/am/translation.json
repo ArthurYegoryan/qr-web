@@ -9,6 +9,7 @@
         "logout": "Դուրս գալ"
     },
     "searchArea": {
+        "searchBy": "Որոնում ըստ",
         "searchData": "Որոնման տվյալ",
         "chooseTrxType": "Ընտրել գործարքի տեսակը",
         "startDate": "Սկզբի ամսաթիվ",
