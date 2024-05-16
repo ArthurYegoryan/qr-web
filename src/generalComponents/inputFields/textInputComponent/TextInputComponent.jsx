@@ -9,6 +9,8 @@ export default function TextInput({
     setField,
     onChangeHandler,
     marginTop,
+    existsError,
+    errorText,
 }) {
     return (
         <Box
@@ -23,7 +25,9 @@ export default function TextInput({
             <TextField id="outlined-basic" 
                        label={label} 
                        variant="outlined"
-                       size='small' />
+                       size='small'
+                       error={existsError}
+                       helperText={existsError && errorText} />
         </Box>
     );
 };

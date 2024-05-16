@@ -22,7 +22,8 @@ const UsersSearchArea = ({
     const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...usersSearchInfo});
     const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
-    const [ searchFieldEmptyError, setSearchFieldEmptyError ] = useState(false);
+    const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
+    const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
 
     const { t } = useTranslation();
 
@@ -37,11 +38,18 @@ const UsersSearchArea = ({
                         let doSearch = false;
 
                         if (!onceAlreadySearced) {
-                            for (const key in usersSearchInfo) {
-                                if (!usersSearchInfo[key]) {
-                                    searchInfoIsOK = false;
-                                    setSearchFieldEmptyError(true);
-                                }
+                            if (!usersSearchInfo.searchField && !usersSearchInfo.searchValue) {
+                                searchInfoIsOK = false;
+                                setSearchByFieldEmptyError(true);
+                                setSearchDataFieldEmptyError(true);
+                            }
+                            else if (!usersSearchInfo.searchField) {
+                                searchInfoIsOK = false;
+                                setSearchByFieldEmptyError(true);
+                            }
+                            else if (!usersSearchInfo.searchValue) {
+                                searchInfoIsOK = false;
+                                setSearchDataFieldEmptyError(true);
                             }
     
                             if (searchInfoIsOK) {
@@ -103,14 +111,19 @@ const UsersSearchArea = ({
                                          firstRowLabel="------"
                                          firstRowValue=""
                                          width="150px"
-                                         existsError={searchFieldEmptyError}
+                                         existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
-                                         onChooseHandler={() => setSearchFieldEmptyError(false)}/>
+                                         onChooseHandler={() => setSearchByFieldEmptyError(false)}/>
                         <TextInput label={t("searchArea.searchData")}
-                                   onChangeHandler={(evt) => setUsersSearchInfo({ 
-                                       ...usersSearchInfo,
-                                       searchValue: (evt.target.value)
-                                   })} />
+                                   existsError={searchDataFieldEmptyError}
+                                   errorText={t("searchArea.emptyFieldError")} 
+                                   onChangeHandler={(evt) => {
+                                       setSearchDataFieldEmptyError(false);
+                                       setUsersSearchInfo({ 
+                                           ...usersSearchInfo,
+                                           searchValue: (evt.target.value)
+                                       })}
+                                   } />
                         <Button type="submit" 
                                 label={t("searchArea.searchBtn")}
                                 endIcon={<SearchIcon />}
