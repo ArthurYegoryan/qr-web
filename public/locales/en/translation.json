@@ -16,7 +16,8 @@
         "startTime": "Start time",
         "endDate": "End date",
         "endTime": "End time",
-        "searchBtn": "Search"
+        "searchBtn": "Search",
+        "emptyFieldError": "Fill the field"
     },
     "export": {
         "export": "Export",

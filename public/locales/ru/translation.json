@@ -16,7 +16,8 @@
         "startTime": "Время начала",
         "endDate": "Дата окончания",
         "endTime": "Время окончания",
-        "searchBtn": "Поиск"
+        "searchBtn": "Поиск",
+        "emptyFieldError": "Заполните поле"
     },
     "export": {
         "export": "Экспорт",

@@ -22,6 +22,7 @@ const UsersSearchArea = ({
     const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...usersSearchInfo});
     const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
+    const [ searchFieldEmptyError, setSearchFieldEmptyError ] = useState(false);
 
     const { t } = useTranslation();
 
@@ -39,6 +40,7 @@ const UsersSearchArea = ({
                             for (const key in usersSearchInfo) {
                                 if (!usersSearchInfo[key]) {
                                     searchInfoIsOK = false;
+                                    setSearchFieldEmptyError(true);
                                 }
                             }
     
@@ -100,11 +102,13 @@ const UsersSearchArea = ({
                                          hasFirstRow={true}
                                          firstRowLabel="------"
                                          firstRowValue=""
-                                         width="150px" />
+                                         width="150px"
+                                         existsError={searchFieldEmptyError}
+                                         errorText={t("searchArea.emptyFieldError")} 
+                                         onChooseHandler={() => setSearchFieldEmptyError(false)}/>
                         <TextInput label={t("searchArea.searchData")}
                                    onChangeHandler={(evt) => setUsersSearchInfo({ 
                                        ...usersSearchInfo,
-                                    //    hasSearchParams: true,
                                        searchValue: (evt.target.value)
                                    })} />
                         <Button type="submit" 
@@ -119,7 +123,7 @@ const UsersSearchArea = ({
                             marginTop="5px"
                             marginLeft="10px" 
                             onClickHandler={() => console.log("Export users data")} />
-                </div>            
+                </div>
                 <div className="users-page-add-new-user">
                     <Button label={t("addNewUser")}
                             marginTop="5px" 

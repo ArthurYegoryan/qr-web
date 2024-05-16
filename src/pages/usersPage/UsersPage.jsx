@@ -18,7 +18,6 @@ const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
     const [ usersPageCount, setUsersPageCount ] = useState(1);
     const [ usersSearchInfo, setUsersSearchInfo ] = useState({
-        // hasSearchParams: false,
         searchField: "",
         searchValue: ""
     });
