@@ -1,5 +1,6 @@
 import "./TermPageSearchArea.css";
 import Button from "../../../generalComponents/buttons/Button";
+import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
@@ -9,14 +10,20 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
+    searchFields,
     terminalsSearchInfo,
     setTerminalsSearchInfo,
+    isSearched,
     setIsSearched,
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
+    const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
+    const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
+    const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
+    const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
 
     const { t } = useTranslation();
 
@@ -27,22 +34,100 @@ const TermPageSearchArea = ({
                     <form className="terminals-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        if(!terminalsSearchInfo.searchValue) {
-                            setTerminalsSearchInfo({
-                                ...terminalsSearchInfo,
-                                hasSearchParams: false
-                            });
-                            setIsSearched(false);
+                        let searchInfoIsOK = true;
+                        let doSearch = false;
+
+                        if (!onceAlreadySearced) {
+                            if (!terminalsSearchInfo.searchField && !terminalsSearchInfo.searchValue) {
+                                searchInfoIsOK = false;
+                                setSearchByFieldEmptyError(true);
+                                setSearchDataFieldEmptyError(true);
+                            }
+                            else if (!terminalsSearchInfo.searchField) {
+                                searchInfoIsOK = false;
+                                setSearchByFieldEmptyError(true);
+                            }
+                            else if (!terminalsSearchInfo.searchValue) {
+                                searchInfoIsOK = false;
+                                setSearchDataFieldEmptyError(true);
+                            }
+    
+                            if (searchInfoIsOK) {
+                                for (const key in terminalsSearchInfo) {
+                                    if (terminalsSearchInfo[key] !== prevSearchInfo[key]) {
+                                        doSearch = true;
+                                    }
+                                } 
+                            }
+    
+                            if (doSearch) {
+                                setPrevSearchInfo(terminalsSearchInfo);
+                                setIsSearched(!isSearched);
+                                setOnceAlreadySearched(true);
+                            }
                         } else {
-                            setIsSearched(true);
+                            if (!terminalsSearchInfo.searchField && terminalsSearchInfo.searchValue) setSearchByFieldEmptyError(true);
+                            else if (terminalsSearchInfo.searchField && !terminalsSearchInfo.searchValue) setSearchDataFieldEmptyError(true);
+                            else {
+                                let allValuesExist = true;
+                                let allValuesDontExist = true;
+                                let allFieldsLength = 0;
+
+                                Object.values(terminalsSearchInfo).map((field => {
+                                    if (!field.length) {
+                                        allValuesExist = false;
+                                    }
+                                    
+                                    allFieldsLength += field.length;
+                                }));
+
+                                if (allFieldsLength) allValuesDontExist = false;
+
+                                if (allValuesExist) {
+                                    let doSearch = false;
+
+                                    for (const key in terminalsSearchInfo) {
+                                        if (terminalsSearchInfo[key] !== prevSearchInfo[key]) {
+                                            doSearch = true;
+                                        }
+                                    }
+
+                                    if (doSearch) {
+                                        setPrevSearchInfo(terminalsSearchInfo);
+                                        setIsSearched(!isSearched);
+                                    }
+                                }
+                                
+                                if (allValuesDontExist) {
+                                    setPrevSearchInfo(terminalsSearchInfo);
+                                    setIsSearched(!isSearched);
+                                    setOnceAlreadySearched(false);
+                                }
+                            }
                         }
                     }}>
+                        <SelectComponent label={t("searchArea.searchBy")}
+                                         chooseData={searchFields}
+                                         fields={terminalsSearchInfo}
+                                         changeFieldName="searchField"
+                                         setField={setTerminalsSearchInfo}
+                                         hasFirstRow={true}
+                                         firstRowLabel="------"
+                                         firstRowValue=""
+                                         width="200px"
+                                         existsError={searchByFieldEmptyError}
+                                         errorText={t("searchArea.emptyFieldError")} 
+                                         onChooseHandler={() => setSearchByFieldEmptyError(false)}/>
                         <TextInput label={t("searchArea.searchData")}
-                                   onChangeHandler={(evt) => setTerminalsSearchInfo({ 
-                                       ...terminalsSearchInfo,
-                                       hasSearchParams: true,
-                                       searchValue: (evt.target.value)
-                                   })} />
+                                   existsError={searchDataFieldEmptyError}
+                                   errorText={t("searchArea.emptyFieldError")}
+                                   onChangeHandler={(evt) => {
+                                       setSearchDataFieldEmptyError(false);
+                                       setTerminalsSearchInfo({ 
+                                           ...terminalsSearchInfo,
+                                           searchValue: (evt.target.value)
+                                       })}
+                                   }/>
                         <Button type="submit" 
                                 label={t("searchArea.searchBtn")}
                                 endIcon={<SearchIcon />}
