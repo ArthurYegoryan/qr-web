@@ -41,7 +41,6 @@ const UsersPage = () => {
     else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
-        console.log("User search info", JSON.stringify(usersSearchInfo, null, 2));
         try {
             const getUsersBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);

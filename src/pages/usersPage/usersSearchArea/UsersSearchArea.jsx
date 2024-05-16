@@ -66,39 +66,43 @@ const UsersSearchArea = ({
                                 setOnceAlreadySearched(true);
                             }
                         } else {
-                            let allValuesExist = true;
-                            let allValuesDontExist = true;
-                            let allFieldsLength = 0;
+                            if (!usersSearchInfo.searchField && usersSearchInfo.searchValue) setSearchByFieldEmptyError(true);
+                            else if (usersSearchInfo.searchField && !usersSearchInfo.searchValue) setSearchDataFieldEmptyError(true);
+                            else {
+                                let allValuesExist = true;
+                                let allValuesDontExist = true;
+                                let allFieldsLength = 0;
 
-                            Object.values(usersSearchInfo).map((field => {
-                                if (!field.length) {
-                                    allValuesExist = false;
-                                }
-                                
-                                allFieldsLength += field.length;
-                            }));
+                                Object.values(usersSearchInfo).map((field => {
+                                    if (!field.length) {
+                                        allValuesExist = false;
+                                    }
+                                    
+                                    allFieldsLength += field.length;
+                                }));
 
-                            if (allFieldsLength) allValuesDontExist = false;
+                                if (allFieldsLength) allValuesDontExist = false;
 
-                            if (allValuesExist) {
-                                let doSearch = false;
+                                if (allValuesExist) {
+                                    let doSearch = false;
 
-                                for (const key in usersSearchInfo) {
-                                    if (usersSearchInfo[key] !== prevSearchInfo[key]) {
-                                        doSearch = true;
+                                    for (const key in usersSearchInfo) {
+                                        if (usersSearchInfo[key] !== prevSearchInfo[key]) {
+                                            doSearch = true;
+                                        }
+                                    }
+
+                                    if (doSearch) {
+                                        setPrevSearchInfo(usersSearchInfo);
+                                        setIsSearched(!isSearched);
                                     }
                                 }
-
-                                if (doSearch) {
+                                
+                                if (allValuesDontExist) {
                                     setPrevSearchInfo(usersSearchInfo);
                                     setIsSearched(!isSearched);
+                                    setOnceAlreadySearched(false);
                                 }
-                            }
-                            
-                            if (allValuesDontExist) {
-                                setPrevSearchInfo(usersSearchInfo);
-                                setIsSearched(!isSearched);
-                                setOnceAlreadySearched(false);
                             }
                         }
                     }}>
