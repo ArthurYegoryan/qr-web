@@ -102,6 +102,8 @@ const UsersSearchArea = ({
                                     setPrevSearchInfo(usersSearchInfo);
                                     setIsSearched(!isSearched);
                                     setOnceAlreadySearched(false);
+                                    setSearchByFieldEmptyError(false);
+                                    setSearchDataFieldEmptyError(false);
                                 }
                             }
                         }

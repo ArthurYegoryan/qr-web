@@ -102,6 +102,8 @@ const TermPageSearchArea = ({
                                     setPrevSearchInfo(terminalsSearchInfo);
                                     setIsSearched(!isSearched);
                                     setOnceAlreadySearched(false);
+                                    setSearchByFieldEmptyError(false);
+                                    setSearchDataFieldEmptyError(false);
                                 }
                             }
                         }
