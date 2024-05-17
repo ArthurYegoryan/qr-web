@@ -8,6 +8,7 @@ import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 
 const TermPageSearchArea = ({ 
     searchFields,
@@ -21,7 +22,6 @@ const TermPageSearchArea = ({
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
-    const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
 
@@ -34,79 +34,16 @@ const TermPageSearchArea = ({
                     <form className="terminals-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        let searchInfoIsOK = true;
-                        let doSearch = false;
-
-                        if (!onceAlreadySearced) {
-                            if (!terminalsSearchInfo.searchField && !terminalsSearchInfo.searchValue) {
-                                searchInfoIsOK = false;
-                                setSearchByFieldEmptyError(true);
-                                setSearchDataFieldEmptyError(true);
-                            }
-                            else if (!terminalsSearchInfo.searchField) {
-                                searchInfoIsOK = false;
-                                setSearchByFieldEmptyError(true);
-                            }
-                            else if (!terminalsSearchInfo.searchValue) {
-                                searchInfoIsOK = false;
-                                setSearchDataFieldEmptyError(true);
-                            }
-    
-                            if (searchInfoIsOK) {
-                                for (const key in terminalsSearchInfo) {
-                                    if (terminalsSearchInfo[key] !== prevSearchInfo[key]) {
-                                        doSearch = true;
-                                    }
-                                } 
-                            }
-    
-                            if (doSearch) {
-                                setPrevSearchInfo(terminalsSearchInfo);
-                                setIsSearched(!isSearched);
-                                setOnceAlreadySearched(true);
-                            }
-                        } else {
-                            if (!terminalsSearchInfo.searchField && terminalsSearchInfo.searchValue) setSearchByFieldEmptyError(true);
-                            else if (terminalsSearchInfo.searchField && !terminalsSearchInfo.searchValue) setSearchDataFieldEmptyError(true);
-                            else {
-                                let allValuesExist = true;
-                                let allValuesDontExist = true;
-                                let allFieldsLength = 0;
-
-                                Object.values(terminalsSearchInfo).map((field => {
-                                    if (!field.length) {
-                                        allValuesExist = false;
-                                    }
-                                    
-                                    allFieldsLength += field.length;
-                                }));
-
-                                if (allFieldsLength) allValuesDontExist = false;
-
-                                if (allValuesExist) {
-                                    let doSearch = false;
-
-                                    for (const key in terminalsSearchInfo) {
-                                        if (terminalsSearchInfo[key] !== prevSearchInfo[key]) {
-                                            doSearch = true;
-                                        }
-                                    }
-
-                                    if (doSearch) {
-                                        setPrevSearchInfo(terminalsSearchInfo);
-                                        setIsSearched(!isSearched);
-                                    }
-                                }
-                                
-                                if (allValuesDontExist) {
-                                    setPrevSearchInfo(terminalsSearchInfo);
-                                    setIsSearched(!isSearched);
-                                    setOnceAlreadySearched(false);
-                                    setSearchByFieldEmptyError(false);
-                                    setSearchDataFieldEmptyError(false);
-                                }
-                            }
-                        }
+                        searchingValidation(
+                            terminalsSearchInfo,
+                            setTerminalsSearchInfo,
+                            prevSearchInfo,
+                            setPrevSearchInfo,
+                            isSearched,
+                            setIsSearched,
+                            setSearchDataFieldEmptyError,
+                            setSearchByFieldEmptyError
+                        );
                     }}>
                         <SelectComponent label={t("searchArea.searchBy")}
                                          chooseData={searchFields}

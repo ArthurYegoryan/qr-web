@@ -45,7 +45,6 @@ const TransactionsPage = () => {
     });
 
     useEffect(() => {
-        console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
         try {
             const getTransactionsData = async () => {
                 const response = await getTransactionsByPage(
