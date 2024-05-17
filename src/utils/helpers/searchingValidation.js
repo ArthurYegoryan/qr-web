@@ -61,6 +61,9 @@ export const searchingValidation = (
             });
             setSearchByFieldEmptyError(false);
             setSearchDataFieldEmptyError(false);
+        } else {
+            setSearchByFieldEmptyError(false);
+            setSearchDataFieldEmptyError(false);
         }
     }
 };
