@@ -9,13 +9,15 @@
         "logout": "Выходить"
     },
     "searchArea": {
+        "searchBy": "Поиск по",
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
         "startDate": "Дата начала",
         "startTime": "Время начала",
         "endDate": "Дата окончания",
         "endTime": "Время окончания",
-        "searchBtn": "Поиск"
+        "searchBtn": "Поиск",
+        "emptyFieldError": "Заполните поле"
     },
     "export": {
         "export": "Экспорт",
@@ -27,7 +29,7 @@
         "cancelBtn": "Отменить"
     },
     "changeTerminalData": {
-        "changeTerminalData": "Измененить данные терминала",
+        "changeTerminalData": "Изменить данные терминала",
         "saveBtn": "Сохранить"
     },
     "deleteTerminalData": {
@@ -37,5 +39,12 @@
         "all": "Все",
         "sale": "Оплата",
         "cancel": "Отмена"
-    }
+    },
+    "changeUserData": {
+        "changeUserData": "Изменить данные пользователя"
+    },
+    "deleteUserData": {
+        "deleteUserData": "Удалить данные пользователя"
+    },
+    "addNewUser": "Добавить новый пользователь"
 }

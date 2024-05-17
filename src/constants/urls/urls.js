@@ -1,6 +1,7 @@
 export const urls = {
     GET_TOKEN_URL: "",
     GET_USER_INFO_URL: "https://fakestoreapi.com/users/1",
+    GET_USERS_URL: "",
     GET_TERMINALS_BY_PAGE_URL: "",
     GET_TRANSACTIONS_BY_PAGE_URL: "",
     GET_TERMINALS_TYPES_URL: "",
@@ -10,7 +11,11 @@ export const urls = {
     GET_PAYMENT_SYSTEMS_URL: "",
     GET_TRANSACTION_TYPES_URL: "",
     GET_LANGUAGES_URL: "",
+    GET_ROLES_URL: "",
     POST_NEW_TERMINAL_URL: "",
+    POST_NEW_USER_URL: "",
     PUT_TERMINAL_DATA_URL: "",
+    PUT_USER_DATA_URL: "",
     DELETE_TERMINAL_DATA_URL: "",
+    DELETE_USER_DATA_URL: "",
 };

@@ -9,13 +9,15 @@
         "logout": "Logout"
     },
     "searchArea": {
+        "searchBy": "Search by",
         "searchData": "Search data",
         "chooseTrxType": "Choose transaction type",
         "startDate": "Start date",
         "startTime": "Start time",
         "endDate": "End date",
         "endTime": "End time",
-        "searchBtn": "Search"
+        "searchBtn": "Search",
+        "emptyFieldError": "Fill the field"
     },
     "export": {
         "export": "Export",
@@ -37,5 +39,12 @@
         "all": "All",
         "sale": "Sale",
         "cancel": "Cancel"
-    }
+    },
+    "changeUserData": {
+        "changeUserData": "Change user data"
+    },
+    "deleteUserData": {
+        "deleteUserData": "Delete user's data"
+    },
+    "addNewUser": "Add new user"
 }

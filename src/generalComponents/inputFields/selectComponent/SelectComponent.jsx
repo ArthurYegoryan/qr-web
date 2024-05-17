@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
@@ -18,12 +19,16 @@ export default function SelectComponent({
     setField, 
     width,
     marginTop,
-    marginLeft
+    marginLeft,
+    existsError,
+    errorText,
+    onChooseHandler
 }) {
     const [ value, setValue ] = React.useState("");
     const { t } = useTranslation();
   
     const handleChange = (event) => {
+        onChooseHandler && onChooseHandler();
         setValue(event.target.value);
         fields ? setField({ ...fields, [changeFieldName]: event.target.value }) 
                : setField(value);
@@ -31,7 +36,7 @@ export default function SelectComponent({
 
     return (
         <Box sx={{ minWidth: 120, width: width, marginTop: marginTop, marginLeft: marginLeft }}>
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth size='small' error={existsError}>
                 <InputLabel id="demo-simple-select-label">{label}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -45,12 +50,21 @@ export default function SelectComponent({
                     }
                     {
                         chooseData.map((data) => {
-                            return (
-                                <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
-                            );
+                            if (typeof data === "string") {
+                                return (
+                                    <MenuItem value={data.toLowerCase()}>{data}</MenuItem>
+                                );
+                            } else {
+                                return (
+                                    <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
+                                );
+                            }                            
                         })
                     }
                 </Select>
+                {existsError &&
+                    <FormHelperText>{errorText}</FormHelperText>
+                }                
             </FormControl>
         </Box>
     );

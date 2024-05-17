@@ -10,12 +10,13 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
+import { terminalsTableFieldsAdmin } from "../../constants/tableFields/terminalsTableFields";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
-        hasSearchParams: false,
+        searchField: "",
         searchValue: ""
     });
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
@@ -25,6 +26,13 @@ const TerminalsPage = () => {
     const { isMenuOpen } = useSelector((state) => state.menu);
     const [ terminalsPage, setTerminalsPage ] = useState(1);
     const dispatch = useDispatch();
+
+    const searchFields = [];
+    terminalsTableFieldsAdmin.map(field => {
+        if (field.name !== "#") {
+            searchFields.push(field.name);
+        }
+    });
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -62,7 +70,8 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea terminalsSearchInfo={terminalsSearchInfo} 
+            <TermPageSearchArea searchFields={searchFields}
+                                terminalsSearchInfo={terminalsSearchInfo} 
                                 setTerminalsSearchInfo={setTerminalsSearchInfo}
                                 isSearched={isTermDataSearched}
                                 setIsSearched={setIsTermDataSearched}
