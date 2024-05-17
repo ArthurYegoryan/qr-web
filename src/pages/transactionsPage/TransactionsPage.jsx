@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
+import { transactionsTableFields } from "../../constants/tableFields/transactionsTableFields";
 
 const TransactionsPage = () => {
     const [ transactions, setTransactions ] = useState([]);
@@ -20,6 +21,7 @@ const TransactionsPage = () => {
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
         hasSearchParams: false,
+        searchField: "",
         searchValue: "",
         transactionType: "",
         startDate: "",
@@ -27,6 +29,7 @@ const TransactionsPage = () => {
         endDate: "",
         endTime: ""
     });
+    const [ isTransactionDataSearched, setIsTransactionDataSearched ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
 
@@ -34,7 +37,15 @@ const TransactionsPage = () => {
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
 
+    const searchFields = [];
+    transactionsTableFields.map(field => {
+        if (field.name !== "#") {
+            searchFields.push(field.name);
+        }        
+    });
+
     useEffect(() => {
+        console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
         try {
             const getTransactionsData = async () => {
                 const response = await getTransactionsByPage(
@@ -62,7 +73,7 @@ const TransactionsPage = () => {
         } catch(err) {
             setOpenCloseModal(true);
         }
-    }, [transactionsPage, transactionsSearchInfo]);
+    }, [transactionsPage, isTransactionDataSearched]);
 
     useEffect(() => {
         try {
@@ -89,7 +100,10 @@ const TransactionsPage = () => {
 
     return (
         <div className="transactions-page-area">
-            <TransactionsSearchArea transactionTypes={transactionTypes} 
+            <TransactionsSearchArea isSearched={isTransactionDataSearched}
+                                    setIsSearched={setIsTransactionDataSearched}
+                                    searchFields={searchFields}
+                                    transactionTypes={transactionTypes} 
                                     transactionsSearchInfo={transactionsSearchInfo}
                                     setTransactionsSearchInfo={setTransactionsSearchInfo} />
             <TransactionsTable transactions={transactions} />

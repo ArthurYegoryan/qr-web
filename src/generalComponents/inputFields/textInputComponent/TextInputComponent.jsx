@@ -4,9 +4,6 @@ import TextField from '@mui/material/TextField';
 
 export default function TextInput({
     label,
-    fields,
-    changeFieldName,
-    setField,
     onChangeHandler,
     marginTop,
     existsError,
@@ -20,7 +17,7 @@ export default function TextInput({
             }}
             noValidate
             autoComplete="off"
-            onChange={onChangeHandler ? onChangeHandler : (event) => setField({ ...fields, [changeFieldName]: event.target.value })}
+            onChange={onChangeHandler}
         >
             <TextField id="outlined-basic" 
                        label={label} 

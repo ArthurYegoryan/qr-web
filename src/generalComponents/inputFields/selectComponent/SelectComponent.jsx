@@ -28,7 +28,7 @@ export default function SelectComponent({
     const { t } = useTranslation();
   
     const handleChange = (event) => {
-        onChooseHandler();
+        onChooseHandler && onChooseHandler();
         setValue(event.target.value);
         fields ? setField({ ...fields, [changeFieldName]: event.target.value }) 
                : setField(value);
