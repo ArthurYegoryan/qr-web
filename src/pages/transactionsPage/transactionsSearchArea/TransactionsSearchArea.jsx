@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
 import { useTranslation } from 'react-i18next';
 import { useState } from "react";
+import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 
 const TransactionsSearchArea = ({ 
     isSearched,
@@ -26,61 +27,16 @@ const TransactionsSearchArea = ({
             <form className="transactions-search-form" onSubmit={(evt) => {
                 evt.preventDefault();
 
-                let hasSearchParam = false;
-
-                for (const key in transactionsSearchInfo) {
-                    if (transactionsSearchInfo[key] && key !== "hasSearchParams") {
-                        hasSearchParam = true;
-                    }
-                }
-
-                if (hasSearchParam) {
-                    if (transactionsSearchInfo.searchField && !transactionsSearchInfo.searchValue) {
-                        setSearchDataFieldEmptyError(true);
-                    } else if (!transactionsSearchInfo.searchField && transactionsSearchInfo.searchValue) {
-                        setSearchByFieldEmptyError(true);
-                    } else {
-                        let doSearch = false;
-
-                        for (const key in transactionsSearchInfo) {
-                            if (transactionsSearchInfo[key] !== prevSearchInfo[key]) doSearch = true;
-                        }
-
-                        if (doSearch) {                            
-                            setTransactionsSearchInfo({
-                                ...transactionsSearchInfo, 
-                                hasSearchParams: true
-                            });
-                            setIsSearched(!isSearched);
-                            setPrevSearchInfo({
-                                ...transactionsSearchInfo, 
-                                hasSearchParams: true
-                            });
-                            setSearchByFieldEmptyError(false);
-                            setSearchDataFieldEmptyError(false);
-                        }
-                    }                    
-                } else {
-                    let doSearch = false;
-
-                    for (const key in transactionsSearchInfo) {
-                        if (transactionsSearchInfo[key] !== prevSearchInfo[key]) doSearch = true;
-                    }
-
-                    if (doSearch) {
-                        setTransactionsSearchInfo({
-                            ...transactionsSearchInfo, 
-                            hasSearchParams: false
-                        });
-                        setIsSearched(!isSearched);
-                        setPrevSearchInfo({
-                            ...transactionsSearchInfo, 
-                            hasSearchParams: false
-                        });
-                        setSearchByFieldEmptyError(false);
-                        setSearchDataFieldEmptyError(false);
-                    }                    
-                }
+                searchingValidation(
+                    transactionsSearchInfo,
+                    setTransactionsSearchInfo,
+                    prevSearchInfo,
+                    setPrevSearchInfo,
+                    isSearched,
+                    setIsSearched,
+                    setSearchDataFieldEmptyError,
+                    setSearchByFieldEmptyError
+                );
             }}>
                 <div className="transactions-search-inputs">
                     <div className="transactions-search-input-fields">
@@ -110,8 +66,8 @@ const TransactionsSearchArea = ({
                                    marginTop={"36px"} />
                         <SelectComponent label={t("searchArea.chooseTrxType")}
                                          hasFirstRow={true}
-                                         firstRowLabel={t("trxTypes.all")}
-                                         firstRowValue="All"
+                                         firstRowLabel={t("------")}
+                                         firstRowValue=""
                                          chooseData={transactionTypes}
                                          chooseDataValue="name_en"
                                          fields={transactionsSearchInfo}
