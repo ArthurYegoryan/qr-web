@@ -8,6 +8,7 @@ import AddNewUser from "./addNewUser/AddNewUser";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 
 const UsersSearchArea = ({ 
     searchFields,
@@ -21,7 +22,6 @@ const UsersSearchArea = ({
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...usersSearchInfo});
-    const [ onceAlreadySearced, setOnceAlreadySearched ] = useState(false);
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
 
@@ -34,79 +34,16 @@ const UsersSearchArea = ({
                     <form className="users-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        let searchInfoIsOK = true;
-                        let doSearch = false;
-
-                        if (!onceAlreadySearced) {
-                            if (!usersSearchInfo.searchField && !usersSearchInfo.searchValue) {
-                                searchInfoIsOK = false;
-                                setSearchByFieldEmptyError(true);
-                                setSearchDataFieldEmptyError(true);
-                            }
-                            else if (!usersSearchInfo.searchField) {
-                                searchInfoIsOK = false;
-                                setSearchByFieldEmptyError(true);
-                            }
-                            else if (!usersSearchInfo.searchValue) {
-                                searchInfoIsOK = false;
-                                setSearchDataFieldEmptyError(true);
-                            }
-    
-                            if (searchInfoIsOK) {
-                                for (const key in usersSearchInfo) {
-                                    if (usersSearchInfo[key] !== prevSearchInfo[key]) {
-                                        doSearch = true;
-                                    }
-                                } 
-                            }
-    
-                            if (doSearch) {
-                                setPrevSearchInfo(usersSearchInfo);
-                                setIsSearched(!isSearched);
-                                setOnceAlreadySearched(true);
-                            }
-                        } else {
-                            if (!usersSearchInfo.searchField && usersSearchInfo.searchValue) setSearchByFieldEmptyError(true);
-                            else if (usersSearchInfo.searchField && !usersSearchInfo.searchValue) setSearchDataFieldEmptyError(true);
-                            else {
-                                let allValuesExist = true;
-                                let allValuesDontExist = true;
-                                let allFieldsLength = 0;
-
-                                Object.values(usersSearchInfo).map((field => {
-                                    if (!field.length) {
-                                        allValuesExist = false;
-                                    }
-                                    
-                                    allFieldsLength += field.length;
-                                }));
-
-                                if (allFieldsLength) allValuesDontExist = false;
-
-                                if (allValuesExist) {
-                                    let doSearch = false;
-
-                                    for (const key in usersSearchInfo) {
-                                        if (usersSearchInfo[key] !== prevSearchInfo[key]) {
-                                            doSearch = true;
-                                        }
-                                    }
-
-                                    if (doSearch) {
-                                        setPrevSearchInfo(usersSearchInfo);
-                                        setIsSearched(!isSearched);
-                                    }
-                                }
-                                
-                                if (allValuesDontExist) {
-                                    setPrevSearchInfo(usersSearchInfo);
-                                    setIsSearched(!isSearched);
-                                    setOnceAlreadySearched(false);
-                                    setSearchByFieldEmptyError(false);
-                                    setSearchDataFieldEmptyError(false);
-                                }
-                            }
-                        }
+                        searchingValidation(
+                            usersSearchInfo,
+                            setUsersSearchInfo,
+                            prevSearchInfo,
+                            setPrevSearchInfo,
+                            isSearched,
+                            setIsSearched,
+                            setSearchDataFieldEmptyError,
+                            setSearchByFieldEmptyError
+                        );
                     }}>
                         <SelectComponent label={t("searchArea.searchBy")}
                                          chooseData={searchFields}
