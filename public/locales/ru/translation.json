@@ -6,6 +6,9 @@
     },
     "userSection": {
         "changePassword": "Сменить пароль",
+        "oldPassword": "Старый пароль",
+        "newPassword": "Новый пароль",
+        "confirmNewPassword": "Подтвердите новый пароль",
         "logout": "Выходить"
     },
     "searchArea": {

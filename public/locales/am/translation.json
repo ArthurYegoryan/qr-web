@@ -6,6 +6,9 @@
     },
     "userSection": {
         "changePassword": "Փոխել գաղտնաբառը",
+        "oldPassword": "Հին գաղտնաբառ",
+        "newPassword": "Նոր գաղտնաբառ",
+        "confirmNewPassword": "Հաստատել նոր գաղտնաբառը",
         "logout": "Դուրս գալ"
     },
     "searchArea": {

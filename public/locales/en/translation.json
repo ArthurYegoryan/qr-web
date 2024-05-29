@@ -6,6 +6,9 @@
     },
     "userSection": {
         "changePassword": "Change password",
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "confirmNewPassword": "Confirm new password",
         "logout": "Logout"
     },
     "searchArea": {
