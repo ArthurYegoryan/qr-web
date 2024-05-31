@@ -9,6 +9,8 @@
         "oldPassword": "Old password",
         "newPassword": "New password",
         "confirmNewPassword": "Confirm new password",
+        "wrongPassword": "Wrong password",
+        "passwordCritery": "Must have at least 8 characters and contain uppercase, lowercase, number and symbol",
         "logout": "Logout"
     },
     "searchArea": {

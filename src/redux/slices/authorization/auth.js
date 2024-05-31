@@ -3,6 +3,11 @@ import { urls } from "../../../constants/urls/urls";
 
 export const authReducer = (state = {}, action) => {
     switch (action.type) {
+        case "edit-id":
+            return {
+                ...state,
+                id: action.payload.id,
+            };
         case "edit-username":
             return {
                 ...state,
@@ -34,6 +39,7 @@ export const authReducer = (state = {}, action) => {
 };
 
 export const initialAuthState = {
+    id: 0,
     username: "",
     role: "",
     isLoggedIn: false,
@@ -60,6 +66,15 @@ export const logoutUser = () => {
 
 export const selectUsername = (state) => {
     return state.auth.username;
+};
+
+export const editID = (id) => {
+    return {
+        type: "edit-id",
+        payload: {
+            id
+        }
+    };
 };
 
 export const editUsername = (newUsername) => {
@@ -95,6 +110,7 @@ export const loadUserInfo = (username, password) => {
             return response.data;
         }).then((userData) => {
             if (userData.message === "success") {
+                dispatch(editID(userData.userInfo.id));
                 dispatch(editUsername(userData.userInfo.username));
                 dispatch(editRole(userData.userInfo.role));
                 dispatch(editToken(userData.token));

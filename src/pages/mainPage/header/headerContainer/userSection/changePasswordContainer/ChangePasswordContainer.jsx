@@ -22,7 +22,7 @@ const ChangePasswordContainer = () => {
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
                                 title={t("userSection.changePassword")}
-                                body={<ChangePasswordBody />}
+                                body={<ChangePasswordBody onCloseHandler={() => setOpenCloseModal(false)} />}
                 />
             }
         </>

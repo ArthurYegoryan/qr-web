@@ -49,11 +49,17 @@ export default function TextInput({
                             helperText={existsError && errorText} />
                 </Box> :
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', marginTop: marginTop }}>
-                    <FormControl sx={{ width: {width} }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password" sx={{ backgroundColor: "white", paddingRight: "5px" }}>{label}</InputLabel>
+                    <FormControl sx={{ width: {width} }} variant="outlined" onChange={onChangeHandler}>
+                        <InputLabel htmlFor="outlined-adornment-password " sx={{ 
+                            backgroundColor: "white", 
+                            paddingRight: "5px",
+                        }}>
+                            {label}
+                        </InputLabel>
                         <OutlinedInput
                             sx={{ height: "50px" }}
                             id="outlined-adornment-password"
+                            error={existsError}
                             type={showPassword ? 'text' : 'password'}
                             endAdornment={
                                 <InputAdornment position="end">
@@ -69,6 +75,11 @@ export default function TextInput({
                             }
                             label="Password"
                         />
+                        {existsError &&
+                            <FormHelperText error id="outlined-adornment-password">
+                                {errorText}
+                            </FormHelperText>
+                        }
                     </FormControl>
               </Box>
             }

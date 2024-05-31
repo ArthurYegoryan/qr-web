@@ -17,6 +17,7 @@ export default function ButtonComponent({
     marginRight,
     marginBottom,
     onClickHandler,
+    isDisabled = false,
     onMouseEnterHandler
 }) {
     return (
@@ -34,6 +35,7 @@ export default function ButtonComponent({
                     startIcon={startIcon}
                     endIcon={endIcon} 
                     size={size} 
+                    disabled={isDisabled}
                     sx={{
                         width: width,
                         height: height,

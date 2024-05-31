@@ -9,6 +9,8 @@
         "oldPassword": "Հին գաղտնաբառ",
         "newPassword": "Նոր գաղտնաբառ",
         "confirmNewPassword": "Հաստատել նոր գաղտնաբառը",
+        "wrongPassword": "Սխալ գաղտնաբառ",
+        "passwordCritery": "Պետք է պարունակի նվազագույնը 8 նիշ և ունենա մեծատառ, փոքրատառ, թիվ և սիմվոլ",
         "logout": "Դուրս գալ"
     },
     "searchArea": {
