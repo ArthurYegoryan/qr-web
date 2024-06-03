@@ -4,9 +4,8 @@ import Button from "../../../../../../../generalComponents/buttons/Button";
 import changePassword from "../../../../../../../api/changePassword";
 import { urls } from "../../../../../../../constants/urls/urls";
 import { passwordValidations } from "../../../../../../../utils/fieldsValidations/userDataFieldsValidation";
-import ModalComponenet from "../../../../../../../generalComponents/modalComponent/ModalComponent";
 import SuccessModalBody from "../../../../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { editToken, logoutUser } from "../../../../../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
