@@ -5,12 +5,22 @@
         "users": "Օգտագործողներ"
     },
     "userSection": {
+        "forgotPassword": "Մոռացե՞լ եք գաղտնաբառը",
+        "email": "Էլ. հասցե",
+        "username": "Մուտքանուն",
+        "password": "Գաղտնաբառ",
         "changePassword": "Փոխել գաղտնաբառը",
         "oldPassword": "Հին գաղտնաբառ",
         "newPassword": "Նոր գաղտնաբառ",
         "confirmNewPassword": "Հաստատել նոր գաղտնաբառը",
         "wrongPassword": "Սխալ գաղտնաբառ",
         "passwordCritery": "Պետք է պարունակի նվազագույնը 8 նիշ և ունենա մեծատառ, փոքրատառ, թիվ և սիմվոլ",
+        "emptyUsernameError": "Մուտքագրեք մուտքանունը",
+        "emptyEmailError": "Մուտքագրեք Էլեկտրոնային հասցեն",
+        "invalidEmail": "Սխալ Էլեկտրոնային հասցե",
+        "sendBtn": "Ուղարկել",
+        "newPassSendSuccess": "Նոր գաղտնաբառը հաջողությամբ ուղարկվել է Ձեր էլ. հասցեին !!!",
+        "wrongUsernameEmail": "Սխալ մուտքանուն կամ էլ. հասցե",
         "logout": "Դուրս գալ"
     },
     "searchArea": {

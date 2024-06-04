@@ -5,12 +5,22 @@
         "users": "Users"
     },
     "userSection": {
+        "forgotPassword": "Forgot password?",
+        "email": "Email",
+        "username": "Username",
+        "password": "Password",
         "changePassword": "Change password",
         "oldPassword": "Old password",
         "newPassword": "New password",
         "confirmNewPassword": "Confirm new password",
         "wrongPassword": "Wrong password",
         "passwordCritery": "Must have at least 8 characters and contain uppercase, lowercase, number and symbol",
+        "emptyUsernameError": "Enter the username",
+        "emptyEmailError": "Enter an email",
+        "invalidEmail": "Invalid email",
+        "sendBtn": "Send",
+        "newPassSendSuccess": "The new password has been successfully sent to your email address !!!",
+        "wrongUsernameEmail": "Incorrect username or email address",
         "logout": "Logout"
     },
     "searchArea": {

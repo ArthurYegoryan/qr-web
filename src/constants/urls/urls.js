@@ -14,6 +14,7 @@ export const urls = {
     GET_ROLES_URL: "",
     POST_NEW_TERMINAL_URL: "",
     POST_NEW_USER_URL: "",
+    POST_FORGOT_PASSWORD_URL: "",
     PUT_TERMINAL_DATA_URL: "",
     PUT_USER_DATA_URL: "",
     PUT_CHANGE_PASSWORD_URL: "",

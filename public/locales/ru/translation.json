@@ -5,12 +5,22 @@
         "users": "Пользователи"
     },
     "userSection": {
+        "forgotPassword": "Забыли пароль?",
+        "email": "Эл. почта",
+        "username": "Имя пользователя",
+        "password": "Пароль",
         "changePassword": "Сменить пароль",
         "oldPassword": "Старый пароль",
         "newPassword": "Новый пароль",
         "confirmNewPassword": "Подтвердите новый пароль",
         "wrongPassword": "Неверный пароль",
         "passwordCritery": "Должно быть не менее 8 символов и содержать заглавные и строчные буквы, цифры и символы",
+        "emptyUsernameError": "Введите имя пользователя",
+        "emptyEmailError": "Введите адрес электронной почты",
+        "invalidEmail": "Неверный адрес электронной почты",
+        "sendBtn": "Посылать",
+        "newPassSendSuccess": "Новый пароль был успешно отправлен на Ваш электронный адрес !!!",
+        "wrongUsernameEmail": "Неверное имя пользователя или адрес электронной почты",
         "logout": "Выходить"
     },
     "searchArea": {
