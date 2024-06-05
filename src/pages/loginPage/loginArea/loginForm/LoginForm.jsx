@@ -1,27 +1,69 @@
 import './LoginForm.css';
-import InputField from "../../../../generalComponents/inputFields/InputField";
+import TextInput from '../../../../generalComponents/inputFields/textInputComponent/TextInputComponent';
 import Button from "../../../../generalComponents/buttons/Button";
+import ModalComponent from '../../../../generalComponents/modalComponent/ModalComponent';
+import ErrorModalBody from '../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody';
+import getUserInfo from '../../../../api/getUserInfo';
+import { urls } from '../../../../constants/urls/urls';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loadUserInfo, loginUser } from '../../../../redux/slices/authorization/auth';
+import { editID, editUsername, editRole, loginUser } from '../../../../redux/slices/authorization/auth';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { t } = useTranslation();
 
-    const [ username, setUsername ] = useState("");
-    const [ password, setPassword ] = useState("");
+    const [ loginParams, setLoginParams ] = useState({
+        username: "",
+        password: ""
+    });
     const [ emptyUsernameError, setEmptyUsernameError ] = useState(false);
     const [ emptyPasswordError, setEmptyPasswordError ] = useState(false);
     const [ wrongUsernamePasswordError, setWrongUsernamePasswordError ] = useState(false);
+    const [ openCloseModal, setOpenCloseModal ] = useState(false);
 
     const onChangeUsernameHandler = (evt) => {
-        setUsername(evt.target.value);
+        setLoginParams({
+            ...loginParams,
+            username: evt.target.value
+        });
     }
 
     const onChangePasswordHandler = (evt) => {
-        setPassword(evt.target.value);
+        setLoginParams({
+            ...loginParams,
+            password: evt.target.value
+        });
+    }
+
+    const makeCallForUserData = () => {
+        try {
+            const loadUserData = async () => {
+                const response = await getUserInfo(
+                    urls.GET_USER_INFO_URL, 
+                    loginParams
+                );
+
+                if (response.message === "success") {
+                    dispatch(editID(response.userInfo.id));
+                    dispatch(editUsername(response.userInfo.username));
+                    dispatch(editRole(response.userInfo.role));
+                    localStorage.setItem("token", response.token);
+
+                    dispatch(loginUser());
+                    <Navigate to="/terminals" />;
+                } else if (response.message === "wrong username or password") {
+                    setWrongUsernamePasswordError(true);
+                } else {
+                    throw new Error("Connection error!");
+                }                
+            }
+            loadUserData();
+        } catch(err) {
+            setOpenCloseModal(true);
+        }
     }
 
     const onClickHandler = async (evt) => {
@@ -31,62 +73,51 @@ const LoginForm = () => {
         setEmptyPasswordError(false);
         setWrongUsernamePasswordError(false);
 
-        if (!username.length || !password.length) {
-            if (!username.length) setEmptyUsernameError(true);
-            if (!password.length) setEmptyPasswordError(true);
+        if (!loginParams.username.length || !loginParams.password.length) {
+            if (!loginParams.username.length) setEmptyUsernameError(true);
+            if (!loginParams.password.length) setEmptyPasswordError(true);
         } else {
-            try {
-                dispatch(loadUserInfo(username, password));
-                
-                setTimeout(() => {
-                    console.log("Continue Login Form ...");
-                    console.log("Token: " + localStorage.getItem("token"));
-
-                    dispatch(loginUser());
-
-                    navigate("/terminals");
-                }, 500);
-            } catch(err) {
-                setWrongUsernamePasswordError(true);
-            }
+            makeCallForUserData();
         }
     }
 
     return (
-        <form action="" className="login-form">
-            <InputField type="text" 
-                        placeholder="User Name" 
+        <>
+            <form action="" className="login-form">
+                <TextInput label={t("userSection.username")}
+                        size='normall'
                         onChangeHandler={onChangeUsernameHandler}
-                        classNameInput="login-input"  
-            />
-            {
-                emptyUsernameError ?
-                    <label className="error-message">Username can't be empty!</label> 
-                : null
+                        existsError={emptyUsernameError}
+                        errorText={t("userSection.emptyUsernameError")} />
+                <TextInput label={t("userSection.password")}
+                        onChangeHandler={onChangePasswordHandler}
+                        isPassword={true}
+                        existsError={emptyPasswordError}
+                        errorText={t("userSection.emptyPasswordError")}
+                        marginTop="15px" />
+                {wrongUsernamePasswordError &&
+                    <div className="login-error-message-div">
+                        <label className="login-error-message">{t("userSection.wrongUsernamePassword")}</label>
+                    </div>                    
+                }
+                <div className="login-button">
+                    <Button type="submit" 
+                        label="Login" 
+                        backgroundColor='rgb(103, 103, 255)'
+                        width="220px"
+                        onClickHandler={onClickHandler}
+                    />
+                </div>
+            </form>
+            {openCloseModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
+                                isOpen={openCloseModal} 
+                                title="Connection error!"
+                                body={<ErrorModalBody />}
+                                bgcolor="red"
+                />
             }
-            <InputField type="password" 
-                        placeholder="Password" 
-                        onChangeHandler={onChangePasswordHandler} 
-                        classNameInput="login-input" 
-            />
-            {
-                emptyPasswordError ?
-                    <label className="error-message">Password can't be empty!</label> 
-                : null
-            }
-            {
-                wrongUsernamePasswordError ?
-                    <label className="error-message">Invalid username or password!</label> 
-                : null
-            }
-            <Button type="submit" 
-                    label="Login" 
-                    backgroundColor='rgb(103, 103, 255)'
-                    width="220px"
-                    marginTop="10px"
-                    onClickHandler={onClickHandler}
-            />
-        </form>
+        </>
     );
 };
 

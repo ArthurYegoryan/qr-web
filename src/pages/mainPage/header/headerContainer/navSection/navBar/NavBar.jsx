@@ -28,7 +28,8 @@ const NavBar = () => {
     return (
         <div className="nav-bar">
             <div className={menuClass}>
-                <LogoComponent className="logo-nav-bar"/>
+                <LogoComponent className="logo-nav-bar"
+                               width="235px"/>
                 <NavLinks />
             </div>
             <div className="burger-menu" onClick={updateMenu}>

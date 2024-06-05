@@ -16,10 +16,12 @@
         "wrongPassword": "Wrong password",
         "passwordCritery": "Must have at least 8 characters and contain uppercase, lowercase, number and symbol",
         "emptyUsernameError": "Enter the username",
+        "emptyPasswordError": "Enter the password",
         "emptyEmailError": "Enter an email",
         "invalidEmail": "Invalid email",
         "sendBtn": "Send",
         "newPassSendSuccess": "The new password has been successfully sent to your email address !!!",
+        "wrongUsernamePassword": "Incorrect username or password",
         "wrongUsernameEmail": "Incorrect username or email address",
         "logout": "Logout"
     },

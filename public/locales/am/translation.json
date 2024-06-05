@@ -16,10 +16,12 @@
         "wrongPassword": "Սխալ գաղտնաբառ",
         "passwordCritery": "Պետք է պարունակի նվազագույնը 8 նիշ և ունենա մեծատառ, փոքրատառ, թիվ և սիմվոլ",
         "emptyUsernameError": "Մուտքագրեք մուտքանունը",
+        "emptyPasswordError": "Մուտքագրեք գաղտնաբառը",
         "emptyEmailError": "Մուտքագրեք Էլեկտրոնային հասցեն",
         "invalidEmail": "Սխալ Էլեկտրոնային հասցե",
         "sendBtn": "Ուղարկել",
         "newPassSendSuccess": "Նոր գաղտնաբառը հաջողությամբ ուղարկվել է Ձեր էլ. հասցեին !!!",
+        "wrongUsernamePassword": "Սխալ մուտքանուն կամ գաղտնաբառ",
         "wrongUsernameEmail": "Սխալ մուտքանուն կամ էլ. հասցե",
         "logout": "Դուրս գալ"
     },
