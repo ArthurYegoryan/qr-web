@@ -5,7 +5,7 @@ import getBanks from "../../../../api/getBanks";
 import getPaymentSystems from "../../../../api/getPaymentSystems";
 import addNewTerminal from "../../../../api/addNewTerminal";
 import { urls } from "../../../../constants/urls/urls";
-import { editToken, logoutUser } from "../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
@@ -83,7 +83,6 @@ const AddNewTerminalData = ({
                            responseBanks.message === "invalid token" ||
                            responsePaySystems.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;
@@ -185,7 +184,6 @@ const AddNewTerminalData = ({
                 onCloseHandler();
             } else if (responseAddNewTerminal.message === "invalid token") {
                 localStorage.clear();
-                dispatch(editToken(""));
                 dispatch(logoutUser());
 
                 <Navigate to="/login" />;

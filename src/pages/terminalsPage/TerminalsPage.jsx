@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import getTerminalsByPage from "../../api/getTerminalsByPage";
 import { urls } from "../../constants/urls/urls";
 import { Navigate} from "react-router-dom";
-import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/auth";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
@@ -54,7 +54,6 @@ const TerminalsPage = () => {
                     setTerminalsPageCount(response.terminals_page_count);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;

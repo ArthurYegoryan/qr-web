@@ -1,6 +1,3 @@
-import getUserInfo from "../../../api/getUserInfo";
-import { urls } from "../../../constants/urls/urls";
-
 export const authReducer = (state = {}, action) => {
     switch (action.type) {
         case "edit-id":
@@ -18,11 +15,6 @@ export const authReducer = (state = {}, action) => {
                 ...state,
                 role: action.payload.role,
             };
-        case "edit-token":
-            return {
-                ...state,
-                token: action.payload.token
-            };
         case "login-user":
             return {
                 ...state,
@@ -39,11 +31,10 @@ export const authReducer = (state = {}, action) => {
 };
 
 export const initialAuthState = {
-    id: 0,
-    username: "",
-    role: "",
-    isLoggedIn: false,
-    token: ""
+    id: localStorage.getItem("user_id") ?? "",
+    username: localStorage.getItem("username") ?? "",
+    role: localStorage.getItem("role") ?? "",
+    isLoggedIn: localStorage.getItem("isLoggedIn") ?? false,
 };
 
 export const loginUser = () => {
@@ -92,32 +83,5 @@ export const editRole = (newRole) => {
         payload: {
             role: newRole
         }
-    };
-};
-
-export const editToken = (newToken) => {
-    return {
-        type: "edit-token",
-        payload: {
-            token: newToken
-        }
-    };
-};
-
-export const loadUserInfo = (username, password) => {
-    return (dispatch, getState) => {
-        return getUserInfo(urls.GET_USER_INFO_URL, username, password).then((response) => {
-            return response.data;
-        }).then((userData) => {
-            if (userData.message === "success") {
-                dispatch(editID(userData.userInfo.id));
-                dispatch(editUsername(userData.userInfo.username));
-                dispatch(editRole(userData.userInfo.role));
-                dispatch(editToken(userData.token));
-                localStorage.setItem("token", userData.token);
-            } else {
-                throw new Error();
-            }            
-        });
     };
 };

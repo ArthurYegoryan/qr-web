@@ -6,7 +6,7 @@ import getBanks from "../../../api/getBanks";
 import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux"
-import { editToken, logoutUser } from "../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import Button from "../../../generalComponents/buttons/Button";
 import { useTranslation } from 'react-i18next';
@@ -42,7 +42,6 @@ const ChangeUserData = ({
                     setBanks(response.banks);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;
@@ -94,7 +93,6 @@ const ChangeUserData = ({
                     onCloseHandler();
                 } else if (responseChangeUserData.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
 
                     <Navigate to="/login" />;

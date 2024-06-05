@@ -10,7 +10,7 @@ import { urls } from "../../constants/urls/urls";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/auth";
 import { transactionsTableFields } from "../../constants/tableFields/transactionsTableFields";
 
 const TransactionsPage = () => {
@@ -60,7 +60,6 @@ const TransactionsPage = () => {
                     setTransactionsPageCount(response.transactions_page_count);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;
@@ -83,7 +82,6 @@ const TransactionsPage = () => {
                     setTransactionTypes(response.transaction_types);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;

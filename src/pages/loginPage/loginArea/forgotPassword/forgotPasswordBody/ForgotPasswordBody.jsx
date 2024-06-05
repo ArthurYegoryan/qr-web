@@ -6,7 +6,7 @@ import { urls } from "../../../../../constants/urls/urls";
 import { emailValidation } from "../../../../../utils/fieldsValidations/userDataFieldsValidation";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
-import { editToken, logoutUser } from "../../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -40,7 +40,6 @@ const ForgotPasswordBody = ({ onCloseHandler }) => {
                     setWrongUsernameOrEmail(true);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;

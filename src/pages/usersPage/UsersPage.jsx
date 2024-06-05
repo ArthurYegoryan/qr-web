@@ -5,7 +5,7 @@ import getUsersByPage from "../../api/getUsersByPage";
 import getBanks from "../../api/getBanks";
 import { urls } from "../../constants/urls/urls";
 import { useDispatch } from "react-redux";
-import { editToken, logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
@@ -69,7 +69,6 @@ const UsersPage = () => {
                     setUsersPageCount(responseUsers.users_page_count);
                 } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;

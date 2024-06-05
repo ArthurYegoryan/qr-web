@@ -4,7 +4,7 @@ import deleteTerminalData from "../../../api/deleteTerminalData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { editToken, logoutUser } from "../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../redux/slices/authorization/auth";
 
 const DeleteTerminalData = ({ 
     terminal, 
@@ -22,7 +22,6 @@ const DeleteTerminalData = ({
             onCloseHandler();
         } else if (response.message === "invalid token") {
             localStorage.clear();
-            dispatch(editToken(""));
             dispatch(logoutUser());
     
             <Navigate to="/login" />;

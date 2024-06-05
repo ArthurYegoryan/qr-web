@@ -50,7 +50,12 @@ const LoginForm = () => {
                     dispatch(editID(response.userInfo.id));
                     dispatch(editUsername(response.userInfo.username));
                     dispatch(editRole(response.userInfo.role));
+                    
                     localStorage.setItem("token", response.token);
+                    localStorage.setItem("user_id", response.userInfo.id);
+                    localStorage.setItem("username", response.userInfo.username);
+                    localStorage.setItem("role", response.userInfo.role);
+                    localStorage.setItem("isLoggedIn", true);
 
                     dispatch(loginUser());
                     <Navigate to="/terminals" />;

@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { editToken, logoutUser } from "../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../redux/slices/authorization/auth";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
@@ -52,7 +52,6 @@ const AddNewUser = ({
                 } else if (responseBanks.message === "invalid token" ||
                            responseRoles.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;
@@ -111,7 +110,6 @@ const AddNewUser = ({
                 onCloseHandler();
             } else if (responseAddNewUser.message === "invalid token") {
                 localStorage.clear();
-                dispatch(editToken(""));
                 dispatch(logoutUser());
 
                 <Navigate to="/login" />;

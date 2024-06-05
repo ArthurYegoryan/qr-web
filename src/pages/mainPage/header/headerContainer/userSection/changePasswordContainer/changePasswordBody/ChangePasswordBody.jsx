@@ -7,7 +7,7 @@ import { passwordValidations } from "../../../../../../../utils/fieldsValidation
 import SuccessModalBody from "../../../../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { editToken, logoutUser } from "../../../../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../../../../redux/slices/authorization/auth";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -42,7 +42,6 @@ const ChangePasswordBody = ({ onCloseHandler }) => {
                     setOldPassError(true);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(editToken(""));
                     dispatch(logoutUser());
             
                     <Navigate to="/login" />;
