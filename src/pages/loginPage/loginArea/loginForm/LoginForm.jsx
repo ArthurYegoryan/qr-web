@@ -90,7 +90,7 @@ const LoginForm = () => {
         <>
             <form action="" className="login-form">
                 <TextInput label={t("userSection.username")}
-                        size='normall'
+                        size='normal'
                         onChangeHandler={onChangeUsernameHandler}
                         existsError={emptyUsernameError}
                         errorText={t("userSection.emptyUsernameError")} />
