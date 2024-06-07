@@ -13,9 +13,11 @@ import UsersTable from "./usersTable/UsersTable";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
 import { usersTableFields } from "../../constants/tableFields/usersTableFields";
+import Table from "../../generalComponents/table/Table";
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
+    const banks = {};
     const [ usersPageCount, setUsersPageCount ] = useState(1);
     const [ usersSearchInfo, setUsersSearchInfo ] = useState({
         searchField: "",
@@ -42,32 +44,16 @@ const UsersPage = () => {
 
     useEffect(() => {
         try {
-            const getUsersBanksData = async () => {
+            const getBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
-                const responseUsers = await getUsersByPage(
-                    urls.GET_USERS_URL,
-                    {
-                        page: usersPage,
-                        searchParams: usersSearchInfo 
-                    }
-                );
 
-                const banks = {};
-
-                if (responseBanks.message === "success" && responseUsers.message === "success") {
+                if (responseBanks.message === "success") {
                     responseBanks.banks.map((bank) => {
                         banks[bank.id] = bank.short_name;
                     });
 
-                    responseUsers.users.map((user) => {
-                        if (user.bank !== "FPS") {
-                            user.bank = banks[user.bank];
-                        }
-                    });
-
-                    setUsers(responseUsers.users);
-                    setUsersPageCount(responseUsers.users_page_count);
-                } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
+                    // console.log(JSON.stringify(banks, null, 2));
+                } else if (responseBanks.message === "expired token") {
                     localStorage.clear();
                     dispatch(logoutUser());
             
@@ -76,14 +62,98 @@ const UsersPage = () => {
                     throw new Error("Connection error!");
                 }                
             }
-            getUsersBanksData();
+            getBanksData();
+        } catch(err) {
+            setOpenCloseModal(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        try {
+            const getUsersData = async () => {
+                const responseUsers = await getUsersByPage(
+                    urls.GET_USERS_URL,
+                    {
+                        page: usersPage,
+                        searchParams: usersSearchInfo 
+                    }
+                );
+
+                if (responseUsers.message === "success") {
+                    // console.log("Users: ", JSON.stringify(responseUsers.users, null, 2));
+
+                    responseUsers.users.map((user) => {
+                        // console.log("User: ", JSON.stringify(user, null, 2));
+
+                        if (user.bank !== "FPS") {
+                            user.bank = banks[user.bank];
+                        }
+                    });
+
+                    // console.log("Users after: ", JSON.stringify(responseUsers.users, null, 2));
+
+                    setUsers(responseUsers.users);
+                    setUsersPageCount(responseUsers.users_page_count);
+                } else if (responseUsers.message === "expired token") {
+                    localStorage.clear();
+                    dispatch(logoutUser());
+            
+                    <Navigate to="/login" />;
+                } else {
+                    throw new Error("Connection error!");
+                }                
+            }
+            getUsersData();
         } catch(err) {
             setOpenCloseModal(true);
         }
     }, [isUserDataChanged, isUserDataDeleted, usersPage, isUserDataSearched]);
 
+    // useEffect(() => {
+    //     try {
+    //         const getUsersBanksData = async () => {
+    //             const responseBanks = await getBanks(urls.GET_BANKS_URL);
+    //             const responseUsers = await getUsersByPage(
+    //                 urls.GET_USERS_URL,
+    //                 {
+    //                     page: usersPage,
+    //                     searchParams: usersSearchInfo 
+    //                 }
+    //             );
+
+    //             const banks = {};
+
+    //             if (responseBanks.message === "success" && responseUsers.message === "success") {
+    //                 responseBanks.banks.map((bank) => {
+    //                     banks[bank.id] = bank.short_name;
+    //                 });
+
+    //                 responseUsers.users.map((user) => {
+    //                     if (user.bank !== "FPS") {
+    //                         user.bank = banks[user.bank];
+    //                     }
+    //                 });
+
+    //                 setUsers(responseUsers.users);
+    //                 setUsersPageCount(responseUsers.users_page_count);
+    //             } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
+    //                 localStorage.clear();
+    //                 dispatch(logoutUser());
+            
+    //                 <Navigate to="/login" />;
+    //             } else {
+    //                 throw new Error("Connection error!");
+    //             }                
+    //         }
+    //         getUsersBanksData();
+    //     } catch(err) {
+    //         setOpenCloseModal(true);
+    //     }
+    // }, [isUserDataChanged, isUserDataDeleted, usersPage, isUserDataSearched]);
+
     return (
         <div className="users-page-area">
+            {console.log("Nkarvuma...")}
             <UsersSearchArea searchFields={searchFields}
                              usersSearchInfo={usersSearchInfo}
                              setUsersSearchInfo={setUsersSearchInfo}
@@ -92,11 +162,13 @@ const UsersPage = () => {
                              setIsUserDataChanged={setIsUserDataChanged}
                              isUserDataChanged={isUserDataChanged} />
             <div className="users-table-div">
-                <UsersTable users={users}
+                {/* <UsersTable users={users}
                             setIsUserDataChanged={setIsUserDataChanged}
                             isUserDataChanged={isUserDataChanged}
                             setIsUserDataDeleted={setIsUserDataDeleted}
-                            isUserDataDeleted={isUserDataDeleted} />
+                            isUserDataDeleted={isUserDataDeleted} /> */}
+                <Table whichTable="users" 
+                       datas={users} />
             </div>
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 

@@ -1,5 +1,7 @@
 .users-table-div {
     width: 50%;
+    /* width: 80%; */
+    min-width: 800px;
 }
 
 .users-page-pagination-open-menu {
