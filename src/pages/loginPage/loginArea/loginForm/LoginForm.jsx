@@ -8,7 +8,7 @@ import { urls } from '../../../../constants/urls/urls';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editID, editUsername, editRole, loginUser } from '../../../../redux/slices/authorization/auth';
+import { loginUser } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
@@ -47,10 +47,6 @@ const LoginForm = () => {
                 );
 
                 if (response.message === "success") {
-                    dispatch(editID(response.userInfo.id));
-                    dispatch(editUsername(response.userInfo.username));
-                    dispatch(editRole(response.userInfo.role));
-                    
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("user_id", response.userInfo.id);
                     localStorage.setItem("username", response.userInfo.username);

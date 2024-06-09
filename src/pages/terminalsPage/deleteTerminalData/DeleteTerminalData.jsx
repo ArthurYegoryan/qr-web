@@ -4,7 +4,7 @@ import deleteTerminalData from "../../../api/deleteTerminalData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { logoutUser } from "../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../redux/slices/authorization/authSlice";
 
 const DeleteTerminalData = ({ 
     terminal, 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import getTerminalsByPage from "../../api/getTerminalsByPage";
 import { urls } from "../../constants/urls/urls";
 import { Navigate} from "react-router-dom";
-import { logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";

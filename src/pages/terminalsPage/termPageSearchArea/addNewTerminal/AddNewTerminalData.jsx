@@ -5,7 +5,7 @@ import getBanks from "../../../../api/getBanks";
 import getPaymentSystems from "../../../../api/getPaymentSystems";
 import addNewTerminal from "../../../../api/addNewTerminal";
 import { urls } from "../../../../constants/urls/urls";
-import { logoutUser } from "../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";

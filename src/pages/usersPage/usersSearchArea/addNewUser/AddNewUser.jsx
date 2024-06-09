@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { logoutUser } from "../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 

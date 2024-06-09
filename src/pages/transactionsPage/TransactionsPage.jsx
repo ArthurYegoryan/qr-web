@@ -10,7 +10,7 @@ import { urls } from "../../constants/urls/urls";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { transactionsTableFields } from "../../constants/tableFields/transactionsTableFields";
 
 const TransactionsPage = () => {

@@ -6,7 +6,7 @@ import { urls } from "../../../../../constants/urls/urls";
 import { emailValidation } from "../../../../../utils/fieldsValidations/userDataFieldsValidation";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
-import { logoutUser } from "../../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 

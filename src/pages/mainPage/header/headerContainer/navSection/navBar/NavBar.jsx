@@ -3,7 +3,7 @@ import NavLinks from "./navLinks/NavLinks";
 import "./NavBar.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editMenuStatusFalse, editMenuStatusTrue } from "../../../../../../redux/slices/menu/menu";
+import { editMenuStatusFalse, editMenuStatusTrue } from "../../../../../../redux/slices/menu/menuSlice";
 
 const NavBar = () => {
     const dispatch = useDispatch();

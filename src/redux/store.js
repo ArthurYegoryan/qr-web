@@ -1,17 +1,10 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { authReducer, initialAuthState } from "./slices/authorization/auth";
-import { menuReducer, initialMenuState } from "./slices/menu/menu";
-import { terminalsReducer, initialTerminalsState } from "./slices/terminals/terminals";
-import { thunk } from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authorization/authSlice";
+import menuReducer from "./slices/menu/menuSlice";
 
-const store = createStore(combineReducers({
-    auth: authReducer,
-    menu: menuReducer,
-    terminals: terminalsReducer,
-}), {
-    auth: initialAuthState,
-    menu: initialMenuState,
-    terminals: initialTerminalsState,
-}, applyMiddleware(thunk));
-
-export default store;
+export const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        menu: menuReducer,
+    },
+});

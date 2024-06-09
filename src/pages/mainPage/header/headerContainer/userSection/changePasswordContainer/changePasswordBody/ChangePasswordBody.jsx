@@ -7,7 +7,7 @@ import { passwordValidations } from "../../../../../../../utils/fieldsValidation
 import SuccessModalBody from "../../../../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { logoutUser } from "../../../../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 

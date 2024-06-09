@@ -5,7 +5,7 @@ import getUsersByPage from "../../api/getUsersByPage";
 import getBanks from "../../api/getBanks";
 import { urls } from "../../constants/urls/urls";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/slices/authorization/auth";
+import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";

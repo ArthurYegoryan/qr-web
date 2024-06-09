@@ -6,7 +6,7 @@ import getBanks from "../../../api/getBanks";
 import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux"
-import { logoutUser } from "../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import Button from "../../../generalComponents/buttons/Button";
 import { useTranslation } from 'react-i18next';

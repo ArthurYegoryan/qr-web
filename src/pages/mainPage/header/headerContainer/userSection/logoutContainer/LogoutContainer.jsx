@@ -2,7 +2,7 @@ import "./LogoutContainer.css";
 import Button from "../../../../../../generalComponents/buttons/Button";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../../../../../redux/slices/authorization/auth";
+import { logoutUser } from "../../../../../../redux/slices/authorization/authSlice";
 import { useTranslation } from 'react-i18next';
 
 const LogoutContainer = () => {
