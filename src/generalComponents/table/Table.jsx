@@ -154,6 +154,7 @@ const TableComponent = ({
         <Table
             columns={columns}            
             dataSource={whichTable === "users" ? data : datas}
+            pagination={false}
             //   scroll={{
             //     x: 1500,
             //   }}
