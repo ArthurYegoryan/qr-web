@@ -5,6 +5,7 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import AddNewUser from "./addNewUser/AddNewUser";
+import AddNewBank from "./addNewBank/AddNewBank";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -21,6 +22,7 @@ const UsersSearchArea = ({
 }) => {
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddUser, setIsOpenAddUserModal ] = useState(false);
+    const [ isOpenBanks, setIsOpenBanksModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...usersSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
@@ -80,20 +82,36 @@ const UsersSearchArea = ({
                             marginLeft="10px" 
                             onClickHandler={() => console.log("Export users data")} />
                 </div>
-                <div className="users-page-add-new-user">
-                    <Button label={t("addNewUser")}
-                            marginTop="5px" 
+                <div className="users-page-add-new-user-bank">
+                    <Button label={t("addNewUser.addNewUser")}
+                            marginTop={"5px"} 
+                            height={"30px"}
                             onClickHandler={() => setIsOpenAddUserModal(true)} />
+                    <Button label={t("banks.banks")}
+                            marginLeft={"10px"}
+                            marginTop={"5px"}
+                            height={"30px"} 
+                            onClickHandler={() => setIsOpenBanksModal(true)} />
                 </div>
             </div>
             {isOpenAddUser &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddUserModal(false)} 
                                 isOpen={isOpenAddUser}
-                                title={t("addNewUser")}
+                                title={t("addNewUser.addNewUser")}
                                 body={<AddNewUser setIsUserDataChanged={setIsUserDataChanged}
                                                   isUserDataChanged={isUserDataChanged}
                                                   onCloseHandler={() => setIsOpenAddUserModal(false)} 
                                     />}
+                />
+            }
+            {isOpenBanks &&
+                <ModalComponent onCloseHandler={() => setIsOpenBanksModal(false)} 
+                                isOpen={isOpenBanks}
+                                title={t("banks.banks")}
+                                // body={<AddNewBank setIsUserDataChanged={setIsUserDataChanged}
+                                //                   isUserDataChanged={isUserDataChanged}
+                                //                   onCloseHandler={() => setIsOpenAddUserModal(false)} 
+                                //     />}
                 />
             }
             {isOpenErrorModal &&

@@ -63,5 +63,11 @@
     "deleteUserData": {
         "deleteUserData": "Delete user's data"
     },
-    "addNewUser": "Add new user"
+    "addNewUser": {
+        "addNewUser": "Add new user",
+        "addNewBank": "Add new bank"
+    },
+    "banks": {
+        "banks": "Banks"
+    }
 }

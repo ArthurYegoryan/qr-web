@@ -63,5 +63,11 @@
     "deleteUserData": {
         "deleteUserData": "Ջնջել օգտատիրոջ տվյալները"
     },
-    "addNewUser": "Ավելացնել նոր օգտատեր"
+    "addNewUser": {
+        "addNewUser": "Ավելացնել նոր օգտատեր",
+        "addNewBank": "Ավելացնել նոր բանկ"
+    },
+    "banks": {
+        "banks": "Բանկեր"
+    }
 }

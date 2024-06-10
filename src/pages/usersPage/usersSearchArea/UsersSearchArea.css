@@ -5,6 +5,7 @@
     margin-top: 50px;
 }
 
+.users-page-add-new-user-bank,
 .users-page-search-export-content {
     display: flex;
 }

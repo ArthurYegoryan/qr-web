@@ -63,5 +63,11 @@
     "deleteUserData": {
         "deleteUserData": "Удалить данные пользователя"
     },
-    "addNewUser": "Добавить новый пользователь"
+    "addNewUser": {
+        "addNewUser": "Добавить новый пользователь",
+        "addNewBank": "Добавить новый банк"
+    },
+    "banks": {
+        "banks": "Банки"
+    }
 }
