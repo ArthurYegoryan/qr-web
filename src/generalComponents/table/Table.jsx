@@ -73,15 +73,14 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 //   },
 // ];
 
-
-
 const TableComponent = ({ 
     whichTable, 
-    datas, 
-    onClickPencilButton, 
-    onClickTrashButton 
+    datas,
+    banks,
+    onClickEditButton, 
+    onClickDeleteButton 
 }) => {
-    const [fixedTop, setFixedTop] = useState(false);
+    // const [fixedTop, setFixedTop] = useState(false);
 
     const terminalsColumns = [];
 
@@ -122,18 +121,16 @@ const TableComponent = ({
             title: 'Action',
             key: 'operation',
             width: 15,
-            render: () => (
+            render: (record) => (
                 <Space size="middle">
-                    <BsFillPencilFill className="table-row-edit-button" onClick={() => onClickPencilButton()} />
-                    <BsFillTrashFill className="table-row-delete-button" onClick={() => onClickTrashButton()} />
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
                 </Space>
             )
         },
     ];
 
     const data = [];
-
-    console.log("Users: ", JSON.stringify(datas, null, 2));
 
     let columns = [];
 
@@ -144,7 +141,7 @@ const TableComponent = ({
             data.push({
                 id: datas[i].id,
                 username: datas[i].username,
-                bank: datas[i].bank,
+                bank: datas[i].bank !== "FPS" ? banks[datas[i].bank] : "FPS",
                 email: datas[i].email,
                 role: datas[i].role
             });
@@ -156,7 +153,7 @@ const TableComponent = ({
     return (
         <Table
             columns={columns}            
-            dataSource={data}
+            dataSource={whichTable === "users" ? data : datas}
             //   scroll={{
             //     x: 1500,
             //   }}

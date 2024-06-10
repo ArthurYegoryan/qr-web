@@ -1,23 +1,25 @@
 import "./UsersPage.css";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux"
 import getUsersByPage from "../../api/getUsersByPage";
 import getBanks from "../../api/getBanks";
 import { urls } from "../../constants/urls/urls";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/slices/authorization/authSlice";
+import { saveBanks } from "../../redux/slices/banks/banksSlice";
 import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import UsersTable from "./usersTable/UsersTable";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
 import { usersTableFields } from "../../constants/tableFields/usersTableFields";
 import Table from "../../generalComponents/table/Table";
+import ChangeUserData from "./changeUserData/ChangeUserData";
+import DeleteUserData from "./deleteUserData/DeleteUserData";
+import { useTranslation } from 'react-i18next';
 
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
-    const banks = {};
+    const { banks } = useSelector((state) => state.banks);
     const [ usersPageCount, setUsersPageCount ] = useState(1);
     const [ usersSearchInfo, setUsersSearchInfo ] = useState({
         searchField: "",
@@ -27,9 +29,13 @@ const UsersPage = () => {
     const [ isUserDataChanged, setIsUserDataChanged ] = useState(false);
     const [ isUserDataDeleted, setIsUserDataDeleted ] = useState(false);
     const [ isUserDataSearched, setIsUserDataSearched ] = useState(false);
+    const [ selectedUser, setSelectedUser ] = useState({});
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
+    const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const searchFields = [];
     usersTableFields.map(field => {
@@ -46,13 +52,14 @@ const UsersPage = () => {
         try {
             const getBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
+                const banks = {};
 
                 if (responseBanks.message === "success") {
                     responseBanks.banks.map((bank) => {
                         banks[bank.id] = bank.short_name;
                     });
 
-                    // console.log(JSON.stringify(banks, null, 2));
+                    dispatch(saveBanks(banks));
                 } else if (responseBanks.message === "expired token") {
                     localStorage.clear();
                     dispatch(logoutUser());
@@ -80,18 +87,6 @@ const UsersPage = () => {
                 );
 
                 if (responseUsers.message === "success") {
-                    // console.log("Users: ", JSON.stringify(responseUsers.users, null, 2));
-
-                    responseUsers.users.map((user) => {
-                        // console.log("User: ", JSON.stringify(user, null, 2));
-
-                        if (user.bank !== "FPS") {
-                            user.bank = banks[user.bank];
-                        }
-                    });
-
-                    // console.log("Users after: ", JSON.stringify(responseUsers.users, null, 2));
-
                     setUsers(responseUsers.users);
                     setUsersPageCount(responseUsers.users_page_count);
                 } else if (responseUsers.message === "expired token") {
@@ -109,51 +104,8 @@ const UsersPage = () => {
         }
     }, [isUserDataChanged, isUserDataDeleted, usersPage, isUserDataSearched]);
 
-    // useEffect(() => {
-    //     try {
-    //         const getUsersBanksData = async () => {
-    //             const responseBanks = await getBanks(urls.GET_BANKS_URL);
-    //             const responseUsers = await getUsersByPage(
-    //                 urls.GET_USERS_URL,
-    //                 {
-    //                     page: usersPage,
-    //                     searchParams: usersSearchInfo 
-    //                 }
-    //             );
-
-    //             const banks = {};
-
-    //             if (responseBanks.message === "success" && responseUsers.message === "success") {
-    //                 responseBanks.banks.map((bank) => {
-    //                     banks[bank.id] = bank.short_name;
-    //                 });
-
-    //                 responseUsers.users.map((user) => {
-    //                     if (user.bank !== "FPS") {
-    //                         user.bank = banks[user.bank];
-    //                     }
-    //                 });
-
-    //                 setUsers(responseUsers.users);
-    //                 setUsersPageCount(responseUsers.users_page_count);
-    //             } else if (responseBanks.message === "expired token" || responseUsers.message === "expired token") {
-    //                 localStorage.clear();
-    //                 dispatch(logoutUser());
-            
-    //                 <Navigate to="/login" />;
-    //             } else {
-    //                 throw new Error("Connection error!");
-    //             }                
-    //         }
-    //         getUsersBanksData();
-    //     } catch(err) {
-    //         setOpenCloseModal(true);
-    //     }
-    // }, [isUserDataChanged, isUserDataDeleted, usersPage, isUserDataSearched]);
-
     return (
         <div className="users-page-area">
-            {console.log("Nkarvuma...")}
             <UsersSearchArea searchFields={searchFields}
                              usersSearchInfo={usersSearchInfo}
                              setUsersSearchInfo={setUsersSearchInfo}
@@ -162,13 +114,21 @@ const UsersPage = () => {
                              setIsUserDataChanged={setIsUserDataChanged}
                              isUserDataChanged={isUserDataChanged} />
             <div className="users-table-div">
-                {/* <UsersTable users={users}
-                            setIsUserDataChanged={setIsUserDataChanged}
-                            isUserDataChanged={isUserDataChanged}
-                            setIsUserDataDeleted={setIsUserDataDeleted}
-                            isUserDataDeleted={isUserDataDeleted} /> */}
                 <Table whichTable="users" 
-                       datas={users} />
+                       datas={users}
+                       banks={banks.payload}
+                       onClickEditButton={(user) => {
+                           setSelectedUser(user);
+                           setOpenCloseEditModal(true);
+                       }}
+                       onClickDeleteButton={(user) => {
+                           setSelectedUser(user);
+                           setOpenCloseDeleteModal(true);
+                       }} />
+            </div>
+            <div className={`users-page-pagination${paginationLeftMarginClassname}`}>
+                <PaginationComponent pageCount={usersPageCount}
+                                     setPage={setUsersPage} />
             </div>
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
@@ -178,10 +138,26 @@ const UsersPage = () => {
                                 bgcolor="red"
                 />
             }
-            <div className={`users-page-pagination${paginationLeftMarginClassname}`}>
-                <PaginationComponent pageCount={usersPageCount}
-                                     setPage={setUsersPage} />
-            </div>
+            {openCloseEditModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
+                                isOpen={openCloseEditModal} 
+                                title={t("changeUserData.changeUserData")}
+                                body={<ChangeUserData user={selectedUser}
+                                                      setIsUserDataChanged={setIsUserDataChanged}
+                                                      isUserDataChanged={isUserDataChanged}
+                                                      onCloseHandler={() => setOpenCloseEditModal(false)} />}
+                />
+            }
+            {openCloseDeleteModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
+                                isOpen={openCloseDeleteModal}
+                                title={t("deleteUserData.deleteUserData")}
+                                body={<DeleteUserData user={selectedUser}
+                                                      setIsUserDataDeleted={setIsUserDataDeleted}
+                                                      isUserDataDeleted={isUserDataDeleted}
+                                                      onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
+                />
+            }
         </div>
     );
 };
