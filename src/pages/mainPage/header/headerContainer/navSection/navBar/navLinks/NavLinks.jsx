@@ -19,10 +19,17 @@ const NavLinks = () => {
                                imageName="img/transaction"
                                imageType=".svg" />
                 {role === "admin" && 
-                    <LinkComponent routePath="/users" 
+                    <>
+                        <LinkComponent routePath="/users" 
                                    label={t("nav.users")}
                                    imageName="img/users"
-                                   imageType=".svg" />
+                                   imageType=".svg" /> 
+                    
+                        <LinkComponent routePath="/banks" 
+                                    label={t("nav.banks")}
+                                    imageName="img/bank"
+                                    imageType=".svg" />
+                    </>                    
                 }
             </ul>
         </nav>

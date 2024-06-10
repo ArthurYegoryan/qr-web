@@ -2,7 +2,8 @@
     "nav": {
         "terminals": "Տերմինալներ",
         "transactions": "Գործարքներ",
-        "users": "Օգտագործողներ"
+        "users": "Օգտագործողներ",
+        "banks": "Բանկեր"
     },
     "userSection": {
         "forgotPassword": "Մոռացե՞լ եք գաղտնաբառը",

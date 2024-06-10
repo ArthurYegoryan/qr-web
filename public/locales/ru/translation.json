@@ -2,7 +2,8 @@
     "nav": {
         "terminals": "Терминалы",
         "transactions": "Транзакции",
-        "users": "Пользователи"
+        "users": "Пользователи",
+        "banks": "Банки"
     },
     "userSection": {
         "forgotPassword": "Забыли пароль?",

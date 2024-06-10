@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    banks: {}
+    banks: {},
+    banksAllData: []
 };
 
 export const banksSlice = createSlice({
@@ -9,10 +10,13 @@ export const banksSlice = createSlice({
     initialState,
     reducers: {
         saveBanks: (state, banks) => {
-            state.banks = banks
+            state.banks = banks;
+        },
+        saveBanksAllData: (state, banksAllData) => {
+            state.banksAllData = banksAllData;
         }
     }
 });
 
-export const { saveBanks } = banksSlice.actions;
+export const { saveBanks, saveBanksAllData } = banksSlice.actions;
 export default banksSlice.reducer;

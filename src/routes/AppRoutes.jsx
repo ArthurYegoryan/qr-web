@@ -5,6 +5,7 @@ import LoginContainer from "../pages/loginPage/LoginContainer";
 import TerminalsPage from "../pages/terminalsPage/TerminalsPage";
 import TransactionsPage from "../pages/transactionsPage/TransactionsPage";
 import UsersPage from "../pages/usersPage/UsersPage";
+import BanksPage from "../pages/banksPage/BanksPage";
 import ErrorPage from "../pages/errorPage/ErrorPage";
 
 const AppRoutes = () => {
@@ -18,6 +19,7 @@ const AppRoutes = () => {
                 <Route path="/terminals" element={<TerminalsPage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
                 <Route path="/users" element={<UsersPage />} />
+                <Route path="/banks" element={<BanksPage />} />
                 <Route path="/*" element={<ErrorPage />} />
             </Route>
         </Routes>

@@ -5,7 +5,7 @@ import getBanks from "../../api/getBanks";
 import { urls } from "../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/slices/authorization/authSlice";
-import { saveBanks } from "../../redux/slices/banks/banksSlice";
+import { saveBanks, saveBanksAllData } from "../../redux/slices/banks/banksSlice";
 import { Navigate } from "react-router-dom";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
@@ -52,9 +52,12 @@ const UsersPage = () => {
         try {
             const getBanksData = async () => {
                 const responseBanks = await getBanks(urls.GET_BANKS_URL);
-                const banks = {};
-
+                
                 if (responseBanks.message === "success") {
+                    dispatch(saveBanksAllData(responseBanks.banks));
+
+                    const banks = {};
+
                     responseBanks.banks.map((bank) => {
                         banks[bank.id] = bank.short_name;
                     });

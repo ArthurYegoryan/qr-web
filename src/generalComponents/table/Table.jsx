@@ -203,6 +203,56 @@ const TableComponent = ({
         },
     ];
 
+    const banksColumns = [
+        {
+            title: 'ID',
+            width: 10,
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Short name',
+            width: 12,
+            dataIndex: 'short_name',
+            key: 'short_name',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: 25,
+        },
+        {
+            title: 'Second email',
+            dataIndex: 'secondEmail',
+            key: 'secondEmail',
+            width: 25,
+        },
+        {
+            title: 'Is active',
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: 10,
+        },
+        {
+            title: 'URL',
+            dataIndex: 'url',
+            key: 'url',
+            width: 30,
+        },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 15,
+            render: (record) => (
+                <Space size="middle">
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
+                </Space>
+            )
+        },
+    ]
+
     const data = [];
 
     let columns = [];
@@ -221,7 +271,8 @@ const TableComponent = ({
         }
     }
     else if (whichTable === "terminals") columns = terminalsColumns;
-    else if (whichTable === "transactions") columns = transactionsColumns;    
+    else if (whichTable === "transactions") columns = transactionsColumns;
+    else if (whichTable === "banks") columns = banksColumns;
 
     return (
         <Table

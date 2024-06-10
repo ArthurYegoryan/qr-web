@@ -1,8 +1,6 @@
 import "./AddNewBank.css";
 
-const AddNewBank = ({
-    
-}) => {
+const AddNewBank = () => {
     return (
         <div>
 
