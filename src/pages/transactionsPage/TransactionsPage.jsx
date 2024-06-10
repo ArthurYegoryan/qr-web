@@ -1,5 +1,5 @@
 import "./TransactionsPage.css";
-import TransactionsTable from "./transactionsTable/TransactionsTable";
+import Table from "../../generalComponents/table/Table";
 import getTransactionsByPage from "../../api/getTransactionsByPage";
 import getTransactionTypes from "../../api/getTransactionTypes";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
@@ -103,7 +103,9 @@ const TransactionsPage = () => {
                                     transactionTypes={transactionTypes} 
                                     transactionsSearchInfo={transactionsSearchInfo}
                                     setTransactionsSearchInfo={setTransactionsSearchInfo} />
-            <TransactionsTable transactions={transactions} />
+            {/* <TransactionsTable transactions={transactions} /> */}
+            <Table whichTable={"transactions"}
+                   datas={transactions} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 

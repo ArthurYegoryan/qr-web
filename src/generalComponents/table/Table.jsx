@@ -168,7 +168,69 @@ const TableComponent = ({
         },
     ];
 
-    const transactionsColumns = [];
+    const transactionsColumns = [
+        {
+            title: 'ID',
+            width: 10,
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'RRN',
+            width: 10,
+            dataIndex: 'rrn',
+            key: 'rrn',
+        },
+        {
+            title: 'Terminal ID',
+            dataIndex: 'tid',
+            key: 'tid',
+            width: 10,
+        },
+        {
+            title: 'Merchant ID',
+            dataIndex: 'mid',
+            key: 'mid',
+            width: 10,
+        },
+        
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            key: 'amount',
+            width: 10,
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            width: 20,
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+            width: 10,
+        },
+        {
+            title: 'Trx type',
+            dataIndex: 'trx_type',
+            key: 'trx_type',
+            width: 8,
+        },
+        {
+            title: 'Bank',
+            dataIndex: 'bank',
+            key: 'bank',
+            width: 10,
+        },
+        {
+            title: 'Pay sys',
+            dataIndex: 'payment_system',
+            key: 'payment_system',
+            width: 10,
+        }
+    ];
 
     const usersColumns = [
         {
