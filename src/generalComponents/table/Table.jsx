@@ -82,7 +82,91 @@ const TableComponent = ({
 }) => {
     // const [fixedTop, setFixedTop] = useState(false);
 
-    const terminalsColumns = [];
+    const terminalsColumns = [
+        {
+            title: 'ID',
+            width: 10,
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Terminal ID',
+            width: 14,
+            dataIndex: 'tid',
+            key: 'tid',
+        },
+        {
+            title: 'Merchant ID',
+            dataIndex: 'mid',
+            key: 'mid',
+            width: 14,
+        },
+        {
+            title: 'S/N',
+            dataIndex: 'serial',
+            key: 'serial',
+            width: 14,
+        },
+        {
+            title: 'MCC',
+            dataIndex: 'mcc',
+            key: 'mcc',
+            width: 10,
+        },
+        {
+            title: 'Is Active',
+            dataIndex: 'active',
+            key: 'active',
+            width: 11,
+        },
+        {
+            title: 'POS type',
+            dataIndex: 'pos_type',
+            key: 'pos_type',
+            width: 16,
+        },
+        {
+            title: 'Merchant name',
+            dataIndex: 'merchant_name',
+            key: 'merchant_name',
+            width: 25,
+        },
+        {
+            title: 'Merchant TAX number',
+            dataIndex: 'merchant_tax_number',
+            key: 'merchant_tax_number',
+            width: 15,
+        },
+        {
+            title: 'Merchant city',
+            dataIndex: 'merchant_city_in_am',
+            key: 'merchant_city_in_am',
+            width: 13,
+        },
+        {
+            title: 'Merchant address',
+            dataIndex: 'merchant_address_in_am',
+            key: 'merchant_address_in_am',
+            width: 25,
+        },
+        {
+            title: 'Bank',
+            dataIndex: 'bank',
+            key: 'bank',
+            width: 13,
+        },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 10,
+            render: (record) => (
+                <Space size="middle">
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
+                </Space>
+            )
+        },
+    ];
 
     const transactionsColumns = [];
 

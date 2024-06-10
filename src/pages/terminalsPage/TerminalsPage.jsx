@@ -1,5 +1,5 @@
 import "./TerminalsPage.css";
-import TerminalsTable from "./terminalsTable/TerminalsTable";
+import Table from "../../generalComponents/table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import getTerminalsByPage from "../../api/getTerminalsByPage";
 import { urls } from "../../constants/urls/urls";
@@ -8,9 +8,12 @@ import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import ChangeTerminalData from "./changeTerminalData/ChangeTerminalData";
+import DeleteTerminalData from "./deleteTerminalData/DeleteTerminalData";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import { terminalsTableFieldsAdmin } from "../../constants/tableFields/terminalsTableFields";
+import { useTranslation } from "react-i18next";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
@@ -20,11 +23,15 @@ const TerminalsPage = () => {
         searchValue: ""
     });
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
+    const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ isTermDataSearched, setIsTermDataSearched ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const [ terminalsPage, setTerminalsPage ] = useState(1);
+    const [ selectedTerminal, setSelectedTerminal ] = useState({});
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const searchFields = [];
@@ -77,11 +84,16 @@ const TerminalsPage = () => {
                                 isTermDataChanged={isTermDataChanged}
                                 setIsTermDataChanged={setIsTermDataChanged} 
             />
-            <TerminalsTable terminals={terminals} 
-                            setIsTermDataChanged={setIsTermDataChanged}
-                            isTermDataChanged={isTermDataChanged} 
-                            setIsTermDataDeleted={setIsTermDataDeleted}
-                            isTermDataDeleted={isTermDataDeleted} />
+            <Table whichTable={"terminals"}
+                   datas={terminals}
+                   onClickEditButton={(terminal) => {
+                       setSelectedTerminal(terminal);
+                       setOpenCloseEditModal(true);
+                   }}
+                   onClickDeleteButton={(terminal) => {
+                       setSelectedTerminal(terminal);
+                       setOpenCloseDeleteModal(true);
+                   }} />
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
@@ -94,6 +106,26 @@ const TerminalsPage = () => {
                 <PaginationComponent pageCount={terminalsPageCount}
                                      setPage={setTerminalsPage} />
             </div>
+            {openCloseEditModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
+                                isOpen={openCloseEditModal} 
+                                title={t("changeTerminalData.changeTerminalData")}
+                                body={<ChangeTerminalData terminal={selectedTerminal}
+                                                          setIsTermDataChanged={setIsTermDataChanged}
+                                                          isTermDataChanged={isTermDataChanged}
+                                                          onCloseHandler={() => setOpenCloseEditModal(false)} />}
+                />
+            }
+            {openCloseDeleteModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
+                                isOpen={openCloseDeleteModal}
+                                title={t("deleteTerminalData.deleteTerminalData")}
+                                body={<DeleteTerminalData terminal={selectedTerminal}
+                                                          setIsTermDataDeleted={setIsTermDataDeleted}
+                                                          isTermDataDeleted={isTermDataDeleted}
+                                                          onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
+                />
+            }
         </div>
     );
 };
