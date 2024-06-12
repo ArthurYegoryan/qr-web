@@ -69,6 +69,15 @@
     },
     "banks": {
         "banks": "Banks",
-        "addNewBank": "Add new bank"
+        "addNewBank": "Add new bank",
+        "shortName": "Short name",
+        "nameAm": "Armenian name",
+        "nameRu": "Russian name",
+        "nameEn": "English name",
+        "secondEmail": "Second email",
+        "url": "URL for cancel",
+        "onlyArmenian": "Must be only in armenian",
+        "onlyRussian": "Must be only in russian",
+        "onlyEnglish": "Must be only in english"
     }
 }

@@ -1,9 +1,0 @@
-.add-new-bank-label {
-    display: flex;
-    cursor: pointer;
-    transition: all 5s;
-}
-
-.add-new-bank-label > p {
-    margin-right: 10px;
-}

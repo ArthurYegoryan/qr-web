@@ -4,7 +4,7 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-// import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
+import AddNewBank from "./addNewBank/AddNewBank";
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -90,10 +90,10 @@ const BanksPageSearchArea = ({
                 <ModalComponent onCloseHandler={() => setIsOpenAddBankModal(false)} 
                                 isOpen={isOpenAddBankModal}
                                 title={t("banks.addNewBank")}
-                                // body={<AddNewTerminalData setIsTermDataChanged={setIsTermDataChanged}
-                                //                         isTermDataChanged={isTermDataChanged}
-                                //                         onCloseHandler={() => setIsOpenAddTermModal(false)} 
-                                //     />}
+                                body={<AddNewBank setIsBankDataChanged={setIsBankDataChanged}
+                                                  isBankDataChanged={isBankDataChanged}
+                                                  onCloseHandler={() => setIsOpenAddBankModal(false)} 
+                                    />}
                 />
             }
             {isOpenErrorModal &&
