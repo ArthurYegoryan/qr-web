@@ -2,7 +2,7 @@ import "./ChangeUserData.css";
 import { useState, useEffect } from "react";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import getBanks from "../../../api/getBanks";
+import getAllBanks from "../../../api/getAllBanks";
 import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux"
@@ -36,7 +36,7 @@ const ChangeUserData = ({
     useEffect(() => {
         try {
             const getBanksData = async () => {
-                const response = await getBanks(urls.GET_BANKS_URL);
+                const response = await getAllBanks(urls.GET_BANKS_URL);
 
                 if (response.message === "success") {
                     setBanks(response.banks);

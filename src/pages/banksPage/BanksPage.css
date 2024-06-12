@@ -1,0 +1,16 @@
+.banks-table {
+    width: 50%;
+    min-width: 1000px;
+}
+
+.banks-page-pagination-open-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 55%;
+}
+
+.banks-page-pagination-close-menu {
+    position: fixed;
+    bottom: 3px;
+    left: 45%;
+}

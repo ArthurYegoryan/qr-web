@@ -1,7 +1,7 @@
 import "./ChangeTerminalData.css";
 import { useState, useEffect } from "react";
 import getTerminalsTypes from "../../../api/getTerminalsTypes";
-import getBanks from "../../../api/getBanks";
+import getBanks from "../../../api/getAllBanks";
 import getPaymentSystems from "../../../api/getPaymentSystems";
 import changeTerminalData from "../../../api/changeTerminalData";
 import { urls } from "../../../constants/urls/urls";

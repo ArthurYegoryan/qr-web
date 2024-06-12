@@ -1,7 +1,7 @@
 import "./UsersPage.css";
 import { useState, useEffect } from "react";
 import getUsersByPage from "../../api/getUsersByPage";
-import getBanks from "../../api/getBanks";
+import getAllBanks from "../../api/getAllBanks";
 import { urls } from "../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/slices/authorization/authSlice";
@@ -51,7 +51,7 @@ const UsersPage = () => {
     useEffect(() => {
         try {
             const getBanksData = async () => {
-                const responseBanks = await getBanks(urls.GET_BANKS_URL);
+                const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
                 
                 if (responseBanks.message === "success") {
                     dispatch(saveBanksAllData(responseBanks.banks));

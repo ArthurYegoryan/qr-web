@@ -1,6 +1,6 @@
 import "./AddNewUser.css"
 import Button from "../../../../generalComponents/buttons/Button";
-import getBanks from "../../../../api/getBanks";
+import getAllBanks from "../../../../api/getAllBanks";
 import getRoles from "../../../../api/getRoles";
 import addNewUser from "../../../../api/addNewUser";
 import { urls } from "../../../../constants/urls/urls";
@@ -42,7 +42,7 @@ const AddNewUser = ({
     useEffect(() => {
         const fetchBanksRoles = async () => {
             try {
-                const responseBanks = await getBanks(urls.GET_BANKS_URL);
+                const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
                 const responseRoles = await getRoles(urls.GET_ROLES_URL);
 
                 if (responseBanks.message === "success" &&

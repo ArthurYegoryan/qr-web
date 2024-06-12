@@ -212,7 +212,7 @@ const TableComponent = ({
         },
         {
             title: 'Short name',
-            width: 12,
+            width: 14,
             dataIndex: 'short_name',
             key: 'short_name',
         },
@@ -232,7 +232,7 @@ const TableComponent = ({
             title: 'Is active',
             dataIndex: 'is_active',
             key: 'is_active',
-            width: 10,
+            width: 11,
         },
         {
             title: 'URL',
