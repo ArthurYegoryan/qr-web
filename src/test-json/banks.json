@@ -6,43 +6,51 @@
             "banks": [
                 {
                     "id": 1,
-                    "short_name": "ACBAB",
+                    "short_name": "ACBA",
+                    "name_am": "ԱԿԲԱ",
+                    "name_ru": "АКБА",
+                    "name_en": "ACBA",
                     "email": "acba@gmail.com",
                     "secondEmail": "acba2@gmail.com",
-                    "is_active": "true",
+                    "is_active": true,
                     "url": "www.acba.am",
-                    "full_name_am": "ACBA Bank",
-                    "full_name_en": "ACBA Bank"
+                    "is_owner": false
                 },
                 {
                     "id": 2,
                     "short_name": "CONVS",
+                    "name_am": "Կոնվերս",
+                    "name_ru": "Конверс",
+                    "name_en": "Converse",
                     "email": "converse@gmail.com",
                     "secondEmail": "converse2@gmail.com",
-                    "is_active": "true",
+                    "is_active": true,
                     "url": "www.converse.am",
-                    "full_name_am": "Converse Bank",
-                    "full_name_en": "Converse Bank"
+                    "is_owner": false
                 },
                 {
                     "id": 3,
                     "short_name": "EVOCA",
+                    "name_am": "Էվոկա",
+                    "name_ru": "Эвока",
+                    "name_en": "Evoca",
                     "email": "evoca@gmail.com",
                     "secondEmail": "evoca2@gmail.com",
-                    "is_active": "true",
+                    "is_active": true,
                     "url": "www.evoca.am",
-                    "full_name_am": "EVOCA Bank",
-                    "full_name_en": "EVOCA Bank"
+                    "is_owner": false
                 },
                 {
                     "id": 4,
                     "short_name": "AMERIA",
+                    "name_am": "Ամերիա",
+                    "name_ru": "Америя",
+                    "name_en": "Ameria",
                     "email": "ameria@gmail.com",
                     "secondEmail": "ameria2@gmail.com",
-                    "is_active": "true",
+                    "is_active": true,
                     "url": "www.ameria.am",
-                    "full_name_am": "Ameria Bank",
-                    "full_name_en": "Ameria Bank"
+                    "is_owner": true
                 }
             ],
             "banks_page_count": 1

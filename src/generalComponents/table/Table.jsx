@@ -5,6 +5,7 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 const TableComponent = ({ 
     whichTable, 
     datas,
+    setCurrentData,
     banks,
     onClickEditButton, 
     onClickDeleteButton 
@@ -246,7 +247,10 @@ const TableComponent = ({
             width: 15,
             render: (record) => (
                 <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickEditButton(record)
+                    }} />
                     <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
                 </Space>
             )

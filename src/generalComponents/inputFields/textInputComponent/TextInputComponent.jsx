@@ -15,6 +15,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export default function TextInput({
     label,
     size = "small",
+    defaultValue,
     isPassword = false,
     onChangeHandler,
     marginTop,
@@ -46,6 +47,7 @@ export default function TextInput({
                             label={label} 
                             variant="outlined"
                             size={size}
+                            defaultValue={defaultValue}
                             error={existsError}
                             helperText={existsError && errorText} />
                 </Box> :

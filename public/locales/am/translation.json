@@ -1,4 +1,7 @@
 {
+    "questions": {
+        "doYouWantDelete": "Դուք ցանկանու՞մ եք ջնջել"
+    },
     "nav": {
         "terminals": "Տերմինալներ",
         "transactions": "Գործարքներ",
@@ -70,12 +73,16 @@
     "banks": {
         "banks": "Բանկեր",
         "addNewBank": "Ավելացնել նոր բանկ",
+        "changeBankData": "Փոփոխել բանկի տվյալները",
+        "deleteBankData": "Ջնջել բանկի տվյալները",
         "shortName": "Կարճ անվանում",
         "nameAm": "Հայերեն անվանում",
         "nameRu": "Ռուսերեն անվանում",
         "nameEn": "Անգլերեն անվանում",
         "secondEmail": "Երկրորդ էլ. հասցե",
         "url": "Չեղարկման համար հղում",
+        "isActive": "Ակտիվ է",
+        "isOwner": "Is owner",
         "onlyArmenian": "Պետք է լինի միայն հայերեն",
         "onlyRussian": "Պետք է լինի միայն ռուսերեն",
         "onlyEnglish": "Պետք է լինի միայն անգլերեն"

@@ -1,5 +1,6 @@
 import "./BanksPage.css";
 import BanksPageSearchArea from "./banksPageSearchArea/BanksPageSearchArea";
+import ChangeBankData from "./changeBankData/ChangeBankData";
 import Table from "../../generalComponents/table/Table";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
@@ -7,6 +8,7 @@ import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBod
 import { banksSearchFields } from "../../constants/tableFields/banksSearchFields";
 import getBanksByPage from "../../api/getBanksByPage";
 import { urls } from "../../constants/urls/urls";
+import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { useState, useEffect } from "react";
@@ -14,7 +16,8 @@ import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const BanksPage = () => {
-    const [ banks, setBanks ] = useState(false);
+    const [ banks, setBanks ] = useState([]);
+    const [ selectedBank, setSelectedBank ] = useState({});
     const [ banksSearchInfo, setBanksSearchInfo ] = useState({
         searchField: "",
         searchValue: ""
@@ -47,7 +50,7 @@ const BanksPage = () => {
                 );
 
                 if (response.message === "success") {
-                    setBanks(response.banks);
+                    setBanks(makeObjFieldsToString(response.banks));
                     setBanksPageCount(response.banks_page_count)
                 } else if (response.message === "expired token") {
                     localStorage.clear();
@@ -75,7 +78,10 @@ const BanksPage = () => {
                                  setIsBankDataChanged={setIsBanksDataChanged} />
             <div className="banks-table">
                 <Table whichTable={"banks"}
-                       datas={banks} />
+                       datas={banks}
+                       setCurrentData={setSelectedBank}
+                       onClickEditButton={() => setOpenCloseEditModal(true)}
+                       onClickDeleteButton={() => setOpenCloseDeleteModal(true)} />
             </div>
             <div className={`banks-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={banksPageCount}
@@ -92,11 +98,11 @@ const BanksPage = () => {
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
                                 isOpen={openCloseEditModal} 
-                                title={t("changeTerminalData.changeTerminalData")}
-                                // body={<ChangeTerminalData terminal={selectedTerminal}
-                                //                           setIsTermDataChanged={setIsTermDataChanged}
-                                //                           isTermDataChanged={isTermDataChanged}
-                                //                           onCloseHandler={() => setOpenCloseEditModal(false)} />}
+                                title={t("banks.changeBankData")}
+                                body={<ChangeBankData bank={selectedBank}
+                                                      setIsBankDataChanged={setIsBanksDataChanged}
+                                                      isBankDataChanged={isBanksDataChanged}
+                                                      onCloseHandler={() => setOpenCloseEditModal(false)} />}
                 />
             }
             {openCloseDeleteModal &&

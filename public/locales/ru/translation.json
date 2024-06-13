@@ -1,4 +1,7 @@
 {
+    "questions": {
+        "doYouWantDelete": "Вы хотите удалить"
+    },
     "nav": {
         "terminals": "Терминалы",
         "transactions": "Транзакции",
@@ -70,6 +73,8 @@
     "banks": {
         "banks": "Банки",
         "addNewBank": "Добавить новый банк",
+        "changeBankData": "Изменить банковские данные",
+        "deleteBankData": "Удалить банковские данные",
         "shortName": "Краткое название",
         "nameAm": "Армянское имя",
         "nameRu": "Русское имя",

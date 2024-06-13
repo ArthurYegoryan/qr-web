@@ -1,4 +1,7 @@
 {
+    "questions": {
+        "doYouWantDelete": "Do yow want to delete"
+    },
     "nav": {
         "terminals": "Terminals",
         "transactions": "Transactions",
@@ -70,6 +73,8 @@
     "banks": {
         "banks": "Banks",
         "addNewBank": "Add new bank",
+        "changeBankData": "Change bank data",
+        "deleteBankData": "Delete bank data",
         "shortName": "Short name",
         "nameAm": "Armenian name",
         "nameRu": "Russian name",

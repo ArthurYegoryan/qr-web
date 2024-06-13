@@ -1,5 +1,5 @@
 export const armenianValidation = (word) => {
-    return /^[Հ-քա-ֿ]+$/.test(word);
+    return /^[ա-ֆԱ-Ֆ]+$/.test(word);
 };
 
 export const russianValidation = (word) => {
