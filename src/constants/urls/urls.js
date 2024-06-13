@@ -22,4 +22,5 @@ export const urls = {
     PUT_CHANGE_PASSWORD_URL: "",
     DELETE_TERMINAL_DATA_URL: "",
     DELETE_USER_DATA_URL: "",
+    DELETE_BANK_DATA_URL: "",
 };

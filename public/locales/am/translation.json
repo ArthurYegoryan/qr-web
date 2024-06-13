@@ -2,6 +2,10 @@
     "questions": {
         "doYouWantDelete": "Դուք ցանկանու՞մ եք ջնջել"
     },
+    "operations": {
+        "delete": "Ջնջել",
+        "cancel": "Չեղարկել"
+    },
     "nav": {
         "terminals": "Տերմինալներ",
         "transactions": "Գործարքներ",
@@ -72,6 +76,7 @@
     },
     "banks": {
         "banks": "Բանկեր",
+        "bankDatas": "բանկի տվյալները",
         "addNewBank": "Ավելացնել նոր բանկ",
         "changeBankData": "Փոփոխել բանկի տվյալները",
         "deleteBankData": "Ջնջել բանկի տվյալները",

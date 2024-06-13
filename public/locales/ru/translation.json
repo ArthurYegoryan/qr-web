@@ -2,6 +2,10 @@
     "questions": {
         "doYouWantDelete": "Вы хотите удалить"
     },
+    "operations": {
+        "delete": "Удалить",
+        "cancel": "Отменить"
+    },
     "nav": {
         "terminals": "Терминалы",
         "transactions": "Транзакции",
@@ -72,6 +76,7 @@
     },
     "banks": {
         "banks": "Банки",
+        "bankDatas": "банковские данные",
         "addNewBank": "Добавить новый банк",
         "changeBankData": "Изменить банковские данные",
         "deleteBankData": "Удалить банковские данные",
@@ -81,6 +86,8 @@
         "nameEn": "Английское имя",
         "secondEmail": "Вторая эл. почта",
         "url": "Адрес для отмены",
+        "isActive": "Активен",
+        "isOwner": "Is owner",
         "onlyArmenian": "Должно быть только на армянском языке",
         "onlyRussian": "Должно быть только на русском языке",
         "onlyEnglish": "Должно быть только на английском языке"

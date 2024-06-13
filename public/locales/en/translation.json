@@ -2,6 +2,10 @@
     "questions": {
         "doYouWantDelete": "Do yow want to delete"
     },
+    "operations": {
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
     "nav": {
         "terminals": "Terminals",
         "transactions": "Transactions",
@@ -72,6 +76,7 @@
     },
     "banks": {
         "banks": "Banks",
+        "bankDatas": "bank datas",
         "addNewBank": "Add new bank",
         "changeBankData": "Change bank data",
         "deleteBankData": "Delete bank data",
@@ -81,6 +86,8 @@
         "nameEn": "English name",
         "secondEmail": "Second email",
         "url": "URL for cancel",
+        "isActive": "Is active",
+        "isOwner": "Is owner",
         "onlyArmenian": "Must be only in armenian",
         "onlyRussian": "Must be only in russian",
         "onlyEnglish": "Must be only in english"

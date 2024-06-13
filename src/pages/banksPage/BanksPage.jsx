@@ -1,6 +1,7 @@
 import "./BanksPage.css";
 import BanksPageSearchArea from "./banksPageSearchArea/BanksPageSearchArea";
 import ChangeBankData from "./changeBankData/ChangeBankData";
+import DeleteBankData from "./deleteBankData/DeleteBankData";
 import Table from "../../generalComponents/table/Table";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
@@ -109,10 +110,10 @@ const BanksPage = () => {
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
                                 title={t("deleteTerminalData.deleteTerminalData")}
-                                // body={<DeleteTerminalData terminal={selectedTerminal}
-                                //                           setIsTermDataDeleted={setIsTermDataDeleted}
-                                //                           isTermDataDeleted={isTermDataDeleted}
-                                //                           onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
+                                body={<DeleteBankData bank={selectedBank}
+                                                      setIsBankDataDeleted={setIsBanksDataDeleted}
+                                                      isBankDataDeleted={isBanksDataDeleted}
+                                                      onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
                 />
             }
         </div>

@@ -242,6 +242,12 @@ const TableComponent = ({
             width: 30,
         },
         {
+            title: 'Is owner',
+            dataIndex: 'is_owner',
+            key: 'is_owner',
+            width: 11,
+        },
+        {
             title: 'Action',
             key: 'operation',
             width: 15,
@@ -249,9 +255,12 @@ const TableComponent = ({
                 <Space size="middle">
                     <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
                         setCurrentData(record);
-                        onClickEditButton(record)
+                        onClickEditButton(record);
                     }} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickDeleteButton(record);
+                    }} />
                 </Space>
             )
         },
