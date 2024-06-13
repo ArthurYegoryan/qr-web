@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import Button from "../../../../generalComponents/buttons/Button";
 import { emailValidation } from "../../../../utils/fieldsValidations/userDataFieldsValidation";
 import { armenianValidation, russianValidation, englishValidation } from "../../../../utils/fieldsValidations/bankDataFieldsValidation";
@@ -19,6 +20,7 @@ const AddNewTerminalData = ({
     onCloseHandler
 }) => {
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
+    const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ newBankData, setNewBankData ] = useState({
         short_name: "",
         name_am: "",
@@ -118,7 +120,11 @@ const AddNewTerminalData = ({
 
             if (responseAddNewBank.message === "success") {
                 setIsBankDataChanged(!isBankDataChanged);
-                onCloseHandler();
+                setOpenCloseSuccessModal(true);
+                setTimeout(() => {
+                    onCloseHandler();
+                }, 3000);
+                
             } else if (responseAddNewBank.message === "invalid token") {
                 localStorage.clear();
                 dispatch(logoutUser());
@@ -214,6 +220,9 @@ const AddNewTerminalData = ({
                     />
                 </div>
             </div>
+            {openCloseSuccessModal &&
+                <SuccessModalBody />
+            }
             {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                                 isOpen={true}
