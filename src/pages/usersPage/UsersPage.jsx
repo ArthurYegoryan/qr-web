@@ -11,10 +11,11 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
-import { usersTableFields } from "../../constants/tableFields/usersTableFields";
+import { usersSearchFields } from "../../constants/tableFields/usersSearchFields";
 import Table from "../../generalComponents/table/Table";
 import ChangeUserData from "./changeUserData/ChangeUserData";
 import DeleteUserData from "./deleteUserData/DeleteUserData";
+import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { useTranslation } from 'react-i18next';
 
 const UsersPage = () => {
@@ -36,13 +37,6 @@ const UsersPage = () => {
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
     const { t } = useTranslation();
-
-    const searchFields = [];
-    usersTableFields.map(field => {
-        if (field.name !== "#") {
-            searchFields.push(field.name);
-        }        
-    });
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -90,7 +84,7 @@ const UsersPage = () => {
                 );
 
                 if (responseUsers.message === "success") {
-                    setUsers(responseUsers.users);
+                    setUsers(makeObjFieldsToString(responseUsers.users));
                     setUsersPageCount(responseUsers.users_page_count);
                 } else if (responseUsers.message === "expired token") {
                     localStorage.clear();
@@ -109,7 +103,7 @@ const UsersPage = () => {
 
     return (
         <div className="users-page-area">
-            <UsersSearchArea searchFields={searchFields}
+            <UsersSearchArea searchFields={usersSearchFields}
                              usersSearchInfo={usersSearchInfo}
                              setUsersSearchInfo={setUsersSearchInfo}
                              setIsSearched={setIsUserDataSearched}
@@ -120,14 +114,9 @@ const UsersPage = () => {
                 <Table whichTable="users" 
                        datas={users}
                        banks={banks.payload}
-                       onClickEditButton={(user) => {
-                           setSelectedUser(user);
-                           setOpenCloseEditModal(true);
-                       }}
-                       onClickDeleteButton={(user) => {
-                           setSelectedUser(user);
-                           setOpenCloseDeleteModal(true);
-                       }} />
+                       setCurrentData={setSelectedUser}
+                       onClickEditButton={() => setOpenCloseEditModal(true)}
+                       onClickDeleteButton={() => setOpenCloseEditModal(false)} />
             </div>
             <div className={`users-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={usersPageCount}

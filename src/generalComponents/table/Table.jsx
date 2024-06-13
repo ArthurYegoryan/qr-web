@@ -10,6 +10,8 @@ const TableComponent = ({
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
+    console.log("Datas: ", JSON.stringify(datas, null, 2));
+
     const terminalsColumns = [
         {
             title: 'ID',
@@ -186,6 +188,12 @@ const TableComponent = ({
             width: 35,
         },
         {
+            title: 'Is active',
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: 11,
+        },
+        {
             title: 'Role',
             dataIndex: 'role',
             key: 'role',
@@ -197,8 +205,14 @@ const TableComponent = ({
             width: 15,
             render: (record) => (
                 <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickEditButton(record);
+                    }} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickDeleteButton(record);
+                    }} />
                 </Space>
             )
         },
@@ -295,8 +309,9 @@ const TableComponent = ({
             data.push({
                 id: datas[i].id,
                 username: datas[i].username,
-                bank: datas[i].bank !== "FPS" ? banks[datas[i].bank] : "FPS",
+                bank: datas[i].bank ? banks[datas[i].bank] : "FPS",
                 email: datas[i].email,
+                is_active: datas[i].is_active,
                 role: datas[i].role
             });
         }

@@ -7,37 +7,42 @@
                 {
                     "id": 1,
                     "username": "Admin",
-                    "bank": "FPS",
+                    "bank": null,
                     "email": "admin@gmail.com",
-                    "role": "admin"
+                    "role": "admin",
+                    "is_active": true
                 },
                 {
                     "id": 2,
                     "username": "ACBA",
                     "bank": 1,
                     "email": "acba@gmail.com",
-                    "role": "bank"
+                    "role": "bank",
+                    "is_active": true
                 },
                 {
                     "id": 3,
                     "username": "Converse",
                     "bank": 2,
                     "email": "converse@gmail.com",
-                    "role": "bank"
+                    "role": "bank",
+                    "is_active": true
                 },
                 {
                     "id": 4,
                     "username": "Evoca",
                     "bank": 3,
                     "email": "evoca@gmail.com",
-                    "role": "bank"
+                    "role": "bank",
+                    "is_active": true
                 },
                 {
                     "id": 5,
                     "username": "Ameria",
                     "bank": 4,
                     "email": "ameria@gmail.com",
-                    "role": "bank"
+                    "role": "bank",
+                    "is_active": true
                 }
             ],
             "users_page_count": 2
