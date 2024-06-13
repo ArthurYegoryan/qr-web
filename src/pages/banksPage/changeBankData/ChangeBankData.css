@@ -1,0 +1,9 @@
+.change-bank-data-area {
+    width: 300px;
+}
+
+.change-bank-data-buttons {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 10px;
+}

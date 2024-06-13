@@ -144,8 +144,8 @@ const ChangeBankData = ({
 
     return (
         <>
-            <div className="add-bank-data-area">
-                <div className="add-bank-data-content">
+            <div className="change-bank-data-area">
+                <div className="change-bank-data-content">
                     <TextInput label={t("banks.shortName")}
                                defaultValue={bank.short_name}
                                existsError={shortNameEmptyError}
@@ -224,8 +224,14 @@ const ChangeBankData = ({
                                         ...changedBankData,
                                         is_active: evt.target.value
                                     })} />
+                    <CheckBoxLabels label={t("banks.isOwner")}
+                                    defaultChecked={bank.is_owner === "true" ? true : false}
+                                    onChangeHandler={(evt) => setChangedBankData({
+                                        ...changedBankData,
+                                        is_owner: evt.target.value
+                                    })} />
                 </div>
-                <div className="add-bank-data-buttons">
+                <div className="change-bank-data-buttons">
                     <Button label={t("changeTerminalData.saveBtn")} 
                             marginRight="10px"
                             backgroundColor="green"
