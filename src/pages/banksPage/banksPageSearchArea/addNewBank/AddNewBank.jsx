@@ -201,11 +201,9 @@ const AddNewTerminalData = ({
                                })} />
                     <TextInput label={t("banks.url")}
                                marginTop={"10px"}
-                               existsError={invalidSecondEmailError}
-                               errorText={t("userSection.invalidEmail")}
                                onChangeHandler={(evt) => setNewBankData({
                                    ...newBankData,
-                                   secondEmail: evt.target.value
+                                   url: evt.target.value
                                })} />
                 </div>
                 <div className="add-bank-data-buttons">
