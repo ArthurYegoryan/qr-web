@@ -31,6 +31,7 @@
         "newPassSendSuccess": "Նոր գաղտնաբառը հաջողությամբ ուղարկվել է Ձեր էլ. հասցեին !!!",
         "wrongUsernamePassword": "Սխալ մուտքանուն կամ գաղտնաբառ",
         "wrongUsernameEmail": "Սխալ մուտքանուն կամ էլ. հասցե",
+        "usernameLengthError": "Մուտքանունը պետք է պարունակի նվազագույնը 3 նիշ",
         "logout": "Դուրս գալ"
     },
     "searchArea": {

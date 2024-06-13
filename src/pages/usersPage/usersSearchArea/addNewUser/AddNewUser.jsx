@@ -1,19 +1,21 @@
 import "./AddNewUser.css"
 import Button from "../../../../generalComponents/buttons/Button";
+import TextInput from "../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import SelectComponent from "../../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
+import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import getAllBanks from "../../../../api/getAllBanks";
 import getRoles from "../../../../api/getRoles";
 import addNewUser from "../../../../api/addNewUser";
 import { urls } from "../../../../constants/urls/urls";
 import { emailValidation } from "../../../../utils/fieldsValidations/userDataFieldsValidation";
-import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const AddNewUser = ({
     setIsUserDataChanged, 
@@ -25,14 +27,17 @@ const AddNewUser = ({
         bank: "",
         email: "",
         password: "",
-        role: ""
+        role: "",
+        is_active: true
     });
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const [ banks, setBanks ] = useState([]);
     const [ roles, setRoles ] = useState([]);
-    const [ usernameError, setUsernameError ] = useState(false);
-    const [ bankError, setBankError ] = useState(false);
-    const [ emailError, setEmailError ] = useState(false);
+    const [ usernameEmptyError, setUsernameEmptyError ] = useState(false);
+    const [ usernameLengthError, setUsernameLengthError ] = useState(false);
+    const [ bankEmptyError, setBankEmptyError ] = useState(false);
+    const [ emailEmptyError, setEmailEmptyError ] = useState(false);
+    const [ invalidEmailError, setInvalidEmailError ] = useState(false);
     const [ passwordError, setPasswordError ] = useState(false);
     const [ roleError, setRoleError ] = useState(false);
     const [ isPassVisible, setIsPassVisible ] = useState(false);
@@ -47,7 +52,13 @@ const AddNewUser = ({
 
                 if (responseBanks.message === "success" &&
                     responseRoles.message === "success") {
-                    setBanks(responseBanks.banks);
+                    const banksShortNames = [];
+
+                    responseBanks.banks.map((bank) => {
+                        banksShortNames.push(bank.short_name);
+                    })
+
+                    setBanks(banksShortNames);
                     setRoles(responseRoles.roles)
                 } else if (responseBanks.message === "invalid token" ||
                            responseRoles.message === "invalid token") {
@@ -68,34 +79,50 @@ const AddNewUser = ({
     const checkFieldsValidation = ({ username, bank, email, role, password }) => {
         let existsError = false;
 
-        if (username.length < 3) {
+        if (!username.length) {
             existsError = true;
-            setUsernameError(true);
+            setUsernameEmptyError(true);
+        } else {
+            if (username.length < 3) {
+                existsError = true;
+                setUsernameLengthError(true);
+            }
         }
         if (!bank.length) {
             existsError = true;
-            setBankError(true);
+            setBankEmptyError(true);
         }
-        if (!emailValidation(email)) {
+        if (!email.length) {
             existsError = true;
-            setEmailError(true);
+            setEmailEmptyError(true);
+        } else {
+            if (!emailValidation(email)) {
+                existsError = true;
+                setInvalidEmailError(true);
+            }
         }
-        if (!role.length) {
-            existsError = true;
-            setRoleError(true);
-        }
-        if (password.length < 8) {
-            existsError = true;
-            setPasswordError(true);
-        }
+        // if (!emailValidation(email)) {
+        //     existsError = true;
+        //     setEmailError(true);
+        // }
+        // if (!role.length) {
+        //     existsError = true;
+        //     setRoleError(true);
+        // }
+        // if (password.length < 8) {
+        //     existsError = true;
+        //     setPasswordError(true);
+        // }
 
         return existsError;
     };
 
     const resetPrevValidations = () => {
-        setUsernameError(false);
-        setBankError(false);
-        setEmailError(false);
+        setUsernameEmptyError(false);
+        setUsernameLengthError(false);
+        setBankEmptyError(false);
+        setEmailEmptyError(false);
+        setInvalidEmailError(false);
         setRoleError(false);
     };
 
@@ -123,7 +150,38 @@ const AddNewUser = ({
         <>
             <div className="add-user-data-area">
                 <div className="add-user-data-content">
-                    <div className="add-user-data-fields">
+                    <TextInput label={t("userSection.username")}
+                               existsError={usernameEmptyError || usernameLengthError}
+                               errorText={
+                                   usernameEmptyError ? t("searchArea.emptyFieldError") :
+                                   usernameLengthError ? t("userSection.usernameLengthError") : null
+                               }
+                               onChangeHandler={(evt) => setNewUserData({
+                                   ...newUserData,
+                                   username: evt.target.value
+                               })} />
+                    <SelectComponent label={t("banks.banks")}
+                                     chooseData={banks}
+                                     fields={newUserData}
+                                     setField={setNewUserData}
+                                     changeFieldName={"bank"}
+                                     width={"223px"}
+                                     marginTop={"10px"}
+                                     existsError={bankEmptyError}
+                                     errorText={t("searchArea.emptyFieldError")} />
+                    <TextInput label={t("userSection.email")}
+                               marginTop={"10px"}
+                               existsError={emailEmptyError || invalidEmailError}
+                               errorText={
+                                   emailEmptyError ? t("searchArea.emptyFieldError") :
+                                   invalidEmailError ? t("userSection.invalidEmail") : null
+                               }
+                               onChangeHandler={(evt) => setNewUserData({
+                                   ...newUserData,
+                                   email: evt.target.value
+                               })} />
+
+                    {/* <div className="add-user-data-fields">
                         <div className="add-user-data-field">
                             <label htmlFor="username" className="add-user-data-label">Username</label> <br />
                             <input type="text" id="username" name="username"
@@ -205,7 +263,7 @@ const AddNewUser = ({
                                 <small className="add-user-data-field-error-text">Password length must be at least 8!</small>                              
                             }
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="add-user-data-buttons">
                     <Button label={t("addNewTerminal.addBtn")} 

@@ -1,4 +1,8 @@
-.add-user-data-content {
+.add-user-data-area {
+    width: 300px;
+}
+
+/* .add-user-data-content {
     display: flex;
     margin-left: 10px;
     width: 310px;
@@ -45,7 +49,7 @@
     margin-left: 5px;
     font-size: 15px;
     font-weight: 600;
-}
+} */
 
 .add-user-data-buttons {
     display: flex;
