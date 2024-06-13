@@ -10,8 +10,6 @@ const TableComponent = ({
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
-    console.log("Datas: ", JSON.stringify(datas, null, 2));
-
     const terminalsColumns = [
         {
             title: 'ID',

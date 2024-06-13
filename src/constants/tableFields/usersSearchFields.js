@@ -3,5 +3,6 @@ export const usersSearchFields = [
     "Username",
     "Bank",
     "Email",
-    "Role"
+    "Role",
+    "Is active"
 ];
