@@ -218,6 +218,24 @@ const TableComponent = ({
             key: 'short_name',
         },
         {
+            title: 'Name AM',
+            width: 14,
+            dataIndex: 'name_am',
+            key: 'name_am',
+        },
+        {
+            title: 'Name RU',
+            width: 14,
+            dataIndex: 'name_ru',
+            key: 'name_ru',
+        },
+        {
+            title: 'Name EN',
+            width: 14,
+            dataIndex: 'name_en',
+            key: 'name_en',
+        },
+        {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',

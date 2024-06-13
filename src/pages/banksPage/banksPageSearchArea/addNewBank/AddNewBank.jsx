@@ -1,5 +1,6 @@
 import "./AddNewBank.css";
 import TextInput from "../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import { useState } from "react";
 import addNewBank from "../../../../api/addNewBank";
 import { urls } from "../../../../constants/urls/urls";
@@ -30,7 +31,7 @@ const AddNewTerminalData = ({
         secondEmail: "",
         is_active: true,
         url: "",
-        is_owner: true,
+        is_owner: false,
     });
     const [ shortNameEmptyError, setShortNameEmptyError ] = useState(false);
     const [ nameAmEmptyError, setNameAmEmptyError ] = useState(false);
@@ -205,6 +206,18 @@ const AddNewTerminalData = ({
                                    ...newBankData,
                                    url: evt.target.value
                                })} />
+                    <CheckBoxLabels label={t("banks.isActive")}
+                                    defaultChecked={true}
+                                    onChangeHandler={(evt) => setNewBankData({
+                                        ...newBankData,
+                                        is_active: evt.target.value
+                                    })} />
+                    <CheckBoxLabels label={t("banks.isOwner")}
+                                    defaultChecked={false}
+                                    onChangeHandler={(evt) => setNewBankData({
+                                        ...newBankData,
+                                        is_owner: evt.target.value
+                                    })} />
                 </div>
                 <div className="add-bank-data-buttons">
                     <Button label={t("addNewTerminal.addBtn")} 
