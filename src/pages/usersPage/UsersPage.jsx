@@ -120,7 +120,7 @@ const UsersPage = () => {
                        banks={banks.payload}
                        setCurrentData={setSelectedUser}
                        onClickEditButton={() => setOpenCloseEditModal(true)}
-                       onClickDeleteButton={() => setOpenCloseEditModal(false)} />
+                       onClickDeleteButton={() => setOpenCloseDeleteModal(true)} />
             </div>
             <div className={`users-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={usersPageCount}

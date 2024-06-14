@@ -13,6 +13,7 @@
         "banks": "Banks"
     },
     "userSection": {
+        "userData": "user data?",
         "forgotPassword": "Forgot password?",
         "role": "Role",
         "email": "Email",

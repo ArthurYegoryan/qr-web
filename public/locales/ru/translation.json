@@ -13,6 +13,7 @@
         "banks": "Банки"
     },
     "userSection": {
+        "userData": "данные пользователя?",
         "forgotPassword": "Забыли пароль?",
         "role": "Роль",
         "email": "Эл. почта",
