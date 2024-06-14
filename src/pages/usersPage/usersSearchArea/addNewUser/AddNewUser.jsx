@@ -2,15 +2,15 @@ import "./AddNewUser.css"
 import Button from "../../../../generalComponents/buttons/Button";
 import TextInput from "../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import getAllBanks from "../../../../api/getAllBanks";
 import getRoles from "../../../../api/getRoles";
 import addNewUser from "../../../../api/addNewUser";
 import { urls } from "../../../../constants/urls/urls";
-import { emailValidation } from "../../../../utils/fieldsValidations/userDataFieldsValidation";
+import { emailValidation, passwordValidations } from "../../../../utils/fieldsValidations/userDataFieldsValidation";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -30,7 +30,6 @@ const AddNewUser = ({
         role: "",
         is_active: true
     });
-    const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const [ banks, setBanks ] = useState([]);
     const [ roles, setRoles ] = useState([]);
     const [ usernameEmptyError, setUsernameEmptyError ] = useState(false);
@@ -38,9 +37,11 @@ const AddNewUser = ({
     const [ bankEmptyError, setBankEmptyError ] = useState(false);
     const [ emailEmptyError, setEmailEmptyError ] = useState(false);
     const [ invalidEmailError, setInvalidEmailError ] = useState(false);
-    const [ passwordError, setPasswordError ] = useState(false);
-    const [ roleError, setRoleError ] = useState(false);
-    const [ isPassVisible, setIsPassVisible ] = useState(false);
+    const [ roleEmptyError, setRoleEmptyError ] = useState(false);
+    const [ passwordEmptyError, setPasswordEmptyError ] = useState(false);
+    const [ invalidPasswordError, setInvalidPasswordError ] = useState(false);
+    const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
+    const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -101,18 +102,19 @@ const AddNewUser = ({
                 setInvalidEmailError(true);
             }
         }
-        // if (!emailValidation(email)) {
-        //     existsError = true;
-        //     setEmailError(true);
-        // }
-        // if (!role.length) {
-        //     existsError = true;
-        //     setRoleError(true);
-        // }
-        // if (password.length < 8) {
-        //     existsError = true;
-        //     setPasswordError(true);
-        // }
+        if (!role.length) {
+            existsError = true;
+            setRoleEmptyError(true);
+        }
+        if (!password.length) {
+            existsError = true;
+            setPasswordEmptyError(true);
+        } else {
+            if (!passwordValidations(password)) {
+                existsError = true;
+                setInvalidPasswordError(true);
+            }
+        }
 
         return existsError;
     };
@@ -123,7 +125,9 @@ const AddNewUser = ({
         setBankEmptyError(false);
         setEmailEmptyError(false);
         setInvalidEmailError(false);
-        setRoleError(false);
+        setRoleEmptyError(false);
+        setPasswordEmptyError(false);
+        setInvalidPasswordError(false);
     };
 
     const onClickAddButton = async () => {
@@ -134,7 +138,10 @@ const AddNewUser = ({
 
             if (responseAddNewUser.message === "success") {
                 setIsUserDataChanged(!isUserDataChanged);
-                onCloseHandler();
+                setOpenCloseSuccessModal(true);
+                setTimeout(() => {
+                    onCloseHandler();
+                }, 3000);                
             } else if (responseAddNewUser.message === "invalid token") {
                 localStorage.clear();
                 dispatch(logoutUser());
@@ -160,7 +167,7 @@ const AddNewUser = ({
                                    ...newUserData,
                                    username: evt.target.value
                                })} />
-                    <SelectComponent label={t("banks.banks")}
+                    <SelectComponent label={t("banks.bank")}
                                      chooseData={banks}
                                      fields={newUserData}
                                      setField={setNewUserData}
@@ -180,90 +187,33 @@ const AddNewUser = ({
                                    ...newUserData,
                                    email: evt.target.value
                                })} />
-
-                    {/* <div className="add-user-data-fields">
-                        <div className="add-user-data-field">
-                            <label htmlFor="username" className="add-user-data-label">Username</label> <br />
-                            <input type="text" id="username" name="username"
-                                onChange={(evt) => setNewUserData({...newUserData, username: evt.target.value})} />
-                            {usernameError &&
-                                <>
-                                    <br />
-                                    <small className="add-user-data-field-error-text">Username length must be at least 3!</small>
-                                </>                                
-                            }
-                        </div>
-                        <div className="add-user-data-field">
-                            <label className="add-user-data-label">Bank</label> <br />
-                            <select onChange={(evt) => {
-                                setNewUserData({...newUserData, bank: evt.target.value})
-                            }}>
-                                <option selected disabled value="">{"-----"}</option>
-                                {
-                                    banks.map((bank) => {
-                                        return (
-                                            <option value={bank.full_name_en.split(" ")[0]}>
-                                                {bank.full_name_en.split(" ")[0]}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>
-                            {bankError &&
-                                <>
-                                    <br />
-                                    <small className="add-user-data-field-error-text">Bank can't be empty!</small>
-                                </>
-                            }
-                        </div>
-                        <div className="add-user-data-field">
-                            <label htmlFor="email" className="add-user-data-label">Email</label> <br />
-                            <input type="text" id="email" name="email"
-                                onChange={(evt) => setNewUserData({...newUserData, email: evt.target.value})} />
-                            {emailError &&
-                                <>
-                                    <br />
-                                    <small className="add-user-data-field-error-text">Invalid email!</small>
-                                </>                                
-                            }
-                        </div>
-                        <div className="add-user-data-field">
-                            <label className="add-user-data-label">Role</label> <br />
-                            <select onChange={(evt) => {
-                                setNewUserData({...newUserData, role: evt.target.value})
-                            }}>
-                                <option selected disabled value="">{"-----"}</option>
-                                {
-                                    roles.map((role) => {
-                                        return (
-                                            <option value={role}>
-                                                {role}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>
-                            {roleError &&
-                                <>
-                                    <br />
-                                    <small className="add-user-data-field-error-text">Role can't be empty!</small>
-                                </>
-                            }
-                        </div>
-                        <div className="add-user-data-field">
-                            <label htmlFor="password" className="add-user-data-label">Password</label> <br />
-                            <div className="add-user-data-password">
-                                <input type={!isPassVisible ? "password" : "text"} id="password" name="password"
-                                    onChange={(evt) => setNewUserData({...newUserData, password: evt.target.value})} />
-                                <span onClick={() => setIsPassVisible(!isPassVisible)}>
-                                    {!isPassVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                </span>
-                            </div>
-                            {passwordError &&
-                                <small className="add-user-data-field-error-text">Password length must be at least 8!</small>                              
-                            }
-                        </div>
-                    </div> */}
+                    <SelectComponent label={t("userSection.role")}
+                                     chooseData={roles}
+                                     fields={newUserData}
+                                     setField={setNewUserData}
+                                     changeFieldName={"role"}
+                                     width={"223px"}
+                                     marginTop={"10px"}
+                                     existsError={roleEmptyError}
+                                     errorText={t("searchArea.emptyFieldError")} />
+                    <TextInput label={t("userSection.password")}
+                               isPassword={true}
+                               marginTop={"10px"}
+                               existsError={passwordEmptyError || invalidPasswordError}
+                               errorText={
+                                   passwordEmptyError ? t("searchArea.emptyFieldError") :
+                                   invalidPasswordError ? t("userSection.passwordCritery") : null
+                               }
+                               onChangeHandler={(evt) => setNewUserData({
+                                   ...newUserData,
+                                   password: evt.target.value
+                               })} />
+                    <CheckBoxLabels label={t("banks.isActive")}
+                                    defaultChecked={true}
+                                    onChangeHandler={(evt) => setNewUserData({
+                                        ...newUserData,
+                                        is_active: evt.target.value
+                                    })} />
                 </div>
                 <div className="add-user-data-buttons">
                     <Button label={t("addNewTerminal.addBtn")} 
@@ -277,6 +227,9 @@ const AddNewUser = ({
                     />
                 </div>
             </div>
+            {openCloseSuccessModal &&
+                <SuccessModalBody />
+            }
             {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                                 isOpen={true}

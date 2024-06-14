@@ -92,6 +92,8 @@ const LoginForm = () => {
                         errorText={t("userSection.emptyUsernameError")} />
                 <TextInput label={t("userSection.password")}
                         onChangeHandler={onChangePasswordHandler}
+                        size='normal'
+                        height='56px'
                         isPassword={true}
                         existsError={emptyPasswordError}
                         errorText={t("userSection.emptyPasswordError")}

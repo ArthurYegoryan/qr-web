@@ -21,7 +21,8 @@ export default function TextInput({
     marginTop,
     existsError,
     errorText,
-    width = '25ch'
+    width = "25ch",
+    height = "40px"
 }) {
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -52,7 +53,7 @@ export default function TextInput({
                             helperText={existsError && errorText} />
                 </Box> :
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', marginTop: marginTop }}>
-                    <FormControl sx={{ width: {width} }} variant="outlined" onChange={onChangeHandler}>
+                    <FormControl sx={{ width: {width} }} variant="outlined" size={size} onChange={onChangeHandler}>
                         <InputLabel htmlFor="outlined-adornment-password " sx={{ 
                             backgroundColor: "white", 
                             paddingRight: "5px",
@@ -60,7 +61,7 @@ export default function TextInput({
                             {label}
                         </InputLabel>
                         <OutlinedInput
-                            sx={{ height: "50px" }}
+                            sx={{ height: height }}
                             id="outlined-adornment-password"
                             error={existsError}
                             type={showPassword ? 'text' : 'password'}
