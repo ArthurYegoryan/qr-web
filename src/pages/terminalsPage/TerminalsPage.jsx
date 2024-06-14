@@ -12,7 +12,7 @@ import ChangeTerminalData from "./changeTerminalData/ChangeTerminalData";
 import DeleteTerminalData from "./deleteTerminalData/DeleteTerminalData";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
-import { terminalsTableFieldsAdmin } from "../../constants/tableFields/terminalsTableFields";
+import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
 import { useTranslation } from "react-i18next";
 
 const TerminalsPage = () => {
@@ -34,12 +34,12 @@ const TerminalsPage = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const searchFields = [];
-    terminalsTableFieldsAdmin.map(field => {
-        if (field.name !== "#") {
-            searchFields.push(field.name);
-        }
-    });
+    // const searchFields = [];
+    // terminalsTableFieldsAdmin.map(field => {
+    //     if (field.name !== "#") {
+    //         searchFields.push(field.name);
+    //     }
+    // });
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -76,7 +76,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea searchFields={searchFields}
+            <TermPageSearchArea searchFields={terminalsSearchFields}
                                 terminalsSearchInfo={terminalsSearchInfo} 
                                 setTerminalsSearchInfo={setTerminalsSearchInfo}
                                 isSearched={isTermDataSearched}

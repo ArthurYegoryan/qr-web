@@ -12,6 +12,24 @@
         "users": "Users",
         "banks": "Banks"
     },
+    "terminalsSection": {
+        "serialNumber": "Serial number",
+        "tid": "Terminal ID",
+        "mid": "Merchant ID",
+        "posType": "POS type",
+        "mcc": "MCC",
+        "tax": "TAX",
+        "merchantName": "Merchant name (en)",
+        "merchantNameAm": "Merchant name (am)",
+        "merchantAddress": "Merchant address (en)",
+        "merchantAddressAm": "Merchant address (am)",
+        "merchantCity": "Merchant city (en)",
+        "merchantCityAm": "Merchant city (am)",
+        "merchantPhoneNumber": "Merchant phone number",
+        "merchantWebPage": "Merchant WEB page",
+        "merchantEmail": "Merchant email",
+        "paymentSystem": "Payment system"
+    },
     "userSection": {
         "userData": "user data?",
         "forgotPassword": "Forgot password?",

@@ -12,6 +12,24 @@
         "users": "Օգտագործողներ",
         "banks": "Բանկեր"
     },
+    "terminalsSection": {
+        "serialNumber": "Սերիական համար",
+        "tid": "Terminal ID",
+        "mid": "Merchant ID",
+        "posType": "Տերմինալի տիպ",
+        "mcc": "MCC",
+        "tax": "ՀՎՀՀ",
+        "merchantName": "Վաճառակետի անվանում (լատինատառ)",
+        "merchantNameAm": "Վաճառակետի անվանում (հայատառ)",
+        "merchantAddress": "Վաճառակետի հասցե (լատինատառ)",
+        "merchantAddressAm": "Վաճառակետի հասցե (հայատառ)",
+        "merchantCity": "Վաճառակետի քաղաք (լատինատառ)",
+        "merchantCityAm": "Վաճառակետի քաղաք (հայատառ)",
+        "merchantPhoneNumber": "Վաճառակետի հեռախոսահամար",
+        "merchantWebPage": "Վաճառակետի վեբ կայք",
+        "merchantEmail": "Վաճառակետի էլ. հասցե",
+        "paymentSystem": "Վճարային համակարգ"
+    },
     "userSection": {
         "userData": "օգտատիրոջ տվյալները",
         "forgotPassword": "Մոռացե՞լ եք գաղտնաբառը",

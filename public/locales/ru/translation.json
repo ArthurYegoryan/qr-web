@@ -12,6 +12,24 @@
         "users": "Пользователи",
         "banks": "Банки"
     },
+    "terminalsSection": {
+        "serialNumber": "Серийный номер",
+        "tid": "Terminal ID",
+        "mid": "Merchant ID",
+        "posType": "Тип терминала",
+        "mcc": "MCC",
+        "tax": "ИНН",
+        "merchantName": "Название торговой точки (английском)",
+        "merchantNameAm": "Название торговой точки (армянском)",
+        "merchantAddress": "Адрес торговой точки (английском)",
+        "merchantAddressAm": "Адрес торговой точки (армянском)",
+        "merchantCity": "Город торговой точки (английском)",
+        "merchantCityAm": "Город торговой точки (армянском)",
+        "merchantPhoneNumber": "Номер телефона торговой точки",
+        "merchantWebPage": "Веб-сайт торговой точки",
+        "merchantEmail": "Адрес эл. почты торговой точки",
+        "paymentSystem": "Платежная система"
+    },
     "userSection": {
         "userData": "данные пользователя?",
         "forgotPassword": "Забыли пароль?",

@@ -1,16 +1,19 @@
 import "./AddNewTerminalData.css";
-import { useState, useEffect } from "react";
+import Button from "../../../../generalComponents/buttons/Button";
+import TextInput from "../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import SelectComponent from "../../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
+import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
+import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import getTerminalsTypes from "../../../../api/getTerminalsTypes";
 import getBanks from "../../../../api/getAllBanks";
 import getPaymentSystems from "../../../../api/getPaymentSystems";
 import addNewTerminal from "../../../../api/addNewTerminal";
+import { useState, useEffect } from "react";
 import { urls } from "../../../../constants/urls/urls";
 import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import Button from "../../../../generalComponents/buttons/Button";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from 
                                     "../../../../utils/fieldsValidations/termDataFieldsValidation";
 import { useTranslation } from 'react-i18next';
@@ -198,7 +201,8 @@ const AddNewTerminalData = ({
             <div className="add-term-data-area">
                 <div className="add-term-data-content">
                     <div className="add-term-data-fields">
-                        <div className="add-term-data-field">
+                        {/* <TextInput label={} /> */}
+                        {/* <div className="add-term-data-field">
                             <label htmlFor="serial" className="add-term-data-label">Serial number</label> <br />
                             <input type="text" id="serial" name="serial"
                                 onChange={(evt) => setNewTerminalData({...newTerminalData, serial: evt.target.value})} />
@@ -208,7 +212,7 @@ const AddNewTerminalData = ({
                                     <small className="add-term-data-field-error-text">Serial length must be 8!</small>
                                 </>                                
                             }
-                        </div>
+                        </div> */}
                         <div className="add-term-data-field">
                             <label htmlFor="tid" className="add-term-data-label">Terminal ID</label> <br />
                             <input type="text" id="tid" name="tid"
