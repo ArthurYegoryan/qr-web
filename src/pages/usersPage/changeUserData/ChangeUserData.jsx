@@ -1,16 +1,20 @@
 import "./ChangeUserData.css";
-import { useState, useEffect } from "react";
+import Button from "../../../generalComponents/buttons/Button";
+import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import getAllBanks from "../../../api/getAllBanks";
+import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
-import { useDispatch } from "react-redux"
-import { logoutUser } from "../../../redux/slices/authorization/authSlice";
-import { Navigate } from "react-router-dom";
-import Button from "../../../generalComponents/buttons/Button";
-import { useTranslation } from 'react-i18next';
 import { emailValidation } from "../../../utils/fieldsValidations/userDataFieldsValidation";
+import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
+import { logoutUser } from "../../../redux/slices/authorization/authSlice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { Navigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const ChangeUserData = ({
     user,
@@ -18,79 +22,76 @@ const ChangeUserData = ({
     isUserDataChanged,
     onCloseHandler
 }) => {
-    const [ openCloseModal, setOpenCloseModal ] = useState(false);
-    const [ banks, setBanks ] = useState([]);
-    const [ userData, setUserData ] = useState({
+    const banks = useSelector((state) => state.banks.banksAllData.payload);
+    const roles = useSelector((state) => state.roles.roles.payload);
+    const [ changedUserData, setChangedUserData ] = useState({
         id: user.id,
         username: user.username,
         bank: user.bank,
         email: user.email,
         role: user.role,
+        is_active: user.is_active
     });
-    const [ usernameError, setUsernameError ] = useState(false);
-    const [ emailError, setEmailError ] = useState(false);
+    const [ usernameEmptyError, setUsernameEmptyError ] = useState(false);
+    const [ usernameLengthError, setUsernameLengthError ] = useState(false);
+    const [ emailEmptyError, setEmailEmptyError ] = useState(false);
+    const [ invalidEmailError, setInvalidEmailError ] = useState(false);
+    const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
 
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    useEffect(() => {
-        try {
-            const getBanksData = async () => {
-                const response = await getAllBanks(urls.GET_BANKS_URL);
+    const banksList = [];
+    banks.map((bank) => banksList.push(bank.short_name));
 
-                if (response.message === "success") {
-                    setBanks(response.banks);
-                } else if (response.message === "expired token") {
-                    localStorage.clear();
-                    dispatch(logoutUser());
-            
-                    <Navigate to="/login" />;
-                } else {
-                    throw new Error("Connection error!");
-                }                
-            }
-            getBanksData();
-        } catch(err) {
-            setOpenCloseModal(true);
-        }
-    }, []);
-
-    const checkFieldsValidation = ({ username, email }) => {
+     const checkFieldsValidation = ({ username, email }) => {
         let existsError = false;
 
-        if (username.length < 3) {
+        if (!username.length) {
             existsError = true;
-            setUsernameError(true);
+            setUsernameEmptyError(true);
+        } else {
+            if (username.length < 3) {
+                existsError = true;
+                setUsernameLengthError(true);
+            }
         }
-        if (!emailValidation(email)) {
+        if (!email.length) {
             existsError = true;
-            setEmailError(true);
+            setEmailEmptyError(true);
+        } else {
+            if (!emailValidation(email)) {
+                existsError = true;
+                setInvalidEmailError(true);
+            }
         }
 
         return existsError;
     };
 
     const resetPrevValidations = () => {
-        setUsernameError(false);
-        setEmailError(false);
+        setUsernameEmptyError(false);
+        setUsernameLengthError(false);
+        setEmailEmptyError(false);
+        setInvalidEmailError(false);
     };
 
     const onClickSaveButton = async () => {
         resetPrevValidations();
 
-        if (!checkFieldsValidation(userData)) {
-            if (user.username === userData.username &&
-                user.bank === userData.bank &&
-                user.email === userData.email) {
-                
+        if (!checkFieldsValidation(changedUserData)) {
+            if (!isChangedAnyData(user, changedUserData)) {                
                 onCloseHandler();
             } else {
-                const responseChangeUserData = await changeUserData(urls.PUT_USER_DATA_URL, userData);
+                const responseChangeUserData = await changeUserData(urls.PUT_USER_DATA_URL, changedUserData);
 
                 if (responseChangeUserData.message === "success") {
-                    console.log("Chishta")
                     setIsUserDataChanged(!isUserDataChanged);
-                    onCloseHandler();
+                    setOpenCloseSuccessModal(true);
+                    setTimeout(() => {
+                        onCloseHandler();
+                    }, 3000);                    
                 } else if (responseChangeUserData.message === "invalid token") {
                     localStorage.clear();
                     dispatch(logoutUser());
@@ -107,39 +108,51 @@ const ChangeUserData = ({
         <>
             <div className="change-user-data-area">
                 <div className="change-user-data-content">
-                    <div className="change-user-data-field">
-                        <div className="change-user-data-field">
-                            <label htmlFor="username" className="change-user-data-label">Username</label> <br />
-                            <input type="text" id="username" name="username" defaultValue={user.username} 
-                                   onChange={(evt) => setUserData({...userData, username: evt.target.value})} />
-                            {usernameError &&
-                                <small className="change-user-data-field-error-text">Username length must be at least 3!</small>
-                            }
-                        </div>
-                    </div>
-                    <div className="change-user-data-field">
-                        <label className="change-user-data-label">Bank</label> <br />
-                        <select onChange={(evt) => setUserData({...userData, bank: evt.target.value})}>
-                            <option selected value="">{user.bank}</option>
-                            {                                    
-                                banks.map((bank) => {
-                                    return (
-                                        <option value={bank.short_name}>
-                                            {bank.short_name}
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>                        
-                    </div>
-                    <div className="change-user-data-field">
-                        <label htmlFor="email" className="change-user-data-label">Email</label> <br />
-                        <input type="text" id="email" name="email" defaultValue={user.email} 
-                                onChange={(evt) => setUserData({...userData, email: evt.target.value})} /> <br />
-                        {emailError &&
-                            <small className="change-user-data-field-error-text">Email is not with valid format!</small>
-                        }
-                    </div>
+                    <TextInput label={t("userSection.username")}
+                               defaultValue={user.username}
+                               existsError={usernameEmptyError || usernameLengthError}
+                               errorText={
+                                   usernameEmptyError ? t("searchArea.emptyFieldError") :
+                                   usernameLengthError ? t("userSection.usernameLengthError") : null
+                               }
+                               onChangeHandler={(evt) => setChangedUserData({
+                                   ...changedUserData,
+                                   username: evt.target.value
+                               })} />
+                    <SelectComponent label={t("banks.bank")}
+                                     defaultValue={user.bank}
+                                     chooseData={banksList}
+                                     fields={changedUserData}
+                                     setField={setChangedUserData}
+                                     changeFieldName={"bank"}
+                                     width={"223px"}
+                                     marginTop={"10px"} />
+                    <TextInput label={t("userSection.email")}
+                               defaultValue={user.email}
+                               marginTop={"10px"}
+                               existsError={emailEmptyError || invalidEmailError}
+                               errorText={
+                                   emailEmptyError ? t("searchArea.emptyFieldError") :
+                                   invalidEmailError ? t("userSection.invalidEmail") : null
+                               }
+                               onChangeHandler={(evt) => setChangedUserData({
+                                   ...changedUserData,
+                                   email: evt.target.value
+                               })} />
+                    <SelectComponent label={t("userSection.role")}
+                                     defaultValue={user.role}
+                                     chooseData={roles}
+                                     fields={changedUserData}
+                                     setField={setChangedUserData}
+                                     changeFieldName={"role"}
+                                     width={"223px"}
+                                     marginTop={"10px"} />
+                    <CheckBoxLabels label={t("banks.isActive")}
+                                    defaultChecked={user.is_active}
+                                    onChangeHandler={(evt) => setChangedUserData({
+                                        ...changedUserData,
+                                        is_active: evt.target.value
+                                    })} />
                 </div>
                 <div className="change-user-data-buttons">
                     <Button label={t("changeTerminalData.saveBtn")}
@@ -153,6 +166,9 @@ const ChangeUserData = ({
                     />
                 </div>
             </div>
+            {openCloseSuccessModal &&
+                <SuccessModalBody />
+            }
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)}
                                 isOpen={true}

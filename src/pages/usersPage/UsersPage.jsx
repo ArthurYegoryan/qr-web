@@ -1,21 +1,23 @@
 import "./UsersPage.css";
-import { useState, useEffect } from "react";
-import getUsersByPage from "../../api/getUsersByPage";
-import getAllBanks from "../../api/getAllBanks";
-import { urls } from "../../constants/urls/urls";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/slices/authorization/authSlice";
-import { saveBanks, saveBanksAllData } from "../../redux/slices/banks/banksSlice";
-import { Navigate } from "react-router-dom";
+import ChangeUserData from "./changeUserData/ChangeUserData";
+import DeleteUserData from "./deleteUserData/DeleteUserData";
+import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
+import Table from "../../generalComponents/table/Table";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
-import UsersSearchArea from "./usersSearchArea/UsersSearchArea";
+import getUsersByPage from "../../api/getUsersByPage";
+import getAllBanks from "../../api/getAllBanks";
+import getRoles from "../../api/getRoles";
+import { urls } from "../../constants/urls/urls";
 import { usersSearchFields } from "../../constants/tableFields/usersSearchFields";
-import Table from "../../generalComponents/table/Table";
-import ChangeUserData from "./changeUserData/ChangeUserData";
-import DeleteUserData from "./deleteUserData/DeleteUserData";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
+import { saveBanks, saveBanksAllData } from "../../redux/slices/banks/banksSlice";
+import { saveRoles } from "../../redux/slices/roles/rolesSlice";
+import { logoutUser } from "../../redux/slices/authorization/authSlice";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const UsersPage = () => {
@@ -46,9 +48,11 @@ const UsersPage = () => {
         try {
             const getBanksData = async () => {
                 const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
+                const reponseRoles = await getRoles(urls.GET_ROLES_URL);
                 
-                if (responseBanks.message === "success") {
+                if (responseBanks.message === "success" && reponseRoles.message === "success") {
                     dispatch(saveBanksAllData(responseBanks.banks));
+                    dispatch(saveRoles(reponseRoles.roles));
 
                     const banks = {};
 

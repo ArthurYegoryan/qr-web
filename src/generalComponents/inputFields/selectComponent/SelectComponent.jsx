@@ -5,15 +5,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
 export default function SelectComponent({ 
     label, 
+    defaultValue,
     hasFirstRow,
     firstRowLabel,
     firstRowValue,
     chooseData, 
-    chooseDataValue,
+    // chooseDataValue,
     fields, 
     changeFieldName, 
     setField, 
@@ -24,8 +25,8 @@ export default function SelectComponent({
     errorText,
     onChooseHandler
 }) {
-    const [ value, setValue ] = React.useState("");
-    const { t } = useTranslation();
+    const [ value, setValue ] = React.useState(defaultValue ?? "");
+    // const { t } = useTranslation();
   
     const handleChange = (event) => {
         onChooseHandler && onChooseHandler();
@@ -43,6 +44,7 @@ export default function SelectComponent({
                     id="demo-simple-select"
                     value={value}
                     label={label}
+                    defaultValue={defaultValue}
                     onChange={handleChange}
                 >
                     {hasFirstRow &&
@@ -50,16 +52,21 @@ export default function SelectComponent({
                     }
                     {
                         chooseData.map((data) => {
-                            if (typeof data === "string") {
-                                return (
-                                    <MenuItem value={data.toLowerCase()}>{data}</MenuItem>
-                                );
-                            } else {
-                                return (
-                                    <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
-                                );
-                            }                            
+                            return (
+                                <MenuItem key={data} value={data}>{data}</MenuItem>
+                            );                            
                         })
+                        // chooseData.map((data) => {
+                        //     if (typeof data === "string") {
+                        //         return (
+                        //             <MenuItem value={data.toLowerCase()}>{data}</MenuItem>
+                        //         );
+                        //     } else {
+                        //         return (
+                        //             <MenuItem value={data[chooseDataValue]}>{data[chooseDataValue] === "Sale" ? t("trxTypes.sale") : t("trxTypes.cancel")}</MenuItem>
+                        //         );
+                        //     }                            
+                        // })
                     }
                 </Select>
                 {existsError &&
