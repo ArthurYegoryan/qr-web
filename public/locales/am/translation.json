@@ -28,7 +28,10 @@
         "merchantPhoneNumber": "Վաճառակետի հեռախոսահամար",
         "merchantWebPage": "Վաճառակետի վեբ կայք",
         "merchantEmail": "Վաճառակետի էլ. հասցե",
-        "paymentSystem": "Վճարային համակարգ"
+        "paymentSystem": "Վճարային համակարգ",
+        "invalidSerial": "Անվավեր սերիական համար",
+        "invalidTid": "Անվավեր Terminal ID",
+        "invalidMid": "Անվավեր Merchant ID"
     },
     "userSection": {
         "userData": "օգտատիրոջ տվյալները",
