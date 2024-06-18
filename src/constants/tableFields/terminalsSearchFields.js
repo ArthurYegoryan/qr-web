@@ -1,14 +1,14 @@
-export const terminalsSearchFields = [
-    "ID",
-    "Terminal ID",
-    "Merchant ID",
-    "S/N",
-    "MCC",
-    "Active",
-    "POS type",
-    "Merchant name",
-    "Merchant tax number",
-    "Merchant city",
-    "Merchant address",
-    "Bank"
-];
+export const terminalsSearchFields = {
+    "ID": "id",
+    "Terminal ID": "tid",
+    "Merchant ID": "mid",
+    "S/N": "serial",
+    "MCC": "mcc",
+    "Active": "is_active",
+    "POS type": "pos_type",
+    "Merchant name": "mercnaht_name",
+    "Merchant tax number": "tax",
+    "Merchant city": "merchant_city",
+    "Merchant address": "merchant_address",
+    "Bank": "bank"
+};

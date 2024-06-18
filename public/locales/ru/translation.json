@@ -21,6 +21,7 @@
         "tax": "ИНН",
         "merchantName": "Название торговой точки (английском)",
         "merchantNameAm": "Название торговой точки (армянском)",
+        "region": "Регион",
         "merchantAddress": "Адрес торговой точки (английском)",
         "merchantAddressAm": "Адрес торговой точки (армянском)",
         "merchantCity": "Город торговой точки (английском)",
@@ -28,7 +29,10 @@
         "merchantPhoneNumber": "Номер телефона торговой точки",
         "merchantWebPage": "Веб-сайт торговой точки",
         "merchantEmail": "Адрес эл. почты торговой точки",
-        "paymentSystem": "Платежная система"
+        "paymentSystem": "Платежная система",
+        "invalidSerial": "Неверный серийный номер",
+        "invalidTid": "Неверный Terminal ID",
+        "invalidMid": "Неверный Merchant ID"
     },
     "userSection": {
         "userData": "данные пользователя?",

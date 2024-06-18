@@ -6,9 +6,9 @@ import ModalComponent from "../../../generalComponents/modalComponent/ModalCompo
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
+import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 
 const TermPageSearchArea = ({ 
     searchFields,
@@ -56,7 +56,7 @@ const TermPageSearchArea = ({
                                          width="200px"
                                          existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
-                                         onChooseHandler={() => setSearchByFieldEmptyError(false)}/>
+                                         onChooseHandler={() => setSearchByFieldEmptyError(false) }/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
                                    errorText={t("searchArea.emptyFieldError")}

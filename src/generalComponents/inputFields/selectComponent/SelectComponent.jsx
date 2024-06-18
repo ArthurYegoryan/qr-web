@@ -5,7 +5,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import { useTranslation } from 'react-i18next';
 
 export default function SelectComponent({ 
     label, 
@@ -26,10 +25,9 @@ export default function SelectComponent({
     onChooseHandler
 }) {
     const [ value, setValue ] = React.useState(defaultValue ?? "");
-    // const { t } = useTranslation();
-  
+    
     const handleChange = (event) => {
-        onChooseHandler && onChooseHandler();
+        onChooseHandler && onChooseHandler(event.target.value);
         setValue(event.target.value);
         fields ? setField({ ...fields, [changeFieldName]: event.target.value }) 
                : setField(value);

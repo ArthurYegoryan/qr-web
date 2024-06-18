@@ -20,7 +20,8 @@ const TerminalsPage = () => {
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
         searchField: "",
-        searchValue: ""
+        searchValue: "",
+        hasSearchParams: false
     });
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
@@ -34,13 +35,6 @@ const TerminalsPage = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    // const searchFields = [];
-    // terminalsTableFieldsAdmin.map(field => {
-    //     if (field.name !== "#") {
-    //         searchFields.push(field.name);
-    //     }
-    // });
-
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
@@ -48,6 +42,15 @@ const TerminalsPage = () => {
     useEffect(() => {
         try {
             const getTerminalsData = async () => {
+                let searchInfo = {};
+                
+                if (terminalsSearchInfo.hasSearchParams) { 
+                    searchInfo = {
+                        ...terminalsSearchInfo,
+                        "searchField": terminalsSearchFields[terminalsSearchInfo.searchField]
+                    }
+                }
+
                 const response = await getTerminalsByPage(
                     urls.GET_TERMINALS_BY_PAGE_URL, 
                     {
@@ -66,7 +69,7 @@ const TerminalsPage = () => {
                     <Navigate to="/login" />;
                 } else {
                     throw new Error("Connection error!");
-                }                
+                }
             }
             getTerminalsData();
         } catch(err) {
@@ -76,7 +79,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea searchFields={terminalsSearchFields}
+            <TermPageSearchArea searchFields={Object.keys(terminalsSearchFields)}
                                 terminalsSearchInfo={terminalsSearchInfo} 
                                 setTerminalsSearchInfo={setTerminalsSearchInfo}
                                 isSearched={isTermDataSearched}
