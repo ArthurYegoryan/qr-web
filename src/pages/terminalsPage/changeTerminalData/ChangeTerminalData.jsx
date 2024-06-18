@@ -5,16 +5,13 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import getTerminalsTypes from "../../../api/getTerminalsTypes";
-import getBanks from "../../../api/getAllBanks";
-import getPaymentSystems from "../../../api/getPaymentSystems";
 import changeTerminalData from "../../../api/changeTerminalData";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { logoutUser } from "../../../redux/slices/authorization/authSlice";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
 const ChangeTerminalData = ({ 
@@ -23,12 +20,12 @@ const ChangeTerminalData = ({
     isTermDataChanged,
     onCloseHandler
 }) => {
-    const { role } = useSelector((state) => state.auth);
+    console.log("Current terminal: ", JSON.stringify(terminal, null, 2));
 
-    const [ terminalsTypes, setTerminalsTypes ] = useState([]);
-    const [ banks, setBanks ] = useState([]);
-    const [ paymentSystems, setPaymentSystems ] = useState([]);
-    const [ openCloseModal, setOpenCloseModal ] = useState(false);
+    const { role } = useSelector((state) => state.auth);
+    const { banks } = useSelector((state) => state.banks);
+    const { terminalTypes } = useSelector((state) => state.terminalTypes);
+    const { paymentSystems } = useSelector((state) => state.paymentSystems);
     const [ terminalData, setTerminalData ] = useState({
         serial: terminal.serial,
         tid: terminal.tid,
@@ -47,107 +44,145 @@ const ChangeTerminalData = ({
         merchantEmail: terminal.merchant_email,
         active: terminal.active,
         bank: terminal.bank,
-        paymentSystem: "",
+        paymentSystem: terminal.paymentSystem ?? "",
     });
-    const [ serialError, setSerialError ] = useState(false);
-    const [ tidError, setTidError ] = useState(false);
-    const [ midError, setMidError ] = useState(false);
-    const [ mccError, setMccError ] = useState(false);
-    const [ taxError, setTaxError ] = useState(false);
-    const [ merchantNameError, setMerchantNameError ] = useState(false);
-    const [ merchantNameInAmError, setMerchantNameInAmError ] = useState(false);
-    const [ merchantAddressError, setMerchantAddressError ] = useState(false);
-    const [ merchantAddressInAmError, setMerchantAddressInAmError ] = useState(false);
+    const [ emptySerialError, setEmptySerialError ] = useState(false);
+    const [ invalidSerialError, setInvalidSerialError ] = useState(false);
+    const [ emptyTidError, setEmptyTidError ] = useState(false);
+    const [ invalidTidError, setInvalidTidError ] = useState(false);
+    const [ emptyMidError, setEmptyMidError ] = useState(false);
+    const [ invalidMidError, setInvalidMidError ] = useState(false);
+    const [ emptyPosTypeError, setEmptyPosTypeError ] = useState(false);
+    const [ emptyMccError, setEmptyMccError ] = useState(false);
+    const [ invalidMccError, setInvalidMccError ] = useState(false);
+    const [ emptyTaxError, setEmptyTaxError ] = useState(false);
+    const [ invalidTaxError, setInvalidTaxError ] = useState(false);
+    const [ emptyMerchantNameError, setEmptyMerchantNameError ] = useState(false);
+    const [ emptyMerchantNameInAmError, setEmptyMerchantNameInAmError ] = useState(false);
+    const [ emptyMerchantAddressError, setEmptyMerchantAddressError ] = useState(false);
+    const [ emptyMerchantAddressInAmError, setEmptyMerchantAddressInAmError ] = useState(false);
+    const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
+    const [ emptyMerchantCityInAmError, setEmptyMerchantCityInAmError ] = useState(false);
+    const [ emptyBankError, setEmptyBankError ] = useState(false);
+    const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
+    const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    useEffect(() => {
-        const fetchTerminalsTypesBanksPaysys = async () => {
-            try {
-                const responseTermTypes = await getTerminalsTypes(urls.GET_TERMINALS_TYPES_URL);
-                const responseBanks = await getBanks(urls.GET_BANKS_URL);
-                const responsePaySystems = await getPaymentSystems(urls.GET_PAYMENT_SYSTEMS_URL);
+    const paySysList = [];
+    paymentSystems.payload.map((paysys) => {
+        paySysList.push(paysys.short_name);
+    });
 
-                if (responseTermTypes.message === "success" &&
-                    responseBanks.message === "success" &&
-                    responsePaySystems.message === "success") {
-
-                    setTerminalsTypes(responseTermTypes.terminalsTypes);
-                    setBanks(responseBanks.banks);
-                    setPaymentSystems(responsePaySystems.paymentSystems);
-
-                } else if (responseTermTypes.message === "invalid token" ||
-                           responseBanks.message === "invalid token" ||
-                           responsePaySystems.message === "invalid token") {
-                    localStorage.clear();
-                    dispatch(logoutUser());
-            
-                    <Navigate to="/login" />;
-                } else {
-                    throw Error("Terminals data error!");
-                }
-            } catch(err) {
-                setOpenCloseModal(true);
-            }
-        }
-        fetchTerminalsTypesBanksPaysys();
-    }, []);
-
-    const checkFieldsValidation = ({ serial, tid, mid, mcc, tax, merchantName, 
-                                    merchantNameInAm, merchantAddress, merchantAddressInAm }) => {
+    const checkFieldsValidation = ({ serial, tid, mid, posType, mcc, tax, merchantName, merchantNameInAm, merchantAddress, 
+                                     merchantAddressInAm, merchantCity, merchantCityInAm, bank, paymentSystem }) => {
         let existsError = false;
 
-        if (!serialValidation(serial)) {
+        if (!serial.length) {
             existsError = true;
-            setSerialError(true);
+            setEmptySerialError(true);
+        } else {
+            if (!serialValidation(serial)) {
+                existsError = true;
+                setInvalidSerialError(true);
+            }
         }
-        if (!midTidValidation(tid)) {
+        if (!tid.length) {
             existsError = true;
-            setTidError(true);
+            setEmptyTidError(true);
+        } else {
+            if (!midTidValidation(tid)) {
+                existsError = true;
+                setInvalidTidError(true);
+            }
         }
-        if (!midTidValidation(mid)) {
+        if (!mid.length) {
             existsError = true;
-            setMidError(true);
+            setEmptyMidError(true);
+        } else {
+            if (!midTidValidation(mid)) {
+                existsError = true;
+                setInvalidMidError(true);
+            }
         }
-        if (!mccValidation(mcc)) {
+        if (!posType.length) {
             existsError = true;
-            setMccError(true);
+            setEmptyPosTypeError(true);
         }
-        if (!taxValidation(tax)) {
+        if (!mcc.length) {
             existsError = true;
-            setTaxError(true);
+            setEmptyMccError(true);
+        } else {
+            if (!mccValidation(mcc)) {
+                existsError = true;
+                setInvalidMccError(true);
+            }
+        }
+        if (!tax.length) {
+            existsError = true;
+            setEmptyTaxError(true);
+        } else {
+            if (!taxValidation(tax)) {
+                existsError = true;
+                setInvalidTaxError(true);
+            }
         }
         if (!merchantName.length) {
             existsError = true;
-            setMerchantNameError(true);
+            setEmptyMerchantNameError(true);
         }
         if (!merchantNameInAm.length) {
             existsError = true;
-            setMerchantNameInAmError(true);
+            setEmptyMerchantNameInAmError(true);
         }
         if (!merchantAddress.length) {
             existsError = true;
-            setMerchantAddressError(true);
+            setEmptyMerchantAddressError(true);
         }
         if (!merchantAddressInAm.length) {
             existsError = true;
-            setMerchantAddressInAmError(true);
+            setEmptyMerchantAddressInAmError(true);
+        }
+        if (!merchantCity.length) {
+            existsError = true;
+            setEmptyMerchantCityError(true);
+        }
+        if (!merchantCityInAm.length) {
+            existsError = true;
+            setEmptyMerchantCityInAmError(true);
+        }
+        if (!bank.length) {
+            existsError = true;
+            setEmptyBankError(true);
+        }
+        if (!paymentSystem.length) {
+            existsError = true;
+            setEmptyPaySysError(true);
         }
 
         return existsError;
     };
 
     const resetPrevValidations = () => {
-        setSerialError(false);
-        setTidError(false);
-        setMidError(false);
-        setMccError(false);
-        setTaxError(false);
-        setMerchantNameError(false);
-        setMerchantNameInAmError(false);
-        setMerchantAddressError(false);
-        setMerchantAddressInAmError(false);
+        setEmptySerialError(false);
+        setInvalidSerialError(false);
+        setEmptyTidError(false);
+        setInvalidTidError(false);
+        setEmptyMidError(false);
+        setInvalidMidError(false);
+        setEmptyMccError(false);
+        setInvalidMccError(false);
+        setEmptyTaxError(false);
+        setInvalidTaxError(false);
+        setEmptyMerchantNameError(false);
+        setEmptyMerchantNameInAmError(false);
+        setEmptyMerchantAddressError(false);
+        setEmptyMerchantAddressInAmError(false);
+        setEmptyMerchantCityError(false);
+        setEmptyMerchantCityInAmError(false);
+        setEmptyBankError(false);
+        setEmptyPaySysError(false);
     };
 
     const onClickSaveButton = async () => {
@@ -175,167 +210,201 @@ const ChangeTerminalData = ({
             <div className="change-term-data-area">
                 <div className="change-term-data-content">
                     <div className="change-term-data-fields">
-                        <div className="change-term-data-field">
-                            <label htmlFor="serial" className="change-term-data-label">*Serial number</label> <br />
-                            <input type="text" id="serial" name="serial" defaultValue={terminal.serial} 
-                                   onChange={(evt) => setTerminalData({...terminalData, serial: evt.target.value})} />
-                            {serialError &&
-                                <small className="change-term-data-field-error-text">Serial length must be 8!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="tid" className="change-term-data-label">Terminal ID</label> <br />
-                            <input type="text" id="tid" name="tid" defaultValue={terminal.tid} 
-                                   onChange={(evt) => setTerminalData({...terminalData, tid: evt.target.value})} />
-                            {tidError &&
-                                <small className="change-term-data-field-error-text">TID must contain only numbers!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="mid" className="change-term-data-label">Merchant ID</label> <br />
-                            <input type="text" id="mid" name="mid" defaultValue={terminal.mid} 
-                                   onChange={(evt) => setTerminalData({...terminalData, mid: evt.target.value})} />
-                            {midError &&
-                                <small className="change-term-data-field-error-text">MID must contain only numbers!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label className="change-term-data-label">POS type</label> <br />
-                            <select onChange={(evt) => setTerminalData({...terminalData, posType: evt.target.value})}>
-                                <option selected value="">{terminal.pos_type}</option>
-                                {                                    
-                                    terminalsTypes.map((terminalType) => {
-                                        return (
-                                            <option value={terminalType}>
-                                                {terminalType}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>                        
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="mcc" className="change-term-data-label">MCC</label> <br />
-                            <input type="text" id="mcc" name="mcc" defaultValue={terminal.mcc} 
-                                onChange={(evt) => setTerminalData({...terminalData, mcc: evt.target.value})} />
-                            {mccError &&
-                                <small className="change-term-data-field-error-text">MCC must contain 4 numbers!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="tax" className="change-term-data-label">TAX</label> <br />
-                            <input type="text" id="tax" name="tax" defaultValue={terminal.merchant_tax_number} 
-                                onChange={(evt) => setTerminalData({...terminalData, tax: evt.target.value})} />
-                            {taxError &&
-                                <small className="change-term-data-field-error-text">TAX must contain 8 numbers!</small>
-                            }
-                        </div>
+                        <TextInput label={t("terminalsSection.serialNumber")}
+                                    defaultValue={terminal.serial}
+                                    existsError={emptySerialError || invalidSerialError}
+                                    errorText={
+                                        emptySerialError ? t("searchArea.emptyFieldError") :
+                                        invalidSerialError ? t("terminalsSection.invalidSerial") : null
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        serial: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.tid")}
+                                    marginTop={"10px"}
+                                    defaultValue={terminal.tid}
+                                    existsError={emptyTidError || invalidTidError}
+                                    errorText={
+                                        emptyTidError ? t("searchArea.emptyFieldError") :
+                                        invalidTidError ? t("terminalsSection.invalidTid") : null
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        tid: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.mid")}
+                                    defaultValue={terminal.mid}
+                                    marginTop={"10px"}
+                                    existsError={emptyMidError || invalidMidError}
+                                    errorText={
+                                        emptyMidError ? t("searchArea.emptyFieldError") :
+                                        invalidMidError ? t("terminalsSection.invalidMid") : null
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        mid: evt.target.value
+                                    })} />
+                        <SelectComponent label={t("terminalsSection.posType")}
+                                            defaultValue={terminal.pos_type}
+                                            chooseData={terminalTypes.payload}
+                                            fields={terminalData}
+                                            setField={setTerminalData}
+                                            changeFieldName={"posType"}
+                                            width={"223px"}
+                                            marginTop={"10px"}
+                                            existsError={emptyPosTypeError}
+                                            errorText={t("searchArea.emptyFieldError")} />
+                        <TextInput label={t("terminalsSection.mcc")}
+                                    defaultValue={terminal.mcc}
+                                    marginTop={"10px"}
+                                    existsError={emptyMccError || invalidMccError}
+                                    errorText={
+                                        emptyMccError ? t("searchArea.emptyFieldError") :
+                                        invalidMccError ? t("terminalsSection.invalidMcc") : null
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        mcc: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.tax")}
+                                    defaultValue={terminal.merchant_tax_number}
+                                    marginTop={"10px"}
+                                    existsError={emptyTaxError || invalidTaxError}
+                                    errorText={
+                                        emptyTaxError ? t("searchArea.emptyFieldError") :
+                                        invalidTaxError ? t("terminalsSection.invalidTax") : null
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        tax: evt.target.value
+                                    })} />
                     </div>
                     <div className="change-term-data-fields">
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_name" className="change-term-data-label">Merchant name</label> <br />
-                            <input type="text" id="merchant_name" name="merchant_name" defaultValue={terminal.merchant_name} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantName: evt.target.value})} />
-                            {merchantNameError &&
-                                <small className="change-term-data-field-error-text">Merchant name can't be empty!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_name_in_am" className="change-term-data-label">Merchant name in am</label> <br />
-                            <input type="text" id="merchant_name_in_am" name="merchant_name_in_am" 
-                                defaultValue={terminal.merchant_name_in_am} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantNameInAm: evt.target.value})} />
-                            {merchantNameInAmError &&
-                                <small className="change-term-data-field-error-text">Merchant name in am can't be empty!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_address" className="change-term-data-label">Merchant address</label> <br />
-                            <input type="text" id="merchant_address" name="merchant_address" defaultValue={terminal.merchant_address} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantAddress: evt.target.value})} />
-                            {merchantAddressError &&
-                                <small className="change-term-data-field-error-text">Merchant address can't be empty!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_address_in_am" className="change-term-data-label">Merchant address in am</label> <br />
-                            <input type="text" id="merchant_address_in_am" name="merchant_address_in_am" 
-                                defaultValue={terminal.merchant_address_in_am} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantAddressInAm: evt.target.value})} />
-                            {merchantAddressInAmError &&
-                                <small className="change-term-data-field-error-text">Merchant address in am can't be empty!</small>
-                            }
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_city" className="change-term-data-label">Merchant city</label> <br />
-                            <input type="text" id="merchant_city" name="merchant_city" defaultValue={terminal.merchant_city} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantCity: evt.target.value})} />
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_city_in_am" className="change-term-data-label">Merchant city in am</label> <br />
-                            <input type="text" id="merchant_city_in_am" name="merchant_city_in_am" 
-                                defaultValue={terminal.merchant_city_in_am} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantCitysInAm: evt.target.value})} />
-                        </div>
+                        <TextInput label={t("terminalsSection.merchantName")}
+                                    defaultValue={terminal.merchant_name}
+                                    width="340px"
+                                    existsError={emptyMerchantNameError}
+                                    errorText={
+                                        emptyMerchantNameError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantName: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantNameAm")}
+                                    defaultValue={terminal.merchant_name_in_am}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    existsError={emptyMerchantNameInAmError}
+                                    errorText={
+                                        emptyMerchantNameInAmError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantNameInAm: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantAddress")}
+                                    defaultValue={terminal.merchant_address}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    existsError={emptyMerchantAddressError}
+                                    errorText={
+                                        emptyMerchantAddressError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantAddress: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantAddressAm")}
+                                    defaultValue={terminal.merchant_address_in_am}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    existsError={emptyMerchantAddressInAmError}
+                                    errorText={
+                                        emptyMerchantAddressInAmError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantAddressInAm: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantCity")}
+                                    defaultValue={terminal.merchant_city}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    existsError={emptyMerchantCityError}
+                                    errorText={
+                                        emptyMerchantCityError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantCity: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantCityAm")}
+                                    defaultValue={terminal.merchant_city_in_am}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    existsError={emptyMerchantCityInAmError}
+                                    errorText={
+                                        emptyMerchantCityInAmError && t("searchArea.emptyFieldError")
+                                    }
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantCityInAm: evt.target.value
+                                    })} />
                     </div>
                     <div className="change-term-data-fields">
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_phone_number" className="change-term-data-label">Merchant phone number</label> <br />
-                            <input type="text" id="merchant_phone_number" name="merchant_phone_number" 
-                            defaultValue={terminal.merchant_phone_number} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantPhoneNumber: evt.target.value})} />
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_web_page" className="change-term-data-label">Merchant web page</label> <br />
-                            <input type="text" id="merchant_web_page" name="merchant_web_page" 
-                                defaultValue={terminal.merchant_web_page} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantWebPage: evt.target.value})} />
-                        </div>
-                        <div className="change-term-data-field">
-                            <label htmlFor="merchant_email" className="change-term-data-label">Merchant email</label> <br />
-                            <input type="text" id="merchant_email" name="merchant_email" defaultValue={terminal.merchant_email} 
-                                onChange={(evt) => setTerminalData({...terminalData, merchantEmail: evt.target.value})} />
-                        </div>
-                        <div className="change-term-data-field">
-                            <input type="checkbox" id="active" defaultChecked={terminal.active}
-                                onChange={(evt) => setTerminalData({...terminalData, active: evt.target.checked})} />
-                            <label htmlFor="active" className="change-term-data-activ-label">Is Active</label>
-                        </div>
+                        <TextInput label={t("terminalsSection.merchantPhoneNumber")}
+                                    defaultValue={terminal.merchant_phone_number}
+                                    width="340px"
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantPhoneNumber: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantWebPage")}
+                                    defaultValue={terminal.merchant_web_page}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantWebPage: evt.target.value
+                                    })} />
+                        <TextInput label={t("terminalsSection.merchantEmail")}
+                                    defaultValue={terminal.merchant_email}
+                                    marginTop={"10px"}
+                                    width="340px"
+                                    onChangeHandler={(evt) => setTerminalData({
+                                        ...terminalData,
+                                        merchantEmail: evt.target.value
+                                    })} />
+                        <CheckBoxLabels label={t("banks.isActive")}
+                                        defaultChecked={terminal.active}
+                                        onChangeHandler={(evt) => setTerminalData({
+                                            ...terminalData,
+                                            active: evt.target.value
+                                        })} />
                         {role === "admin" &&
                             <>
-                                <div className="change-term-data-field">
-                                    <label className="change-term-data-label">Bank</label> <br />
-                                    <select onChange={(evt) => {
-                                        console.log(evt.target.value);
-                                        setTerminalData({...terminalData, bank: evt.target.value})
-                                    }}>
-                                        <option>{terminal.bank}</option>
-                                        {
-                                            banks.map((bank) => {
-                                                return (
-                                                    <option value={bank.full_name_en.split(" ")[0]}>
-                                                        {bank.full_name_en.split(" ")[0]}
-                                                    </option>
-                                                )
-                                            })
-                                        }
-                                    </select>                        
-                                </div>
-                                <div className="change-term-data-field">
-                                    <label className="change-term-data-label">Pay sys</label> <br />
-                                    <select onChange={(evt) => setTerminalData({...terminalData, paymentSystem: evt.target.value})}>
-                                        <option disabled selected value="">-----</option>
-                                        {
-                                            paymentSystems.map((paymentSystem) => {
-                                                return (
-                                                    <option value={paymentSystem.short_name}>
-                                                        {paymentSystem.short_name}
-                                                    </option>
-                                                )
-                                            })
-                                        }
-                                    </select>                        
-                                </div>
+                                <SelectComponent label={t("banks.bank")}
+                                                defaultValue={terminal.bank}
+                                                chooseData={Object.values(banks.payload)}
+                                                fields={terminalData}
+                                                setField={setTerminalData}
+                                                changeFieldName={"bank"}
+                                                width={"223px"}
+                                                marginTop={"10px"}
+                                                existsError={emptyBankError}
+                                                errorText={t("searchArea.emptyFieldError")} />
+                                <SelectComponent label={t("terminalsSection.paymentSystem")}
+                                                defaultValue={terminal.paymentSystem ?? ""}
+                                                chooseData={paySysList}
+                                                fields={terminalData}
+                                                setField={setTerminalData}
+                                                changeFieldName={"paymentSystem"}
+                                                width={"223px"}
+                                                marginTop={"10px"}
+                                                existsError={emptyPaySysError}
+                                                errorText={t("searchArea.emptyFieldError")} />
                             </>
                         }
                     </div>
@@ -352,9 +421,9 @@ const ChangeTerminalData = ({
                     />
                 </div>
             </div>
-            {openCloseModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)}
-                                isOpen={true}
+            {openCloseErrorModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseErrorModal(false)}
+                                isOpen={openCloseErrorModal}
                                 title="Connection failed!"
                                 body={<ErrorModalBody />}
                                 bgcolor="red" />
