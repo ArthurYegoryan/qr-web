@@ -1,17 +1,20 @@
 import "./ChangeTerminalData.css";
-import { useState, useEffect } from "react";
+import Button from "../../../generalComponents/buttons/Button";
+import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
+import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
+import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
+import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import getTerminalsTypes from "../../../api/getTerminalsTypes";
 import getBanks from "../../../api/getAllBanks";
 import getPaymentSystems from "../../../api/getPaymentSystems";
 import changeTerminalData from "../../../api/changeTerminalData";
+import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { logoutUser } from "../../../redux/slices/authorization/authSlice";
-import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import Button from "../../../generalComponents/buttons/Button";
-import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
+import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
 const ChangeTerminalData = ({ 

@@ -5,11 +5,8 @@ import SelectComponent from "../../../../generalComponents/inputFields/selectCom
 import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import getTerminalsTypes from "../../../../api/getTerminalsTypes";
-import getBanks from "../../../../api/getAllBanks";
-import getPaymentSystems from "../../../../api/getPaymentSystems";
 import addNewTerminal from "../../../../api/addNewTerminal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { urls } from "../../../../constants/urls/urls";
 import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
@@ -24,10 +21,9 @@ const AddNewTerminalData = ({
     onCloseHandler
 }) => {
     const { role } = useSelector((state) => state.auth);
-
-    const [ terminalsTypes, setTerminalsTypes ] = useState([]);
-    const [ banks, setBanks ] = useState([]);
-    const [ paymentSystems, setPaymentSystems ] = useState([]);
+    const { banks } = useSelector((state) => state.banks);
+    const { terminalTypes } = useSelector((state) => state.terminalTypes);
+    const { paymentSystems } = useSelector((state) => state.paymentSystems);
     const [ newTerminalData, setNewTerminalData ] = useState({
         serial: "",
         tid: "",
@@ -72,48 +68,10 @@ const AddNewTerminalData = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    useEffect(() => {
-        const fetchTerminalsTypesBanksPaysys = async () => {
-            try {
-                const responseTermTypes = await getTerminalsTypes(urls.GET_TERMINALS_TYPES_URL);
-                const responseBanks = await getBanks(urls.GET_BANKS_URL);
-                const responsePaySystems = await getPaymentSystems(urls.GET_PAYMENT_SYSTEMS_URL);
-
-                if (responseTermTypes.message === "success" &&
-                    responseBanks.message === "success" &&
-                    responsePaySystems.message === "success") {
-                    
-                    const banksList = [];
-                    responseBanks.banks.map((bank) => {
-                        banksList.push(bank.short_name);
-                    });
-
-                    const paySysList = [];
-                    responsePaySystems.paymentSystems.map((paysys) => {
-                        paySysList.push(paysys.short_name);
-                    });
-
-                    setTerminalsTypes(responseTermTypes.terminalsTypes);
-                    setBanks(banksList);
-                    setPaymentSystems(paySysList);
-
-                } else if (responseTermTypes.message === "invalid token" ||
-                           responseBanks.message === "invalid token" ||
-                           responsePaySystems.message === "invalid token") {
-                    localStorage.clear();
-                    dispatch(logoutUser());
-            
-                    <Navigate to="/login" />;
-                } else {
-                    throw Error("Terminals data error!");
-                }
-            } catch(err) {
-                console.log("Error: ", err.message);
-                setOpenCloseErrorModal(true);
-            }
-        }
-        fetchTerminalsTypesBanksPaysys();
-    }, []);
+    const paySysList = [];
+    paymentSystems.payload.map((paysys) => {
+        paySysList.push(paysys.short_name);
+    });
 
     const checkFieldsValidation = ({ serial, tid, mid, posType, mcc, tax, merchantName, merchantNameInAm, merchantAddress, 
                                      merchantAddressInAm, merchantCity, merchantCityInAm, bank, paymentSystem }) => {
@@ -282,7 +240,7 @@ const AddNewTerminalData = ({
                                     mid: evt.target.value
                                 })} />
                     <SelectComponent label={t("terminalsSection.posType")}
-                                        chooseData={terminalsTypes}
+                                        chooseData={terminalTypes.payload}
                                         fields={newTerminalData}
                                         setField={setNewTerminalData}
                                         changeFieldName={"posType"}
@@ -410,7 +368,7 @@ const AddNewTerminalData = ({
                     {role === "admin" &&
                         <>
                             <SelectComponent label={t("banks.bank")}
-                                            chooseData={banks}
+                                            chooseData={Object.values(banks.payload)}
                                             fields={newTerminalData}
                                             setField={setNewTerminalData}
                                             changeFieldName={"bank"}
@@ -419,7 +377,7 @@ const AddNewTerminalData = ({
                                             existsError={emptyBankError}
                                             errorText={t("searchArea.emptyFieldError")} />
                             <SelectComponent label={t("terminalsSection.paymentSystem")}
-                                            chooseData={paymentSystems}
+                                            chooseData={paySysList}
                                             fields={newTerminalData}
                                             setField={setNewTerminalData}
                                             changeFieldName={"paymentSystem"}

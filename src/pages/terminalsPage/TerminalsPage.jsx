@@ -1,17 +1,23 @@
 import "./TerminalsPage.css";
+import ChangeTerminalData from "./changeTerminalData/ChangeTerminalData";
+import DeleteTerminalData from "./deleteTerminalData/DeleteTerminalData";
+import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import Table from "../../generalComponents/table/Table";
-import { useDispatch, useSelector } from "react-redux";
+import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
+import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import getTerminalsByPage from "../../api/getTerminalsByPage";
+import getTerminalsTypes from "../../api/getTerminalsTypes";
+import getAllBanks from "../../api/getAllBanks";
+import getPaymentSystems from "../../api/getPaymentSystems";
+import { saveBanksAllData, saveBanks } from "../../redux/slices/banks/banksSlice";
+import { saveTerminalTypes } from "../../redux/slices/terminalTypes/terminalTypesSlice";
+import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSystemsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { urls } from "../../constants/urls/urls";
 import { Navigate} from "react-router-dom";
 import { logoutUser } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
-import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import ChangeTerminalData from "./changeTerminalData/ChangeTerminalData";
-import DeleteTerminalData from "./deleteTerminalData/DeleteTerminalData";
-import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
-import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
 import { useTranslation } from "react-i18next";
 
@@ -23,15 +29,15 @@ const TerminalsPage = () => {
         searchValue: "",
         hasSearchParams: false
     });
-    const [ openCloseModal, setOpenCloseModal ] = useState(false);
-    const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
-    const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ isTermDataSearched, setIsTermDataSearched ] = useState(false);
-    const { isMenuOpen } = useSelector((state) => state.menu);
     const [ terminalsPage, setTerminalsPage ] = useState(1);
     const [ selectedTerminal, setSelectedTerminal ] = useState({});
+    const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
+    const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
+    const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
+    const { isMenuOpen } = useSelector((state) => state.menu);
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -73,9 +79,48 @@ const TerminalsPage = () => {
             }
             getTerminalsData();
         } catch(err) {
-            setOpenCloseModal(true);
+            setOpenCloseErrorModal(true);
         }
     }, [isTermDataChanged, isTermDataDeleted, terminalsPage, isTermDataSearched]);
+
+    useEffect(() => {
+        const fetchTerminalsTypesBanksPaysys = async () => {
+            try {
+                const responseTermTypes = await getTerminalsTypes(urls.GET_TERMINALS_TYPES_URL);
+                const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
+                const responsePaySystems = await getPaymentSystems(urls.GET_PAYMENT_SYSTEMS_URL);
+
+                if (responseTermTypes.message === "success" &&
+                    responseBanks.message === "success" &&
+                    responsePaySystems.message === "success") {
+                    
+                    dispatch(saveBanksAllData(responseBanks.banks));
+
+                    const banks = {};
+                    responseBanks.banks.map((bank) => {
+                        banks[bank.id] = bank.short_name;
+                    });
+
+                    dispatch(saveBanks(banks));
+                    dispatch(saveTerminalTypes(responseTermTypes.terminalsTypes));
+                    dispatch(savePaymentSystems(responsePaySystems.paymentSystems));
+                    
+                } else if (responseTermTypes.message === "invalid token" ||
+                           responseBanks.message === "invalid token" ||
+                           responsePaySystems.message === "invalid token") {
+                    localStorage.clear();
+                    dispatch(logoutUser());
+            
+                    <Navigate to="/login" />;
+                } else {
+                    throw Error("Terminals data error!");
+                }
+            } catch(err) {
+                setOpenCloseErrorModal(true);
+            }
+        }
+        fetchTerminalsTypesBanksPaysys();
+    }, []);
 
     return (
         <div className="terminals-page-area">
@@ -97,9 +142,9 @@ const TerminalsPage = () => {
                        setSelectedTerminal(terminal);
                        setOpenCloseDeleteModal(true);
                    }} />
-            {openCloseModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
-                                isOpen={openCloseModal} 
+            {openCloseErrorModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseErrorModal(false)} 
+                                isOpen={openCloseErrorModal} 
                                 title="Connection error!"
                                 body={<ErrorModalBody />}
                                 bgcolor="red"
