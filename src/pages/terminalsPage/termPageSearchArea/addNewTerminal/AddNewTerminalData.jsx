@@ -12,9 +12,11 @@ import { urls } from "../../../../constants/urls/urls";
 import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { serialValidation, midTidValidation, mccValidation, taxValidation } from 
-                                    "../../../../utils/fieldsValidations/termDataFieldsValidation";
+// import { serialValidation, midTidValidation, mccValidation, taxValidation } from 
+//                                     "../../../../utils/fieldsValidations/termDataFieldsValidation";
 import { useTranslation } from 'react-i18next';
+import { checkFieldsValidation } from "../../../../utils/fieldsValidations/checkTermDataFieldsValidation";
+import { resetPrevValidations } from "../../../../utils/fieldsValidations/resetPrevValidations";
 
 const AddNewTerminalData = ({
     setIsTermDataChanged, 
@@ -29,21 +31,21 @@ const AddNewTerminalData = ({
         serial: "",
         tid: "",
         mid: "",
-        posType: "",
+        pos_type: "",
         mcc: "",
-        tax: "",
-        merchantName: "",
-        merchantNameInAm: "",
-        merchantAddress: "",
-        merchantAddressInAm: "",
-        merchantCity: "",
-        merchantCityInAm: "",
-        merchantPhoneNumber: "",
-        merchantWebPage: "",
-        merchantEmail: "",
+        merchant_tax_number: "",
+        merchant_name: "",
+        merchant_name_in_am: "",
+        merchant_address: "",
+        merchant_address_in_am: "",
+        merchant_city: "",
+        merchant_city_in_am: "",
+        merchant_phone_number: "",
+        merchant_web_page: "",
+        merchant_email: "",
         active: true,
         bank: "",
-        paymentSystem: "",
+        payment_system: "",
     });
     const [ emptySerialError, setEmptySerialError ] = useState(false);
     const [ invalidSerialError, setInvalidSerialError ] = useState(false);
@@ -63,7 +65,7 @@ const AddNewTerminalData = ({
     const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
     const [ emptyMerchantCityInAmError, setEmptyMerchantCityInAmError ] = useState(false);
     const [ emptyBankError, setEmptyBankError ] = useState(false);
-    const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
+    // const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
     const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
@@ -75,120 +77,145 @@ const AddNewTerminalData = ({
         paySysList.push(paysys.short_name);
     });
 
-    const checkFieldsValidation = ({ serial, tid, mid, posType, mcc, tax, merchantName, merchantNameInAm, merchantAddress, 
-                                     merchantAddressInAm, merchantCity, merchantCityInAm, bank, paymentSystem }) => {
-        let existsError = false;
+    const terminalsErrorFields = [
+        setEmptySerialError,
+        setInvalidSerialError,
+        setEmptyTidError,
+        setInvalidTidError,
+        setEmptyMidError,
+        setInvalidMidError,
+        setEmptyPosTypeError,
+        setEmptyMccError,
+        setInvalidMccError,
+        setEmptyTaxError,
+        setInvalidTaxError,
+        setEmptyMerchantNameError,
+        setEmptyMerchantNameInAmError,
+        setEmptyMerchantAddressError,
+        setEmptyMerchantAddressInAmError,
+        setEmptyMerchantCityError,
+        setEmptyMerchantCityInAmError,
+        setEmptyBankError,
+        // setEmptyPaySysError,
+    ];
 
-        if (!serial.length) {
-            existsError = true;
-            setEmptySerialError(true);
-        } else {
-            if (!serialValidation(serial)) {
-                existsError = true;
-                setInvalidSerialError(true);
-            }
-        }
-        if (!tid.length) {
-            existsError = true;
-            setEmptyTidError(true);
-        } else {
-            if (!midTidValidation(tid)) {
-                existsError = true;
-                setInvalidTidError(true);
-            }
-        }
-        if (!mid.length) {
-            existsError = true;
-            setEmptyMidError(true);
-        } else {
-            if (!midTidValidation(mid)) {
-                existsError = true;
-                setInvalidMidError(true);
-            }
-        }
-        if (!posType.length) {
-            existsError = true;
-            setEmptyPosTypeError(true);
-        }
-        if (!mcc.length) {
-            existsError = true;
-            setEmptyMccError(true);
-        } else {
-            if (!mccValidation(mcc)) {
-                existsError = true;
-                setInvalidMccError(true);
-            }
-        }
-        if (!tax.length) {
-            existsError = true;
-            setEmptyTaxError(true);
-        } else {
-            if (!taxValidation(tax)) {
-                existsError = true;
-                setInvalidTaxError(true);
-            }
-        }
-        if (!merchantName.length) {
-            existsError = true;
-            setEmptyMerchantNameError(true);
-        }
-        if (!merchantNameInAm.length) {
-            existsError = true;
-            setEmptyMerchantNameInAmError(true);
-        }
-        if (!merchantAddress.length) {
-            existsError = true;
-            setEmptyMerchantAddressError(true);
-        }
-        if (!merchantAddressInAm.length) {
-            existsError = true;
-            setEmptyMerchantAddressInAmError(true);
-        }
-        if (!merchantCity.length) {
-            existsError = true;
-            setEmptyMerchantCityError(true);
-        }
-        if (!merchantCityInAm.length) {
-            existsError = true;
-            setEmptyMerchantCityInAmError(true);
-        }
-        if (!bank.length) {
-            existsError = true;
-            setEmptyBankError(true);
-        }
-        if (!paymentSystem.length) {
-            existsError = true;
-            setEmptyPaySysError(true);
-        }
+    // const checkFieldsValidation = ({ serial, tid, mid, pos_type, mcc, merchant_tax_number, merchant_name, merchant_name_in_am, merchant_address, 
+    //                                  merchant_address_in_am, merchant_city, merchant_city_in_am, bank, payment_system }) => {
+    //     let existsError = false;
 
-        return existsError;
-    };
+    //     if (!serial.length) {
+    //         existsError = true;
+    //         setEmptySerialError(true);
+    //     } else {
+    //         if (!serialValidation(serial)) {
+    //             existsError = true;
+    //             setInvalidSerialError(true);
+    //         }
+    //     }
+    //     if (!tid.length) {
+    //         existsError = true;
+    //         setEmptyTidError(true);
+    //     } else {
+    //         if (!midTidValidation(tid)) {
+    //             existsError = true;
+    //             setInvalidTidError(true);
+    //         }
+    //     }
+    //     if (!mid.length) {
+    //         existsError = true;
+    //         setEmptyMidError(true);
+    //     } else {
+    //         if (!midTidValidation(mid)) {
+    //             existsError = true;
+    //             setInvalidMidError(true);
+    //         }
+    //     }
+    //     if (!pos_type.length) {
+    //         existsError = true;
+    //         setEmptyPosTypeError(true);
+    //     }
+    //     if (!mcc.length) {
+    //         existsError = true;
+    //         setEmptyMccError(true);
+    //     } else {
+    //         if (!mccValidation(mcc)) {
+    //             existsError = true;
+    //             setInvalidMccError(true);
+    //         }
+    //     }
+    //     if (!merchant_tax_number.length) {
+    //         existsError = true;
+    //         setEmptyTaxError(true);
+    //     } else {
+    //         if (!taxValidation(merchant_tax_number)) {
+    //             existsError = true;
+    //             setInvalidTaxError(true);
+    //         }
+    //     }
+    //     if (!merchant_name.length) {
+    //         existsError = true;
+    //         setEmptyMerchantNameError(true);
+    //     }
+    //     if (!merchant_name_in_am.length) {
+    //         existsError = true;
+    //         setEmptyMerchantNameInAmError(true);
+    //     }
+    //     if (!merchant_address.length) {
+    //         existsError = true;
+    //         setEmptyMerchantAddressError(true);
+    //     }
+    //     if (!merchant_address_in_am.length) {
+    //         existsError = true;
+    //         setEmptyMerchantAddressInAmError(true);
+    //     }
+    //     if (!merchant_city.length) {
+    //         existsError = true;
+    //         setEmptyMerchantCityError(true);
+    //     }
+    //     if (!merchant_city_in_am.length) {
+    //         existsError = true;
+    //         setEmptyMerchantCityInAmError(true);
+    //     }
+    //     if (!bank.length) {
+    //         existsError = true;
+    //         setEmptyBankError(true);
+    //     }
+    //     // if (!payment_system.length) {
+    //     //     existsError = true;
+    //     //     setEmptyPaySysError(true);
+    //     // }
 
-    const resetPrevValidations = () => {
-        setEmptySerialError(false);
-        setInvalidSerialError(false);
-        setEmptyTidError(false);
-        setInvalidTidError(false);
-        setEmptyMidError(false);
-        setInvalidMidError(false);
-        setEmptyMccError(false);
-        setInvalidMccError(false);
-        setEmptyTaxError(false);
-        setInvalidTaxError(false);
-        setEmptyMerchantNameError(false);
-        setEmptyMerchantNameInAmError(false);
-        setEmptyMerchantAddressError(false);
-        setEmptyMerchantAddressInAmError(false);
-        setEmptyMerchantCityError(false);
-        setEmptyMerchantCityInAmError(false);
-        setEmptyBankError(false);
-        setEmptyPaySysError(false);
-    };
+    //     return existsError;
+    // };
+
+    // const resetPrevValidations = () => {
+    //     setEmptySerialError(false);
+    //     setInvalidSerialError(false);
+    //     setEmptyTidError(false);
+    //     setInvalidTidError(false);
+    //     setEmptyMidError(false);
+    //     setInvalidMidError(false);
+    //     setEmptyPosTypeError(false);
+    //     setEmptyMccError(false);
+    //     setInvalidMccError(false);
+    //     setEmptyTaxError(false);
+    //     setInvalidTaxError(false);
+    //     setEmptyMerchantNameError(false);
+    //     setEmptyMerchantNameInAmError(false);
+    //     setEmptyMerchantAddressError(false);
+    //     setEmptyMerchantAddressInAmError(false);
+    //     setEmptyMerchantCityError(false);
+    //     setEmptyMerchantCityInAmError(false);
+    //     setEmptyBankError(false);
+    //     // setEmptyPaySysError(false);
+    // };
 
     const onClickAddButton = async () => {
-        resetPrevValidations();
+        // resetPrevValidations();
+        resetPrevValidations(terminalsErrorFields);
 
-        if (!checkFieldsValidation(newTerminalData)) {
+        if (!checkFieldsValidation(newTerminalData, terminalsErrorFields)) {
+        // if (!checkFieldsValidation(newTerminalData)) {
             const responseAddNewTerminal = await addNewTerminal(urls.POST_NEW_TERMINAL_URL, newTerminalData);
 
             if (responseAddNewTerminal.message === "success") {
@@ -248,7 +275,7 @@ const AddNewTerminalData = ({
                                         chooseData={terminalTypes.payload}
                                         fields={newTerminalData}
                                         setField={setNewTerminalData}
-                                        changeFieldName={"posType"}
+                                        changeFieldName={"pos_type"}
                                         width={"223px"}
                                         marginTop={"10px"}
                                         existsError={emptyPosTypeError}
@@ -273,7 +300,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    tax: evt.target.value
+                                    merchant_tax_number: evt.target.value
                                 })} />
                 </div>
                 <div className="add-term-data-fields">
@@ -285,7 +312,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantName: evt.target.value
+                                    merchant_name: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantNameAm")}
                                 marginTop={"10px"}
@@ -296,7 +323,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantNameInAm: evt.target.value
+                                    merchant_name_in_am: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantAddress")}
                                 marginTop={"10px"}
@@ -307,7 +334,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantAddress: evt.target.value
+                                    merchant_address: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantAddressAm")}
                                 marginTop={"10px"}
@@ -318,7 +345,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantAddressInAm: evt.target.value
+                                    merchant_address_in_am: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantCity")}
                                 marginTop={"10px"}
@@ -329,7 +356,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantCity: evt.target.value
+                                    merchant_city: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantCityAm")}
                                 marginTop={"10px"}
@@ -340,7 +367,7 @@ const AddNewTerminalData = ({
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantCityInAm: evt.target.value
+                                    merchant_city_in_am: evt.target.value
                                 })} />
                 </div>
                 <div className="add-term-data-fields">
@@ -348,21 +375,21 @@ const AddNewTerminalData = ({
                                 width="340px"
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantPhoneNumber: evt.target.value
+                                    merchant_phone_number: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantWebPage")}
                                 marginTop={"10px"}
                                 width="340px"
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantWebPage: evt.target.value
+                                    merchant_web_page: evt.target.value
                                 })} />
                     <TextInput label={t("terminalsSection.merchantEmail")}
                                 marginTop={"10px"}
                                 width="340px"
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
-                                    merchantEmail: evt.target.value
+                                    merchant_email: evt.target.value
                                 })} />
                     <CheckBoxLabels label={t("banks.isActive")}
                                     defaultChecked={true}
@@ -385,11 +412,12 @@ const AddNewTerminalData = ({
                                             chooseData={paySysList}
                                             fields={newTerminalData}
                                             setField={setNewTerminalData}
-                                            changeFieldName={"paymentSystem"}
+                                            changeFieldName={"payment_system"}
                                             width={"223px"}
                                             marginTop={"10px"}
-                                            existsError={emptyPaySysError}
-                                            errorText={t("searchArea.emptyFieldError")} />
+                                            // existsError={emptyPaySysError}
+                                            // errorText={t("searchArea.emptyFieldError")} 
+                                            />
                         </>
                     }
                 </div>
