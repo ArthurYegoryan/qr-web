@@ -5,7 +5,9 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import SuccessModal from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeTerminalData from "../../../api/changeTerminalData";
+import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
 import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,31 +22,30 @@ const ChangeTerminalData = ({
     isTermDataChanged,
     onCloseHandler
 }) => {
-    console.log("Current terminal: ", JSON.stringify(terminal, null, 2));
-
     const { role } = useSelector((state) => state.auth);
     const { banks } = useSelector((state) => state.banks);
     const { terminalTypes } = useSelector((state) => state.terminalTypes);
     const { paymentSystems } = useSelector((state) => state.paymentSystems);
     const [ terminalData, setTerminalData ] = useState({
+        id: terminal.id,
         serial: terminal.serial,
         tid: terminal.tid,
         mid: terminal.mid,
-        posType: terminal.pos_type,
+        pos_type: terminal.pos_type,
         mcc: terminal.mcc,
-        tax: terminal.merchant_tax_number,
-        merchantName: terminal.merchant_name,
-        merchantNameInAm: terminal.merchant_name_in_am,
-        merchantAddress: terminal.merchant_address,
-        merchantAddressInAm: terminal.merchant_address_in_am,
-        merchantCity: terminal.merchant_city,
-        merchantCitysInAm: terminal.merchant_city_in_am,
-        merchantPhoneNumber: terminal.merchant_phone_number,
-        merchantWebPage: terminal.merchant_web_page,
-        merchantEmail: terminal.merchant_email,
+        merchant_tax_number: terminal.merchant_tax_number,
+        merchant_name: terminal.merchant_name,
+        merchant_name_in_am: terminal.merchant_name_in_am,
+        merchant_address: terminal.merchant_address,
+        merchant_address_in_am: terminal.merchant_address_in_am,
+        merchant_city: terminal.merchant_city,
+        merchant_city_in_am: terminal.merchant_city_in_am,
+        merchant_phone_number: terminal.merchant_phone_number,
+        merchant_web_page: terminal.merchant_web_page,
+        merchant_email: terminal.merchant_email,
         active: terminal.active,
         bank: terminal.bank,
-        paymentSystem: terminal.paymentSystem ?? "",
+        payment_system: terminal.paymentSystem ?? "",
     });
     const [ emptySerialError, setEmptySerialError ] = useState(false);
     const [ invalidSerialError, setInvalidSerialError ] = useState(false);
@@ -64,7 +65,8 @@ const ChangeTerminalData = ({
     const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
     const [ emptyMerchantCityInAmError, setEmptyMerchantCityInAmError ] = useState(false);
     const [ emptyBankError, setEmptyBankError ] = useState(false);
-    const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
+    // const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
+    const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
     const dispatch = useDispatch();
@@ -75,8 +77,8 @@ const ChangeTerminalData = ({
         paySysList.push(paysys.short_name);
     });
 
-    const checkFieldsValidation = ({ serial, tid, mid, posType, mcc, tax, merchantName, merchantNameInAm, merchantAddress, 
-                                     merchantAddressInAm, merchantCity, merchantCityInAm, bank, paymentSystem }) => {
+    const checkFieldsValidation = ({ serial, tid, mid, pos_type, mcc, merchant_tax_number, merchant_name, merchant_name_in_am, merchant_address, 
+                                     merchant_address_in_am, merchant_city, merchant_city_in_am, bank }) => {
         let existsError = false;
 
         if (!serial.length) {
@@ -106,7 +108,7 @@ const ChangeTerminalData = ({
                 setInvalidMidError(true);
             }
         }
-        if (!posType.length) {
+        if (!pos_type.length) {
             existsError = true;
             setEmptyPosTypeError(true);
         }
@@ -119,36 +121,36 @@ const ChangeTerminalData = ({
                 setInvalidMccError(true);
             }
         }
-        if (!tax.length) {
+        if (!merchant_tax_number.length) {
             existsError = true;
             setEmptyTaxError(true);
         } else {
-            if (!taxValidation(tax)) {
+            if (!taxValidation(merchant_tax_number)) {
                 existsError = true;
                 setInvalidTaxError(true);
             }
         }
-        if (!merchantName.length) {
+        if (!merchant_name.length) {
             existsError = true;
             setEmptyMerchantNameError(true);
         }
-        if (!merchantNameInAm.length) {
+        if (!merchant_name_in_am.length) {
             existsError = true;
             setEmptyMerchantNameInAmError(true);
         }
-        if (!merchantAddress.length) {
+        if (!merchant_address.length) {
             existsError = true;
             setEmptyMerchantAddressError(true);
         }
-        if (!merchantAddressInAm.length) {
+        if (!merchant_address_in_am.length) {
             existsError = true;
             setEmptyMerchantAddressInAmError(true);
         }
-        if (!merchantCity.length) {
+        if (!merchant_city.length) {
             existsError = true;
             setEmptyMerchantCityError(true);
         }
-        if (!merchantCityInAm.length) {
+        if (!merchant_city_in_am.length) {
             existsError = true;
             setEmptyMerchantCityInAmError(true);
         }
@@ -156,10 +158,10 @@ const ChangeTerminalData = ({
             existsError = true;
             setEmptyBankError(true);
         }
-        if (!paymentSystem.length) {
-            existsError = true;
-            setEmptyPaySysError(true);
-        }
+        // if (!paymentSystem.length) {
+        //     existsError = true;
+        //     setEmptyPaySysError(true);
+        // }
 
         return existsError;
     };
@@ -182,26 +184,33 @@ const ChangeTerminalData = ({
         setEmptyMerchantCityError(false);
         setEmptyMerchantCityInAmError(false);
         setEmptyBankError(false);
-        setEmptyPaySysError(false);
+        // setEmptyPaySysError(false);
     };
 
     const onClickSaveButton = async () => {
         resetPrevValidations();
 
         if (!checkFieldsValidation(terminalData)) {
-            const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
+            if (isChangedAnyData(terminal, terminalData)) {
+                const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
 
-            if (responseChangeTermData.message === "success") {
-                setIsTermDataChanged(!isTermDataChanged);
-                onCloseHandler();
-            } else if (responseChangeTermData.message === "invalid token") {
-                localStorage.clear();
-                dispatch(logoutUser());
+                if (responseChangeTermData.message === "success") {
+                    setIsTermDataChanged(!isTermDataChanged);
+                    setOpenCloseSuccessModal(true);
+                    setTimeout(() => {
+                        onCloseHandler();
+                    }, 3000);
+                } else if (responseChangeTermData.message === "invalid token") {
+                    localStorage.clear();
+                    dispatch(logoutUser());
 
-                <Navigate to="/login" />;
+                    <Navigate to="/login" />;
+                } else {
+                    throw Error("Connection error!");
+                }
             } else {
-                throw Error("Connection error!");
-            }
+                onCloseHandler();
+            }            
         }
     };
 
@@ -402,9 +411,10 @@ const ChangeTerminalData = ({
                                                 setField={setTerminalData}
                                                 changeFieldName={"paymentSystem"}
                                                 width={"223px"}
-                                                marginTop={"10px"}
-                                                existsError={emptyPaySysError}
-                                                errorText={t("searchArea.emptyFieldError")} />
+                                                marginTop={"10px"} 
+                                                // existsError={emptyPaySysError}
+                                                // errorText={t("searchArea.emptyFieldError")} 
+                                                />
                             </>
                         }
                     </div>
@@ -421,6 +431,9 @@ const ChangeTerminalData = ({
                     />
                 </div>
             </div>
+            {openCloseSuccessModal &&
+                <SuccessModal />
+            }
             {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseErrorModal(false)}
                                 isOpen={openCloseErrorModal}

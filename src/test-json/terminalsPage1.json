@@ -22,7 +22,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "AMERIA"
+                    "bank": "AMERIA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2684",
@@ -42,7 +43,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "AMERIA"
+                    "bank": "AMERIA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2683",
@@ -62,7 +64,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "AMERIA"
+                    "bank": "AMERIA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2682",
@@ -82,7 +85,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "AMERIA"
+                    "bank": "AMERIA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2681",
@@ -102,7 +106,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2680",
@@ -122,7 +127,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2679",
@@ -142,7 +148,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2678",
@@ -162,7 +169,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2677",
@@ -182,7 +190,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 },
                 {
                     "id": "2676",
@@ -202,7 +211,8 @@
                     "merchant_phone_number": "+37477777777",
                     "merchant_web_page": "www.justqr.am",
                     "merchant_email": "",
-                    "bank": "ACBA"
+                    "bank": "ACBA",
+                    "payment_system": ""
                 }
             ],
             "terminals_page_count": 2
