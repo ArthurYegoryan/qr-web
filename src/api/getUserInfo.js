@@ -1,12 +1,13 @@
 import axios from "axios";
 import { HeaderTokenConfig } from "../constants/configs/configs";
-import user from "../test-json/userInfo.json";
+import adminUser from "../test-json/adminUserInfo.json";
+// import bankUser from "../test-json/bankUserInfo.json";
 // import loginError from "../test-json/loginError.json"
 
 const getUserInfo = async (url, params) => {
-    // console.log("getUserInfo");
-    // console.log("user: " + JSON.stringify(user[0], null, 2));
-    return user[0].data;
+    // console.log("User: " + JSON.stringify(bankUser[0], null, 2));
+    return adminUser[0].data;
+    // return bankUser[0].data;
 
     // return loginError[0];
 

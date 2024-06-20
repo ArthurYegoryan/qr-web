@@ -5,6 +5,7 @@ import SelectComponent from "../../../../generalComponents/inputFields/selectCom
 import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import SuccessModal from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import addNewTerminal from "../../../../api/addNewTerminal";
 import { useState } from "react";
 import { urls } from "../../../../constants/urls/urls";
@@ -63,6 +64,7 @@ const AddNewTerminalData = ({
     const [ emptyMerchantCityInAmError, setEmptyMerchantCityInAmError ] = useState(false);
     const [ emptyBankError, setEmptyBankError ] = useState(false);
     const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
+    const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
     const dispatch = useDispatch();
@@ -191,7 +193,10 @@ const AddNewTerminalData = ({
 
             if (responseAddNewTerminal.message === "success") {
                 setIsTermDataChanged(!isTermDataChanged);
-                onCloseHandler();
+                setOpenCloseSuccessModal(true);
+                setTimeout(() => {
+                    onCloseHandler();
+                }, 3000);
             } else if (responseAddNewTerminal.message === "invalid token") {
                 localStorage.clear();
                 dispatch(logoutUser());
@@ -400,6 +405,9 @@ const AddNewTerminalData = ({
                         onClickHandler={() => onCloseHandler()} 
                 />
             </div>
+            {openCloseSuccessModal &&
+                <SuccessModal />
+            }
             {openCloseErrorModal &&
             <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                             isOpen={true}
