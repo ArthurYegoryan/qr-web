@@ -322,10 +322,7 @@ const ChangeTerminalData = ({
                                                 setField={setTerminalData}
                                                 changeFieldName={"payment_system"}
                                                 width={"223px"}
-                                                marginTop={"10px"} 
-                                                // existsError={emptyPaySysError}
-                                                // errorText={t("searchArea.emptyFieldError")} 
-                                                />
+                                                marginTop={"10px"} />
                             </>
                         }
                     </div>
