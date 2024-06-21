@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../../redux/slices/authorization/authSlice";
 
 const AddNewUser = ({
     setIsUserDataChanged, 
@@ -64,7 +64,7 @@ const AddNewUser = ({
                 } else if (responseBanks.message === "invalid token" ||
                            responseRoles.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {
@@ -144,7 +144,7 @@ const AddNewUser = ({
                 }, 3000);                
             } else if (responseAddNewUser.message === "invalid token") {
                 localStorage.clear();
-                dispatch(logoutUser());
+                dispatch(editToken(""));
 
                 <Navigate to="/login" />;
             } else {

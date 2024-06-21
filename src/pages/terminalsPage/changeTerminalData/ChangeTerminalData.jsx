@@ -13,7 +13,7 @@ import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrev
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { logoutUser } from "../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
@@ -113,7 +113,7 @@ const ChangeTerminalData = ({
                     }, 3000);
                 } else if (responseChangeTermData.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
 
                     <Navigate to="/login" />;
                 } else {

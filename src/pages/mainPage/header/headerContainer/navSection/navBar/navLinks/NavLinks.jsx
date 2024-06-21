@@ -4,8 +4,10 @@ import "./NavLinks.css";
 import { useTranslation } from 'react-i18next';
 
 const NavLinks = () => {
-    const { role } = useSelector((state) => state.auth);
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const { t } = useTranslation();
+
+    console.log("Role: ", role);
 
     return (
         <nav className="nav-links">

@@ -8,7 +8,7 @@ import { urls } from '../../../../constants/urls/urls';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../../../redux/slices/authorization/authSlice';
+import { editID, editRole, editUsername, editToken } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
@@ -47,13 +47,18 @@ const LoginForm = () => {
                 );
 
                 if (response.message === "success") {
+                    console.log("Token: ", response.token);
+
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("user_id", response.userInfo.id);
                     localStorage.setItem("username", response.userInfo.username);
                     localStorage.setItem("role", response.userInfo.role);
-                    localStorage.setItem("isLoggedIn", true);
 
-                    dispatch(loginUser());
+                    dispatch(editID(response.userInfo.id));
+                    dispatch(editUsername(response.userInfo.username));
+                    dispatch(editRole(response.userInfo.role));
+                    dispatch(editToken(response.token));
+
                     <Navigate to="/terminals" />;
                 } else if (response.message === "wrong username or password") {
                     setWrongUsernamePasswordError(true);

@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 import MainPage from "../pages/mainPage/MainPage";
 
 const ProtectedRoute = () => {
-    const { isLoggedIn } = useSelector((state) => state.auth);    
+    const token = useSelector((state) => state.auth.token.payload) ?? localStorage.getItem("token");
 
-    if (!isLoggedIn) {
+    if (!token) {
         return <Navigate to="/login" />
     }
     

@@ -10,7 +10,7 @@ import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { emailValidation } from "../../../utils/fieldsValidations/userDataFieldsValidation";
 import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
-import { logoutUser } from "../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate } from "react-router-dom";
@@ -94,7 +94,7 @@ const ChangeUserData = ({
                     }, 3000);                    
                 } else if (responseChangeUserData.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
 
                     <Navigate to="/login" />;
                 } else {

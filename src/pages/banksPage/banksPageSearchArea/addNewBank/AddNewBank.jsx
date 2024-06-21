@@ -4,7 +4,7 @@ import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/C
 import { useState } from "react";
 import addNewBank from "../../../../api/addNewBank";
 import { urls } from "../../../../constants/urls/urls";
-import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
@@ -128,7 +128,7 @@ const AddNewTerminalData = ({
                 
             } else if (responseAddNewBank.message === "invalid token") {
                 localStorage.clear();
-                dispatch(logoutUser());
+                dispatch(editToken(""));
 
                 <Navigate to="/login" />;
             } else {

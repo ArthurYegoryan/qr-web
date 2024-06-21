@@ -11,7 +11,7 @@ import getBanksByPage from "../../api/getBanksByPage";
 import { urls } from "../../constants/urls/urls";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/slices/authorization/authSlice";
+import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -55,7 +55,7 @@ const BanksPage = () => {
                     setBanksPageCount(response.banks_page_count)
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {

@@ -2,9 +2,9 @@ import { useSelector } from "react-redux"
 import { Navigate, Outlet } from "react-router-dom";
 
 const LoginRouteWrapper = () => {
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const token = useSelector((state) => state.auth.token.payload) ?? localStorage.getItem("token");
 
-    if (isLoggedIn) {
+    if (token) {
         return <Navigate to="/terminals" />
     }
 

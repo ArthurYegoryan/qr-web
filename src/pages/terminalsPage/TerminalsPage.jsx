@@ -16,7 +16,7 @@ import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSys
 import { useDispatch, useSelector } from "react-redux";
 import { urls } from "../../constants/urls/urls";
 import { Navigate} from "react-router-dom";
-import { logoutUser } from "../../redux/slices/authorization/authSlice";
+import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
 import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
 import { useTranslation } from "react-i18next";
@@ -70,7 +70,7 @@ const TerminalsPage = () => {
                     setTerminalsPageCount(response.terminals_page_count);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {
@@ -109,7 +109,7 @@ const TerminalsPage = () => {
                            responseBanks.message === "invalid token" ||
                            responsePaySystems.message === "invalid token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {

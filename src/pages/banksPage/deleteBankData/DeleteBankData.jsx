@@ -5,7 +5,7 @@ import deleteBankData from "../../../api/deleteBankData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { logoutUser } from "../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ const DeleteBankData = ({
             }, 3000);
         } else if (response.message === "invalid token") {
             localStorage.clear();
-            dispatch(logoutUser());
+            dispatch(editToken(""));
     
             <Navigate to="/login" />;
         }

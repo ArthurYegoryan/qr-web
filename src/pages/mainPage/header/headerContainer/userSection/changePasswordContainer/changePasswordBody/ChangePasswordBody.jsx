@@ -7,7 +7,7 @@ import { passwordValidations } from "../../../../../../../utils/fieldsValidation
 import SuccessModalBody from "../../../../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { logoutUser } from "../../../../../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -42,7 +42,7 @@ const ChangePasswordBody = ({ onCloseHandler }) => {
                     setOldPassError(true);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {
@@ -106,7 +106,8 @@ const ChangePasswordBody = ({ onCloseHandler }) => {
                         isDisabled={isDisabled}
                         onClickHandler={() => onSaveBtnHandler(passwordsInfos.newPassword)} />
                 <Button label={t("addNewTerminal.cancelBtn")}
-                        backgroundColor="red" />
+                        backgroundColor="red"
+                        onClickHandler={() => onCloseHandler()} />
             </div>
             {openCloseModal &&
                 <SuccessModalBody />

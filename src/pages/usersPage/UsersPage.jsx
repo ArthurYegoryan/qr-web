@@ -14,7 +14,7 @@ import { usersSearchFields } from "../../constants/tableFields/usersSearchFields
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { saveBanks, saveBanksAllData } from "../../redux/slices/banks/banksSlice";
 import { saveRoles } from "../../redux/slices/roles/rolesSlice";
-import { logoutUser } from "../../redux/slices/authorization/authSlice";
+import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -63,7 +63,7 @@ const UsersPage = () => {
                     dispatch(saveBanks(banks));
                 } else if (responseBanks.message === "expired token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {
@@ -92,7 +92,7 @@ const UsersPage = () => {
                     setUsersPageCount(responseUsers.users_page_count);
                 } else if (responseUsers.message === "expired token") {
                     localStorage.clear();
-                    dispatch(logoutUser());
+                    dispatch(editToken(""));
             
                     <Navigate to="/login" />;
                 } else {

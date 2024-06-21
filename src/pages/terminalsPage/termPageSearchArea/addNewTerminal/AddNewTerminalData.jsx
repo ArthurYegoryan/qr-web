@@ -9,7 +9,7 @@ import SuccessModal from "../../../../generalComponents/modalComponent/successMo
 import addNewTerminal from "../../../../api/addNewTerminal";
 import { useState } from "react";
 import { urls } from "../../../../constants/urls/urls";
-import { logoutUser } from "../../../../redux/slices/authorization/authSlice";
+import { editToken } from "../../../../redux/slices/authorization/authSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
@@ -109,7 +109,7 @@ const AddNewTerminalData = ({
                 }, 3000);
             } else if (responseAddNewTerminal.message === "invalid token") {
                 localStorage.clear();
-                dispatch(logoutUser());
+                dispatch(editToken(""));
 
                 <Navigate to="/login" />;
             } else {
