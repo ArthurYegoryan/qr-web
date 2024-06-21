@@ -1,4 +1,4 @@
-import { emailValidation, passwordValidations } from "./userDataFieldsValidation";
+import { emailValidation } from "./userDataFieldsValidation";
 
 export const checkFieldsValidation = (
     { 
