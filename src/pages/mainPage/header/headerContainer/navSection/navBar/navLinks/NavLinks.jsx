@@ -7,8 +7,6 @@ const NavLinks = () => {
     const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const { t } = useTranslation();
 
-    console.log("Role: ", role);
-
     return (
         <nav className="nav-links">
             <ul className="nav-ul">

@@ -1,19 +1,19 @@
 import "./ChangeBankData.css";
+import Button from "../../../generalComponents/buttons/Button";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
-import { useState } from "react";
-import changeBankData from "../../../api/changeBankData";
-import { urls } from "../../../constants/urls/urls";
-import { editToken } from "../../../redux/slices/authorization/authSlice";
-import { Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import Button from "../../../generalComponents/buttons/Button";
-import { emailValidation } from "../../../utils/fieldsValidations/userDataFieldsValidation";
-import { armenianValidation, russianValidation, englishValidation } from "../../../utils/fieldsValidations/bankDataFieldsValidation";
+import changeBankData from "../../../api/changeBankData";
+import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkBankDataFieldsValidation";
+import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrevValidations";
 import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
+import { urls } from "../../../constants/urls/urls";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const ChangeBankData = ({
@@ -50,76 +50,23 @@ const ChangeBankData = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const checkFieldsValidation = ({ short_name, name_am, name_en, name_ru, email, secondEmail }) => {
-        let existsError = false;
-
-        if (!short_name.length) {
-            existsError = true;
-            setShortNameEmptyError(true);
-        }
-        if (!name_am.length) {
-            existsError = true;
-            setNameAmEmptyError(true);
-        } else {
-            if (!armenianValidation(name_am)) {
-                existsError = true;
-                setNameAmLanguageError(true);
-            }
-        }
-        if (!name_ru.length) {
-            existsError = true;
-            setNameRuEmptyError(true);
-        } else {
-            if (!russianValidation(name_ru)) {
-                existsError = true;
-                setNameRuLanguageError(true);
-            }
-        }
-        if (!name_en.length) {
-            existsError = true;
-            setNameEnEmptyError(true);
-        } else {
-            if (!englishValidation(name_en)) {
-                existsError = true;
-                setNameEnLanguageError(true);
-            }
-        }
-        if (!email.length) {
-            existsError = true;
-            setEmailEmptyError(true);
-        } else {
-            if (!emailValidation(email)) {
-                existsError = true;
-                setInvalidEmailError(true);
-            }
-        }
-        if (secondEmail.length) {
-            if (!emailValidation(secondEmail)) {
-                existsError = true;
-                setInvalidSecondEmailError(true);
-            }
-        }
-
-        return existsError;
-    };
-
-    const resetPrevValidations = () => {
-        setShortNameEmptyError(false);
-        setNameAmEmptyError(false);
-        setNameAmLanguageError(false);
-        setNameRuEmptyError(false);
-        setNameRuLanguageError(false);
-        setNameEnEmptyError(false);
-        setNameEnLanguageError(false);
-        setEmailEmptyError(false);
-        setInvalidEmailError(false);
-        setInvalidSecondEmailError(false);
-    };
-
+    const banksErrorFields = [
+        setShortNameEmptyError,
+        setNameAmEmptyError,
+        setNameAmLanguageError,
+        setNameRuEmptyError,
+        setNameRuLanguageError,
+        setNameEnEmptyError,
+        setNameEnLanguageError,
+        setEmailEmptyError,
+        setInvalidEmailError,
+        setInvalidSecondEmailError,
+    ];
+    
     const onClickSaveButton = async () => {
-        resetPrevValidations();
+        resetPrevValidations(banksErrorFields);
         
-        if (isChangedAnyData(bank, changedBankData) && !checkFieldsValidation(changedBankData)) {
+        if (isChangedAnyData(bank, changedBankData) && !checkFieldsValidation(changedBankData, banksErrorFields)) {
             const responseChangeBank = await changeBankData(urls.PUT_BANK_DATA_URL, changedBankData);
 
             if (responseChangeBank.message === "success") {
