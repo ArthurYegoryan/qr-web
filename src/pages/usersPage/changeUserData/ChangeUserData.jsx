@@ -8,7 +8,8 @@ import ErrorModalBody from "../../../generalComponents/modalComponent/errorModal
 import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeUserData from "../../../api/changeUserData";
 import { urls } from "../../../constants/urls/urls";
-import { emailValidation } from "../../../utils/fieldsValidations/userDataFieldsValidation";
+import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkEditUserDataFieldsValidation";
+import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrevValidations";
 import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
@@ -22,7 +23,7 @@ const ChangeUserData = ({
     isUserDataChanged,
     onCloseHandler
 }) => {
-    const banks = useSelector((state) => state.banks.banksAllData.payload);
+    const { banks } = useSelector((state) => state.banks);
     const roles = useSelector((state) => state.roles.roles.payload);
     const [ changedUserData, setChangedUserData ] = useState({
         id: user.id,
@@ -42,45 +43,17 @@ const ChangeUserData = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const banksList = [];
-    banks.map((bank) => banksList.push(bank.short_name));
-
-     const checkFieldsValidation = ({ username, email }) => {
-        let existsError = false;
-
-        if (!username.length) {
-            existsError = true;
-            setUsernameEmptyError(true);
-        } else {
-            if (username.length < 3) {
-                existsError = true;
-                setUsernameLengthError(true);
-            }
-        }
-        if (!email.length) {
-            existsError = true;
-            setEmailEmptyError(true);
-        } else {
-            if (!emailValidation(email)) {
-                existsError = true;
-                setInvalidEmailError(true);
-            }
-        }
-
-        return existsError;
-    };
-
-    const resetPrevValidations = () => {
-        setUsernameEmptyError(false);
-        setUsernameLengthError(false);
-        setEmailEmptyError(false);
-        setInvalidEmailError(false);
-    };
+    const usersErrorFields = [
+        setUsernameEmptyError,
+        setUsernameLengthError,
+        setEmailEmptyError,
+        setInvalidEmailError,
+    ];
 
     const onClickSaveButton = async () => {
-        resetPrevValidations();
+        resetPrevValidations(usersErrorFields);
 
-        if (!checkFieldsValidation(changedUserData)) {
+        if (!checkFieldsValidation(changedUserData, usersErrorFields)) {
             if (!isChangedAnyData(user, changedUserData)) {                
                 onCloseHandler();
             } else {
@@ -121,7 +94,7 @@ const ChangeUserData = ({
                                })} />
                     <SelectComponent label={t("banks.bank")}
                                      defaultValue={user.bank}
-                                     chooseData={banksList}
+                                     chooseData={Object.values(banks.payload)}
                                      fields={changedUserData}
                                      setField={setChangedUserData}
                                      changeFieldName={"bank"}

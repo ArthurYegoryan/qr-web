@@ -6,13 +6,13 @@ import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/C
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import getAllBanks from "../../../../api/getAllBanks";
 import getRoles from "../../../../api/getRoles";
 import addNewUser from "../../../../api/addNewUser";
 import { urls } from "../../../../constants/urls/urls";
-import { emailValidation, passwordValidations } from "../../../../utils/fieldsValidations/userDataFieldsValidation";
+import { checkFieldsValidation } from "../../../../utils/fieldsValidations/checkAddUserDataFieldsValidation";
+import { resetPrevValidations } from "../../../../utils/fieldsValidations/resetPrevValidations";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { editToken } from "../../../../redux/slices/authorization/authSlice";
@@ -30,7 +30,7 @@ const AddNewUser = ({
         role: "",
         is_active: true
     });
-    const [ banks, setBanks ] = useState([]);
+    const { banks } = useSelector((state) => state.banks);
     const [ roles, setRoles ] = useState([]);
     const [ usernameEmptyError, setUsernameEmptyError ] = useState(false);
     const [ usernameLengthError, setUsernameLengthError ] = useState(false);
@@ -45,24 +45,25 @@ const AddNewUser = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const usersErrorFields = [
+        setUsernameEmptyError,
+        setUsernameLengthError,
+        setBankEmptyError,
+        setEmailEmptyError,
+        setInvalidEmailError,
+        setRoleEmptyError,
+        setPasswordEmptyError,
+        setInvalidPasswordError
+    ];
+
     useEffect(() => {
-        const fetchBanksRoles = async () => {
+        const fetchRoles = async () => {
             try {
-                const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
                 const responseRoles = await getRoles(urls.GET_ROLES_URL);
 
-                if (responseBanks.message === "success" &&
-                    responseRoles.message === "success") {
-                    const banksShortNames = [];
-
-                    responseBanks.banks.map((bank) => {
-                        banksShortNames.push(bank.short_name);
-                    })
-
-                    setBanks(banksShortNames);
+                if (responseRoles.message === "success") {
                     setRoles(responseRoles.roles)
-                } else if (responseBanks.message === "invalid token" ||
-                           responseRoles.message === "invalid token") {
+                } else if (responseRoles.message === "invalid token") {
                     localStorage.clear();
                     dispatch(editToken(""));
             
@@ -74,66 +75,13 @@ const AddNewUser = ({
                 setOpenCloseErrorModal(true);
             }
         }
-        fetchBanksRoles();
+        fetchRoles();
     }, []);
 
-    const checkFieldsValidation = ({ username, bank, email, role, password }) => {
-        let existsError = false;
-
-        if (!username.length) {
-            existsError = true;
-            setUsernameEmptyError(true);
-        } else {
-            if (username.length < 3) {
-                existsError = true;
-                setUsernameLengthError(true);
-            }
-        }
-        if (!bank.length) {
-            existsError = true;
-            setBankEmptyError(true);
-        }
-        if (!email.length) {
-            existsError = true;
-            setEmailEmptyError(true);
-        } else {
-            if (!emailValidation(email)) {
-                existsError = true;
-                setInvalidEmailError(true);
-            }
-        }
-        if (!role.length) {
-            existsError = true;
-            setRoleEmptyError(true);
-        }
-        if (!password.length) {
-            existsError = true;
-            setPasswordEmptyError(true);
-        } else {
-            if (!passwordValidations(password)) {
-                existsError = true;
-                setInvalidPasswordError(true);
-            }
-        }
-
-        return existsError;
-    };
-
-    const resetPrevValidations = () => {
-        setUsernameEmptyError(false);
-        setUsernameLengthError(false);
-        setBankEmptyError(false);
-        setEmailEmptyError(false);
-        setInvalidEmailError(false);
-        setRoleEmptyError(false);
-        setPasswordEmptyError(false);
-        setInvalidPasswordError(false);
-    };
-
     const onClickAddButton = async () => {
-        resetPrevValidations();
+        resetPrevValidations(usersErrorFields);
 
-        if (!checkFieldsValidation(newUserData)) {
+        if (!checkFieldsValidation(newUserData, usersErrorFields)) {
             const responseAddNewUser = await addNewUser(urls.POST_NEW_USER_URL, newUserData);
 
             if (responseAddNewUser.message === "success") {
@@ -168,7 +116,7 @@ const AddNewUser = ({
                                    username: evt.target.value
                                })} />
                     <SelectComponent label={t("banks.bank")}
-                                     chooseData={banks}
+                                     chooseData={Object.values(banks.payload)}
                                      fields={newUserData}
                                      setField={setNewUserData}
                                      changeFieldName={"bank"}
