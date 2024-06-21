@@ -15,7 +15,6 @@ export const checkFieldsValidation = (
         merchant_city, 
         merchant_city_in_am, 
         bank, 
-        // payment_system 
     },
     [
         setEmptySerialError,
@@ -36,7 +35,6 @@ export const checkFieldsValidation = (
         setEmptyMerchantCityError,
         setEmptyMerchantCityInAmError,
         setEmptyBankError,
-        // setEmptyPaySysError
     ]
 ) => {
     let existsError = false;
@@ -118,10 +116,6 @@ export const checkFieldsValidation = (
         existsError = true;
         setEmptyBankError(true);
     }
-    // if (!payment_system.length) {
-    //     existsError = true;
-    //     setEmptyPaySysError(true);
-    // }
 
     return existsError;
 };

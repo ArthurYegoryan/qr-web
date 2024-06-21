@@ -8,7 +8,8 @@ import ErrorModalBody from "../../../generalComponents/modalComponent/errorModal
 import SuccessModal from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeTerminalData from "../../../api/changeTerminalData";
 import { isChangedAnyData } from "../../../utils/helpers/isChangedAnyData";
-import { serialValidation, midTidValidation, mccValidation, taxValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
+import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkTermDataFieldsValidation";
+import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrevValidations";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -65,7 +66,6 @@ const ChangeTerminalData = ({
     const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
     const [ emptyMerchantCityInAmError, setEmptyMerchantCityInAmError ] = useState(false);
     const [ emptyBankError, setEmptyBankError ] = useState(false);
-    // const [ emptyPaySysError, setEmptyPaySysError ] = useState(false);
     const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
@@ -77,120 +77,31 @@ const ChangeTerminalData = ({
         paySysList.push(paysys.short_name);
     });
 
-    const checkFieldsValidation = ({ serial, tid, mid, pos_type, mcc, merchant_tax_number, merchant_name, merchant_name_in_am, merchant_address, 
-                                     merchant_address_in_am, merchant_city, merchant_city_in_am, bank }) => {
-        let existsError = false;
-
-        if (!serial.length) {
-            existsError = true;
-            setEmptySerialError(true);
-        } else {
-            if (!serialValidation(serial)) {
-                existsError = true;
-                setInvalidSerialError(true);
-            }
-        }
-        if (!tid.length) {
-            existsError = true;
-            setEmptyTidError(true);
-        } else {
-            if (!midTidValidation(tid)) {
-                existsError = true;
-                setInvalidTidError(true);
-            }
-        }
-        if (!mid.length) {
-            existsError = true;
-            setEmptyMidError(true);
-        } else {
-            if (!midTidValidation(mid)) {
-                existsError = true;
-                setInvalidMidError(true);
-            }
-        }
-        if (!pos_type.length) {
-            existsError = true;
-            setEmptyPosTypeError(true);
-        }
-        if (!mcc.length) {
-            existsError = true;
-            setEmptyMccError(true);
-        } else {
-            if (!mccValidation(mcc)) {
-                existsError = true;
-                setInvalidMccError(true);
-            }
-        }
-        if (!merchant_tax_number.length) {
-            existsError = true;
-            setEmptyTaxError(true);
-        } else {
-            if (!taxValidation(merchant_tax_number)) {
-                existsError = true;
-                setInvalidTaxError(true);
-            }
-        }
-        if (!merchant_name.length) {
-            existsError = true;
-            setEmptyMerchantNameError(true);
-        }
-        if (!merchant_name_in_am.length) {
-            existsError = true;
-            setEmptyMerchantNameInAmError(true);
-        }
-        if (!merchant_address.length) {
-            existsError = true;
-            setEmptyMerchantAddressError(true);
-        }
-        if (!merchant_address_in_am.length) {
-            existsError = true;
-            setEmptyMerchantAddressInAmError(true);
-        }
-        if (!merchant_city.length) {
-            existsError = true;
-            setEmptyMerchantCityError(true);
-        }
-        if (!merchant_city_in_am.length) {
-            existsError = true;
-            setEmptyMerchantCityInAmError(true);
-        }
-        if (!bank.length) {
-            existsError = true;
-            setEmptyBankError(true);
-        }
-        // if (!paymentSystem.length) {
-        //     existsError = true;
-        //     setEmptyPaySysError(true);
-        // }
-
-        return existsError;
-    };
-
-    const resetPrevValidations = () => {
-        setEmptySerialError(false);
-        setInvalidSerialError(false);
-        setEmptyTidError(false);
-        setInvalidTidError(false);
-        setEmptyMidError(false);
-        setInvalidMidError(false);
-        setEmptyMccError(false);
-        setInvalidMccError(false);
-        setEmptyTaxError(false);
-        setInvalidTaxError(false);
-        setEmptyMerchantNameError(false);
-        setEmptyMerchantNameInAmError(false);
-        setEmptyMerchantAddressError(false);
-        setEmptyMerchantAddressInAmError(false);
-        setEmptyMerchantCityError(false);
-        setEmptyMerchantCityInAmError(false);
-        setEmptyBankError(false);
-        // setEmptyPaySysError(false);
-    };
+    const terminalsErrorFields = [
+        setEmptySerialError,
+        setInvalidSerialError,
+        setEmptyTidError,
+        setInvalidTidError,
+        setEmptyMidError,
+        setInvalidMidError,
+        setEmptyPosTypeError,
+        setEmptyMccError,
+        setInvalidMccError,
+        setEmptyTaxError,
+        setInvalidTaxError,
+        setEmptyMerchantNameError,
+        setEmptyMerchantNameInAmError,
+        setEmptyMerchantAddressError,
+        setEmptyMerchantAddressInAmError,
+        setEmptyMerchantCityError,
+        setEmptyMerchantCityInAmError,
+        setEmptyBankError,
+    ];
 
     const onClickSaveButton = async () => {
-        resetPrevValidations();
+        resetPrevValidations(terminalsErrorFields);
 
-        if (!checkFieldsValidation(terminalData)) {
+        if (!checkFieldsValidation(terminalData, terminalsErrorFields)) {
             if (isChangedAnyData(terminal, terminalData)) {
                 const responseChangeTermData = await changeTerminalData(urls.PUT_TERMINAL_DATA_URL, terminalData);
 
@@ -259,7 +170,7 @@ const ChangeTerminalData = ({
                                             chooseData={terminalTypes.payload}
                                             fields={terminalData}
                                             setField={setTerminalData}
-                                            changeFieldName={"posType"}
+                                            changeFieldName={"pos_type"}
                                             width={"223px"}
                                             marginTop={"10px"}
                                             existsError={emptyPosTypeError}
@@ -286,7 +197,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        tax: evt.target.value
+                                        merchant_tax_number: evt.target.value
                                     })} />
                     </div>
                     <div className="change-term-data-fields">
@@ -299,7 +210,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantName: evt.target.value
+                                        merchant_name: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantNameAm")}
                                     defaultValue={terminal.merchant_name_in_am}
@@ -311,7 +222,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantNameInAm: evt.target.value
+                                        merchant_name_in_am: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantAddress")}
                                     defaultValue={terminal.merchant_address}
@@ -323,7 +234,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantAddress: evt.target.value
+                                        merchant_address: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantAddressAm")}
                                     defaultValue={terminal.merchant_address_in_am}
@@ -335,7 +246,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantAddressInAm: evt.target.value
+                                        merchant_address_in_am: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantCity")}
                                     defaultValue={terminal.merchant_city}
@@ -347,7 +258,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantCity: evt.target.value
+                                        merchant_city: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantCityAm")}
                                     defaultValue={terminal.merchant_city_in_am}
@@ -359,7 +270,7 @@ const ChangeTerminalData = ({
                                     }
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantCityInAm: evt.target.value
+                                        merchant_city_in_am: evt.target.value
                                     })} />
                     </div>
                     <div className="change-term-data-fields">
@@ -376,7 +287,7 @@ const ChangeTerminalData = ({
                                     width="340px"
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantWebPage: evt.target.value
+                                        merchant_web_page: evt.target.value
                                     })} />
                         <TextInput label={t("terminalsSection.merchantEmail")}
                                     defaultValue={terminal.merchant_email}
@@ -384,7 +295,7 @@ const ChangeTerminalData = ({
                                     width="340px"
                                     onChangeHandler={(evt) => setTerminalData({
                                         ...terminalData,
-                                        merchantEmail: evt.target.value
+                                        merchant_email: evt.target.value
                                     })} />
                         <CheckBoxLabels label={t("banks.isActive")}
                                         defaultChecked={terminal.active}
@@ -409,7 +320,7 @@ const ChangeTerminalData = ({
                                                 chooseData={paySysList}
                                                 fields={terminalData}
                                                 setField={setTerminalData}
-                                                changeFieldName={"paymentSystem"}
+                                                changeFieldName={"payment_system"}
                                                 width={"223px"}
                                                 marginTop={"10px"} 
                                                 // existsError={emptyPaySysError}
