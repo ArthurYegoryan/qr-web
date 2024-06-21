@@ -47,8 +47,6 @@ const LoginForm = () => {
                 );
 
                 if (response.message === "success") {
-                    console.log("Token: ", response.token);
-
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("user_id", response.userInfo.id);
                     localStorage.setItem("username", response.userInfo.username);

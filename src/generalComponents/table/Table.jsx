@@ -55,8 +55,8 @@ const TableComponent = ({
         },
         {
             title: 'Merchant name',
-            dataIndex: 'merchant_name',
-            key: 'merchant_name',
+            dataIndex: 'merchant_name_in_am',
+            key: 'merchant_name_in_am',
             width: 25,
         },
         {

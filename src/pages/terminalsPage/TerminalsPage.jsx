@@ -20,6 +20,7 @@ import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
 import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
 import { useTranslation } from "react-i18next";
+import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
 const TerminalsPage = () => {
     const [ terminals, setTerminals ] = useState([]);
@@ -133,7 +134,7 @@ const TerminalsPage = () => {
                                 setIsTermDataChanged={setIsTermDataChanged} 
             />
             <Table whichTable={"terminals"}
-                   datas={terminals}
+                   datas={makeObjFieldsToString(terminals)}
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);
                        setOpenCloseEditModal(true);

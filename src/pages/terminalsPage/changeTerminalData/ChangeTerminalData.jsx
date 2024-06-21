@@ -23,7 +23,7 @@ const ChangeTerminalData = ({
     isTermDataChanged,
     onCloseHandler
 }) => {
-    const { role } = useSelector((state) => state.auth);
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const { banks } = useSelector((state) => state.banks);
     const { terminalTypes } = useSelector((state) => state.terminalTypes);
     const { paymentSystems } = useSelector((state) => state.paymentSystems);

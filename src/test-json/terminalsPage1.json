@@ -5,12 +5,12 @@
             "message": "success",
             "terminals": [
                 {
-                    "id": "2685",
+                    "id": "15",
                     "tid": "19018888",
                     "mid": "19008888",
                     "serial": "26890412",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "MOVE 3500",
                     "merchant_name": "QR Test SW/693SR3",
                     "merchant_name_in_am": "QR տեստ SW/693SR3",
@@ -26,12 +26,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2684",
+                    "id": "14",
                     "tid": "19018888",
                     "mid": "19008888",
                     "serial": "52612686",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "DESK 2600",
                     "merchant_name": "QR Test Desk/2600",
                     "merchant_name_in_am": "QR տեստ Desk/2600",
@@ -47,12 +47,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2683",
+                    "id": "13",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "39C20128",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "SUNMI P2",
                     "merchant_name": "QR Test SunMi 2",
                     "merchant_name_in_am": "QR տեստ SunMi 2",
@@ -68,12 +68,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2682",
+                    "id": "12",
                     "tid": "19019999",
                     "mid": "19009999",
                     "serial": "26890654",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "MOVE 3500",
                     "merchant_name": "QR Test Ameria",
                     "merchant_name_in_am": "QR տեստ Ամերիա",
@@ -89,12 +89,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2681",
+                    "id": "11",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "26891096",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "MOVE 3500",
                     "merchant_name": "QR Test Ingenico ECR",
                     "merchant_name_in_am": "QR տեստ Ingenico ECR",
@@ -110,12 +110,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2680",
+                    "id": "10",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "24830403",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "SUNMI P2",
                     "merchant_name": "QR Test SunMi Real",
                     "merchant_name_in_am": "QR տեստ SunMi Real",
@@ -131,12 +131,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2679",
+                    "id": "9",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "22131984",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "Aisino A90",
                     "merchant_name": "QR Test Aisino",
                     "merchant_name_in_am": "QR տեստ Aisino",
@@ -152,12 +152,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2678",
+                    "id": "8",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "1C840362",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "SUNMI P2",
                     "merchant_name": "QR Test SunMi",
                     "merchant_name_in_am": "QR տեստ SunMi",
@@ -173,12 +173,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2677",
+                    "id": "7",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "23049130",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "iWL 251",
                     "merchant_name": "Arthur test",
                     "merchant_name_in_am": "Արթուր տեստ",
@@ -194,12 +194,12 @@
                     "payment_system": ""
                 },
                 {
-                    "id": "2676",
+                    "id": "6",
                     "tid": "34063274",
                     "mid": "340003274",
                     "serial": "90415560",
                     "mcc": "5411",
-                    "active": "true",
+                    "active": true,
                     "pos_type": "iCT 250",
                     "merchant_name": "Arthur test",
                     "merchant_name_in_am": "Արթուր տեստ",
