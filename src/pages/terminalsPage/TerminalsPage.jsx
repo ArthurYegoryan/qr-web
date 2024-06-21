@@ -39,6 +39,7 @@ const TerminalsPage = () => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const userId = useSelector((state) => state.auth.id.payload) ?? localStorage.getItem("user_id");
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -58,9 +59,11 @@ const TerminalsPage = () => {
                     }
                 }
 
+                console.log("User id: ", userId);
                 const response = await getTerminalsByPage(
                     urls.GET_TERMINALS_BY_PAGE_URL, 
                     {
+                        user_id: userId,
                         page: terminalsPage,
                         searchParams: terminalsSearchInfo 
                     }
