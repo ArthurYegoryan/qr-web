@@ -18,19 +18,19 @@ const NavLinks = () => {
                                label={t("nav.transactions")}
                                imageName="img/transaction"
                                imageType=".svg" />
-                {role === "admin" && 
-                    <>
-                        <LinkComponent routePath="/users" 
-                                   label={t("nav.users")}
-                                   imageName="img/users"
-                                   imageType=".svg" /> 
-                    
-                        <LinkComponent routePath="/banks" 
-                                    label={t("nav.banks")}
-                                    imageName="img/bank"
-                                    imageType=".svg" />
-                    </>                    
+                {(role === "admin" || role === "bank") &&
+                    <LinkComponent routePath="/users" 
+                                label={t("nav.users")}
+                                imageName="img/users"
+                                imageType=".svg" /> 
                 }
+                {role === "admin" &&
+                    <LinkComponent routePath="/banks" 
+                                label={t("nav.banks")}
+                                imageName="img/bank"
+                                imageType=".svg" />
+                }
+                        
             </ul>
         </nav>
     );

@@ -43,6 +43,46 @@
                     "email": "ameria@gmail.com",
                     "role": "bank",
                     "is_active": true
+                },
+                {
+                    "id": 6,
+                    "username": "Test org. 1",
+                    "bank": 4,
+                    "email": "testorg1@gmail.com",
+                    "role": "organization",
+                    "is_active": true
+                },
+                {
+                    "id": 7,
+                    "username": "Test org. 2",
+                    "bank": 4,
+                    "email": "testorg2@gmail.com",
+                    "role": "organization",
+                    "is_active": true
+                },
+                {
+                    "id": 8,
+                    "username": "Test org. 3",
+                    "bank": 4,
+                    "email": "testorg3@gmail.com",
+                    "role": "organization",
+                    "is_active": true
+                },
+                {
+                    "id": 9,
+                    "username": "Test org. 4",
+                    "bank": 4,
+                    "email": "testorg4@gmail.com",
+                    "role": "organization",
+                    "is_active": true
+                },
+                {
+                    "id": 10,
+                    "username": "Test org. 5",
+                    "bank": 4,
+                    "email": "testorg5@gmail.com",
+                    "role": "organization",
+                    "is_active": true
                 }
             ],
             "users_page_count": 2

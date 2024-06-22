@@ -59,7 +59,6 @@ const TerminalsPage = () => {
                     }
                 }
 
-                console.log("User id: ", userId);
                 const response = await getTerminalsByPage(
                     urls.GET_TERMINALS_BY_PAGE_URL, 
                     {

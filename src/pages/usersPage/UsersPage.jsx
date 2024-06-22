@@ -37,6 +37,7 @@ const UsersPage = () => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const userId = useSelector((state) => state.auth.id.payload) ?? localStorage.getItem("user_id");
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -82,6 +83,7 @@ const UsersPage = () => {
                 const responseUsers = await getUsersByPage(
                     urls.GET_USERS_URL,
                     {
+                        user_id: userId,
                         page: usersPage,
                         searchParams: usersSearchInfo 
                     }
