@@ -22,15 +22,17 @@ const AddNewUser = ({
     isUserDataChanged,
     onCloseHandler
 }) => {
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const banks = useSelector((state) => state.banks.banks.payload);
+    const userBank = useSelector((state) => state.auth.bank.payload) ?? localStorage.getItem("bank");
     const [ newUserData, setNewUserData ] = useState({
         username: "",
-        bank: "",
+        bank: role === "bank" ? banks[userBank] : "",
         email: "",
         password: "",
-        role: "",
+        role: role === "bank" ? "organization": "",
         is_active: true
     });
-    const { banks } = useSelector((state) => state.banks);
     const [ roles, setRoles ] = useState([]);
     const [ usernameEmptyError, setUsernameEmptyError ] = useState(false);
     const [ usernameLengthError, setUsernameLengthError ] = useState(false);
@@ -82,6 +84,7 @@ const AddNewUser = ({
         resetPrevValidations(usersErrorFields);
 
         if (!checkFieldsValidation(newUserData, usersErrorFields)) {
+            console.log("New user data: ", JSON.stringify(newUserData, null, 2));
             const responseAddNewUser = await addNewUser(urls.POST_NEW_USER_URL, newUserData);
 
             if (responseAddNewUser.message === "success") {
@@ -115,15 +118,17 @@ const AddNewUser = ({
                                    ...newUserData,
                                    username: evt.target.value
                                })} />
-                    <SelectComponent label={t("banks.bank")}
-                                     chooseData={Object.values(banks.payload)}
-                                     fields={newUserData}
-                                     setField={setNewUserData}
-                                     changeFieldName={"bank"}
-                                     width={"223px"}
-                                     marginTop={"10px"}
-                                     existsError={bankEmptyError}
-                                     errorText={t("searchArea.emptyFieldError")} />
+                    {role === "admin" &&
+                        <SelectComponent label={t("banks.bank")}
+                                         chooseData={Object.values(banks)}
+                                         fields={newUserData}
+                                         setField={setNewUserData}
+                                         changeFieldName={"bank"}
+                                         width={"223px"}
+                                         marginTop={"10px"}
+                                         existsError={bankEmptyError}
+                                         errorText={t("searchArea.emptyFieldError")} />
+                    }                    
                     <TextInput label={t("userSection.email")}
                                marginTop={"10px"}
                                existsError={emailEmptyError || invalidEmailError}
@@ -135,15 +140,17 @@ const AddNewUser = ({
                                    ...newUserData,
                                    email: evt.target.value
                                })} />
-                    <SelectComponent label={t("userSection.role")}
-                                     chooseData={roles}
-                                     fields={newUserData}
-                                     setField={setNewUserData}
-                                     changeFieldName={"role"}
-                                     width={"223px"}
-                                     marginTop={"10px"}
-                                     existsError={roleEmptyError}
-                                     errorText={t("searchArea.emptyFieldError")} />
+                    {role === "admin" &&
+                        <SelectComponent label={t("userSection.role")}
+                                         chooseData={roles}
+                                         fields={newUserData}
+                                         setField={setNewUserData}
+                                         changeFieldName={"role"}
+                                         width={"223px"}
+                                         marginTop={"10px"}
+                                         existsError={roleEmptyError}
+                                         errorText={t("searchArea.emptyFieldError")} />
+                    }
                     <TextInput label={t("userSection.password")}
                                isPassword={true}
                                marginTop={"10px"}

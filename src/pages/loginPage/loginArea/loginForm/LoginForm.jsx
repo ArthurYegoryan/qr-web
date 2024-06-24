@@ -8,7 +8,7 @@ import { urls } from '../../../../constants/urls/urls';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editID, editRole, editUsername, editToken } from '../../../../redux/slices/authorization/authSlice';
+import { editID, editRole, editUsername, editBank, editToken } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
@@ -51,10 +51,12 @@ const LoginForm = () => {
                     localStorage.setItem("user_id", response.userInfo.id);
                     localStorage.setItem("username", response.userInfo.username);
                     localStorage.setItem("role", response.userInfo.role);
+                    localStorage.setItem("bank", response.userInfo.bank);
 
                     dispatch(editID(response.userInfo.id));
                     dispatch(editUsername(response.userInfo.username));
                     dispatch(editRole(response.userInfo.role));
+                    dispatch(editBank(response.userInfo.bank));
                     dispatch(editToken(response.token));
 
                     <Navigate to="/terminals" />;
