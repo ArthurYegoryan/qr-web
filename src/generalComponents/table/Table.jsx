@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Space, Table } from 'antd';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { useSelector } from 'react-redux';
 
 const TableComponent = ({ 
     whichTable, 
@@ -10,6 +11,8 @@ const TableComponent = ({
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+
     const terminalsColumns = [
         {
             title: 'ID',
@@ -89,8 +92,12 @@ const TableComponent = ({
             width: 10,
             render: (record) => (
                 <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => onClickEditButton(record)} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => onClickDeleteButton(record)} />
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickEditButton(record);
+                    }} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickDeleteButton(record);
+                    }} />
                 </Space>
             )
         },
