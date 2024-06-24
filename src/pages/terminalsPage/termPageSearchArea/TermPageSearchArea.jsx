@@ -8,6 +8,7 @@ import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
@@ -19,6 +20,7 @@ const TermPageSearchArea = ({
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
@@ -79,12 +81,14 @@ const TermPageSearchArea = ({
                             marginTop="5px"
                             marginLeft="10px" 
                             onClickHandler={() => console.log("Export terminals data")} />
-                </div>            
-                <div className="terminals-page-add-new-term">
-                    <Button label={t("addNewTerminal.addNewTerminal")}
-                            marginTop="5px" 
-                            onClickHandler={() => setIsOpenAddTermModal(true)} />
-                </div>                
+                </div>
+                {(role === "admin" || role === "bank") &&
+                    <div className="terminals-page-add-new-term">
+                        <Button label={t("addNewTerminal.addNewTerminal")}
+                                marginTop="5px" 
+                                onClickHandler={() => setIsOpenAddTermModal(true)} />
+                    </div>
+                }            
             </div>
             {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
