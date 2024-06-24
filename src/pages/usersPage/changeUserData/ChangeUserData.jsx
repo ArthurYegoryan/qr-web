@@ -25,6 +25,7 @@ const ChangeUserData = ({
 }) => {
     const { banks } = useSelector((state) => state.banks);
     const roles = useSelector((state) => state.roles.roles.payload);
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ changedUserData, setChangedUserData ] = useState({
         id: user.id,
         username: user.username,
@@ -92,14 +93,17 @@ const ChangeUserData = ({
                                    ...changedUserData,
                                    username: evt.target.value
                                })} />
-                    <SelectComponent label={t("banks.bank")}
-                                     defaultValue={user.bank}
-                                     chooseData={Object.values(banks.payload)}
-                                     fields={changedUserData}
-                                     setField={setChangedUserData}
-                                     changeFieldName={"bank"}
-                                     width={"223px"}
-                                     marginTop={"10px"} />
+                    {role === "admin" &&
+                        <SelectComponent label={t("banks.bank")}
+                                         defaultValue={user.bank}
+                                         chooseData={Object.values(banks.payload)}
+                                         fields={changedUserData}
+                                         setField={setChangedUserData}
+                                         changeFieldName={"bank"}
+                                         width={"223px"}
+                                         marginTop={"10px"} />
+                    }
+                    
                     <TextInput label={t("userSection.email")}
                                defaultValue={user.email}
                                marginTop={"10px"}
@@ -112,14 +116,16 @@ const ChangeUserData = ({
                                    ...changedUserData,
                                    email: evt.target.value
                                })} />
-                    <SelectComponent label={t("userSection.role")}
-                                     defaultValue={user.role}
-                                     chooseData={roles}
-                                     fields={changedUserData}
-                                     setField={setChangedUserData}
-                                     changeFieldName={"role"}
-                                     width={"223px"}
-                                     marginTop={"10px"} />
+                    {role === "admin" &&
+                        <SelectComponent label={t("userSection.role")}
+                                         defaultValue={user.role}
+                                         chooseData={roles}
+                                         fields={changedUserData}
+                                         setField={setChangedUserData}
+                                         changeFieldName={"role"}
+                                         width={"223px"}
+                                         marginTop={"10px"} />
+                    }                    
                     <CheckBoxLabels label={t("banks.isActive")}
                                     defaultChecked={user.is_active}
                                     onChangeHandler={(evt) => setChangedUserData({
