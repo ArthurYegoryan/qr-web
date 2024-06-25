@@ -23,7 +23,7 @@ const TransactionsSearchArea = ({
     const { i18n, t } = useTranslation();
 
     const trxTypesList = [];
-    transactionTypes.map((trxType) => trxTypesList.push(trxType[`name_${i18n.language}`]));
+    transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
     return (
         <div className="transactions-search-area">

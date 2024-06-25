@@ -33,20 +33,26 @@ const TransactionsPage = () => {
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
 
+    const trxTypesDetector = {
+        "Sale": "Sale",
+        "Վաճառք": "Sale",
+        "Продажа": "Sale",
+        "Cancel": "Reversal",
+        "Չեղարկում": "Reversal",
+        "Отмена": "Reversal",
+        "Refund": "Refund",
+        "Վերադարձ": "Refund",
+        "Возврат": "Refund",
+    };
+
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
 
-    // const searchFields = [];
-    // transactionsTableFields.map(field => {
-    //     if (field.name !== "#") {
-    //         searchFields.push(field.name);
-    //     }        
-    // });
-
     useEffect(() => {
         try {
             const getTransactionsData = async () => {
+                transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
                 const response = await getTransactionsByPage(
                     urls.GET_TRANSACTIONS_BY_PAGE_URL, 
                     {
@@ -79,7 +85,6 @@ const TransactionsPage = () => {
                 const response = await getTransactionTypes(urls.GET_TRANSACTION_TYPES_URL);
 
                 if (response.message === "success") {
-                    console.log("Trx types: ", JSON.stringify(transactionTypes, null, 2))
                     setTransactionTypes(response.transaction_types);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
