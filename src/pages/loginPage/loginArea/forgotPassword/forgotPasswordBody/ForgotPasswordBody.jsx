@@ -59,9 +59,6 @@ const ForgotPasswordBody = ({ onCloseHandler }) => {
         setEmptyUsernameError(false);
         setWrongUsernameOrEmail(false);
 
-        console.log("Username: ", username);
-        console.log("Email: ", email);
-
         if (!username.length) setEmptyUsernameError(true);
         if (!email.length) setEmptyEmailError(true);
         else {
@@ -103,7 +100,8 @@ const ForgotPasswordBody = ({ onCloseHandler }) => {
                             onSaveBtnHandler(forgotPasswordParams.username, forgotPasswordParams.email)} 
                         />
                 <Button label={t("addNewTerminal.cancelBtn")}
-                        backgroundColor="red" />
+                        backgroundColor="red"
+                        onClickHandler={() => onCloseHandler()} />
             </div>
         </div>
     );
