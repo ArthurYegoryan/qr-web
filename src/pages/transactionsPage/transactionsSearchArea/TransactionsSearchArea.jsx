@@ -5,9 +5,9 @@ import Calendar from "../../../generalComponents/inputFields/calendarComponent/C
 import Button from "../../../generalComponents/buttons/Button";
 import SearchIcon from '@mui/icons-material/Search';
 import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { useTranslation } from 'react-i18next';
 import { useState } from "react";
-import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 
 const TransactionsSearchArea = ({ 
     isSearched,
@@ -20,7 +20,10 @@ const TransactionsSearchArea = ({
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
+
+    const trxTypesList = [];
+    transactionTypes.map((trxType) => trxTypesList.push(trxType[`name_${i18n.language}`]));
 
     return (
         <div className="transactions-search-area">
@@ -68,8 +71,7 @@ const TransactionsSearchArea = ({
                                          hasFirstRow={true}
                                          firstRowLabel={t("------")}
                                          firstRowValue=""
-                                         chooseData={transactionTypes}
-                                         chooseDataValue="name_en"
+                                         chooseData={trxTypesList}
                                          fields={transactionsSearchInfo}
                                          changeFieldName="transactionType"
                                          setField={setTransactionsSearchInfo}

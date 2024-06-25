@@ -7,12 +7,14 @@
                 {
                     "id": 1,
                     "name_am": "Վաճառք",
-                    "name_en": "Sale"
+                    "name_en": "Sale",
+                    "name_ru": "Продажа"
                 },
                 {
                     "id": 2,
                     "name_am": "Անվավեր",
-                    "name_en": "Cancel"
+                    "name_en": "Cancel",
+                    "name_ru": "Отмена"
                 }
             ]
         }

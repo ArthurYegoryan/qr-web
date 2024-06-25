@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { editToken } from "../../redux/slices/authorization/authSlice";
-import { transactionsTableFields } from "../../constants/tableFields/transactionsTableFields";
+import { transactionsSearchFields } from "../../constants/tableFields/transactionsSearchFields";
 
 const TransactionsPage = () => {
     const [ transactions, setTransactions ] = useState([]);
@@ -37,12 +37,12 @@ const TransactionsPage = () => {
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
 
-    const searchFields = [];
-    transactionsTableFields.map(field => {
-        if (field.name !== "#") {
-            searchFields.push(field.name);
-        }        
-    });
+    // const searchFields = [];
+    // transactionsTableFields.map(field => {
+    //     if (field.name !== "#") {
+    //         searchFields.push(field.name);
+    //     }        
+    // });
 
     useEffect(() => {
         try {
@@ -79,6 +79,7 @@ const TransactionsPage = () => {
                 const response = await getTransactionTypes(urls.GET_TRANSACTION_TYPES_URL);
 
                 if (response.message === "success") {
+                    console.log("Trx types: ", JSON.stringify(transactionTypes, null, 2))
                     setTransactionTypes(response.transaction_types);
                 } else if (response.message === "expired token") {
                     localStorage.clear();
@@ -99,11 +100,10 @@ const TransactionsPage = () => {
         <div className="transactions-page-area">
             <TransactionsSearchArea isSearched={isTransactionDataSearched}
                                     setIsSearched={setIsTransactionDataSearched}
-                                    searchFields={searchFields}
+                                    searchFields={Object.keys(transactionsSearchFields)}
                                     transactionTypes={transactionTypes} 
                                     transactionsSearchInfo={transactionsSearchInfo}
                                     setTransactionsSearchInfo={setTransactionsSearchInfo} />
-            {/* <TransactionsTable transactions={transactions} /> */}
             <Table whichTable={"transactions"}
                    datas={transactions} />
             {openCloseModal &&
