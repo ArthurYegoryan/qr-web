@@ -1,4 +1,5 @@
 import './LoginForm.css';
+import ForgotPassword from "../forgotPassword/ForgotPassword";
 import TextInput from '../../../../generalComponents/inputFields/textInputComponent/TextInputComponent';
 import Button from "../../../../generalComponents/buttons/Button";
 import ModalComponent from '../../../../generalComponents/modalComponent/ModalComponent';
@@ -103,6 +104,7 @@ const LoginForm = () => {
                         existsError={emptyPasswordError}
                         errorText={t("userSection.emptyPasswordError")}
                         marginTop="15px" />
+                <ForgotPassword />
                 {wrongUsernamePasswordError &&
                     <div className="login-error-message-div">
                         <label className="login-error-message">{t("userSection.wrongUsernamePassword")}</label>
