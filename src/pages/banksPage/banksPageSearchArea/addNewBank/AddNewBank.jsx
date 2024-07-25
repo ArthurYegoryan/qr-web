@@ -5,7 +5,7 @@ import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/C
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import addNewBank from "../../../../api/addNewBank";
+import addNewBank from "../../../../testApis/addNewBank";
 import { checkFieldsValidation } from "../../../../utils/fieldsValidations/checkBankDataFieldsValidation";
 import { resetPrevValidations } from "../../../../utils/fieldsValidations/resetPrevValidations";
 import { urls } from "../../../../constants/urls/urls";

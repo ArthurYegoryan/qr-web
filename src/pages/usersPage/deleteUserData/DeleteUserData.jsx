@@ -1,7 +1,7 @@
 import "./DeleteUserData.css";
 import Button from "../../../generalComponents/buttons/Button";
 import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import deleteUserData from "../../../api/deleteUserData";
+import deleteUserData from "../../../testApis/deleteUserData";
 import { urls } from "../../../constants/urls/urls";
 import { useState } from "react";
 import { useDispatch } from "react-redux";

@@ -1,7 +1,7 @@
 import "./ChangePasswordBody.css";
 import TextInput from "../../../../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import Button from "../../../../../../../generalComponents/buttons/Button";
-import changePassword from "../../../../../../../api/changePassword";
+import changePassword from "../../../../../../../testApis/changePassword";
 import { urls } from "../../../../../../../constants/urls/urls";
 import { passwordValidations } from "../../../../../../../utils/fieldsValidations/userDataFieldsValidation";
 import SuccessModalBody from "../../../../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";

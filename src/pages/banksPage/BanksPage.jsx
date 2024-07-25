@@ -7,7 +7,7 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import { banksSearchFields } from "../../constants/tableFields/banksSearchFields";
-import getBanksByPage from "../../api/getBanksByPage";
+import getBanksByPage from "../../testApis/getBanksByPage";
 import { urls } from "../../constants/urls/urls";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { useDispatch, useSelector } from "react-redux";

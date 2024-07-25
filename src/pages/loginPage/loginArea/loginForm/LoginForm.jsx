@@ -4,15 +4,18 @@ import TextInput from '../../../../generalComponents/inputFields/textInputCompon
 import Button from "../../../../generalComponents/buttons/Button";
 import ModalComponent from '../../../../generalComponents/modalComponent/ModalComponent';
 import ErrorModalBody from '../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody';
-import getUserInfo from '../../../../api/getUserInfo';
+import Loader from "../../../../generalComponents/loaders/Loader";
+import { loginApi } from '../../../../apis/loginApi';
 import { urls } from '../../../../constants/urls/urls';
+import { paths } from '../../../../constants/paths/paths';
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editID, editRole, editUsername, editBank, editToken } from '../../../../redux/slices/authorization/authSlice';
+import { editRole, editUsername, editToken } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -23,6 +26,7 @@ const LoginForm = () => {
     const [ emptyUsernameError, setEmptyUsernameError ] = useState(false);
     const [ emptyPasswordError, setEmptyPasswordError ] = useState(false);
     const [ wrongUsernamePasswordError, setWrongUsernamePasswordError ] = useState(false);
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ openCloseModal, setOpenCloseModal ] = useState(false);
 
     const onChangeUsernameHandler = (evt) => {
@@ -42,26 +46,24 @@ const LoginForm = () => {
     const makeCallForUserData = () => {
         try {
             const loadUserData = async () => {
-                const response = await getUserInfo(
-                    urls.GET_USER_INFO_URL, 
+                setShowLoading(true);
+                const response = await loginApi(
+                    urls.LOGIN_URL, 
                     loginParams
                 );
+                setShowLoading(false);
 
-                if (response.message === "success") {
-                    localStorage.setItem("token", response.token);
-                    localStorage.setItem("user_id", response.userInfo.id);
-                    localStorage.setItem("username", response.userInfo.username);
-                    localStorage.setItem("role", response.userInfo.role);
-                    localStorage.setItem("bank", response.userInfo.bank);
+                if (response.status === 200) {
+                    localStorage.setItem("token", response.data.access_token);
+                    localStorage.setItem("username", loginParams.username);
+                    localStorage.setItem("role", "bank");
 
-                    dispatch(editID(response.userInfo.id));
-                    dispatch(editUsername(response.userInfo.username));
-                    dispatch(editRole(response.userInfo.role));
-                    dispatch(editBank(response.userInfo.bank));
-                    dispatch(editToken(response.token));
+                    dispatch(editUsername(loginParams.username));
+                    dispatch(editRole("bank"));
+                    dispatch(editToken(response.data.access_token));
 
-                    <Navigate to="/terminals" />;
-                } else if (response.message === "wrong username or password") {
+                    navigate(paths.TERMINALS);
+                } else if (response.status === 401) {
                     setWrongUsernamePasswordError(true);
                 } else {
                     throw new Error("Connection error!");
@@ -119,6 +121,9 @@ const LoginForm = () => {
                     />
                 </div>
             </form>
+            {showLoading &&
+                <Loader />
+            }
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 

@@ -1,7 +1,7 @@
 import "./TransactionsPage.css";
 import Table from "../../generalComponents/table/Table";
-import getTransactionsByPage from "../../api/getTransactionsByPage";
-import getTransactionTypes from "../../api/getTransactionTypes";
+import getTransactionsByPage from "../../testApis/getTransactionsByPage";
+import getTransactionTypes from "../../testApis/getTransactionTypes";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";

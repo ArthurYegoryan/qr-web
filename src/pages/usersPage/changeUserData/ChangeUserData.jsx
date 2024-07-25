@@ -6,7 +6,7 @@ import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/Chec
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import changeUserData from "../../../api/changeUserData";
+import changeUserData from "../../../testApis/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkEditUserDataFieldsValidation";
 import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrevValidations";

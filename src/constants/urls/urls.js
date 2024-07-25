@@ -1,4 +1,8 @@
+const URL = process.env.REACT_APP_API_URL;
+
 export const urls = {
+    LOGIN_URL: `/jwt/login`,
+
     GET_TOKEN_URL: "",
     GET_USER_INFO_URL: "https://fakestoreapi.com/users/1",
     GET_USERS_URL: "",

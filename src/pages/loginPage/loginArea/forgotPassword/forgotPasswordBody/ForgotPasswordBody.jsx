@@ -1,7 +1,7 @@
 import "./ForgotPasswordBody.css";
 import TextInput from "../../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import Button from "../../../../../generalComponents/buttons/Button";
-import forgotPassword from "../../../../../api/forgotPassword";
+import forgotPassword from "../../../../../testApis/forgotPassword";
 import { urls } from "../../../../../constants/urls/urls";
 import { emailValidation } from "../../../../../utils/fieldsValidations/userDataFieldsValidation";
 import { useState } from "react";

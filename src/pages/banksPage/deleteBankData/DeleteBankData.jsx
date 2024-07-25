@@ -1,7 +1,7 @@
 import "./DeleteBankData.css";
 import Button from "../../../generalComponents/buttons/Button";
 import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
-import deleteBankData from "../../../api/deleteBankData";
+import deleteBankData from "../../../testApis/deleteBankData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";

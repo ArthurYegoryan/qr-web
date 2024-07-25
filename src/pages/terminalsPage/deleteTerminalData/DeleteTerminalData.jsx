@@ -1,6 +1,6 @@
 import "./DeleteTerminalData.css";
 import Button from "../../../generalComponents/buttons/Button";
-import deleteTerminalData from "../../../api/deleteTerminalData";
+import deleteTerminalData from "../../../testApis/deleteTerminalData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
