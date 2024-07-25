@@ -8,6 +8,7 @@ const TableComponent = ({
     datas,
     setCurrentData,
     banks,
+    size = "normal",
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
@@ -16,74 +17,86 @@ const TableComponent = ({
     const terminalsColumns = [
         {
             title: 'ID',
-            width: 10,
             dataIndex: 'id',
             key: 'id',
+            width: "5px",
         },
         {
             title: 'Terminal ID',
-            width: 14,
-            dataIndex: 'tid',
-            key: 'tid',
+            dataIndex: 'terminalId',
+            key: 'terminalId',
+            width: "12px",
         },
         {
             title: 'Merchant ID',
-            dataIndex: 'mid',
-            key: 'mid',
-            width: 14,
+            dataIndex: 'merchantId',
+            key: 'merchantId',
+            width: "14px",
         },
         {
             title: 'S/N',
-            dataIndex: 'serial',
-            key: 'serial',
+            dataIndex: 'serial_number',
+            key: 'serial_number',
             width: 14,
         },
         {
             title: 'MCC',
-            dataIndex: 'mcc',
-            key: 'mcc',
+            dataIndex: 'mcc_id',
+            key: 'mcc_id',
             width: 10,
         },
         {
             title: 'Is Active',
-            dataIndex: 'active',
-            key: 'active',
-            width: 11,
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: "9px",
         },
         {
-            title: 'POS type',
-            dataIndex: 'pos_type',
-            key: 'pos_type',
+            title: 'Inactive date',
+            dataIndex: 'inactiveDate',
+            key: 'inactiveDate',
+            width: "11px",
+        },
+        {
+            title: 'POS model',
+            dataIndex: 'posModel_id',
+            key: 'posModel_id',
             width: 16,
         },
         {
             title: 'Merchant name',
-            dataIndex: 'merchant_name_in_am',
-            key: 'merchant_name_in_am',
+            dataIndex: 'merchantNameLocal',
+            key: 'merchantNameLocal',
             width: 25,
         },
         {
-            title: 'Merchant TAX number',
-            dataIndex: 'merchant_tax_number',
-            key: 'merchant_tax_number',
+            title: 'TAX',
+            dataIndex: 'merchantTin',
+            key: 'merchantTin',
             width: 15,
         },
         {
-            title: 'Merchant city',
-            dataIndex: 'merchant_city_in_am',
-            key: 'merchant_city_in_am',
+            title: 'City',
+            dataIndex: 'city_id',
+            key: 'city_id',
             width: 13,
         },
         {
             title: 'Merchant address',
-            dataIndex: 'merchant_address_in_am',
-            key: 'merchant_address_in_am',
+            dataIndex: 'merchantAddressLocal',
+            key: 'merchantAddressLocal',
             width: 25,
         },
         {
-            title: 'Bank',
-            dataIndex: 'bank',
-            key: 'bank',
+            title: 'Registration date',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            width: 13,
+        },
+        {
+            title: 'Payment system',
+            dataIndex: 'paymentSystem_id',
+            key: 'paymentSystem_id',
             width: 13,
         },
         {
@@ -327,9 +340,10 @@ const TableComponent = ({
 
     return (
         <Table
-            columns={columns}            
+            columns={columns}
             dataSource={whichTable === "users" ? data : datas}
             pagination={false}
+            size={size}
             sticky={{
                 offsetHeader: 64,
             }}

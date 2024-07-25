@@ -7,15 +7,15 @@ import ErrorModalBody from '../../../../generalComponents/modalComponent/errorMo
 import Loader from "../../../../generalComponents/loaders/Loader";
 import { loginApi } from '../../../../apis/loginApi';
 import { urls } from '../../../../constants/urls/urls';
-import { paths } from '../../../../constants/paths/paths';
+// import { paths } from '../../../../constants/paths/paths';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editRole, editUsername, editToken } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -62,7 +62,8 @@ const LoginForm = () => {
                     dispatch(editRole("bank"));
                     dispatch(editToken(response.data.access_token));
 
-                    navigate(paths.TERMINALS);
+                    // navigate(paths.TERMINALS);
+                    window.location.reload();
                 } else if (response.status === 401) {
                     setWrongUsernamePasswordError(true);
                 } else {

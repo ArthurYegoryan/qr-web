@@ -4,18 +4,16 @@ import DeleteTerminalData from "./deleteTerminalData/DeleteTerminalData";
 import TermPageSearchArea from "./termPageSearchArea/TermPageSearchArea";
 import Table from "../../generalComponents/table/Table";
 import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
-import getTerminalsByPage from "../../testApis/getTerminalsByPage";
-import getTerminalsTypes from "../../testApis/getTerminalsTypes";
-import getAllBanks from "../../testApis/getAllBanks";
-import getPaymentSystems from "../../testApis/getPaymentSystems";
-import { saveBanksAllData, saveBanks } from "../../redux/slices/banks/banksSlice";
-import { saveTerminalTypes } from "../../redux/slices/terminalTypes/terminalTypesSlice";
+import Loader from "../../generalComponents/loaders/Loader";
+import { getDataApi } from "../../apis/getDataApi";
+import { fillTerminalsTableFieldsWithValues } from "../../utils/helpers/fillTerminalsTableFieldsWithValues";
+import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
 import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSystemsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { saveCities } from "../../redux/slices/cities/citiesSlice";
+import { saveMccs } from "../../redux/slices/mccs/mccsSlice";
 import { urls } from "../../constants/urls/urls";
-import { Navigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
 import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
@@ -23,6 +21,10 @@ import { useTranslation } from "react-i18next";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
 const TerminalsPage = () => {
+    const [ mccs, setMccs ] = useState([]);
+    const [ posModels, setPosModels ] = useState([]);
+    const [ cities, setCities ] = useState([]);
+    const [ paySystems, setPaySystems ] = useState([]);
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
@@ -37,15 +39,64 @@ const TerminalsPage = () => {
     const [ selectedTerminal, setSelectedTerminal ] = useState({});
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
-    const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
+    const [ showLoading, setShowLoading ] = useState(false);
+    // const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
-    const userId = useSelector((state) => state.auth.id.payload) ?? localStorage.getItem("user_id");
-    const { t } = useTranslation();
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
+
+    useEffect(() => {
+        const getCitiesMccPosModelsPaymentSystems = async () => {
+            try {
+                const responseCities = await getDataApi(urls.GET_ALL_CITIES_URL);
+                const responseMcc = await getDataApi(urls.GET_ALL_MCC_URL);
+                const responsePosModels = await getDataApi(urls.GET_ALL_POS_MODELS_URL);
+                const responsePaymentSystems = await getDataApi(urls.GET_ALL_PAY_SYS_URL);
+
+                console.log("Response cities: ", responseCities);
+                console.log("Response MCC: ", responseMcc);
+                console.log("Response pos models: ", responsePosModels);
+                console.log("Response pay sys: ", responsePaymentSystems);
+
+                if (responseCities.status === 200 &&
+                    responseMcc.status === 200 &&
+                    responsePosModels.status === 200 &&
+                    responsePaymentSystems.status === 200
+                ) {
+                    setMccs(responseMcc.data);
+                    setPosModels(responsePosModels.data);
+                    setCities(responseCities.data);
+                    setPaySystems(responsePaymentSystems.data);
+
+                    dispatch(savePosModels(responsePosModels.data));
+                    dispatch(savePaymentSystems(responsePaymentSystems.data));
+                    dispatch(saveCities(responseCities.data));
+                    dispatch(saveMccs(responseMcc.data));
+                    
+                } else if (responseCities.status === 401 ||
+                           responseMcc.status === 401 ||
+                           responsePosModels.status === 401 ||
+                           responsePaymentSystems.status === 401) {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+            
+                    // navigate(paths.LOGIN);
+                    window.location.reload();
+                } else {
+                    throw Error("Terminals data error!");
+                }
+            } catch(err) {
+                console.log("Errpr: ", err.message);
+                // setOpenCloseErrorModal(true);
+            }
+        }
+        getCitiesMccPosModelsPaymentSystems();
+    }, []);
 
     useEffect(() => {
         try {
@@ -59,71 +110,33 @@ const TerminalsPage = () => {
                     }
                 }
 
-                const response = await getTerminalsByPage(
-                    urls.GET_TERMINALS_BY_PAGE_URL, 
-                    {
-                        user_id: userId,
-                        page: terminalsPage,
-                        searchParams: terminalsSearchInfo 
-                    }
+                setShowLoading(true);
+                const response = await getDataApi(
+                    urls.GET_ALL_PAY_SYS_TERMINALS_URL + `?page=${terminalsPage}&size=10`
                 );
+                setShowLoading(false);
 
-                if (response.message === "success") {
-                    setTerminals(response.terminals);
-                    setTerminalsPageCount(response.terminals_page_count);
-                } else if (response.message === "expired token") {
+                console.log("Response: ", response);
+
+                if (response.status === 200) {
+                    setTerminals(response.data.items);
+                    setTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                } else if (response.status === 401) {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    <Navigate to="/login" />;
+                    // navigate(paths.LOGIN);
+                    window.location.reload();
                 } else {
                     throw new Error("Connection error!");
                 }
             }
             getTerminalsData();
         } catch(err) {
-            setOpenCloseErrorModal(true);
+            console.log("Errpr: ", err.message);
+            // setOpenCloseErrorModal(true);
         }
     }, [isTermDataChanged, isTermDataDeleted, terminalsPage, isTermDataSearched]);
-
-    useEffect(() => {
-        const fetchTerminalsTypesBanksPaysys = async () => {
-            try {
-                const responseTermTypes = await getTerminalsTypes(urls.GET_TERMINALS_TYPES_URL);
-                const responseBanks = await getAllBanks(urls.GET_BANKS_URL);
-                const responsePaySystems = await getPaymentSystems(urls.GET_PAYMENT_SYSTEMS_URL);
-
-                if (responseTermTypes.message === "success" &&
-                    responseBanks.message === "success" &&
-                    responsePaySystems.message === "success") {
-                    
-                    dispatch(saveBanksAllData(responseBanks.banks));
-
-                    const banks = {};
-                    responseBanks.banks.map((bank) => {
-                        banks[bank.id] = bank.short_name;
-                    });
-
-                    dispatch(saveBanks(banks));
-                    dispatch(saveTerminalTypes(responseTermTypes.terminalsTypes));
-                    dispatch(savePaymentSystems(responsePaySystems.paymentSystems));
-                    
-                } else if (responseTermTypes.message === "invalid token" ||
-                           responseBanks.message === "invalid token" ||
-                           responsePaySystems.message === "invalid token") {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    <Navigate to="/login" />;
-                } else {
-                    throw Error("Terminals data error!");
-                }
-            } catch(err) {
-                setOpenCloseErrorModal(true);
-            }
-        }
-        fetchTerminalsTypesBanksPaysys();
-    }, []);
 
     return (
         <div className="terminals-page-area">
@@ -136,7 +149,8 @@ const TerminalsPage = () => {
                                 setIsTermDataChanged={setIsTermDataChanged} 
             />
             <Table whichTable={"terminals"}
-                   datas={makeObjFieldsToString(terminals)}
+                   datas={makeObjFieldsToString(fillTerminalsTableFieldsWithValues(terminals, mccs, posModels, cities, paySystems))}
+                   size="small"
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);
                        setOpenCloseEditModal(true);
@@ -145,14 +159,14 @@ const TerminalsPage = () => {
                        setSelectedTerminal(terminal);
                        setOpenCloseDeleteModal(true);
                    }} />
-            {openCloseErrorModal &&
+            {/* {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseErrorModal(false)} 
                                 isOpen={openCloseErrorModal} 
                                 title="Connection error!"
                                 body={<ErrorModalBody />}
                                 bgcolor="red"
                 />
-            }
+            } */}
             <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={terminalsPageCount}
                                      setPage={setTerminalsPage} />
@@ -166,6 +180,9 @@ const TerminalsPage = () => {
                                                           isTermDataChanged={isTermDataChanged}
                                                           onCloseHandler={() => setOpenCloseEditModal(false)} />}
                 />
+            }
+            {showLoading &&
+                <Loader />
             }
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
