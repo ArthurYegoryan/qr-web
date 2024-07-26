@@ -2,13 +2,13 @@ const URL = process.env.REACT_APP_API_URL;
 
 export const urls = {
     LOGIN_URL: `/jwt/login`,
-    GET_ALL_PAY_SYS_TERMINALS_URL: `/api/get_all_pay_sys_terminals`,
-    GET_ALL_MCC_URL: `/api/get_all_mcc`,
-    GET_ALL_MCC_Page_URL: `/api/get_all_mcc_page`,
-    GET_ALL_CITIES_URL: `/api/get_all_cities`,
-    GET_ALL_CITIES_PAGE_URL: `/api/get_all_cities_page`,
-    GET_ALL_POS_MODELS_URL: `api/get_all_pos_models`,
-    GET_ALL_PAY_SYS_URL: `api/get_all_pay_sys`,
+    TERMINALS_URL: `/api/terminals`,
+    MCC_URL: `/api/mcc`,
+    MCC_Page_URL: `/api/mcc_page`,
+    CITIES_URL: `/api/cities`,
+    CITIES_PAGE_URL: `/api/cities_page`,
+    POS_MODELS_URL: `api/pos_models`,
+    PAY_SYS_URL: `api/pay_sys`,
 
     GET_TOKEN_URL: "",
     GET_USER_INFO_URL: "https://fakestoreapi.com/users/1",

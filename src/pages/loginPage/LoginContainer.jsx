@@ -4,7 +4,7 @@ import { colors } from '../../assets/styles/colors';
 
 const LoginContainer = () => {
     return (
-        <div style={{ backgroundColor: colors.originalBgColor }} className="login-container">
+        <div style={{ backgroundColor: colors.loginBgColor }} className="login-container">
             <LoginArea />
         </div>       
     );

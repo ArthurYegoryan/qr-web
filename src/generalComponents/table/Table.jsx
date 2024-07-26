@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import { Space, Table } from 'antd';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 const TableComponent = ({ 
     whichTable, 
@@ -12,7 +11,7 @@ const TableComponent = ({
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
-    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
 
     const terminalsColumns = [
         {
@@ -37,19 +36,39 @@ const TableComponent = ({
             title: 'S/N',
             dataIndex: 'serial_number',
             key: 'serial_number',
-            width: 14,
+            width: "15px",
         },
         {
             title: 'MCC',
             dataIndex: 'mcc_id',
             key: 'mcc_id',
-            width: 10,
+            width: "8px",
         },
         {
-            title: 'Is Active',
+            title: 'Active',
             dataIndex: 'is_active',
             key: 'is_active',
-            width: "9px",
+            width: "8px",
+            render: (record) => (
+                <Space size="middle">
+                    {
+                        record === "true" ? 
+                            <img src={process.env.PUBLIC_URL + 'img/success.svg'} 
+                                alt="Success" 
+                                style={{
+                                    width: "35px"
+                                }}
+                            /> :
+                        record === "false" ?
+                            <img src={process.env.PUBLIC_URL + 'img/fail.svg'} 
+                                alt="Fail" 
+                                style={{
+                                    width: "35px"
+                                }}
+                            /> : null
+                    }
+                </Space>
+            )
         },
         {
             title: 'Inactive date',
@@ -58,7 +77,14 @@ const TableComponent = ({
             width: "11px",
         },
         {
-            title: 'POS model',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/pos.svg'} 
+                     alt="Cities" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'posModel_id',
             key: 'posModel_id',
             width: 16,
@@ -76,7 +102,14 @@ const TableComponent = ({
             width: 15,
         },
         {
-            title: 'City',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/cities.svg'} 
+                     alt="Cities" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'city_id',
             key: 'city_id',
             width: 13,
@@ -88,32 +121,39 @@ const TableComponent = ({
             width: 25,
         },
         {
-            title: 'Registration date',
+            title: 'Registr. date',
             dataIndex: 'createdAt',
             key: 'createdAt',
             width: 13,
         },
         {
-            title: 'Payment system',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/bank_1.svg'} 
+                     alt="Bank" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'paymentSystem_id',
             key: 'paymentSystem_id',
             width: 13,
         },
-        {
-            title: 'Action',
-            key: 'operation',
-            width: 10,
-            render: (record) => (
-                <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
-                        (role === "admin" || role === "bank") && onClickEditButton(record);
-                    }} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
-                        (role === "admin" || role === "bank") && onClickDeleteButton(record);
-                    }} />
-                </Space>
-            )
-        },
+        // {
+        //     title: 'Action',
+        //     key: 'operation',
+        //     width: 10,
+        //     render: (record) => (
+        //         <Space size="middle">
+        //             <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+        //                 (role === "admin" || role === "bank") && onClickEditButton(record);
+        //             }} />
+        //             <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+        //                 (role === "admin" || role === "bank") && onClickDeleteButton(record);
+        //             }} />
+        //         </Space>
+        //     )
+        // },
     ];
 
     const transactionsColumns = [

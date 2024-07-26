@@ -7,15 +7,13 @@ import ErrorModalBody from '../../../../generalComponents/modalComponent/errorMo
 import Loader from "../../../../generalComponents/loaders/Loader";
 import { loginApi } from '../../../../apis/loginApi';
 import { urls } from '../../../../constants/urls/urls';
-// import { paths } from '../../../../constants/paths/paths';
+import { colors } from '../../../../assets/styles/colors';
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editRole, editUsername, editToken } from '../../../../redux/slices/authorization/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
-    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -62,7 +60,6 @@ const LoginForm = () => {
                     dispatch(editRole("bank"));
                     dispatch(editToken(response.data.access_token));
 
-                    // navigate(paths.TERMINALS);
                     window.location.reload();
                 } else if (response.status === 401) {
                     setWrongUsernamePasswordError(true);
@@ -110,7 +107,9 @@ const LoginForm = () => {
                 <ForgotPassword />
                 {wrongUsernamePasswordError &&
                     <div className="login-error-message-div">
-                        <label className="login-error-message">{t("userSection.wrongUsernamePassword")}</label>
+                        <label style={{ color: colors.loginFailedColor}} className="login-error-message">
+                            {t("userSection.wrongUsernamePassword")}
+                        </label>
                     </div>                    
                 }
                 <div className="login-button">

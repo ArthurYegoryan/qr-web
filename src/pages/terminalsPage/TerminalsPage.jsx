@@ -40,9 +40,7 @@ const TerminalsPage = () => {
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
-    // const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
-    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -53,15 +51,12 @@ const TerminalsPage = () => {
     useEffect(() => {
         const getCitiesMccPosModelsPaymentSystems = async () => {
             try {
-                const responseCities = await getDataApi(urls.GET_ALL_CITIES_URL);
-                const responseMcc = await getDataApi(urls.GET_ALL_MCC_URL);
-                const responsePosModels = await getDataApi(urls.GET_ALL_POS_MODELS_URL);
-                const responsePaymentSystems = await getDataApi(urls.GET_ALL_PAY_SYS_URL);
-
-                console.log("Response cities: ", responseCities);
-                console.log("Response MCC: ", responseMcc);
-                console.log("Response pos models: ", responsePosModels);
-                console.log("Response pay sys: ", responsePaymentSystems);
+                setShowLoading(true);
+                const responseCities = await getDataApi(urls.CITIES_URL);
+                const responseMcc = await getDataApi(urls.MCC_URL);
+                const responsePosModels = await getDataApi(urls.POS_MODELS_URL);
+                const responsePaymentSystems = await getDataApi(urls.PAY_SYS_URL);
+                setShowLoading(false);
 
                 if (responseCities.status === 200 &&
                     responseMcc.status === 200 &&
@@ -85,14 +80,12 @@ const TerminalsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    // navigate(paths.LOGIN);
                     window.location.reload();
                 } else {
                     throw Error("Terminals data error!");
                 }
             } catch(err) {
-                console.log("Errpr: ", err.message);
-                // setOpenCloseErrorModal(true);
+                console.log("Error: ", err.message);
             }
         }
         getCitiesMccPosModelsPaymentSystems();
@@ -112,11 +105,9 @@ const TerminalsPage = () => {
 
                 setShowLoading(true);
                 const response = await getDataApi(
-                    urls.GET_ALL_PAY_SYS_TERMINALS_URL + `?page=${terminalsPage}&size=10`
+                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=10`
                 );
                 setShowLoading(false);
-
-                console.log("Response: ", response);
 
                 if (response.status === 200) {
                     setTerminals(response.data.items);
@@ -125,7 +116,6 @@ const TerminalsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    // navigate(paths.LOGIN);
                     window.location.reload();
                 } else {
                     throw new Error("Connection error!");
@@ -133,8 +123,7 @@ const TerminalsPage = () => {
             }
             getTerminalsData();
         } catch(err) {
-            console.log("Errpr: ", err.message);
-            // setOpenCloseErrorModal(true);
+            console.log("Error: ", err.message);
         }
     }, [isTermDataChanged, isTermDataDeleted, terminalsPage, isTermDataSearched]);
 
@@ -159,14 +148,6 @@ const TerminalsPage = () => {
                        setSelectedTerminal(terminal);
                        setOpenCloseDeleteModal(true);
                    }} />
-            {/* {openCloseErrorModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseErrorModal(false)} 
-                                isOpen={openCloseErrorModal} 
-                                title="Connection error!"
-                                body={<ErrorModalBody />}
-                                bgcolor="red"
-                />
-            } */}
             <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={terminalsPageCount}
                                      setPage={setTerminalsPage} />
@@ -176,23 +157,23 @@ const TerminalsPage = () => {
                                 isOpen={openCloseEditModal} 
                                 title={t("changeTerminalData.changeTerminalData")}
                                 body={<ChangeTerminalData terminal={selectedTerminal}
-                                                          setIsTermDataChanged={setIsTermDataChanged}
-                                                          isTermDataChanged={isTermDataChanged}
-                                                          onCloseHandler={() => setOpenCloseEditModal(false)} />}
-                />
-            }
-            {showLoading &&
-                <Loader />
-            }
+                                setIsTermDataChanged={setIsTermDataChanged}
+                                isTermDataChanged={isTermDataChanged}
+                                onCloseHandler={() => setOpenCloseEditModal(false)} />}
+                                />
+                            }
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
                                 title={t("deleteTerminalData.deleteTerminalData")}
                                 body={<DeleteTerminalData terminal={selectedTerminal}
-                                                          setIsTermDataDeleted={setIsTermDataDeleted}
-                                                          isTermDataDeleted={isTermDataDeleted}
-                                                          onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
-                />
+                                setIsTermDataDeleted={setIsTermDataDeleted}
+                                isTermDataDeleted={isTermDataDeleted}
+                                onCloseHandler={() => setOpenCloseDeleteModal(false)} />}
+                                />
+                            }
+            {showLoading &&
+                <Loader />
             }
         </div>
     );

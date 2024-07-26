@@ -1,8 +1,8 @@
 export const colors = {
     /* Buttons */
     originalBgColor: "#0000FF",       // blue
-    originalHoverColor: "#E1C700",    // orange
-    originalColor: "#000000",         // black
+    originalHoverColor: "#001296",    // dark blue
+    originalColor: "#FFFFFF",         // white
     successBgColor: "#008000",        // green
     successHoverColor: "#42A362",     // light green
     cancelBgColor: "#FF0000",         // red
@@ -11,9 +11,10 @@ export const colors = {
 
     /* NavBar */
     burgerMenuIconBgColor: "#FFFFFF", // white
-    burgerMenuIconColor: "#E1E100",   // yellow
+    burgerMenuIconColor: "#0000FF",   // blue
 
     /* Login */
-    loginBgColor: "#EBEBEB",          // light grey
-    loginFailedColor: "#FF5757",      // 
+    // loginBgColor: "#EBEBEB",          // light grey
+    loginBgColor: "#0000FF",          // blue
+    loginFailedColor: "#FF5757",      // red +-
 };
