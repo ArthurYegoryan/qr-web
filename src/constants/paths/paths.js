@@ -5,7 +5,7 @@ export const paths = {
     MCC_CODES: "/mcc-codes",
     CITIES: "/cities",
     USERS: "/users",
-    PAYMENT_SYSTEMS: "/paymetn-systems",
+    PAYMENT_SYSTEMS: "/payment-systems",
     MAIN: "/",
     ANY: "/*"
 };

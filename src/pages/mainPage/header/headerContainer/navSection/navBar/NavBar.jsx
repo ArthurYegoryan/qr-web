@@ -1,9 +1,10 @@
+import "./NavBar.css";
 import LogoComponent from "../../../../../../generalComponents/logoComponent/LogoComponent";
 import NavLinks from "./navLinks/NavLinks";
-import "./NavBar.css";
+import { editMenuStatusFalse, editMenuStatusTrue } from "../../../../../../redux/slices/menu/menuSlice";
+import { colors } from "../../../../../../assets/styles/colors";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editMenuStatusFalse, editMenuStatusTrue } from "../../../../../../redux/slices/menu/menuSlice";
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -27,15 +28,15 @@ const NavBar = () => {
     
     return (
         <div className="nav-bar">
-            <div className={menuClass}>
+            <div style={{backgroundColor: colors.originalBgColor}} className={menuClass}>
                 <LogoComponent className="logo-nav-bar"
                                width="235px"/>
                 <NavLinks />
             </div>
-            <div className="burger-menu" onClick={updateMenu}>
-                <div className={burgerClass}></div>
-                <div className={burgerClass}></div>
-                <div className={burgerClass}></div>
+            <div style={{backgroundColor: colors.burgerMenuIconBgColor}} className="burger-menu" onClick={updateMenu}>
+                <div style={{backgroundColor: colors.burgerMenuIconColor}} className={burgerClass}></div>
+                <div style={{backgroundColor: colors.burgerMenuIconColor}} className={burgerClass}></div>
+                <div style={{backgroundColor: colors.burgerMenuIconColor}} className={burgerClass}></div>
             </div>           
         </div>
     );
