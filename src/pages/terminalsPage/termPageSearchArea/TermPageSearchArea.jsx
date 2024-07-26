@@ -4,6 +4,7 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
@@ -23,6 +24,7 @@ const TermPageSearchArea = ({
     const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
+    const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
@@ -80,15 +82,17 @@ const TermPageSearchArea = ({
                             height="30px"
                             marginTop="5px"
                             marginLeft="10px" 
-                            onClickHandler={() => console.log("Export terminals data")} />
+                            onClickHandler={() => {
+                                setOpenCloseWillBeSoonModal(true);
+                            }} />
                 </div>
-                {(role === "admin" || role === "bank") &&
+                {/* {(role === "admin" || role === "bank") &&
                     <div className="terminals-page-add-new-term">
                         <Button label={t("addNewTerminal.addNewTerminal")}
                                 marginTop="5px" 
                                 onClickHandler={() => setIsOpenAddTermModal(true)} />
                     </div>
-                }            
+                } */}
             </div>
             {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
@@ -107,6 +111,12 @@ const TermPageSearchArea = ({
                                 body={<ErrorModalBody />}
                                 bgcolor="red" 
                 />
+            }
+            {openCloseWillBeSoonModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} 
+                                isOpen={openCloseWillBeSoonModal} 
+                                title={t("export.export")}
+                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
             }
         </>        
     );

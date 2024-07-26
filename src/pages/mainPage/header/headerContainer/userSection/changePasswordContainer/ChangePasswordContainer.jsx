@@ -2,7 +2,7 @@ import "./ChangePasswordContainer.css";
 import Button from "../../../../../../generalComponents/buttons/Button"; 
 import ModalComponent from "../../../../../../generalComponents/modalComponent/ModalComponent";
 import WillBeSoonModalBody from "../../../../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
-import ChangePasswordBody from "./changePasswordBody/ChangePasswordBody";
+// import ChangePasswordBody from "./changePasswordBody/ChangePasswordBody";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
