@@ -21,32 +21,11 @@ const TransactionsPage = () => {
     const [ transactionTypes, setTransactionTypes ] = useState([]);
     // const [ statusCodes, setStatusCodes ] = useState([]);
     // const [ openCloseModal, setOpenCloseModal ] = useState(false);
-    const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
-        hasSearchParams: false,
-        searchField: "",
-        searchValue: "",
-        transactionType: "",
-        startDate: "",
-        startTime: "",        
-        endDate: "",
-        endTime: ""
-    });
+    
     const [ isTransactionDataSearched, setIsTransactionDataSearched ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
-
-    const trxTypesDetector = {
-        "Sale": "Sale",
-        "Վաճառք": "Sale",
-        "Продажа": "Sale",
-        "Cancel": "Reversal",
-        "Չեղարկում": "Reversal",
-        "Отмена": "Reversal",
-        "Refund": "Refund",
-        "Վերադարձ": "Refund",
-        "Возврат": "Refund",
-    };
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -55,7 +34,7 @@ const TransactionsPage = () => {
     useEffect(() => {
         try {
             const getTransactionsData = async () => {
-                transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
+                console.log("Mtanq");
 
                 setShowLoading(true);
                 const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=10`);
@@ -124,10 +103,11 @@ const TransactionsPage = () => {
         <div className="transactions-page-area">
             <TransactionsSearchArea isSearched={isTransactionDataSearched}
                                     setIsSearched={setIsTransactionDataSearched}
-                                    searchFields={Object.keys(transactionsSearchFields)}
-                                    transactionTypes={transactionTypes} 
-                                    transactionsSearchInfo={transactionsSearchInfo}
-                                    setTransactionsSearchInfo={setTransactionsSearchInfo} />
+                                    transactionsSearchFields={transactionsSearchFields}
+                                    transactionTypes={transactionTypes}
+                                    setTransactions={setTransactions} />
+                                    {/* transactionsSearchInfo={transactionsSearchInfo}
+                                    setTransactionsSearchInfo={setTransactionsSearchInfo} /> */}
             <Table whichTable={"transactions"}
                    datas={transactions} />
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>

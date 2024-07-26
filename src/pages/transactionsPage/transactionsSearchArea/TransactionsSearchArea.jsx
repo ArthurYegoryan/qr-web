@@ -5,23 +5,43 @@ import Calendar from "../../../generalComponents/inputFields/calendarComponent/C
 import Button from "../../../generalComponents/buttons/Button";
 import SearchIcon from '@mui/icons-material/Search';
 import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+import Loader from "../../../generalComponents/loaders/Loader";
+import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
-import { useTranslation } from 'react-i18next';
+import { postDataApi } from "../../../apis/postDataApi";
+import { urls } from "../../../constants/urls/urls";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
     isSearched,
     setIsSearched,
-    searchFields,
+    transactionsSearchFields,
     transactionTypes, 
-    transactionsSearchInfo, 
-    setTransactionsSearchInfo 
+    setTransactions
+    // transactionsSearchInfo, 
+    // setTransactionsSearchInfo 
 }) => {
+    const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
+        hasSearchParams: false,
+        searchField: "",
+        searchValue: "",
+        transactionType: "",
+        startDate: "",
+        startTime: "",        
+        endDate: "",
+        endTime: ""
+    });
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
+    const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
 
+    // console.log("Transaction types: ", JSON.stringify(transactionTypes, null, 2));                    // Asel Vardanin name_ru lcni !!!
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
@@ -30,7 +50,7 @@ const TransactionsSearchArea = ({
             <form className="transactions-search-form" onSubmit={(evt) => {
                 evt.preventDefault();
 
-                searchingValidation(
+                const makeSearchCall = searchingValidation(
                     transactionsSearchInfo,
                     setTransactionsSearchInfo,
                     prevSearchInfo,
@@ -40,14 +60,44 @@ const TransactionsSearchArea = ({
                     setSearchDataFieldEmptyError,
                     setSearchByFieldEmptyError
                 );
+
+                if (makeSearchCall) {
+                    transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
+
+                    let searchParams = {};
+                    for (const field in transactionsSearchInfo) {
+                        if (field !== "hasSearchParams") {
+                            searchParams[field] = transactionsSearchInfo[field];
+                        }
+                    }
+
+                    const makeCallForSearchedTransactions = async () => {
+                        try {
+                            setShowLoading(true);
+                            const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL, searchParams);
+                            setShowLoading(false);
+
+                            console.log("Response: ", response);
+
+                            if (response.status === 200) {
+                                setTransactions(response.data);
+                            } else if (response.status === 401) {
+                                dispatch(editToken(""));
+                                localStorage.clear();
+
+                                window.location.reload()
+                            }
+                        } catch (err) {
+                            console.log("Error: ", err);
+                        }
+                    };
+                    makeCallForSearchedTransactions();
+                }
             }}>
                 <div className="transactions-search-inputs">
                     <div className="transactions-search-input-fields">
                         <SelectComponent label={t("searchArea.searchBy")}
-                                         chooseData={searchFields} 
-                                         fields={transactionsSearchInfo}
-                                         changeFieldName="searchField"
-                                         setField={setTransactionsSearchInfo}
+                                         chooseData={Object.keys(transactionsSearchFields)} 
                                          hasFirstRow={true}
                                          firstRowLabel="------"
                                          firstRowValue=""
@@ -55,7 +105,13 @@ const TransactionsSearchArea = ({
                                          marginTop={"36px"}
                                          existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
-                                         onChooseHandler={() => setSearchByFieldEmptyError(false)}/>
+                                         onChooseHandler={(evt) => {
+                                            setSearchByFieldEmptyError(false);
+                                            setTransactionsSearchInfo({
+                                                ...transactionsSearchInfo,
+                                                searchField: evt.target.value
+                                            });
+                                        }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
                                    errorText={t("searchArea.emptyFieldError")}
@@ -72,12 +128,15 @@ const TransactionsSearchArea = ({
                                          firstRowLabel={t("------")}
                                          firstRowValue=""
                                          chooseData={trxTypesList}
-                                         fields={transactionsSearchInfo}
-                                         changeFieldName="transactionType"
-                                         setField={setTransactionsSearchInfo}
-                                         width={250}
+                                         width={"250px"}
                                          marginTop={"36px"}
-                                         marginLeft={"10px"} />
+                                         marginLeft={"10px"}
+                                         onChooseHandler={(evt) => {
+                                            setTransactionsSearchInfo({
+                                                ...transactionsSearchInfo,
+                                                transactionType: evt.target.value
+                                            });
+                                         }} />
                     </div>
                     <div className="transactions-search-calendar-fields">
                         <Calendar label={t("searchArea.startDate")}
@@ -112,6 +171,9 @@ const TransactionsSearchArea = ({
                     <Button label={t("export.reporting")} />
                 </div>
             </form>
+            {showLoading &&
+                <Loader />
+            }
         </div>
     );
 };

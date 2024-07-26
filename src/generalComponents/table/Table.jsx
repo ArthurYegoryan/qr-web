@@ -185,7 +185,7 @@ const TableComponent = ({
             title: 'RRN',
             dataIndex: 'rrn',
             key: 'rrn',
-            width: "5px",
+            width: "6px",
         },
         {
             title: 'Amount',

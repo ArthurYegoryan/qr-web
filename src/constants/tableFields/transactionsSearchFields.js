@@ -1,12 +1,11 @@
 export const transactionsSearchFields = {
-    "ID": "id",
+    "S/N": "posTerminal",
     "RRN": "rrn",
-    "Terminal ID": "tid",
-    "Merchant ID": "mid",
+    "Terminal ID": "terminalId",
+    "Merchant ID": "merchantId",
     "Amount": "amount",
     "Date": "date",
-    "Status": "status",
-    "Transaction type": "trx_type",
-    "Bank": "bank",
-    "Pay sys": "payment_system"
+    "Status": "statusCode",
+    "Transaction type": "transactionType",
+    "Pay sys": "paymentSystem"
 };
