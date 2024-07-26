@@ -5,23 +5,35 @@ import TextInput from "../../../generalComponents/inputFields/textInputComponent
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
+import Loader from "../../../generalComponents/loaders/Loader";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
+import { postDataApi } from "../../../apis/postDataApi";
+import { urls } from "../../../constants/urls/urls";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 // import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
-    searchFields,
-    terminalsSearchInfo,
-    setTerminalsSearchInfo,
+    terminalsSearchFields,
+    setTerminals,
+    // terminalsSearchInfo,
+    // setTerminalsSearchInfo,
     isSearched,
     setIsSearched,
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
     // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
+        searchField: "",
+        searchValue: "",
+        hasSearchParams: false
+    });
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
     const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
@@ -29,6 +41,7 @@ const TermPageSearchArea = ({
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
 
+    const dispatch = useDispatch();
     const { t } = useTranslation();
 
     return (
@@ -38,7 +51,7 @@ const TermPageSearchArea = ({
                     <form className="terminals-page-search-form" onSubmit={(evt) => {
                         evt.preventDefault();
 
-                        searchingValidation(
+                        const makeSearchCall = searchingValidation(
                             terminalsSearchInfo,
                             setTerminalsSearchInfo,
                             prevSearchInfo,
@@ -48,19 +61,58 @@ const TermPageSearchArea = ({
                             setSearchDataFieldEmptyError,
                             setSearchByFieldEmptyError
                         );
+
+                        if (makeSearchCall) {
+                            terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField];
+
+                            let searchParams = {};
+                            for (const field in terminalsSearchInfo) {
+                                if (field !== "hasSearchParams") {
+                                    searchParams[field] = terminalsSearchInfo[field];
+                                }
+                            }
+
+                            const makeCallForSearchedTerminals = async () => {
+                                try {
+                                    setShowLoading(true);
+                                    const response = await postDataApi(urls.SEARCH_TERMINALS_URL, searchParams);
+                                    setShowLoading(false);
+
+                                    console.log("Response: ", response);
+
+                                    if (response.status === 200) {
+                                        setTerminals(response.data);
+                                    } else if (response.status === 401) {
+                                        dispatch(editToken(""));
+                                        localStorage.clear();
+
+                                        window.location.reload()
+                                    }
+                                } catch (err) {
+                                    console.log("Error: ", err);
+                                }
+                            };
+                            makeCallForSearchedTerminals();
+                        }
                     }}>
                         <SelectComponent label={t("searchArea.searchBy")}
-                                         chooseData={searchFields}
-                                         fields={terminalsSearchInfo}
-                                         changeFieldName="searchField"
-                                         setField={setTerminalsSearchInfo}
+                                         chooseData={Object.keys(terminalsSearchFields)}
+                                        //  fields={terminalsSearchInfo}
+                                        //  changeFieldName="searchField"
+                                        //  setField={setTerminalsSearchInfo}
                                          hasFirstRow={true}
                                          firstRowLabel="------"
                                          firstRowValue=""
                                          width="200px"
                                          existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
-                                         onChooseHandler={() => setSearchByFieldEmptyError(false) }/>
+                                         onChooseHandler={(evt) => {
+                                            setSearchByFieldEmptyError(false);
+                                            setTerminalsSearchInfo({
+                                                ...terminalsSearchInfo,
+                                                searchField: evt.target.value
+                                            })
+                                        }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
                                    errorText={t("searchArea.emptyFieldError")}
@@ -117,6 +169,9 @@ const TermPageSearchArea = ({
                                 isOpen={openCloseWillBeSoonModal} 
                                 title={t("export.export")}
                                 body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
+            }
+            {showLoading &&
+                <Loader />
             }
         </>        
     );

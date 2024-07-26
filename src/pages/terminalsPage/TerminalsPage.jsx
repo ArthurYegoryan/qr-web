@@ -26,11 +26,6 @@ const TerminalsPage = () => {
     // const [ paySystems, setPaySystems ] = useState([]);
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
-    const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
-        searchField: "",
-        searchValue: "",
-        hasSearchParams: false
-    });
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ isTermDataSearched, setIsTermDataSearched ] = useState(false);
@@ -93,15 +88,6 @@ const TerminalsPage = () => {
     useEffect(() => {
         try {
             const getTerminalsData = async () => {
-                let searchInfo = {};
-                
-                if (terminalsSearchInfo.hasSearchParams) { 
-                    searchInfo = {
-                        ...terminalsSearchInfo,
-                        "searchField": terminalsSearchFields[terminalsSearchInfo.searchField]
-                    }
-                }
-
                 setShowLoading(true);
                 const response = await getDataApi(
                     urls.TERMINALS_URL + `?page=${terminalsPage}&size=10`
@@ -128,9 +114,8 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea searchFields={Object.keys(terminalsSearchFields)}
-                                terminalsSearchInfo={terminalsSearchInfo} 
-                                setTerminalsSearchInfo={setTerminalsSearchInfo}
+            <TermPageSearchArea terminalsSearchFields={terminalsSearchFields}
+                                setTerminals={setTerminals}
                                 isSearched={isTermDataSearched}
                                 setIsSearched={setIsTermDataSearched}
                                 isTermDataChanged={isTermDataChanged}

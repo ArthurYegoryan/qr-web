@@ -33,13 +33,15 @@ export const searchingValidation = (
                     ...searchInfo, 
                     hasSearchParams: true
                 });
-                setIsSearched(!isSearched);
+                // setIsSearched(!isSearched);
                 setPrevSearchInfo({
                     ...searchInfo, 
                     hasSearchParams: true
                 });
                 setSearchByFieldEmptyError(false);
                 setSearchDataFieldEmptyError(false);
+
+                return true;
             }
         }                    
     } else {

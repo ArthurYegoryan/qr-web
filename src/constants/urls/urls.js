@@ -4,6 +4,7 @@ export const urls = {
     LOGIN_URL: `/jwt/login`,
 
     TERMINALS_URL: `/api/terminals`,
+    SEARCH_TERMINALS_URL: `/api/terminals/search`,
 
     TRANSACTIONS_URL: `/api/transactions`,
 

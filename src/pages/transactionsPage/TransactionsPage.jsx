@@ -34,7 +34,6 @@ const TransactionsPage = () => {
     const [ isTransactionDataSearched, setIsTransactionDataSearched ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
-    // const paymentSystems = useSelector((state) => state.paymentSystems.paymentSystems.payload);
     const dispatch = useDispatch();
 
     const trxTypesDetector = {
@@ -82,7 +81,6 @@ const TransactionsPage = () => {
             }
             getTransactionsData();
         } catch(err) {
-            // setOpenCloseModal(true);
             console.log(err.message);
         }
     }, [transactionsPage, isTransactionDataSearched]);
@@ -118,7 +116,6 @@ const TransactionsPage = () => {
             }
             getTransactionTypesStatusCodes();
         } catch(err) {
-            // setOpenCloseModal(true);
             console.log(err.message);
         }
     }, []);
@@ -133,14 +130,6 @@ const TransactionsPage = () => {
                                     setTransactionsSearchInfo={setTransactionsSearchInfo} />
             <Table whichTable={"transactions"}
                    datas={transactions} />
-            {/* {openCloseModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
-                                isOpen={openCloseModal} 
-                                title="Connection error!"
-                                body={<ErrorModalBody />}
-                                bgcolor="red"
-                />
-            } */}
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={transactionsPageCount}
                                      setPage={setTransactionsPage} />
