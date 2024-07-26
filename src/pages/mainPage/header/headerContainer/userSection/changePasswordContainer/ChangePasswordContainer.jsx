@@ -1,7 +1,7 @@
 import "./ChangePasswordContainer.css";
 import Button from "../../../../../../generalComponents/buttons/Button"; 
 import ModalComponent from "../../../../../../generalComponents/modalComponent/ModalComponent";
-import ErrorModalBody from "../../../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
+import WillBeSoonModalBody from "../../../../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import ChangePasswordBody from "./changePasswordBody/ChangePasswordBody";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,8 @@ const ChangePasswordContainer = () => {
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)} 
                                 isOpen={openCloseModal} 
                                 title={t("userSection.changePassword")}
-                                body={<ChangePasswordBody onCloseHandler={() => setOpenCloseModal(false)} />}
+                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseModal(false)} />}
+                                // body={<ChangePasswordBody onCloseHandler={() => setOpenCloseModal(false)} />}
                 />
             }
         </>

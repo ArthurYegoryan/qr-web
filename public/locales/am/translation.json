@@ -1,10 +1,14 @@
 {
+    "generalMessages": {
+        "willBeAvailableSoon": "Շուտով հասանելի կլինի!"
+    },
     "questions": {
         "doYouWantDelete": "Դուք ցանկանու՞մ եք ջնջել"
     },
     "operations": {
         "delete": "Ջնջել",
-        "cancel": "Չեղարկել"
+        "cancel": "Չեղարկել",
+        "close": "Փակել"
     },
     "nav": {
         "terminals": "Տերմինալներ",

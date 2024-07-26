@@ -1,10 +1,14 @@
 {
+    "generalMessages": {
+        "willBeAvailableSoon": "Скоро будет доступно!"
+    },
     "questions": {
         "doYouWantDelete": "Вы хотите удалить"
     },
     "operations": {
         "delete": "Удалить",
-        "cancel": "Отменить"
+        "cancel": "Отменить",
+        "close": "Закрыть"
     },
     "nav": {
         "terminals": "Терминалы",

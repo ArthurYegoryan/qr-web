@@ -1,10 +1,14 @@
 {
+    "generalMessages": {
+        "willBeAvailableSoon": "Will be available soon!"
+    },
     "questions": {
         "doYouWantDelete": "Do yow want to delete"
     },
     "operations": {
         "delete": "Delete",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "close": "Close"
     },
     "nav": {
         "terminals": "Terminals",
