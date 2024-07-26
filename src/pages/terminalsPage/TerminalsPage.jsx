@@ -7,7 +7,6 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
-import { fillTerminalsTableFieldsWithValues } from "../../utils/helpers/fillTerminalsTableFieldsWithValues";
 import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
 import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSystemsSlice";
 import { saveCities } from "../../redux/slices/cities/citiesSlice";
@@ -21,10 +20,10 @@ import { useTranslation } from "react-i18next";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
 const TerminalsPage = () => {
-    const [ mccs, setMccs ] = useState([]);
-    const [ posModels, setPosModels ] = useState([]);
-    const [ cities, setCities ] = useState([]);
-    const [ paySystems, setPaySystems ] = useState([]);
+    // const [ mccs, setMccs ] = useState([]);
+    // const [ posModels, setPosModels ] = useState([]);
+    // const [ cities, setCities ] = useState([]);
+    // const [ paySystems, setPaySystems ] = useState([]);
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
@@ -63,10 +62,10 @@ const TerminalsPage = () => {
                     responsePosModels.status === 200 &&
                     responsePaymentSystems.status === 200
                 ) {
-                    setMccs(responseMcc.data);
-                    setPosModels(responsePosModels.data);
-                    setCities(responseCities.data);
-                    setPaySystems(responsePaymentSystems.data);
+                    // setMccs(responseMcc.data);
+                    // setPosModels(responsePosModels.data);
+                    // setCities(responseCities.data);
+                    // setPaySystems(responsePaymentSystems.data);
 
                     dispatch(savePosModels(responsePosModels.data));
                     dispatch(savePaymentSystems(responsePaymentSystems.data));
@@ -138,7 +137,7 @@ const TerminalsPage = () => {
                                 setIsTermDataChanged={setIsTermDataChanged} 
             />
             <Table whichTable={"terminals"}
-                   datas={makeObjFieldsToString(fillTerminalsTableFieldsWithValues(terminals, mccs, posModels, cities, paySystems))}
+                   datas={makeObjFieldsToString(terminals)}
                    size="small"
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);

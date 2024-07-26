@@ -40,8 +40,8 @@ const TableComponent = ({
         },
         {
             title: 'MCC',
-            dataIndex: 'mcc_id',
-            key: 'mcc_id',
+            dataIndex: 'mcc',
+            key: 'mcc',
             width: "8px",
         },
         {
@@ -56,14 +56,14 @@ const TableComponent = ({
                             <img src={process.env.PUBLIC_URL + 'img/success.svg'} 
                                 alt="Success" 
                                 style={{
-                                    width: "35px"
+                                    width: "25px"
                                 }}
                             /> :
                         record === "false" ?
                             <img src={process.env.PUBLIC_URL + 'img/fail.svg'} 
                                 alt="Fail" 
                                 style={{
-                                    width: "35px"
+                                    width: "25px"
                                 }}
                             /> : null
                     }
@@ -85,8 +85,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'posModel_id',
-            key: 'posModel_id',
+            dataIndex: 'posModel',
+            key: 'posModel',
             width: 16,
         },
         {
@@ -110,8 +110,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'city_id',
-            key: 'city_id',
+            dataIndex: 'city',
+            key: 'city',
             width: 13,
         },
         {
@@ -135,8 +135,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'paymentSystem_id',
-            key: 'paymentSystem_id',
+            dataIndex: 'paymentSystem',
+            key: 'paymentSystem',
             width: 13,
         },
         // {
@@ -159,29 +159,34 @@ const TableComponent = ({
     const transactionsColumns = [
         {
             title: 'ID',
-            width: 10,
             dataIndex: 'id',
             key: 'id',
+            width: "5px",
         },
         {
-            title: 'RRN',
-            width: 10,
-            dataIndex: 'rrn',
-            key: 'rrn',
+            title: 'S/N',
+            dataIndex: 'posTerminal',
+            key: 'posTerminal',
+            width: "20px",
         },
         {
             title: 'Terminal ID',
-            dataIndex: 'tid',
-            key: 'tid',
+            dataIndex: 'terminalId',
+            key: 'terminalId',
             width: 10,
         },
         {
             title: 'Merchant ID',
-            dataIndex: 'mid',
-            key: 'mid',
+            dataIndex: 'merchantId',
+            key: 'merchantId',
             width: 10,
+        },        
+        {
+            title: 'RRN',
+            dataIndex: 'rrn',
+            key: 'rrn',
+            width: "5px",
         },
-        
         {
             title: 'Amount',
             dataIndex: 'amount',
@@ -192,31 +197,25 @@ const TableComponent = ({
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
-            width: 20,
+            width: "20px",
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            width: 10,
+            dataIndex: 'statusCode',
+            key: 'statusCode',
+            width: "20px",
         },
         {
-            title: 'Trx type',
-            dataIndex: 'trx_type',
-            key: 'trx_type',
-            width: 8,
-        },
-        {
-            title: 'Bank',
-            dataIndex: 'bank',
-            key: 'bank',
-            width: 10,
+            title: 'Transaction type',
+            dataIndex: 'transactionType',
+            key: 'transactionType',
+            width: "15px",
         },
         {
             title: 'Pay sys',
-            dataIndex: 'payment_system',
-            key: 'payment_system',
-            width: 10,
+            dataIndex: 'paymentSystem',
+            key: 'paymentSystem',
+            width: "10px",
         }
     ];
 

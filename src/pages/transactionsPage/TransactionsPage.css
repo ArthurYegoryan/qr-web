@@ -9,3 +9,7 @@
     bottom: 3px;
     left: 45%;
 }
+
+.transactions-page-area {
+    min-width: 1500px;
+ }

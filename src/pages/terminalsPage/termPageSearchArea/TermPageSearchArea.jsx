@@ -9,7 +9,7 @@ import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
@@ -21,7 +21,7 @@ const TermPageSearchArea = ({
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
-    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
     const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
