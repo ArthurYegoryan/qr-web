@@ -63,6 +63,7 @@ const TransactionsSearchArea = ({
 
                 if (makeSearchCall) {
                     transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
+                    transactionsSearchInfo.searchField = transactionsSearchFields[transactionsSearchInfo.searchField];
 
                     let searchParams = {};
                     for (const field in transactionsSearchInfo) {
