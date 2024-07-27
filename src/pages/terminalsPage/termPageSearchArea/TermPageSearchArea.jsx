@@ -18,10 +18,12 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
+    bodyHeight,
+    terminalsPageForSearch,
+    setIsSearchedTerminalsData,
+    setSearchedTerminalsPageCount,
     terminalsSearchFields,
     setTerminals,
-    // terminalsSearchInfo,
-    // setTerminalsSearchInfo,
     isSearched,
     setIsSearched,
     setIsTermDataChanged,
@@ -44,6 +46,42 @@ const TermPageSearchArea = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const callForTerminalsSearchedData = () => {
+        terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField];
+
+        let searchParams = {};
+        for (const field in terminalsSearchInfo) {
+            if (field !== "hasSearchParams") {
+                searchParams[field] = terminalsSearchInfo[field];
+            }
+        }
+
+        const makeCallForSearchedTerminals = async () => {
+            try {
+                setShowLoading(true);
+                const response = await postDataApi(urls.SEARCH_TERMINALS_URL + 
+                                        `?page=${terminalsPageForSearch}&size=${(bodyHeight < 1200) ? 7 : 10}`, searchParams);
+                setShowLoading(false);
+
+                console.log("Response: ", response);
+
+                if (response.status === 200) {
+                    setTerminals(response.data.items);
+                    setIsSearchedTerminalsData(true);
+                    setSearchedTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                } else if (response.status === 401) {
+                    dispatch(editToken(""));
+                    localStorage.clear();
+
+                    window.location.reload()
+                }
+            } catch (err) {
+                console.log("Error: ", err);
+            }
+        };
+        makeCallForSearchedTerminals();
+    };
+
     return (
         <>
             <div className="terminals-page-search-area">
@@ -63,36 +101,7 @@ const TermPageSearchArea = ({
                         );
 
                         if (makeSearchCall) {
-                            terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField];
-
-                            let searchParams = {};
-                            for (const field in terminalsSearchInfo) {
-                                if (field !== "hasSearchParams") {
-                                    searchParams[field] = terminalsSearchInfo[field];
-                                }
-                            }
-
-                            const makeCallForSearchedTerminals = async () => {
-                                try {
-                                    setShowLoading(true);
-                                    const response = await postDataApi(urls.SEARCH_TERMINALS_URL, searchParams);
-                                    setShowLoading(false);
-
-                                    console.log("Response: ", response);
-
-                                    if (response.status === 200) {
-                                        setTerminals(response.data);
-                                    } else if (response.status === 401) {
-                                        dispatch(editToken(""));
-                                        localStorage.clear();
-
-                                        window.location.reload()
-                                    }
-                                } catch (err) {
-                                    console.log("Error: ", err);
-                                }
-                            };
-                            makeCallForSearchedTerminals();
+                            callForTerminalsSearchedData();
                         }
                     }}>
                         <SelectComponent label={t("searchArea.searchBy")}

@@ -30,6 +30,9 @@ const TerminalsPage = () => {
     const [ isTermDataDeleted, setIsTermDataDeleted ] = useState(false);
     const [ isTermDataSearched, setIsTermDataSearched ] = useState(false);
     const [ terminalsPage, setTerminalsPage ] = useState(1);
+    const [ isSearchedTerminalsData, setIsSearchedTerminalsData ] = useState(false);    // For terminals search
+    const [ terminalsPageForSearch, setTerminalsPageForSearch ] = useState(1);          // For terminals search
+    const [ searchedTerminalsPageCount, setSearchedTerminalsPageCount ] = useState(1);  // For terminals search
     const [ selectedTerminal, setSelectedTerminal ] = useState({});
     const [ openCloseDeleteModal, setOpenCloseDeleteModal ] = useState(false);
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
@@ -99,6 +102,7 @@ const TerminalsPage = () => {
                 if (response.status === 200) {
                     setTerminals(response.data.items);
                     setTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -116,7 +120,11 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea terminalsSearchFields={terminalsSearchFields}
+            <TermPageSearchArea bodyHeight={bodyHeight}
+                                terminalsPageForSearch={terminalsPageForSearch}
+                                setIsSearchedTerminalsData={setIsSearchedTerminalsData}
+                                setSearchedTerminalsPageCount={setSearchedTerminalsPageCount}
+                                terminalsSearchFields={terminalsSearchFields}
                                 setTerminals={setTerminals}
                                 isSearched={isTermDataSearched}
                                 setIsSearched={setIsTermDataSearched}
@@ -135,8 +143,8 @@ const TerminalsPage = () => {
                        setOpenCloseDeleteModal(true);
                    }} />
             <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
-                <PaginationComponent pageCount={terminalsPageCount}
-                                     setPage={setTerminalsPage} />
+                <PaginationComponent pageCount={!isSearchedTerminalsData ? terminalsPageCount : searchedTerminalsPageCount}
+                                     setPage={!isSearchedTerminalsData ? setTerminalsPage : setTerminalsPageForSearch} />
             </div>
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
