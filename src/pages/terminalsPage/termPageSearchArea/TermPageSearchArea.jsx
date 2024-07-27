@@ -8,6 +8,7 @@ import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willB
 import Loader from "../../../generalComponents/loaders/Loader";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
+import { terminalsSearchFields } from "../../../constants/tableFields/terminalsSearchFields";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
 import { urls } from "../../../constants/urls/urls";
@@ -22,7 +23,6 @@ const TermPageSearchArea = ({
     terminalsPageForSearch,
     setIsSearchedTerminalsData,
     setSearchedTerminalsPageCount,
-    terminalsSearchFields,
     setTerminals,
     isSearched,
     setIsSearched,
@@ -30,6 +30,7 @@ const TermPageSearchArea = ({
     isTermDataChanged
 }) => {
     // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
         searchField: "",
         searchValue: "",
@@ -46,8 +47,11 @@ const TermPageSearchArea = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    // console.log("Terminals page for search: ", terminalsPageForSearch);
+
     const callForTerminalsSearchedData = () => {
         terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField];
+        console.log("Search field: ", terminalsSearchInfo.searchField);
 
         let searchParams = {};
         for (const field in terminalsSearchInfo) {
@@ -55,6 +59,8 @@ const TermPageSearchArea = ({
                 searchParams[field] = terminalsSearchInfo[field];
             }
         }
+
+        console.log("Search params: ", JSON.stringify(searchParams, null, 2));
 
         const makeCallForSearchedTerminals = async () => {
             try {
@@ -69,6 +75,7 @@ const TermPageSearchArea = ({
                     setTerminals(response.data.items);
                     setIsSearchedTerminalsData(true);
                     setSearchedTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
                     dispatch(editToken(""));
                     localStorage.clear();
@@ -81,6 +88,11 @@ const TermPageSearchArea = ({
         };
         makeCallForSearchedTerminals();
     };
+
+    if (terminalsPageForSearch !== currentSearchPage) {
+        setCurrentSearchPage(terminalsPageForSearch);
+        callForTerminalsSearchedData();
+    }
 
     return (
         <>

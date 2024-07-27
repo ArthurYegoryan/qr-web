@@ -15,7 +15,6 @@ import { urls } from "../../constants/urls/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useEffect, useState } from "react";
-import { terminalsSearchFields } from "../../constants/tableFields/terminalsSearchFields";
 import { useTranslation } from "react-i18next";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
@@ -124,7 +123,6 @@ const TerminalsPage = () => {
                                 terminalsPageForSearch={terminalsPageForSearch}
                                 setIsSearchedTerminalsData={setIsSearchedTerminalsData}
                                 setSearchedTerminalsPageCount={setSearchedTerminalsPageCount}
-                                terminalsSearchFields={terminalsSearchFields}
                                 setTerminals={setTerminals}
                                 isSearched={isTermDataSearched}
                                 setIsSearched={setIsTermDataSearched}
