@@ -38,6 +38,8 @@ const TerminalsPage = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const bodyHeight = document.body.offsetHeight;
+
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
@@ -90,7 +92,7 @@ const TerminalsPage = () => {
             const getTerminalsData = async () => {
                 setShowLoading(true);
                 const response = await getDataApi(
-                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=10`
+                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${(bodyHeight < 1200) ? 7 : 10}`
                 );
                 setShowLoading(false);
 
