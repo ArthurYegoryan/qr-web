@@ -161,7 +161,7 @@ const TableComponent = ({
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: "5px",
+            width: "6px",
         },
         {
             title: 'S/N',
@@ -385,6 +385,10 @@ const TableComponent = ({
             size={size}
             sticky={{
                 offsetHeader: 64,
+            }}
+            scroll={{
+                scrollToFirstRowOnChange: true,
+                y: 650
             }}
         />
     );

@@ -22,13 +22,17 @@ const NavBar = () => {
             setMenuClass("menu visible");
             dispatch(editMenuStatusTrue());
         }
-        setIsMenuClicked(!isMenuClicked);
-        
+        setIsMenuClicked(!isMenuClicked);        
     }
     
     return (
         <div className="nav-bar">
-            <div style={{backgroundColor: colors.originalBgColor}} className={menuClass}>
+            <div 
+                style={{
+                    backgroundColor: colors.originalBgColor,
+                }} 
+                className={menuClass}
+            >
                 <LogoComponent className="logo-nav-bar"
                                width="235px"/>
                 <NavLinks />

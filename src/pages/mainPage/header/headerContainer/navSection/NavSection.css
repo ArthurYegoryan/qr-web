@@ -1,3 +1,5 @@
 .nav-section {
     display: flex;
+    position: absolute;
+    height: 100%;
 }
