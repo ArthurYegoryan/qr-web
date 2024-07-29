@@ -66,10 +66,8 @@
         "searchBy": "Search by",
         "searchData": "Search data",
         "chooseTrxType": "Choose transaction type",
-        "startDate": "Start date",
-        "startTime": "Start time",
-        "endDate": "End date",
-        "endTime": "End time",
+        "startDate": "Start",
+        "endDate": "End",
         "searchBtn": "Search",
         "emptyFieldError": "Fill the field"
     },

@@ -2,8 +2,8 @@ import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import Button from "../../../generalComponents/buttons/Button";
-// import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
-// import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
+import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
@@ -28,7 +28,7 @@ const TransactionsSearchArea = ({
         hasSearchParams: false,
         searchField: "",
         searchValue: "",
-        transactionType: "",
+        transactionType: 0,
         startDate: "",
         endDate: "",
     });
@@ -36,6 +36,7 @@ const TransactionsSearchArea = ({
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
+    const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
 
@@ -43,7 +44,38 @@ const TransactionsSearchArea = ({
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
-    console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
+    // console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
+
+    const callForTransactionsSearchedData = () => {
+        let searchParams = {};
+        for (const field in transactionsSearchInfo) {
+            if (field !== "hasSearchParams") {
+                searchParams[field] = transactionsSearchInfo[field];
+            }
+        }
+
+        const makeCallForSearchedTransactions = async () => {
+            try {
+                setShowLoading(true);
+                const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL + `?page=1&size=10`, searchParams);
+                setShowLoading(false);
+
+                console.log("Response: ", response);
+
+                if (response.status === 200) {
+                    setTransactions(response.data);
+                } else if (response.status === 401) {
+                    dispatch(editToken(""));
+                    localStorage.clear();
+
+                    window.location.reload()
+                }
+            } catch (err) {
+                console.log("Error: ", err);
+            }
+        };
+        makeCallForSearchedTransactions();
+    };
 
     return (
         <div className="transactions-search-area">
@@ -62,37 +94,7 @@ const TransactionsSearchArea = ({
                 );
 
                 if (makeSearchCall) {
-                    // transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
-                    // transactionsSearchInfo.searchField = transactionsSearchFields[transactionsSearchInfo.searchField];
-
-                    let searchParams = {};
-                    for (const field in transactionsSearchInfo) {
-                        if (field !== "hasSearchParams") {
-                            searchParams[field] = transactionsSearchInfo[field];
-                        }
-                    }
-
-                    const makeCallForSearchedTransactions = async () => {
-                        try {
-                            setShowLoading(true);
-                            const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL, searchParams);
-                            setShowLoading(false);
-
-                            console.log("Response: ", response);
-
-                            if (response.status === 200) {
-                                setTransactions(response.data);
-                            } else if (response.status === 401) {
-                                dispatch(editToken(""));
-                                localStorage.clear();
-
-                                window.location.reload()
-                            }
-                        } catch (err) {
-                            console.log("Error: ", err);
-                        }
-                    };
-                    makeCallForSearchedTransactions();
+                    callForTransactionsSearchedData();
                 }
             }}>
                 <div className="transactions-search-inputs">
@@ -135,49 +137,37 @@ const TransactionsSearchArea = ({
                                          onChooseHandler={(evt) => {
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                // searchField: trxTypesDetector[evt.target.value]
                                                 transactionType: trxTypesDetector[evt.target.value]
                                             });
                                          }} />
                     </div>
                     <div className="transactions-search-calendar-fields">
                         <div className="transactions-search-date">
-                            <span>Սկիզբ</span>
-                            <DatePicker showTimeSelect
-                                        showIcon
+                            <span>{t("searchArea.startDate")}</span>
+                            <DatePicker showIcon
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={15}
                                         selected={transactionsSearchInfo.startDate}
+                                        dateFormat="dd-MM-yyyy HH:mm"
                                         onChange={(date) => setTransactionsSearchInfo({
                                             ...transactionsSearchInfo,
                                             startDate: date
                                         })} />
                         </div>
                         <div className="transactions-search-date">
-                            <span>Ավարտ</span>
-                            <DatePicker showTimeSelect
-                                        showIcon />
+                            <span>{t("searchArea.endDate")}</span>
+                            <DatePicker showIcon
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={15}
+                                        selected={transactionsSearchInfo.endDate}
+                                        dateFormat="dd-MM-yyyy HH:mm"
+                                        onChange={(date) => setTransactionsSearchInfo({
+                                            ...transactionsSearchInfo,
+                                            endDate: date
+                                        })} />
                         </div>
-                        {/* <Calendar label={t("searchArea.startDate")}
-                                  defaultDate={null}
-                                  width="100px"
-                                  fields={transactionsSearchInfo}
-                                  setField={setTransactionsSearchInfo} 
-                                  changeFieldName="startDate" />
-                        <Time label={t("searchArea.startTime")}
-                              width="100px"
-                              fields={transactionsSearchInfo}
-                              setField={setTransactionsSearchInfo} 
-                              changeFieldName="startTime" />
-                        <Calendar label={t("searchArea.endDate")}
-                                  marginLeft="25px" 
-                                  width="100px"
-                                  fields={transactionsSearchInfo}
-                                  setField={setTransactionsSearchInfo} 
-                                  changeFieldName="endDate" />
-                        <Time label={t("searchArea.endTime")}
-                              width="100px"
-                              fields={transactionsSearchInfo}
-                              setField={setTransactionsSearchInfo} 
-                              changeFieldName="endTime" /> */}
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">
@@ -185,9 +175,16 @@ const TransactionsSearchArea = ({
                             type="submit"
                             endIcon={<SearchIcon />}
                             marginRight="10px" />
-                    <Button label={t("export.reporting")} />
+                    <Button label={t("export.reporting")}
+                            onClickHandler={() => setOpenCloseWillBeSoonModal(true)} />
                 </div>
             </form>
+            {openCloseWillBeSoonModal &&
+                <ModalComponent onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} 
+                                isOpen={openCloseWillBeSoonModal} 
+                                title={t("export.reporting")}
+                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
+            }
             {showLoading &&
                 <Loader />
             }

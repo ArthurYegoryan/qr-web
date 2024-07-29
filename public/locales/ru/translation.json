@@ -66,10 +66,8 @@
         "searchBy": "Поиск по",
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
-        "startDate": "Дата начала",
-        "startTime": "Время начала",
-        "endDate": "Дата окончания",
-        "endTime": "Время окончания",
+        "startDate": "Начало",
+        "endDate": "Конец",
         "searchBtn": "Поиск",
         "emptyFieldError": "Заполните поле"
     },

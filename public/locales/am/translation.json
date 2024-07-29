@@ -66,10 +66,8 @@
         "searchBy": "Որոնում ըստ",
         "searchData": "Որոնման տվյալ",
         "chooseTrxType": "Ընտրել գործարքի տեսակը",
-        "startDate": "Սկզբի ամսաթիվ",
-        "startTime": "Սկզբի ժամանակ",
-        "endDate": "Ավարտի ամսաթիվ",
-        "endTime": "Ավարտի ժամանակ",
+        "startDate": "Սկիզբ",
+        "endDate": "Ավարտ",
         "searchBtn": "Որոնել",
         "emptyFieldError": "Լրացրեք դաշտը"
     },

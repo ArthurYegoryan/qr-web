@@ -99,11 +99,11 @@ const TransactionsPage = () => {
 
     return (
         <div className="transactions-page-area">
-            {/* <TransactionsSearchArea isSearched={isTransactionDataSearched}
+            <TransactionsSearchArea isSearched={isTransactionDataSearched}
                                     setIsSearched={setIsTransactionDataSearched}
                                     transactionsSearchFields={transactionsSearchFields}
                                     transactionTypes={transactionTypes}
-                                    setTransactions={setTransactions} /> */}
+                                    setTransactions={setTransactions} />
             <Table whichTable={"transactions"}
                    datas={transactions} />
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
