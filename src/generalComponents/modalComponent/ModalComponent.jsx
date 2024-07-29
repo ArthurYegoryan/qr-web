@@ -34,15 +34,21 @@ const ModalComponent = ({
                 <Box sx={modalStyle}>
                     <div className="modal-close-button-div">
                         <button onClick={onCloseHandler} className="modal-close-button">
-                            <img src={process.env.PUBLIC_URL + "x.svg"} alt="close" />
+                            <img src={process.env.PUBLIC_URL + "img/x.svg"} alt="close" />
                         </button>
                     </div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        {title}
+                        <div className="modal-modal-title-div">
+                            <div className="modal-modal-title-text">
+                                <span>{title}</span>
+                            </div>                            
+                        </div>
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        {body}
-                    </Typography>
+                    <div className="modal-modal-body-div">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            {body}
+                        </Typography>
+                    </div>
                 </Box>
             </Modal>
         </div>

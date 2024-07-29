@@ -1,14 +1,12 @@
 import './LoginArea.css';
 import Logo from './logo/Logo';
-import LoginForm from './loginForm/LoginForm';
-import ForgotPassword from './forgotPassword/ForgotPassword';
+import LoginContent from './loginContent/LoginContent';
 
 const LoginArea = () => {
     return (
         <div className="login-area">
             <Logo />
-            <LoginForm />
-            <ForgotPassword />
+            <LoginContent />
         </div>
     );
 };

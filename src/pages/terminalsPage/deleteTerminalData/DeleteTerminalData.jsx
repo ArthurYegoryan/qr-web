@@ -1,10 +1,10 @@
 import "./DeleteTerminalData.css";
 import Button from "../../../generalComponents/buttons/Button";
-import deleteTerminalData from "../../../api/deleteTerminalData";
+import deleteTerminalData from "../../../testApis/deleteTerminalData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { editToken, logoutUser } from "../../../redux/slices/authorization/auth";
+import { editToken } from "../../../redux/slices/authorization/authSlice";
 
 const DeleteTerminalData = ({ 
     terminal, 
@@ -23,7 +23,6 @@ const DeleteTerminalData = ({
         } else if (response.message === "invalid token") {
             localStorage.clear();
             dispatch(editToken(""));
-            dispatch(logoutUser());
     
             <Navigate to="/login" />;
         }
@@ -32,12 +31,16 @@ const DeleteTerminalData = ({
     return (
         <div className="delete-term-data-content">
             <p>Դուք ցանկանու՞մ եք ջնջել <b>{terminal.serial}</b> սերիալ համարով տերմինալի տվյալները:</p>
-            <Button label="Ջնջել" 
-                    className="delete-term-data-delete-btn"
-                    onClickHandler={() => onDeleteClickHandler()} />
-            <Button label="Չեղարկել" 
-                    className="delete-term-data-cancel-btn"
-                    onClickHandler={() => onCloseHandler()} />
+            <div className="delete-term-data-buttons">
+                <Button label="Ջնջել" 
+                        backgroundColor="red"
+                        marginRight="10px"
+                        onClickHandler={() => onDeleteClickHandler()} />
+                <Button label="Չեղարկել" 
+                        backgroundColor="white"
+                        color="red"
+                        onClickHandler={() => onCloseHandler()} />
+            </div>            
         </div>
     )
 };

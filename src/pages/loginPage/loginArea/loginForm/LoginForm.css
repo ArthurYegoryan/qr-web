@@ -1,17 +1,19 @@
+.login-form {
+    position: relative;
+    margin-top: 40px;
+    margin-left: 40px;
+    height: 260px;
+}
+
 .login-button {
-    display: block;
-    margin-top: 10px;
-    background-color: rgb(103, 103, 255);
-    color: white;
-    width: 220px;
-    font-size: 18px;
+    position: absolute;
+    bottom: 10px;
 }
 
-.login-input {
-    margin-top: 10px;
-}
-
-.error-message {
-    color: rgb(255, 87, 87);
+.login-error-message {
     font-size: 14px;
+}
+
+.login-error-message-div {
+    width: 200px;
 }

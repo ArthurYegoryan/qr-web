@@ -1,11 +1,14 @@
 import './LogoComponent.css';
 
 const LogoComponent = ({
-    className = ""
+    className = "",
+    width = "320px"
 }) => {
     return (
-        <div className={`logo ${className}`}>
-            <img src={process.env.PUBLIC_URL + 'logo.webp'} alt="Logo" />
+        <div className={`logo ${className}`}
+             style={{width: width}}
+        >
+            <img src={process.env.PUBLIC_URL + 'img/logo_new.webp'} alt="Logo" />
         </div>
     );
 };

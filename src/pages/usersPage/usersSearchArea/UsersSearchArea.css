@@ -1,0 +1,15 @@
+.users-page-search-area {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    margin-top: 50px;
+}
+
+.users-page-add-new-user-bank,
+.users-page-search-export-content {
+    display: flex;
+}
+
+.users-page-search-form {
+    display: flex;
+}

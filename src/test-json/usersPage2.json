@@ -1,0 +1,35 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "users": [
+                {
+                    "id": 11,
+                    "username": "Ameria2",
+                    "bank": 4,
+                    "email": "ameria@gmail.com",
+                    "role": "bank",
+                    "is_active": true
+                },
+                {
+                    "id": 12,
+                    "username": "ACBA2",
+                    "bank": 1,
+                    "email": "acba@gmail.com",
+                    "role": "bank",
+                    "is_active": true
+                },
+                {
+                    "id": 13,
+                    "username": "Converse2",
+                    "bank": 2,
+                    "email": "converse@gmail.com",
+                    "role": "bank",
+                    "is_active": true
+                }
+            ],
+            "users_page_count": 2
+        }
+    }
+]

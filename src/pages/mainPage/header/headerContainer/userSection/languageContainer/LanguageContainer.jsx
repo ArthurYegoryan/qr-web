@@ -1,33 +1,24 @@
-import { useState } from "react";
-import Button from "../../../../../../generalComponents/buttons/Button";
+import { useState, useEffect } from "react";
+import ReactFlagsSelect from "react-flags-select";
 import "./LanguageContainer.css";
+import { useTranslation } from 'react-i18next';
 
 const LanguageContainer = () => {
-    const [ active1, setActive1 ] = useState("inactive");
-    const [ active2, setActive2 ] = useState("inactive");
-    const [ active3, setActive3 ] = useState("inactive");
-
-    const onClickHandler1 = () => {
-        setActive1("active");
-        setActive2("inactive");
-        setActive3("inactive");
-    };
-    const onClickHandler2 = () => {
-        setActive2("active");
-        setActive1("inactive");
-        setActive3("inactive");
-    };
-    const onClickHandler3 = () => {
-        setActive3("active");
-        setActive1("inactive");
-        setActive2("inactive");
-    };
+    const { t, i18n } = useTranslation();
+    const [ selectedLanguage, setSelectedLanguage ] = useState("AM");
 
     return (
         <div className="language-container">
-            <Button label="am" className={`button-language ${active1}`} onClickHandler={onClickHandler1} />
-            <Button label="ru" className={`button-language ${active2}`} onClickHandler={onClickHandler2} />
-            <Button label="en" className={`button-language ${active3}`} onClickHandler={onClickHandler3} />
+            <ReactFlagsSelect selected={selectedLanguage}
+                              countries={["GB", "RU", "AM"]}
+                              showSelectedLabel={false}
+                              showOptionLabel={false}
+                              onSelect={(code) => {
+                                  setSelectedLanguage(code);
+                                  {code === "GB" && i18n.changeLanguage("en")}
+                                  {code === "RU" && i18n.changeLanguage("ru")}
+                                  {code === "AM" && i18n.changeLanguage("am")}
+                              }} />
         </div>
     );
 };

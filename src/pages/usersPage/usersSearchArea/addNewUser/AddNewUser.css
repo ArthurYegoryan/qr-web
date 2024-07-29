@@ -1,0 +1,58 @@
+.add-user-data-area {
+    width: 300px;
+}
+
+/* .add-user-data-content {
+    display: flex;
+    margin-left: 10px;
+    width: 310px;
+}
+
+.add-user-data-fields {
+    margin-right: 10px;
+}
+
+.add-user-data-field {
+    margin-left: 1px;
+    margin-bottom: 10px;
+    max-width: 210px;
+}
+
+.add-user-data-label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.add-user-data-password {
+    display: flex;
+    height: 21px;
+}
+
+.add-user-data-password > input {
+    margin-right: 5px;
+}
+
+.add-user-data-password > span {
+    cursor: pointer;
+}
+
+.add-user-data-field > input {
+    margin-top: 3.5px;
+}
+
+.add-user-data-field-error-text {
+    font-size: 12px;
+    color: red;
+}
+
+.add-user-data-activ-label {
+    margin-left: 5px;
+    font-size: 15px;
+    font-weight: 600;
+} */
+
+.add-user-data-buttons {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 10px;
+}

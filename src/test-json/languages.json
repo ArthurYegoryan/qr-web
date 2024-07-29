@@ -1,0 +1,22 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "languages": [
+                {
+                    "id": 1,
+                    "short_name": "AM"
+                },
+                {
+                    "id": 2,
+                    "short_name": "RU"
+                },
+                {
+                    "id": 3,
+                    "short_name": "GB"
+                }
+            ]
+        }
+    }
+]

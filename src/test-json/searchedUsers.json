@@ -1,0 +1,17 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "users": [
+                {
+                    "id": 2,
+                    "username": "ACBA",
+                    "bank": 1,
+                    "email": "acba@gmail.com",
+                    "role": "bank"
+                }
+            ]
+        }
+    }
+]

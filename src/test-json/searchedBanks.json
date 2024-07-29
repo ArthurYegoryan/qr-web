@@ -1,0 +1,20 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "banks": [
+                {
+                    "id": 1,
+                    "short_name": "ACBAB",
+                    "email": "acba@gmail.com",
+                    "secondEmail": "acba2@gmail.com",
+                    "is_active": "true",
+                    "url": "www.acba.am",
+                    "full_name_am": "ACBA Bank",
+                    "full_name_en": "ACBA Bank"
+                }
+            ]
+        }
+    }
+]

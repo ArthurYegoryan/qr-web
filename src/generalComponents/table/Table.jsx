@@ -1,0 +1,392 @@
+import { Space, Table } from 'antd';
+import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+// import { useSelector } from 'react-redux';
+
+const TableComponent = ({ 
+    whichTable, 
+    datas,
+    setCurrentData,
+    banks,
+    size = "normal",
+    onClickEditButton, 
+    onClickDeleteButton 
+}) => {
+    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+
+    const terminalsColumns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: "5px",
+        },
+        {
+            title: 'Terminal ID',
+            dataIndex: 'terminalId',
+            key: 'terminalId',
+            width: "12px",
+        },
+        {
+            title: 'Merchant ID',
+            dataIndex: 'merchantId',
+            key: 'merchantId',
+            width: "14px",
+        },
+        {
+            title: 'S/N',
+            dataIndex: 'serial_number',
+            key: 'serial_number',
+            width: "15px",
+        },
+        {
+            title: 'MCC',
+            dataIndex: 'mcc',
+            key: 'mcc',
+            width: "8px",
+        },
+        {
+            title: 'Active',
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: "8px",
+            render: (record) => (
+                <Space size="middle">
+                    {
+                        record === "true" ? 
+                            <img src={process.env.PUBLIC_URL + 'img/success.svg'} 
+                                alt="Success" 
+                                style={{
+                                    width: "25px"
+                                }}
+                            /> :
+                        record === "false" ?
+                            <img src={process.env.PUBLIC_URL + 'img/fail.svg'} 
+                                alt="Fail" 
+                                style={{
+                                    width: "25px"
+                                }}
+                            /> : null
+                    }
+                </Space>
+            )
+        },
+        {
+            title: 'Inactive date',
+            dataIndex: 'inactiveDate',
+            key: 'inactiveDate',
+            width: "11px",
+        },
+        {
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/pos.svg'} 
+                     alt="Cities" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
+            dataIndex: 'posModel',
+            key: 'posModel',
+            width: 16,
+        },
+        {
+            title: 'Merchant name',
+            dataIndex: 'merchantNameLocal',
+            key: 'merchantNameLocal',
+            width: 25,
+        },
+        {
+            title: 'TAX',
+            dataIndex: 'merchantTin',
+            key: 'merchantTin',
+            width: 15,
+        },
+        {
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/cities.svg'} 
+                     alt="Cities" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
+            dataIndex: 'city',
+            key: 'city',
+            width: 13,
+        },
+        {
+            title: 'Merchant address',
+            dataIndex: 'merchantAddressLocal',
+            key: 'merchantAddressLocal',
+            width: 25,
+        },
+        {
+            title: 'Registr. date',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            width: 13,
+        },
+        {
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/bank_1.svg'} 
+                     alt="Bank" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
+            dataIndex: 'paymentSystem',
+            key: 'paymentSystem',
+            width: 13,
+        },
+        // {
+        //     title: 'Action',
+        //     key: 'operation',
+        //     width: 10,
+        //     render: (record) => (
+        //         <Space size="middle">
+        //             <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+        //                 (role === "admin" || role === "bank") && onClickEditButton(record);
+        //             }} />
+        //             <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+        //                 (role === "admin" || role === "bank") && onClickDeleteButton(record);
+        //             }} />
+        //         </Space>
+        //     )
+        // },
+    ];
+
+    const transactionsColumns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: "5px",
+        },
+        {
+            title: 'S/N',
+            dataIndex: 'posTerminal',
+            key: 'posTerminal',
+            width: "20px",
+        },
+        {
+            title: 'Terminal ID',
+            dataIndex: 'terminalId',
+            key: 'terminalId',
+            width: 10,
+        },
+        {
+            title: 'Merchant ID',
+            dataIndex: 'merchantId',
+            key: 'merchantId',
+            width: 10,
+        },        
+        {
+            title: 'RRN',
+            dataIndex: 'rrn',
+            key: 'rrn',
+            width: "6px",
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            key: 'amount',
+            width: 10,
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            width: "20px",
+        },
+        {
+            title: 'Status',
+            dataIndex: 'statusCode',
+            key: 'statusCode',
+            width: "20px",
+        },
+        {
+            title: 'Transaction type',
+            dataIndex: 'transactionType',
+            key: 'transactionType',
+            width: "15px",
+        },
+        {
+            title: 'Pay sys',
+            dataIndex: 'paymentSystem',
+            key: 'paymentSystem',
+            width: "10px",
+        }
+    ];
+
+    const usersColumns = [
+        {
+            title: 'ID',
+            width: 10,
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Username',
+            width: 20,
+            dataIndex: 'username',
+            key: 'username',
+        },
+        {
+            title: 'Bank',
+            dataIndex: 'bank',
+            key: 'bank',
+            width: 20,
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: 35,
+        },
+        {
+            title: 'Is active',
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: 11,
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            width: 20,
+        },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 15,
+            render: (record) => (
+                <Space size="middle">
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickEditButton(record);
+                    }} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickDeleteButton(record);
+                    }} />
+                </Space>
+            )
+        },
+    ];
+
+    const banksColumns = [
+        {
+            title: 'ID',
+            width: 10,
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Short name',
+            width: 14,
+            dataIndex: 'short_name',
+            key: 'short_name',
+        },
+        {
+            title: 'Name AM',
+            width: 14,
+            dataIndex: 'name_am',
+            key: 'name_am',
+        },
+        {
+            title: 'Name RU',
+            width: 14,
+            dataIndex: 'name_ru',
+            key: 'name_ru',
+        },
+        {
+            title: 'Name EN',
+            width: 14,
+            dataIndex: 'name_en',
+            key: 'name_en',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: 25,
+        },
+        {
+            title: 'Second email',
+            dataIndex: 'secondEmail',
+            key: 'secondEmail',
+            width: 25,
+        },
+        {
+            title: 'Is active',
+            dataIndex: 'is_active',
+            key: 'is_active',
+            width: 11,
+        },
+        {
+            title: 'URL',
+            dataIndex: 'url',
+            key: 'url',
+            width: 30,
+        },
+        {
+            title: 'Is owner',
+            dataIndex: 'is_owner',
+            key: 'is_owner',
+            width: 11,
+        },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 15,
+            render: (record) => (
+                <Space size="middle">
+                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickEditButton(record);
+                    }} />
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        setCurrentData(record);
+                        onClickDeleteButton(record);
+                    }} />
+                </Space>
+            )
+        },
+    ]
+
+    const data = [];
+
+    let columns = [];
+
+    if (whichTable === "users") {
+        columns = usersColumns;
+
+        for (let i = 0; i < datas.length; i++) {
+            data.push({
+                id: datas[i].id,
+                username: datas[i].username,
+                bank: datas[i].bank ? banks[datas[i].bank] : "FPS",
+                email: datas[i].email,
+                is_active: datas[i].is_active,
+                role: datas[i].role
+            });
+        }
+    }
+    else if (whichTable === "terminals") columns = terminalsColumns;
+    else if (whichTable === "transactions") columns = transactionsColumns;
+    else if (whichTable === "banks") columns = banksColumns;
+
+    return (
+        <Table
+            columns={columns}
+            dataSource={whichTable === "users" ? data : datas}
+            pagination={false}
+            size={size}
+            sticky={{
+                offsetHeader: 64,
+            }}
+        />
+    );
+};
+export default TableComponent;

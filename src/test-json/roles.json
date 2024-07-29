@@ -1,0 +1,9 @@
+[
+    {
+        "status": "200 OK",
+        "data": {
+            "message": "success",
+            "roles": [ "admin", "bank", "organization" ]
+        }
+    }
+]
