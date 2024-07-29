@@ -40,7 +40,7 @@ const TerminalsPage = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const bodyHeight = document.body.offsetHeight;
+    const windowHeight = window.screen.height;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -94,7 +94,7 @@ const TerminalsPage = () => {
             const getTerminalsData = async () => {
                 setShowLoading(true);
                 const response = await getDataApi(
-                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${(bodyHeight < 1200) ? 7 : 10}`
+                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${(windowHeight < 950) ? 7 : 10}`
                 );
                 setShowLoading(false);
 
@@ -119,7 +119,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea bodyHeight={bodyHeight}
+            <TermPageSearchArea windowHeight={windowHeight}
                                 terminalsPageForSearch={terminalsPageForSearch}
                                 setIsSearchedTerminalsData={setIsSearchedTerminalsData}
                                 setSearchedTerminalsPageCount={setSearchedTerminalsPageCount}

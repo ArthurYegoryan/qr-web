@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
-    bodyHeight,
+    windowHeight,
     terminalsPageForSearch,
     setIsSearchedTerminalsData,
     setSearchedTerminalsPageCount,
@@ -31,6 +31,7 @@ const TermPageSearchArea = ({
 }) => {
     // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
+    const [ currentSearchField, setCurrentSearchField ] = useState("");
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
         searchField: "",
         searchValue: "",
@@ -47,11 +48,8 @@ const TermPageSearchArea = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    // console.log("Terminals page for search: ", terminalsPageForSearch);
-
     const callForTerminalsSearchedData = () => {
-        terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField];
-        console.log("Search field: ", terminalsSearchInfo.searchField);
+        terminalsSearchInfo.searchField = terminalsSearchFields[terminalsSearchInfo.searchField] ?? currentSearchField;
 
         let searchParams = {};
         for (const field in terminalsSearchInfo) {
@@ -59,17 +57,12 @@ const TermPageSearchArea = ({
                 searchParams[field] = terminalsSearchInfo[field];
             }
         }
-
-        console.log("Search params: ", JSON.stringify(searchParams, null, 2));
-
         const makeCallForSearchedTerminals = async () => {
             try {
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TERMINALS_URL + 
-                                        `?page=${terminalsPageForSearch}&size=${(bodyHeight < 1200) ? 7 : 10}`, searchParams);
+                                        `?page=${terminalsPageForSearch}&size=${(windowHeight < 950) ? 7 : 10}`, searchParams);
                 setShowLoading(false);
-
-                console.log("Response: ", response);
 
                 if (response.status === 200) {
                     setTerminals(response.data.items);
@@ -118,9 +111,6 @@ const TermPageSearchArea = ({
                     }}>
                         <SelectComponent label={t("searchArea.searchBy")}
                                          chooseData={Object.keys(terminalsSearchFields)}
-                                        //  fields={terminalsSearchInfo}
-                                        //  changeFieldName="searchField"
-                                        //  setField={setTerminalsSearchInfo}
                                          hasFirstRow={true}
                                          firstRowLabel="------"
                                          firstRowValue=""
@@ -132,7 +122,8 @@ const TermPageSearchArea = ({
                                             setTerminalsSearchInfo({
                                                 ...terminalsSearchInfo,
                                                 searchField: evt.target.value
-                                            })
+                                            });
+                                            setCurrentSearchField(terminalsSearchFields[evt.target.value]);
                                         }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
