@@ -28,11 +28,9 @@ const TransactionsSearchArea = ({
         hasSearchParams: false,
         searchField: "",
         searchValue: "",
-        // transactionType: "",
+        transactionType: "",
         startDate: "",
-        startTime: "",        
         endDate: "",
-        endTime: ""
     });
     const [ showLoading, setShowLoading ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
@@ -44,6 +42,8 @@ const TransactionsSearchArea = ({
     // console.log("Transaction types: ", JSON.stringify(transactionTypes, null, 2));                    // Asel Vardanin name_ru lcni !!!
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
+
+    console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
 
     return (
         <div className="transactions-search-area">
@@ -143,11 +143,18 @@ const TransactionsSearchArea = ({
                     <div className="transactions-search-calendar-fields">
                         <div className="transactions-search-date">
                             <span>Սկիզբ</span>
-                            <DatePicker showTimeSelect />
+                            <DatePicker showTimeSelect
+                                        showIcon
+                                        selected={transactionsSearchInfo.startDate}
+                                        onChange={(date) => setTransactionsSearchInfo({
+                                            ...transactionsSearchInfo,
+                                            startDate: date
+                                        })} />
                         </div>
                         <div className="transactions-search-date">
                             <span>Ավարտ</span>
-                            <DatePicker showTimeSelect />
+                            <DatePicker showTimeSelect
+                                        showIcon />
                         </div>
                         {/* <Calendar label={t("searchArea.startDate")}
                                   defaultDate={null}
