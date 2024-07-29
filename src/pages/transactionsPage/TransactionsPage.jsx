@@ -34,8 +34,6 @@ const TransactionsPage = () => {
     useEffect(() => {
         try {
             const getTransactionsData = async () => {
-                console.log("Mtanq");
-
                 setShowLoading(true);
                 const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=10`);
                 setShowLoading(false);
@@ -106,8 +104,6 @@ const TransactionsPage = () => {
                                     transactionsSearchFields={transactionsSearchFields}
                                     transactionTypes={transactionTypes}
                                     setTransactions={setTransactions} />
-                                    {/* transactionsSearchInfo={transactionsSearchInfo}
-                                    setTransactionsSearchInfo={setTransactionsSearchInfo} /> */}
             <Table whichTable={"transactions"}
                    datas={transactions} />
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>

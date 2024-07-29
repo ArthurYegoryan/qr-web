@@ -1,7 +1,6 @@
 .transactions-search-inputs {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     margin-bottom: 20px;
 }
 
@@ -11,6 +10,17 @@
 
 .transactions-search-calendar-fields {
     display: flex;
+    margin-top: 32px;
+    margin-left: 15px;
+}
+
+.transactions-search-date {
+    margin-right: 10px;
+}
+
+.transactions-search-date > span {
+    display: block;
+    font-size: 14px;
 }
 
 .transactions-search-buttons {

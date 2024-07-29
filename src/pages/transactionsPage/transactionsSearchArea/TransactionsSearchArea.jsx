@@ -1,11 +1,13 @@
 import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
-import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
 import Button from "../../../generalComponents/buttons/Button";
-import SearchIcon from '@mui/icons-material/Search';
-import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+// import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
+// import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
+import SearchIcon from '@mui/icons-material/Search';
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
@@ -21,14 +23,12 @@ const TransactionsSearchArea = ({
     transactionsSearchFields,
     transactionTypes, 
     setTransactions
-    // transactionsSearchInfo, 
-    // setTransactionsSearchInfo 
 }) => {
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
         hasSearchParams: false,
         searchField: "",
         searchValue: "",
-        transactionType: "",
+        // transactionType: "",
         startDate: "",
         startTime: "",        
         endDate: "",
@@ -62,8 +62,8 @@ const TransactionsSearchArea = ({
                 );
 
                 if (makeSearchCall) {
-                    transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
-                    transactionsSearchInfo.searchField = transactionsSearchFields[transactionsSearchInfo.searchField];
+                    // transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
+                    // transactionsSearchInfo.searchField = transactionsSearchFields[transactionsSearchInfo.searchField];
 
                     let searchParams = {};
                     for (const field in transactionsSearchInfo) {
@@ -110,7 +110,7 @@ const TransactionsSearchArea = ({
                                             setSearchByFieldEmptyError(false);
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                searchField: evt.target.value
+                                                searchField: transactionsSearchFields[evt.target.value]
                                             });
                                         }}/>
                         <TextInput label={t("searchArea.searchData")}
@@ -135,12 +135,21 @@ const TransactionsSearchArea = ({
                                          onChooseHandler={(evt) => {
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                transactionType: evt.target.value
+                                                // searchField: trxTypesDetector[evt.target.value]
+                                                transactionType: trxTypesDetector[evt.target.value]
                                             });
                                          }} />
                     </div>
                     <div className="transactions-search-calendar-fields">
-                        <Calendar label={t("searchArea.startDate")}
+                        <div className="transactions-search-date">
+                            <span>Սկիզբ</span>
+                            <DatePicker showTimeSelect />
+                        </div>
+                        <div className="transactions-search-date">
+                            <span>Ավարտ</span>
+                            <DatePicker showTimeSelect />
+                        </div>
+                        {/* <Calendar label={t("searchArea.startDate")}
                                   defaultDate={null}
                                   width="100px"
                                   fields={transactionsSearchInfo}
@@ -161,7 +170,7 @@ const TransactionsSearchArea = ({
                               width="100px"
                               fields={transactionsSearchInfo}
                               setField={setTransactionsSearchInfo} 
-                              changeFieldName="endTime" />
+                              changeFieldName="endTime" /> */}
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">

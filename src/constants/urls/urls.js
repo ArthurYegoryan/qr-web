@@ -7,7 +7,7 @@ export const urls = {
     SEARCH_TERMINALS_URL: `/api/terminal_search`,
 
     TRANSACTIONS_URL: `/api/transactions`,
-    SEARCH_TRANSACTIONS_URL: `/api/transactions/search`,
+    SEARCH_TRANSACTIONS_URL: `/api/transaction_search`,
 
     MCC_URL: `/api/mcc`,
     MCC_Page_URL: `/api/mcc_page`,
