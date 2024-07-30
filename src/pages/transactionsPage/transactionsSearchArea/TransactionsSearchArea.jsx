@@ -40,7 +40,6 @@ const TransactionsSearchArea = ({
         startDate: new Date(Date.now() - 604800000),
         endDate: new Date(Date.now()),
     });
-    const [ currentSearchField, setCurrentSearchField ] = useState("");
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({
@@ -60,8 +59,8 @@ const TransactionsSearchArea = ({
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
     const callForTransactionsSearchedData = () => {
-        transactionsSearchInfo.searchField = transactionsSearchInfo.searchField === undefined ? currentSearchField : null;
-        transactionsSearchInfo.transactionType_id = transactionsSearchInfo.transactionType_id === undefined ? null : transactionsSearchInfo.transactionType_id;
+        if (!transactionsSearchInfo.searchField) transactionsSearchInfo.searchField = null;
+        if (!transactionsSearchInfo.transactionType_id) transactionsSearchInfo.transactionType_id = null;
 
         let searchParams = {};
         for (const field in transactionsSearchInfo) {
@@ -135,11 +134,28 @@ const TransactionsSearchArea = ({
                                          errorText={t("searchArea.emptyFieldError")} 
                                          onChooseHandler={(evt) => {
                                             setSearchByFieldEmptyError(false);
-                                            setTransactionsSearchInfo({
-                                                ...transactionsSearchInfo,
-                                                searchField: evt.target.value
-                                            });
-                                            setCurrentSearchField(transactionsSearchFields[evt.target.value]);
+                                            if (transactionsSearchFields[evt.target.value] === "rrn") {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: transactionsSearchFields[evt.target.value],
+                                                    startDate: null,
+                                                    endDate: null
+                                                });
+                                            } else if (!evt.target.value) {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: null,
+                                                    startDate: new Date(Date.now() - 604800000),
+                                                    endDate: new Date(Date.now())
+                                                });
+                                            } else {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: transactionsSearchFields[evt.target.value],
+                                                    startDate: new Date(Date.now() - 604800000),
+                                                    endDate: new Date(Date.now())
+                                                });
+                                            }
                                         }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
