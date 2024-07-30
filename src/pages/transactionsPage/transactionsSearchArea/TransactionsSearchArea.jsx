@@ -38,7 +38,11 @@ const TransactionsSearchArea = ({
     });
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
-    const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
+    const [ prevSearchInfo, setPrevSearchInfo ] = useState({
+        ...transactionsSearchInfo,
+        startDate: null,
+        endDate: null
+    });
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
     const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
