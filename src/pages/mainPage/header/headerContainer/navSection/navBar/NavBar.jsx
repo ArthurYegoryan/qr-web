@@ -8,12 +8,12 @@ import { useDispatch } from "react-redux";
 
 const NavBar = () => {
     const dispatch = useDispatch();
-    const [ burgerClass, setBurgerClass ] = useState("burger-bar clicked");
-    const [ menuClass, setMenuClass ] = useState("menu visible");
-    const [ isMenuClicked, setIsMenuClicked ] = useState(true);
+    const [ burgerClass, setBurgerClass ] = useState("burger-bar unclicked");
+    const [ menuClass, setMenuClass ] = useState("menu hidden");
+    const [ isMenuClicked, setIsMenuClicked ] = useState(false);
 
     const updateMenu = () => {
-        if (!isMenuClicked) {
+        if (isMenuClicked) {
             setBurgerClass("burger-bar unclicked");
             setMenuClass("menu hidden");
             dispatch(editMenuStatusFalse());
