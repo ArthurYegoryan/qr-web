@@ -37,7 +37,7 @@ const TransactionsPage = () => {
         try {
             const getTransactionsData = async () => {
                 setShowLoading(true);
-                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=size=${(windowHeight < 950) ? 7 : 10}`);
+                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=${(windowHeight < 950) ? 7 : 10}`);
                 setShowLoading(false);
 
                 if (response.status === 200) {
