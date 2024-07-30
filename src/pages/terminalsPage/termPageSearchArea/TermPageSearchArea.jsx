@@ -67,7 +67,7 @@ const TermPageSearchArea = ({
                 if (response.status === 200) {
                     setTerminals(response.data.items);
                     setIsSearchedTerminalsData(true);
-                    setSearchedTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setSearchedTerminalsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
                     dispatch(editToken(""));

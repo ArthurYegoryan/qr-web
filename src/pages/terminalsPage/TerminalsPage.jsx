@@ -100,7 +100,7 @@ const TerminalsPage = () => {
 
                 if (response.status === 200) {
                     setTerminals(response.data.items);
-                    setTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setTerminalsPageCount(response.data.pages);
                     setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {
                     localStorage.clear();

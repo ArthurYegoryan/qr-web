@@ -48,7 +48,7 @@ const TransactionsPage = () => {
                     })
 
                     setTransactions(transactions);
-                    setTransactionsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
                     localStorage.clear();
