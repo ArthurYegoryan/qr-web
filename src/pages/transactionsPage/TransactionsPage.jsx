@@ -19,10 +19,10 @@ const TransactionsPage = () => {
     const [ transactionsPageCount, setTransactionsPageCount ] = useState(1);
     const [ transactionsPage, setTransactionsPage ] = useState(1);
     const [ transactionTypes, setTransactionTypes ] = useState([]);
-    // const [ statusCodes, setStatusCodes ] = useState([]);
-    // const [ openCloseModal, setOpenCloseModal ] = useState(false);
-    
-    const [ isTransactionDataSearched, setIsTransactionDataSearched ] = useState(false);
+    const [ isSearchedTransactionsData, setIsSearchedTransactionsData ] = useState(false);    // For transactions search
+    const [ transactionsPageForSearch, setTransactionsPageForSearch ] = useState(1);          // For transactions search
+    const [ searchedTransactionsPageCount, setSearchedTransactionsPageCount ] = useState(1);  // For transactions search
+    const [ isSearched, setIsSearched ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
@@ -49,6 +49,7 @@ const TransactionsPage = () => {
 
                     setTransactions(transactions);
                     setTransactionsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -62,7 +63,7 @@ const TransactionsPage = () => {
         } catch(err) {
             console.log(err.message);
         }
-    }, [transactionsPage, isTransactionDataSearched]);
+    }, [transactionsPage, isSearched]);
 
     useEffect(() => {
         try {
@@ -101,17 +102,21 @@ const TransactionsPage = () => {
 
     return (
         <div className="transactions-page-area">
-            <TransactionsSearchArea isSearched={isTransactionDataSearched}
-                                    setIsSearched={setIsTransactionDataSearched}
+            <TransactionsSearchArea windowHeight={windowHeight}
+                                    transactionsPageForSearch={transactionsPageForSearch}
+                                    setIsSearchedTransactionsData={setIsSearchedTransactionsData}
+                                    setSearchedTransactionsPageCount={setSearchedTransactionsPageCount}
+                                    setTransactions={setTransactions}
+                                    isSearched={isSearched}
+                                    setIsSearched={setIsSearched}
                                     transactionsSearchFields={transactionsSearchFields}
-                                    transactionTypes={transactionTypes}
-                                    setTransactions={setTransactions} />
+                                    transactionTypes={transactionTypes} />
             <Table whichTable={"transactions"}
                    datas={transactions}
                    windowHeight={windowHeight} />
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
-                <PaginationComponent pageCount={transactionsPageCount}
-                                     setPage={setTransactionsPage} />
+                <PaginationComponent pageCount={!isSearchedTransactionsData ? transactionsPageCount : searchedTransactionsPageCount}
+                                     setPage={!isSearchedTransactionsData ? setTransactionsPage : setTransactionsPageForSearch} />
             </div>
             {showLoading &&
                 <Loader />

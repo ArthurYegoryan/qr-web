@@ -18,6 +18,10 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
+    windowHeight,
+    transactionsPageForSearch,
+    setIsSearchedTransactionsData,
+    setSearchedTransactionsPageCount,
     isSearched,
     setIsSearched,
     transactionsSearchFields,
@@ -26,12 +30,13 @@ const TransactionsSearchArea = ({
 }) => {
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
         hasSearchParams: false,
-        searchField: "",
-        searchValue: "",
-        transactionType: 0,
-        startDate: "",
-        endDate: "",
+        searchField: null,
+        searchValue: null,
+        transactionType_id: null,
+        startDate: null,
+        endDate: null,
     });
+    const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
@@ -44,8 +49,6 @@ const TransactionsSearchArea = ({
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
-    // console.log("Transactions search info: ", JSON.stringify(transactionsSearchInfo, null, 2));
-
     const callForTransactionsSearchedData = () => {
         let searchParams = {};
         for (const field in transactionsSearchInfo) {
@@ -57,13 +60,17 @@ const TransactionsSearchArea = ({
         const makeCallForSearchedTransactions = async () => {
             try {
                 setShowLoading(true);
-                const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL + `?page=1&size=10`, searchParams);
+                const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL 
+                                            + `?page=${transactionsPageForSearch}&size=${(windowHeight < 950) ? 7 : 10}`, searchParams);
                 setShowLoading(false);
 
                 console.log("Response: ", response);
 
                 if (response.status === 200) {
-                    setTransactions(response.data);
+                    setTransactions(response.data.items);
+                    setIsSearchedTransactionsData(true);
+                    setSearchedTransactionsPageCount(response.data.pages);
+                    setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
                     dispatch(editToken(""));
                     localStorage.clear();
@@ -76,6 +83,11 @@ const TransactionsSearchArea = ({
         };
         makeCallForSearchedTransactions();
     };
+
+    if (transactionsPageForSearch !== currentSearchPage) {
+        setCurrentSearchPage(transactionsPageForSearch);
+        callForTransactionsSearchedData();
+    }
 
     return (
         <div className="transactions-search-area">
@@ -137,7 +149,7 @@ const TransactionsSearchArea = ({
                                          onChooseHandler={(evt) => {
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                transactionType: trxTypesDetector[evt.target.value]
+                                                transactionType_id: trxTypesDetector[evt.target.value]
                                             });
                                          }} />
                     </div>
