@@ -76,7 +76,7 @@ const TransactionsSearchArea = ({
                                             + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams);
                 setShowLoading(false);
 
-                console.log("Response: ", response);
+                // console.log("Response: ", response);
 
                 if (response.status === 200) {
                     setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPageForSearch, pageSize));
