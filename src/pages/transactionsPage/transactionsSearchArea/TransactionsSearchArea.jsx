@@ -12,10 +12,12 @@ import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
 import { makeTrxAmountWithComma } from "../../../utils/helpers/makeTrxAmountWithComma";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
+import { paths } from "../../../constants/paths/paths";
 import { urls } from "../../../constants/urls/urls";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
@@ -47,6 +49,7 @@ const TransactionsSearchArea = ({
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
     const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
 
@@ -80,7 +83,7 @@ const TransactionsSearchArea = ({
                     dispatch(editToken(""));
                     localStorage.clear();
 
-                    window.location.reload()
+                    navigate(paths.LOGIN);
                 }
             } catch (err) {
                 console.log("Error: ", err);

@@ -7,16 +7,18 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
+import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
+import { urls } from "../../constants/urls/urls";
+import { paths } from "../../constants/paths/paths";
 import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
 import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSystemsSlice";
 import { saveCities } from "../../redux/slices/cities/citiesSlice";
 import { saveMccs } from "../../redux/slices/mccs/mccsSlice";
-import { urls } from "../../constants/urls/urls";
-import { useDispatch, useSelector } from "react-redux";
 import { editToken } from "../../redux/slices/authorization/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
 const TerminalsPage = () => {
     // const [ mccs, setMccs ] = useState([]);
@@ -37,6 +39,7 @@ const TerminalsPage = () => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -78,7 +81,7 @@ const TerminalsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    window.location.reload();
+                    navigate(paths.LOGIN);
                 } else {
                     throw Error("Terminals data error!");
                 }
@@ -106,7 +109,7 @@ const TerminalsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    window.location.reload();
+                    navigate(paths.LOGIN);
                 } else {
                     throw new Error("Connection error!");
                 }

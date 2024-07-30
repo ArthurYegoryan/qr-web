@@ -9,9 +9,11 @@ import { makeTrxAmountWithComma } from "../../utils/helpers/makeTrxAmountWithCom
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { saveStatusCodes } from "../../redux/slices/statusCodes/statusCodesSlice";
 import { saveTransactionTypes } from "../../redux/slices/transactionTypes/transactionTypesSlice";
+import { paths } from "../../constants/paths/paths";
 import { urls } from "../../constants/urls/urls";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const TransactionsPage = () => {
     const [ transactions, setTransactions ] = useState([]);
@@ -24,6 +26,7 @@ const TransactionsPage = () => {
     const [ isSearched, setIsSearched ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const windowHeight = window.screen.height;
@@ -47,7 +50,7 @@ const TransactionsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    window.location.reload();
+                    navigate(paths.LOGIN);
                 } else {
                     throw new Error("Connection error!");
                 }                
@@ -82,7 +85,7 @@ const TransactionsPage = () => {
                     localStorage.clear();
                     dispatch(editToken(""));
             
-                    window.location.reload();
+                    navigate(paths.LOGIN);
                 } else {
                     throw new Error("Connection error!");
                 }                

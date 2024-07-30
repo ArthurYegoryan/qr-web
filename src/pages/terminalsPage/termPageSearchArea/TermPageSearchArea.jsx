@@ -12,9 +12,11 @@ import { terminalsSearchFields } from "../../../constants/tableFields/terminalsS
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
 import { urls } from "../../../constants/urls/urls";
+import { paths } from "../../../constants/paths/paths";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
@@ -44,7 +46,7 @@ const TermPageSearchArea = ({
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -73,7 +75,7 @@ const TermPageSearchArea = ({
                     dispatch(editToken(""));
                     localStorage.clear();
 
-                    window.location.reload()
+                    navigate(paths.LOGIN);
                 }
             } catch (err) {
                 console.log("Error: ", err);

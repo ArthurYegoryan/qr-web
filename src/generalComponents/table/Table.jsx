@@ -181,7 +181,7 @@ const TableComponent = ({
             dataIndex: 'merchantId',
             key: 'merchantId',
             width: 10,
-        },        
+        },
         {
             title: 'RRN',
             dataIndex: 'rrn',
@@ -189,31 +189,66 @@ const TableComponent = ({
             width: "6px",
         },
         {
-            title: 'Amount',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/amount.svg'} 
+                     alt="Amount" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'amount',
             key: 'amount',
             width: 10,
         },
         {
-            title: 'Date',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/calendar.svg'} 
+                     alt="Date" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'date',
             key: 'date',
             width: "20px",
         },
         {
-            title: 'Status',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/info.svg'} 
+                     alt="Status" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'statusCode',
             key: 'statusCode',
             width: "20px",
         },
         {
-            title: 'Transaction type',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/transaction_table_icon.svg'} 
+                     alt="Transaction type" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'transactionType',
             key: 'transactionType',
             width: "15px",
         },
         {
-            title: 'Pay sys',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/bank_1.svg'} 
+                     alt="Bank" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'paymentSystem',
             key: 'paymentSystem',
             width: "10px",
