@@ -5,6 +5,7 @@ import TransactionsSearchArea from "./transactionsSearchArea/TransactionsSearchA
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
 import { transactionsSearchFields } from "../../constants/tableFields/transactionsSearchFields";
+import { addNumeration } from "../../utils/helpers/addNumeration";
 import { makeTrxAmountWithComma } from "../../utils/helpers/makeTrxAmountWithComma";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { saveStatusCodes } from "../../redux/slices/statusCodes/statusCodesSlice";
@@ -30,6 +31,7 @@ const TransactionsPage = () => {
     const dispatch = useDispatch();
 
     const windowHeight = window.screen.height;
+    const pageSize = windowHeight < 950 ? 7 : 10;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -39,11 +41,11 @@ const TransactionsPage = () => {
         try {
             const getTransactionsData = async () => {
                 setShowLoading(true);
-                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=${(windowHeight < 950) ? 7 : 10}`);
+                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=${pageSize}`);
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(makeTrxAmountWithComma(response.data.items));
+                    setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPage, pageSize));
                     setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
@@ -98,7 +100,7 @@ const TransactionsPage = () => {
 
     return (
         <div className="transactions-page-area">
-            <TransactionsSearchArea windowHeight={windowHeight}
+            <TransactionsSearchArea pageSize={pageSize}
                                     transactionsPageForSearch={transactionsPageForSearch}
                                     setIsSearchedTransactionsData={setIsSearchedTransactionsData}
                                     setSearchedTransactionsPageCount={setSearchedTransactionsPageCount}

@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
+import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { makeTrxAmountWithComma } from "../../../utils/helpers/makeTrxAmountWithComma";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
@@ -21,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
-    windowHeight,
+    pageSize,
     transactionsPageForSearch,
     setIsSearchedTransactionsData,
     setSearchedTransactionsPageCount,
@@ -69,13 +70,13 @@ const TransactionsSearchArea = ({
             try {
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL 
-                                            + `?page=${transactionsPageForSearch}&size=${(windowHeight < 950) ? 7 : 10}`, searchParams);
+                                            + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams);
                 setShowLoading(false);
 
                 console.log("Response: ", response);
 
                 if (response.status === 200) {
-                    setTransactions(makeTrxAmountWithComma(response.data.items));
+                    setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPageForSearch, pageSize));
                     setIsSearchedTransactionsData(true);
                     setSearchedTransactionsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);

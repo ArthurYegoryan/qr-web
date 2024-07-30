@@ -8,6 +8,7 @@ import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
+import { addNumeration } from "../../utils/helpers/addNumeration";
 import { urls } from "../../constants/urls/urls";
 import { paths } from "../../constants/paths/paths";
 import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
@@ -44,6 +45,7 @@ const TerminalsPage = () => {
     const { t } = useTranslation();
 
     const windowHeight = window.screen.height;
+    const pageSize = windowHeight < 950 ? 7 : 10;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -97,12 +99,12 @@ const TerminalsPage = () => {
             const getTerminalsData = async () => {
                 setShowLoading(true);
                 const response = await getDataApi(
-                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${(windowHeight < 950) ? 7 : 10}`
+                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${pageSize}`
                 );
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(response.data.items);
+                    setTerminals(addNumeration(response.data.items, terminalsPage, pageSize));
                     setTerminalsPageCount(response.data.pages);
                     setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {
@@ -122,7 +124,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea windowHeight={windowHeight}
+            <TermPageSearchArea pageSize={pageSize}
                                 terminalsPageForSearch={terminalsPageForSearch}
                                 setIsSearchedTerminalsData={setIsSearchedTerminalsData}
                                 setSearchedTerminalsPageCount={setSearchedTerminalsPageCount}

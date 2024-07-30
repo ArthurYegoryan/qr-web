@@ -10,6 +10,7 @@ import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { terminalsSearchFields } from "../../../constants/tableFields/terminalsSearchFields";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
+import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { postDataApi } from "../../../apis/postDataApi";
 import { urls } from "../../../constants/urls/urls";
 import { paths } from "../../../constants/paths/paths";
@@ -21,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
-    windowHeight,
+    pageSize,
     terminalsPageForSearch,
     setIsSearchedTerminalsData,
     setSearchedTerminalsPageCount,
@@ -63,11 +64,11 @@ const TermPageSearchArea = ({
             try {
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TERMINALS_URL + 
-                                        `?page=${terminalsPageForSearch}&size=${(windowHeight < 950) ? 7 : 10}`, searchParams);
+                                        `?page=${terminalsPageForSearch}&size=${pageSize}`, searchParams);
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(response.data.items);
+                    setTerminals(addNumeration(response.data.items, terminalsPageForSearch, pageSize));
                     setIsSearchedTerminalsData(true);
                     setSearchedTerminalsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
