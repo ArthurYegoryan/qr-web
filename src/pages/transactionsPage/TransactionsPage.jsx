@@ -27,6 +27,8 @@ const TransactionsPage = () => {
     const { isMenuOpen } = useSelector((state) => state.menu);
     const dispatch = useDispatch();
 
+    const windowHeight = window.screen.height;
+
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
@@ -35,7 +37,7 @@ const TransactionsPage = () => {
         try {
             const getTransactionsData = async () => {
                 setShowLoading(true);
-                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=10`);
+                const response = await getDataApi(urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=size=${(windowHeight < 950) ? 7 : 10}`);
                 setShowLoading(false);
 
                 if (response.status === 200) {
@@ -105,7 +107,8 @@ const TransactionsPage = () => {
                                     transactionTypes={transactionTypes}
                                     setTransactions={setTransactions} />
             <Table whichTable={"transactions"}
-                   datas={transactions} />
+                   datas={transactions}
+                   windowHeight={windowHeight} />
             <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
                 <PaginationComponent pageCount={transactionsPageCount}
                                      setPage={setTransactionsPage} />
