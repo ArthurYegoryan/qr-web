@@ -41,6 +41,7 @@ const TerminalsPage = () => {
     const { t } = useTranslation();
 
     const windowHeight = window.screen.height;
+    console.log("Window height: ", windowHeight);
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -132,6 +133,7 @@ const TerminalsPage = () => {
             <Table whichTable={"terminals"}
                    datas={makeObjFieldsToString(terminals)}
                    size="small"
+                   windowHeight={windowHeight}
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);
                        setOpenCloseEditModal(true);

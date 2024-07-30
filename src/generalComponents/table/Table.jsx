@@ -8,6 +8,7 @@ const TableComponent = ({
     setCurrentData,
     banks,
     size = "normal",
+    windowHeight,
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
@@ -388,7 +389,7 @@ const TableComponent = ({
             }}
             scroll={{
                 scrollToFirstRowOnChange: true,
-                y: 650
+                y: (windowHeight < 950) ? 550 : 650
             }}
         />
     );
