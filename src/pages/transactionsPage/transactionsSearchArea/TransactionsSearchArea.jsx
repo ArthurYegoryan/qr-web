@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
+import { makeTrxAmountWithComma } from "../../../utils/helpers/makeTrxAmountWithComma";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
 import { urls } from "../../../constants/urls/urls";
@@ -71,7 +72,7 @@ const TransactionsSearchArea = ({
                 console.log("Response: ", response);
 
                 if (response.status === 200) {
-                    setTransactions(response.data.items);
+                    setTransactions(makeTrxAmountWithComma(response.data.items));
                     setIsSearchedTransactionsData(true);
                     setSearchedTransactionsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);

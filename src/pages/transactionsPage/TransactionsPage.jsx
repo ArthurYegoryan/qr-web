@@ -1,12 +1,11 @@
 import "./TransactionsPage.css";
 import Table from "../../generalComponents/table/Table";
-// import ModalComponent from "../../generalComponents/modalComponent/ModalComponent";
-// import ErrorModalBody from "../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import TransactionsSearchArea from "./transactionsSearchArea/TransactionsSearchArea";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
 import { transactionsSearchFields } from "../../constants/tableFields/transactionsSearchFields";
+import { makeTrxAmountWithComma } from "../../utils/helpers/makeTrxAmountWithComma";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { saveStatusCodes } from "../../redux/slices/statusCodes/statusCodesSlice";
 import { saveTransactionTypes } from "../../redux/slices/transactionTypes/transactionTypesSlice";
@@ -41,13 +40,7 @@ const TransactionsPage = () => {
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    const transactions = response.data.items;
-                    transactions.map((transaction) => {
-                        const amount = String(transaction.amount);
-                        transaction.amount = amount.slice(0, amount.length - 2) + "," + amount.slice(amount.length - 2);
-                    })
-
-                    setTransactions(transactions);
+                    setTransactions(makeTrxAmountWithComma(response.data.items));
                     setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
