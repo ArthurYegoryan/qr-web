@@ -40,6 +40,7 @@ const TransactionsSearchArea = ({
         startDate: new Date(Date.now() - 604800000),
         endDate: new Date(Date.now()),
     });
+    const [ currentSearchField, setCurrentSearchField ] = useState("");
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({
@@ -59,6 +60,9 @@ const TransactionsSearchArea = ({
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
     const callForTransactionsSearchedData = () => {
+        transactionsSearchInfo.searchField = transactionsSearchInfo.searchField === undefined ? currentSearchField : null;
+        transactionsSearchInfo.transactionType_id = transactionsSearchInfo.transactionType_id === undefined ? null : transactionsSearchInfo.transactionType_id;
+
         let searchParams = {};
         for (const field in transactionsSearchInfo) {
             if (field !== "hasSearchParams") {
@@ -133,8 +137,9 @@ const TransactionsSearchArea = ({
                                             setSearchByFieldEmptyError(false);
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                searchField: transactionsSearchFields[evt.target.value]
+                                                searchField: evt.target.value
                                             });
+                                            setCurrentSearchField(transactionsSearchFields[evt.target.value]);
                                         }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
@@ -150,7 +155,7 @@ const TransactionsSearchArea = ({
                         <SelectComponent label={t("searchArea.chooseTrxType")}
                                          hasFirstRow={true}
                                          firstRowLabel={t("------")}
-                                         firstRowValue=""
+                                         firstRowValue={null}
                                          chooseData={trxTypesList}
                                          width={"250px"}
                                          marginTop={"36px"}

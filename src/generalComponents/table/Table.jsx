@@ -16,7 +16,14 @@ const TableComponent = ({
 
     const terminalsColumns = [
         {
-            title: 'ID',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
+                     alt="ID" 
+                     style={{
+                        width: "20px"
+                     }}
+                />
+            ),
             dataIndex: 'id',
             key: 'id',
             width: "5px",
@@ -159,10 +166,17 @@ const TableComponent = ({
 
     const transactionsColumns = [
         {
-            title: 'ID',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
+                     alt="ID" 
+                     style={{
+                        width: "20px"
+                     }}
+                />
+            ),
             dataIndex: 'id',
             key: 'id',
-            width: "6px",
+            width: "5px",
         },
         {
             title: 'S/N',
