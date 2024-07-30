@@ -33,8 +33,8 @@ const TransactionsSearchArea = ({
         searchField: null,
         searchValue: null,
         transactionType_id: null,
-        startDate: null,
-        endDate: null,
+        startDate: new Date(Date.now() - 604800000),
+        endDate: new Date(Date.now()),
     });
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
@@ -156,12 +156,16 @@ const TransactionsSearchArea = ({
                     <div className="transactions-search-calendar-fields">
                         <div className="transactions-search-date">
                             <span>{t("searchArea.startDate")}</span>
-                            <DatePicker showIcon
-                                        showTimeSelect
+                            <DatePicker dateFormat="dd-MM-yyyy HH:mm"
                                         timeFormat="HH:mm"
+                                        isClearable
+                                        showIcon
+                                        showTimeSelect
                                         timeIntervals={15}
+                                        minDate={"06.01.2024"}
+                                        maxDate={Date.now()}
+                                        showYearDropdown
                                         selected={transactionsSearchInfo.startDate}
-                                        dateFormat="dd-MM-yyyy HH:mm"
                                         onChange={(date) => setTransactionsSearchInfo({
                                             ...transactionsSearchInfo,
                                             startDate: date
@@ -169,12 +173,16 @@ const TransactionsSearchArea = ({
                         </div>
                         <div className="transactions-search-date">
                             <span>{t("searchArea.endDate")}</span>
-                            <DatePicker showIcon
-                                        showTimeSelect
+                            <DatePicker dateFormat="dd-MM-yyyy HH:mm"
                                         timeFormat="HH:mm"
+                                        isClearable
+                                        showIcon
+                                        showTimeSelect
                                         timeIntervals={15}
+                                        minDate={"06.01.2024"}
+                                        maxDate={Date.now()}
+                                        showYearDropdown
                                         selected={transactionsSearchInfo.endDate}
-                                        dateFormat="dd-MM-yyyy HH:mm"
                                         onChange={(date) => setTransactionsSearchInfo({
                                             ...transactionsSearchInfo,
                                             endDate: date
