@@ -1,10 +1,14 @@
 export const serialValidation = (fieldInfo) => {
-    return /^[a-zA-Z0-9]{8}$/.test(fieldInfo);
+    return /^[A-Z0-9]{8,24}$/.test(fieldInfo);
 };
 
-export const midTidValidation = (fieldInfo) => {
+export const tidValidation = (fieldInfo) => {
+    return /^[1-9]\d{8}$/.test(fieldInfo);
+};
+
+export const midValidation = (fieldInfo) => {
     // return /^[0-9]*$/.test(fieldInfo);
-    return /^[1-9]\d{7,}$/.test(fieldInfo);
+    return /^[1-9]\d{8,15}$/.test(fieldInfo);
 };
 
 export const taxValidation = (fieldInfo) => {

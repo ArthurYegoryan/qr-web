@@ -18,7 +18,7 @@ import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
@@ -32,7 +32,7 @@ const TermPageSearchArea = ({
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
-    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ currentSearchField, setCurrentSearchField ] = useState("");
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
@@ -153,13 +153,13 @@ const TermPageSearchArea = ({
                                 setOpenCloseWillBeSoonModal(true);
                             }} />
                 </div>
-                {/* {(role === "admin" || role === "bank") &&
+                {(role === "admin" || role === "bank") &&
                     <div className="terminals-page-add-new-term">
                         <Button label={t("addNewTerminal.addNewTerminal")}
                                 marginTop="5px" 
                                 onClickHandler={() => setIsOpenAddTermModal(true)} />
                     </div>
-                } */}
+                }
             </div>
             {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
