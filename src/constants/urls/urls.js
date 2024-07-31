@@ -5,6 +5,7 @@ export const urls = {
 
     TERMINALS_URL: `/api/terminals`,
     SEARCH_TERMINALS_URL: `/api/terminal_search`,
+    CLOSE_TERMINAL_URL: "/api/terminal/close/",
 
     TRANSACTIONS_URL: `/api/transactions`,
     SEARCH_TRANSACTIONS_URL: `/api/transaction_search`,

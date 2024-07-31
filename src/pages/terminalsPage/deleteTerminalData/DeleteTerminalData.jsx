@@ -1,9 +1,11 @@
 import "./DeleteTerminalData.css";
 import Button from "../../../generalComponents/buttons/Button";
-import deleteTerminalData from "../../../testApis/deleteTerminalData";
+import SuccessAnimation from "../../../generalComponents/successAnimation/SuccessAnimation";
+import { putDataApi } from "../../../apis/putDataApi";
 import { urls } from "../../../constants/urls/urls";
 import { paths } from "../../../constants/paths/paths";
 import { colors } from "../../../assets/styles/colors";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
@@ -15,15 +17,19 @@ const DeleteTerminalData = ({
     isTermDataDeleted,
     onCloseHandler 
 }) => {
+    const [ showSuccessAnimation, setShowSuccessAnimation ] = useState(false);
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
     const onDeleteClickHandler = async () => {
-        const response = await deleteTerminalData(urls.DELETE_TERMINAL_DATA_URL, terminal.serial);
+        const response = await putDataApi(urls.CLOSE_TERMINAL_URL + `${terminal.id}`);
 
-        if (response.status === 201) {
+        if (response.status === 200) {
             setIsTermDataDeleted(!isTermDataDeleted);
-            onCloseHandler();
+            setShowSuccessAnimation(true);
+            setTimeout(() => {
+                onCloseHandler();
+            }, 2500);
         } else if (response.status === 401) {
             localStorage.clear();
             dispatch(editToken(""));
@@ -31,8 +37,6 @@ const DeleteTerminalData = ({
             <Navigate to={paths.LOGIN} />;
         }
     };
-
-    console.log("Currnet terminal: ", JSON.stringify(terminal, null, 2));
 
     return (
         <div className="delete-term-data-content">
@@ -48,7 +52,10 @@ const DeleteTerminalData = ({
                         hoverColor={colors.whiteHoverColor}
                         color={colors.cancelBgColor}
                         onClickHandler={() => onCloseHandler()} />
-            </div>            
+            </div>
+            {showSuccessAnimation &&
+                <SuccessAnimation />
+            }
         </div>
     )
 };

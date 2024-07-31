@@ -1,16 +1,19 @@
-import "./SuccessModalBody.css";
+import "./SuccessAnimation.css";
 
-const SuccessModalBody = () => {
+const SuccessAnimation = ({
+    width = "100",
+    height = "100"
+}) => {
     return (
         <div className="success-modal-content">
-            <svg width="400" height="400">
+            <svg width={width} height={height}>
                 <circle
                     fill="none"
                     stroke="#68E534"
-                    stroke-width="20"
-                    cx="200"
-                    cy="200"
-                    r="190"
+                    stroke-width="8"
+                    cx="350"
+                    cy="50"
+                    r="45"
                     strokeLinecap="round"
                     transform="rotate(-90 200 200)"
                     className="success-modal-circle"
@@ -18,8 +21,8 @@ const SuccessModalBody = () => {
                 <polyline
                     fill="none"
                     stroke="#68E534"
-                    points="88,214 173,284 304,138"
-                    strokeWidth="24"
+                    points="23,55 47,80 77,35"
+                    strokeWidth="10"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className="success-modal-tick"
@@ -29,4 +32,4 @@ const SuccessModalBody = () => {
     );
 };
 
-export default SuccessModalBody;
+export default SuccessAnimation;

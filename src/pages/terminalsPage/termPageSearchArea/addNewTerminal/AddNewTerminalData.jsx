@@ -5,7 +5,7 @@ import SelectComponent from "../../../../generalComponents/inputFields/selectCom
 import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import SuccessModal from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
+// import SuccessModal from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import addNewTerminal from "../../../../testApis/addNewTerminal";
 import { useState } from "react";
 import { urls } from "../../../../constants/urls/urls";
@@ -313,9 +313,9 @@ const AddNewTerminalData = ({
                         onClickHandler={() => onCloseHandler()} 
                 />
             </div>
-            {openCloseSuccessModal &&
+            {/* {openCloseSuccessModal &&
                 <SuccessModal />
-            }
+            } */}
             {openCloseErrorModal &&
             <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                             isOpen={true}

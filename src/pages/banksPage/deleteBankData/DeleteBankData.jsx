@@ -1,6 +1,6 @@
 import "./DeleteBankData.css";
 import Button from "../../../generalComponents/buttons/Button";
-import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
+// import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import deleteBankData from "../../../testApis/deleteBankData";
 import { urls } from "../../../constants/urls/urls";
 import { useDispatch } from "react-redux";
@@ -49,9 +49,9 @@ const DeleteBankData = ({
                         color="red"
                         onClickHandler={() => onCloseHandler()} />
             </div>
-            {openCloseSuccessModal &&
+            {/* {openCloseSuccessModal &&
                 <SuccessModalBody />
-            }
+            } */}
         </div>
     )
 };
