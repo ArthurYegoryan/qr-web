@@ -24,8 +24,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'number',
+            key: 'number',
             width: "5px",
         },
         {
@@ -174,8 +174,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'number',
+            key: 'number',
             width: "5px",
         },
         {
