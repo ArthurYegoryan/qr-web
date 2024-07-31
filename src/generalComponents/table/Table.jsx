@@ -1,6 +1,6 @@
 import { Space, Table } from 'antd';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const TableComponent = ({ 
     whichTable, 
@@ -12,7 +12,7 @@ const TableComponent = ({
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
-    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
 
     const terminalsColumns = [
         {
@@ -147,21 +147,21 @@ const TableComponent = ({
             key: 'paymentSystem',
             width: 13,
         },
-        // {
-        //     title: 'Action',
-        //     key: 'operation',
-        //     width: 10,
-        //     render: (record) => (
-        //         <Space size="middle">
-        //             <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
-        //                 (role === "admin" || role === "bank") && onClickEditButton(record);
-        //             }} />
-        //             <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
-        //                 (role === "admin" || role === "bank") && onClickDeleteButton(record);
-        //             }} />
-        //         </Space>
-        //     )
-        // },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 10,
+            render: (record) => (
+                <Space size="middle">
+                    {/* <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickEditButton(record);
+                    }} /> */}
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickDeleteButton(record);
+                    }} />
+                </Space>
+            )
+        },
     ];
 
     const transactionsColumns = [

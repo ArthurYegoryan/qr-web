@@ -163,7 +163,7 @@ const TerminalsPage = () => {
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
-                                title={t("deleteTerminalData.deleteTerminalData")}
+                                title={t("inactivateTerminalData.inactivateTerminalData")}
                                 body={<DeleteTerminalData terminal={selectedTerminal}
                                 setIsTermDataDeleted={setIsTermDataDeleted}
                                 isTermDataDeleted={isTermDataDeleted}

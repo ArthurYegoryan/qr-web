@@ -3,12 +3,16 @@
         "willBeAvailableSoon": "Շուտով հասանելի կլինի!"
     },
     "questions": {
-        "doYouWantDelete": "Դուք ցանկանու՞մ եք ջնջել"
+        "doYouWantToInactivate": "Դուք ցանկանու՞մ եք ապաակտիվացնել"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "սերիալ համարով տերմինալի տվյալները:"
     },
     "operations": {
         "delete": "Ջնջել",
         "cancel": "Չեղարկել",
-        "close": "Փակել"
+        "close": "Փակել",
+        "inactivate": "Ապաակտիվացնել"
     },
     "nav": {
         "terminals": "Տերմինալներ",
@@ -84,8 +88,8 @@
         "changeTerminalData": "Փոփոխել տերմինալի տվյալները",
         "saveBtn": "Պահպանել"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Ջնջել տերմինալի տվյալները"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Ապաակտիվացնել տերմինալի տվյալները"
     },
     "trxTypes": {
         "all": "Ամբողջը",

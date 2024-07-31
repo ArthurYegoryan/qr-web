@@ -3,6 +3,8 @@ export const colors = {
     originalBgColor: "#0000FF",       // blue
     originalHoverColor: "#001296",    // dark blue
     originalColor: "#FFFFFF",         // white
+    whiteColor: "#FFFFFF",         // white
+    whiteHoverColor: "#16E1E1",    // sky blue
     successBgColor: "#008000",        // green
     successHoverColor: "#42A362",     // light green
     cancelBgColor: "#FF0000",         // red

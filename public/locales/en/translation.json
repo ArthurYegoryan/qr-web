@@ -3,12 +3,16 @@
         "willBeAvailableSoon": "Will be available soon!"
     },
     "questions": {
-        "doYouWantDelete": "Do yow want to delete"
+        "doYouWantToInactivate": "Do yow want to inactivate"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "serial number terminal data?"
     },
     "operations": {
         "delete": "Delete",
         "cancel": "Cancel",
-        "close": "Close"
+        "close": "Close",
+        "inactivate": "Inactivate"
     },
     "nav": {
         "terminals": "Terminals",
@@ -84,8 +88,8 @@
         "changeTerminalData": "Change terminal data",
         "saveBtn": "Save"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Delete terminal data"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Inactivate terminal data"
     },
     "trxTypes": {
         "all": "All",

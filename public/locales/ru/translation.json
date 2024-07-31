@@ -3,12 +3,16 @@
         "willBeAvailableSoon": "Скоро будет доступно!"
     },
     "questions": {
-        "doYouWantDelete": "Вы хотите удалить"
+        "doYouWantToInactivate": "Вы хотите деактивировать с"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "серийным номером данные терминала?"
     },
     "operations": {
         "delete": "Удалить",
         "cancel": "Отменить",
-        "close": "Закрыть"
+        "close": "Закрыть",
+        "inactivate": "Деактивировать"
     },
     "nav": {
         "terminals": "Терминалы",
@@ -84,8 +88,8 @@
         "changeTerminalData": "Изменить данные терминала",
         "saveBtn": "Сохранить"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Удалить данные терминала"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Деактивировать данные терминала"
     },
     "trxTypes": {
         "all": "Все",
