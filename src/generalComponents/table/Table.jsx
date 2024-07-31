@@ -243,7 +243,7 @@ const TableComponent = ({
         },
         {
             title: (
-                <img src={process.env.PUBLIC_URL + 'img/transaction_table_icon.svg'} 
+                <img src={process.env.PUBLIC_URL + 'img/transactions.svg'} 
                      alt="Transaction type" 
                      style={{
                         width: "40px"
