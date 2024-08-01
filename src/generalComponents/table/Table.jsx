@@ -224,8 +224,8 @@ const TableComponent = ({
                      }}
                 />
             ),
-            dataIndex: 'date',
-            key: 'date',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
             width: "20px",
         },
         {

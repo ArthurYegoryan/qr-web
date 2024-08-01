@@ -7,8 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
-import { addNumeration } from "../../../utils/helpers/addNumeration";
-import { makeTrxAmountWithComma } from "../../../utils/helpers/makeTrxAmountWithComma";
+import { changeTransactionsFieldsForView } from "../../../utils/helpers/changeTransactionsFieldsForView";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
 import { exportDataApi } from "../../../apis/exportDataApi";
@@ -54,7 +53,6 @@ const TransactionsSearchArea = ({
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
 
-    // console.log("Transaction types: ", JSON.stringify(transactionTypes, null, 2));                    // Asel Vardanin name_ru lcni !!!
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
@@ -77,7 +75,7 @@ const TransactionsSearchArea = ({
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPageForSearch, pageSize));
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, pageSize));
                     setIsSearchedTransactionsData(true);
                     setSearchedTransactionsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);

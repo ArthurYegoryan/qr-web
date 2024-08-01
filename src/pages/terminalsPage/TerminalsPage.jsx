@@ -8,7 +8,7 @@ import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
-import { addNumerationChangeDateFormat } from "../../utils/helpers/addNumerationChangeDateFormat";
+import { changeTerminalsFieldsForView } from "../../utils/helpers/changeTerminalsFieldsForView";
 import { urls } from "../../constants/urls/urls";
 import { paths } from "../../constants/paths/paths";
 import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
@@ -94,7 +94,7 @@ const TerminalsPage = () => {
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(addNumerationChangeDateFormat(response.data.items, terminalsPage, pageSize));
+                    setTerminals(changeTerminalsFieldsForView(response.data.items, terminalsPage, pageSize));
                     setTerminalsPageCount(response.data.pages);
                     setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {

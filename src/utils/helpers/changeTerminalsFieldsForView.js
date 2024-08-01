@@ -1,4 +1,4 @@
-export const addNumerationChangeDateFormat = (items, currentPage, pageSize) => {
+export const changeTerminalsFieldsForView = (items, currentPage, pageSize) => {
     items.map((item) => {
         item.number = items.indexOf(item) + 1 + (currentPage - 1) * pageSize;
         item.createdAt = item.createdAt.slice(0, 10) + " " + item.createdAt.slice(11, 19);

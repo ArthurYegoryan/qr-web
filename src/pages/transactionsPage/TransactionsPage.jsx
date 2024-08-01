@@ -5,8 +5,7 @@ import TransactionsSearchArea from "./transactionsSearchArea/TransactionsSearchA
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
 import { transactionsSearchFields } from "../../constants/tableFields/transactionsSearchFields";
-import { addNumeration } from "../../utils/helpers/addNumeration";
-import { makeTrxAmountWithComma } from "../../utils/helpers/makeTrxAmountWithComma";
+import { changeTransactionsFieldsForView } from "../../utils/helpers/changeTransactionsFieldsForView";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { saveStatusCodes } from "../../redux/slices/statusCodes/statusCodesSlice";
 import { saveTransactionTypes } from "../../redux/slices/transactionTypes/transactionTypesSlice";
@@ -45,7 +44,7 @@ const TransactionsPage = () => {
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPage, pageSize));
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPage, pageSize));
                     setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
