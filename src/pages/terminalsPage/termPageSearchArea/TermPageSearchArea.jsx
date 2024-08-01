@@ -12,6 +12,8 @@ import { terminalsSearchFields } from "../../../constants/tableFields/terminalsS
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { postDataApi } from "../../../apis/postDataApi";
+import { exportDataApi } from "../../../apis/exportDataApi";
+import { colors } from "../../../assets/styles/colors";
 import { urls } from "../../../constants/urls/urls";
 import { paths } from "../../../constants/paths/paths";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
@@ -47,6 +49,7 @@ const TermPageSearchArea = ({
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
+    const [ showConnectionError, setShowConnectionError ] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
@@ -88,6 +91,15 @@ const TermPageSearchArea = ({
     if (terminalsPageForSearch !== currentSearchPage) {
         setCurrentSearchPage(terminalsPageForSearch);
         callForTerminalsSearchedData();
+    }
+
+    const onCliCkExportBtn = async () => {
+        setShowConnectionError(false);
+        try {
+            await exportDataApi(urls.EXPORT_TERMINALS_URL)
+        } catch (err) {
+            setShowConnectionError(true);
+        }
     }
 
     return (
@@ -149,9 +161,7 @@ const TermPageSearchArea = ({
                             height="30px"
                             marginTop="5px"
                             marginLeft="10px" 
-                            onClickHandler={() => {
-                                setOpenCloseWillBeSoonModal(true);
-                            }} />
+                            onClickHandler={onCliCkExportBtn} />
                 </div>
                 {(role === "admin" || role === "bank") &&
                     <div className="terminals-page-add-new-term">
@@ -184,6 +194,11 @@ const TermPageSearchArea = ({
                                 isOpen={openCloseWillBeSoonModal} 
                                 title={t("export.export")}
                                 body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
+            }
+            {showConnectionError &&
+                <p style={{ color: colors.loginFailedColor, marginTop: 0 }} className="terminals-page-search-export-error-text">
+                    {t("generalErrors.connectionError")}
+                </p>
             }
             {showLoading &&
                 <Loader />

@@ -2,6 +2,9 @@
     "generalMessages": {
         "willBeAvailableSoon": "Скоро будет доступно!"
     },
+    "generalErrors": {
+        "connectionError": "Ошибка подключения, пожалуйста, повторите попытку!"
+    },
     "questions": {
         "doYouWantToInactivate": "Вы хотите деактивировать с"
     },

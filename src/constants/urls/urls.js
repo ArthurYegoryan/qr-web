@@ -7,6 +7,7 @@ export const urls = {
     SEARCH_TERMINALS_URL: `/api/terminal_search`,
     ADD_NEW_TERMINAL_URL: `/api/terminal`,
     CLOSE_TERMINAL_URL: "/api/terminal/close/",
+    EXPORT_TERMINALS_URL: "/api/terminals_export",
 
     TRANSACTIONS_URL: `/api/transactions`,
     SEARCH_TRANSACTIONS_URL: `/api/transaction_search`,

@@ -2,6 +2,9 @@
     "generalMessages": {
         "willBeAvailableSoon": "Շուտով հասանելի կլինի!"
     },
+    "generalErrors": {
+        "connectionError": "Կապի խնդիր, կրկին փորձեք!"
+    },
     "questions": {
         "doYouWantToInactivate": "Դուք ցանկանու՞մ եք ապաակտիվացնել"
     },

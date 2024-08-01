@@ -2,6 +2,9 @@
     "generalMessages": {
         "willBeAvailableSoon": "Will be available soon!"
     },
+    "generalErrors": {
+        "connectionError": "Connection error, please try again!"
+    },
     "questions": {
         "doYouWantToInactivate": "Do yow want to inactivate"
     },
