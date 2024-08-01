@@ -3,12 +3,12 @@ export const serialValidation = (fieldInfo) => {
 };
 
 export const tidValidation = (fieldInfo) => {
-    return /^[1-9]\d{8}$/.test(fieldInfo);
+    return /^[0-9]{8}$/.test(fieldInfo);
 };
 
 export const midValidation = (fieldInfo) => {
     // return /^[0-9]*$/.test(fieldInfo);
-    return /^[1-9]\d{8,15}$/.test(fieldInfo);
+    return /^[0-9]{8,15}$/.test(fieldInfo);
 };
 
 export const taxValidation = (fieldInfo) => {
@@ -16,5 +16,5 @@ export const taxValidation = (fieldInfo) => {
 };
 
 export const mccValidation = (fieldInfo) => {
-    return /^\d{4}$/.test(fieldInfo);
+    return /^[0-9]{4}$/.test(fieldInfo);
 };

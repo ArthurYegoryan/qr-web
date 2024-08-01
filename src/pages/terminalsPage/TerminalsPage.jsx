@@ -22,10 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const TerminalsPage = () => {
-    // const [ mccs, setMccs ] = useState([]);
-    // const [ posModels, setPosModels ] = useState([]);
-    // const [ cities, setCities ] = useState([]);
-    // const [ paySystems, setPaySystems ] = useState([]);
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
@@ -66,16 +62,10 @@ const TerminalsPage = () => {
                     responsePosModels.status === 200 &&
                     responsePaymentSystems.status === 200
                 ) {
-                    // setMccs(responseMcc.data);
-                    // setPosModels(responsePosModels.data);
-                    // setCities(responseCities.data);
-                    // setPaySystems(responsePaymentSystems.data);
-
                     dispatch(savePosModels(responsePosModels.data));
                     dispatch(savePaymentSystems(responsePaymentSystems.data));
                     dispatch(saveCities(responseCities.data));
-                    dispatch(saveMccs(responseMcc.data));
-                    
+                    dispatch(saveMccs(responseMcc.data));                    
                 } else if (responseCities.status === 401 ||
                            responseMcc.status === 401 ||
                            responsePosModels.status === 401 ||

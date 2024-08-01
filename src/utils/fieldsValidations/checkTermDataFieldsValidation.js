@@ -24,6 +24,7 @@ export const checkFieldsValidation = (
         setEmptyPosTypeError,
         setEmptyMccError,
         setInvalidMccError,
+        setMccNotExistsError,
         setEmptyTaxError,
         setInvalidTaxError,
         setEmptyMerchantNameError,
@@ -31,7 +32,11 @@ export const checkFieldsValidation = (
         setEmptyMerchantAddressError,
         setEmptyMerchantAddressInAmError,
         setEmptyMerchantCityError,
-    ]
+    ],
+    {
+        newTerminalData,
+        mccs
+    }
 ) => {
     let existsError = false;
 
@@ -73,6 +78,18 @@ export const checkFieldsValidation = (
         if (!mccValidation(mcc_id)) {
             existsError = true;
             setInvalidMccError(true);
+        } else {
+            let isFoundMcc = false;
+            mccs.map((mcc) => {
+                if (newTerminalData.mcc_id === mcc.code) {
+                    isFoundMcc = true;
+                }
+            })
+
+            if (!isFoundMcc) {
+                existsError = true;
+                setMccNotExistsError(true);
+            }
         }
     }
     if (!merchantTin) {
@@ -101,6 +118,7 @@ export const checkFieldsValidation = (
         setEmptyMerchantAddressInAmError(true);
     }
     if (!city_id) {
+        console.log("City id: ", city_id);
         existsError = true;
         setEmptyMerchantCityError(true);
     }

@@ -37,9 +37,13 @@
         "merchantWebPage": "Merchant WEB page",
         "merchantEmail": "Merchant email",
         "paymentSystem": "Payment system",
-        "invalidSerial": "Must contain capital letters and numbers in latin and have at least 8 length",
-        "invalidTid": "Invalid Terminal ID",
-        "invalidMid": "Invalid Merchant ID"
+        "invalidSerial": "Must contain capital letters or numbers in latin and have from 8 to 24 length",
+        "invalidTid": "Must contain only numbers and have a length of exactly 8",
+        "invalidMid": "Must contain only numbers and have from 8 to 15 length",
+        "invalidMcc": "Must contain only numbers and have a length of exactly 4",
+        "mccNotExists": "This MCC doesn't exist",
+        "invalidTax": "Must contain only numbers and have a length of exactly 8",
+        "terminalAlreadyExists": "The terminal with the specified serial number exists and is active!"
     },
     "userSection": {
         "userData": "user data?",
