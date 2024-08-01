@@ -76,7 +76,6 @@ const TransactionsPage = () => {
                     responseStatusCodes.status === 200
                 ) {
                     setTransactionTypes(responseTransactionTypes.data);
-                    // setStatusCodes(responseStatusCodes.data);
 
                     dispatch(saveTransactionTypes(responseTransactionTypes.data));
                     dispatch(saveStatusCodes(responseStatusCodes.data));

@@ -82,7 +82,7 @@ const TableComponent = ({
             title: 'Inactive date',
             dataIndex: 'inactiveDate',
             key: 'inactiveDate',
-            width: "11px",
+            width: 13,
         },
         {
             title: (

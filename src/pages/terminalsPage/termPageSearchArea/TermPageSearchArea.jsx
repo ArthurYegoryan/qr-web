@@ -9,7 +9,7 @@ import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { terminalsSearchFields } from "../../../constants/tableFields/terminalsSearchFields";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
-import { addNumeration } from "../../../utils/helpers/addNumeration";
+import { addNumerationChangeDateFormat } from "../../../utils/helpers/addNumerationChangeDateFormat";
 import { postDataApi } from "../../../apis/postDataApi";
 import { exportDataApi } from "../../../apis/exportDataApi";
 import { colors } from "../../../assets/styles/colors";
@@ -69,7 +69,7 @@ const TermPageSearchArea = ({
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(addNumeration(response.data.items, terminalsPageForSearch, pageSize));
+                    setTerminals(addNumerationChangeDateFormat(response.data.items, terminalsPageForSearch, pageSize));
                     setIsSearchedTerminalsData(true);
                     setSearchedTerminalsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
