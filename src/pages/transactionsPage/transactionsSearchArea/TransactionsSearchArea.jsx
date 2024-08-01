@@ -2,8 +2,6 @@ import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import Button from "../../../generalComponents/buttons/Button";
-import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
-import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
@@ -13,6 +11,8 @@ import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { makeTrxAmountWithComma } from "../../../utils/helpers/makeTrxAmountWithComma";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
+import { exportDataApi } from "../../../apis/exportDataApi";
+import { colors } from "../../../assets/styles/colors";
 import { paths } from "../../../constants/paths/paths";
 import { urls } from "../../../constants/urls/urls";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
@@ -49,7 +49,7 @@ const TransactionsSearchArea = ({
     });
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
-    const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
+    const [ showConnectionError, setShowConnectionError ] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
@@ -76,8 +76,6 @@ const TransactionsSearchArea = ({
                                             + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams);
                 setShowLoading(false);
 
-                // console.log("Response: ", response);
-
                 if (response.status === 200) {
                     setTransactions(addNumeration(makeTrxAmountWithComma(response.data.items), transactionsPageForSearch, pageSize));
                     setIsSearchedTransactionsData(true);
@@ -99,6 +97,15 @@ const TransactionsSearchArea = ({
     if (transactionsPageForSearch !== currentSearchPage) {
         setCurrentSearchPage(transactionsPageForSearch);
         callForTransactionsSearchedData();
+    }
+
+    const onCliCkExportBtn = async () => {
+        setShowConnectionError(false);
+        try {
+            await exportDataApi(urls.EXPORT_TRANSACTIONS_URL)
+        } catch (err) {
+            setShowConnectionError(true);
+        }
     }
 
     return (
@@ -226,14 +233,13 @@ const TransactionsSearchArea = ({
                             endIcon={<SearchIcon />}
                             marginRight="10px" />
                     <Button label={t("export.reporting")}
-                            onClickHandler={() => setOpenCloseWillBeSoonModal(true)} />
+                            onClickHandler={onCliCkExportBtn} />
                 </div>
             </form>
-            {openCloseWillBeSoonModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} 
-                                isOpen={openCloseWillBeSoonModal} 
-                                title={t("export.reporting")}
-                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
+            {showConnectionError &&
+                <p style={{ color: colors.loginFailedColor, marginTop: 0 }} className="transactions-page-search-export-error-text">
+                    {t("generalErrors.connectionError")}
+                </p>
             }
             {showLoading &&
                 <Loader />

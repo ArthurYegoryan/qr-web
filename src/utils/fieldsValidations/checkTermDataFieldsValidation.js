@@ -122,14 +122,6 @@ export const checkFieldsValidation = (
         existsError = true;
         setEmptyMerchantCityError(true);
     }
-    // if (!merchant_city_in_am.length) {
-    //     existsError = true;
-    //     setEmptyMerchantCityInAmError(true);
-    // }
-    // if (!bank.length) {
-    //     existsError = true;
-    //     setEmptyBankError(true);
-    // }
 
     return existsError;
 };

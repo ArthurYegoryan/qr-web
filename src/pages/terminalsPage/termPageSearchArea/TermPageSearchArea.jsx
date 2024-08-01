@@ -4,7 +4,6 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import Loader from "../../../generalComponents/loaders/Loader";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
@@ -45,7 +44,6 @@ const TermPageSearchArea = ({
     const [ showLoading, setShowLoading ] = useState(false);
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
-    const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
@@ -188,12 +186,6 @@ const TermPageSearchArea = ({
                                 body={<ErrorModalBody />}
                                 bgcolor="red" 
                 />
-            }
-            {openCloseWillBeSoonModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} 
-                                isOpen={openCloseWillBeSoonModal} 
-                                title={t("export.export")}
-                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
             }
             {showConnectionError &&
                 <p style={{ color: colors.loginFailedColor, marginTop: 0 }} className="terminals-page-search-export-error-text">

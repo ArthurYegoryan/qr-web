@@ -13,6 +13,7 @@ export const exportDataApi = async (url) => {
         }
 
         const fileName = response.headers["content-disposition"].slice(22, response.headers["content-disposition"].length - 1);
+        console.log(fileName);
         const href = window.URL.createObjectURL(response.data);
 
         const link = document.createElement('a');

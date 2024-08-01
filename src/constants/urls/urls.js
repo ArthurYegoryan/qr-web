@@ -11,6 +11,7 @@ export const urls = {
 
     TRANSACTIONS_URL: `/api/transactions`,
     SEARCH_TRANSACTIONS_URL: `/api/transaction_search`,
+    EXPORT_TRANSACTIONS_URL: `/api/transactions_export`,
 
     MCC_URL: `/api/mcc`,
     MCC_Page_URL: `/api/mcc_page`,
