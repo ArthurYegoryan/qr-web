@@ -136,9 +136,10 @@ const TerminalsPage = () => {
                        setSelectedTerminal(terminal);
                        setOpenCloseDeleteModal(true);
                    }} />
-            <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
+            <div className={`terminals-page-pagination`}>
                 <PaginationComponent pageCount={!isSearchedTerminalsData ? terminalsPageCount : searchedTerminalsPageCount}
-                                     setPage={!isSearchedTerminalsData ? setTerminalsPage : setTerminalsPageForSearch} />
+                                     setPage={!isSearchedTerminalsData ? setTerminalsPage : setTerminalsPageForSearch}
+                                     leftMargin={paginationLeftMarginClassname} />
             </div>
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 

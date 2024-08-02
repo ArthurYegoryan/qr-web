@@ -1,15 +1,8 @@
-.transactions-page-pagination-open-menu {
-    position: fixed;
-    bottom: 3px;
-    left: 55%;
-}
-
-.transactions-page-pagination-close-menu {
-    position: fixed;
-    bottom: 3px;
-    left: 45%;
-}
-
 .transactions-page-area {
     min-width: 1500px;
- }
+}
+
+.transactions-page-pagination {
+    display: flex;
+    justify-content: center;
+}

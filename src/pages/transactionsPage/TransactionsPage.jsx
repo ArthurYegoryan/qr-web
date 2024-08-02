@@ -110,9 +110,10 @@ const TransactionsPage = () => {
             <Table whichTable={"transactions"}
                    datas={transactions}
                    windowHeight={windowHeight} />
-            <div className={`transactions-page-pagination${paginationLeftMarginClassname}`}>
+            <div className={`transactions-page-pagination`}>
                 <PaginationComponent pageCount={!isSearchedTransactionsData ? transactionsPageCount : searchedTransactionsPageCount}
-                                     setPage={!isSearchedTransactionsData ? setTransactionsPage : setTransactionsPageForSearch} />
+                                     setPage={!isSearchedTransactionsData ? setTransactionsPage : setTransactionsPageForSearch}
+                                     leftMargin={paginationLeftMarginClassname} />
             </div>
             {showLoading &&
                 <Loader />
