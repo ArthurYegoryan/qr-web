@@ -312,12 +312,26 @@ const TableComponent = ({
             width: "5px",
         },
         {
-            title: "Name AM",
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/arm_flag.svg'} 
+                     alt="Name AM" 
+                     style={{
+                        width: "30px"
+                     }}
+                />
+            ),
             dataIndex: 'name_am',
             key: 'name_am',
             width: "25px",
         },{
-            title: "Name EN",
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/uk_flag.svg'} 
+                     alt="Name EN" 
+                     style={{
+                        width: "30px"
+                     }}
+                />
+            ),
             dataIndex: 'name_en',
             key: 'name_en',
             width: "25px",
@@ -497,10 +511,6 @@ const TableComponent = ({
                 scrollToFirstRowOnChange: true,
                 y: (windowHeight < 950) ? 450 : 650
             }}
-            // scroll={{
-            //     scrollToFirstRowOnChange: true,
-            //     y: (windowHeight < 950) ? 450 : 650
-            // }}
         />
     );
 };
