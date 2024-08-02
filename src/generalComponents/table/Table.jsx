@@ -296,6 +296,33 @@ const TableComponent = ({
         },
     ]
 
+    const citiesColumns = [
+        {
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
+                     alt="ID" 
+                     style={{
+                        width: "20px"
+                     }}
+                />
+            ),
+            dataIndex: 'number',
+            key: 'number',
+            width: "5px",
+        },
+        {
+            title: "Name AM",
+            dataIndex: 'name_am',
+            key: 'name_am',
+            width: "25px",
+        },{
+            title: "Name EN",
+            dataIndex: 'name_en',
+            key: 'name_en',
+            width: "25px",
+        },
+    ]
+
     const usersColumns = [
         {
             title: 'ID',
@@ -453,6 +480,7 @@ const TableComponent = ({
     else if (whichTable === "terminals") columns = terminalsColumns;
     else if (whichTable === "transactions") columns = transactionsColumns;
     else if (whichTable === "mccs") columns = mccsColumns;
+    else if (whichTable === "cities") columns = citiesColumns;
     else if (whichTable === "banks") columns = banksColumns;
 
     return (

@@ -1,0 +1,11 @@
+.cities-page-area {
+    min-width: 700px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.cities-page-table-area {
+    min-width: 700px;
+    width: 50%;
+}

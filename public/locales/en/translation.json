@@ -21,6 +21,7 @@
         "terminals": "Terminals",
         "transactions": "Transactions",
         "mccCodes": "MCC codes",
+        "cities": "Cities",
         "users": "Users",
         "banks": "Banks"
     },

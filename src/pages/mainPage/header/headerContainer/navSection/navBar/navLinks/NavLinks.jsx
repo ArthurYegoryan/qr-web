@@ -25,6 +25,12 @@ const NavLinks = () => {
                                 imageName="img/mcc"
                                 imageType=".svg" /> 
                 }
+                {(role === "admin" || role === "bank") &&
+                    <LinkComponent routePath={paths.CITIES} 
+                                label={t("nav.cities")}
+                                imageName="img/cities_menu"
+                                imageType=".svg" /> 
+                }
                 {role === "admin" &&
                     <LinkComponent routePath={paths.USERS} 
                                 label={t("nav.users")}

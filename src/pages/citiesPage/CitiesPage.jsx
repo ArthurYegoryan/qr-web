@@ -1,4 +1,4 @@
-import "./MccCodesPage.css";
+import "./CitiesPage.css";
 import Table from "../../generalComponents/table/Table";
 import Pagination from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
@@ -11,10 +11,10 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const MccCodesPage = () => {
-    const [ mccCodes, setMccCodes ] = useState([]);
-    const [ mccCodesPageCount, setMccCodesPageCount ] = useState(1);
-    const [ mccCodesCurrentPage, setMccCodesCurrentPage ] = useState(1);
+const CitiesPage = () => {
+    const [ cities, setCities ] = useState([]);
+    const [ citiesPageCount, setCitiesPageCount ] = useState(1);
+    const [ citiesCurrentPage, setCitiesCurrentPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const navigate = useNavigate();
@@ -28,16 +28,16 @@ const MccCodesPage = () => {
     else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
-        const callForMccPages = async () => {
+        const callForCitiesPages = async () => {
             try {
                 setShowLoading(true);
-                const response = await getDataApi(urls.MCC_PAGE_URL + `?page=${mccCodesCurrentPage}&size=${pageSize}`);
+                const response = await getDataApi(urls.CITIES_PAGE_URL + `?page=${citiesCurrentPage}&size=${pageSize}`);
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setMccCodes(addNumeration(response.data.items, mccCodesCurrentPage, pageSize));
-                    setMccCodesPageCount(response.data.pages);
-                    setMccCodesCurrentPage(response.data.page);
+                    setCities(addNumeration(response.data.items, citiesCurrentPage, pageSize));
+                    setCitiesPageCount(response.data.pages);
+                    setCitiesCurrentPage(response.data.page);
                 } else if (response.status === 401) {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -48,17 +48,17 @@ const MccCodesPage = () => {
                 console.log(err);
             }
         };
-        callForMccPages();
-    }, [mccCodesCurrentPage]);
+        callForCitiesPages();
+    }, [citiesCurrentPage]);
 
     return (
-        <div className="mccs-page-area">
-            <div className="mccs-page-table-area">
-                <Table whichTable={"mccs"}
-                       datas={mccCodes} />
+        <div className="cities-page-area">
+            <div className="cities-page-table-area">
+                <Table whichTable={"cities"}
+                       datas={cities} />
             </div>
-            <Pagination pageCount={mccCodesPageCount}
-                        setPage={setMccCodesCurrentPage}
+            <Pagination pageCount={citiesPageCount}
+                        setPage={setCitiesCurrentPage}
                         leftMargin={paginationLeftMarginClassname} />
             {showLoading &&
                 <Loader />
@@ -67,4 +67,4 @@ const MccCodesPage = () => {
     );
 };
 
-export default MccCodesPage;
+export default CitiesPage;

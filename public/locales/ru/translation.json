@@ -21,6 +21,7 @@
         "terminals": "Терминалы",
         "transactions": "Транзакции",
         "mccCodes": "MCC коды",
+        "cities": "Города",
         "users": "Пользователи",
         "banks": "Банки"
     },
