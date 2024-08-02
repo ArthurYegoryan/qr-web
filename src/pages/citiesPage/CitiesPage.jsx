@@ -55,7 +55,8 @@ const CitiesPage = () => {
         <div className="cities-page-area">
             <div className="cities-page-table-area">
                 <Table whichTable={"cities"}
-                       datas={cities} />
+                       datas={cities}
+                       scroll={false} />
             </div>
             <Pagination pageCount={citiesPageCount}
                         setPage={setCitiesCurrentPage}

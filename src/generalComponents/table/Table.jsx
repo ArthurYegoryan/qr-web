@@ -9,6 +9,7 @@ const TableComponent = ({
     banks,
     size = "normal",
     windowHeight,
+    scroll = true,
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
@@ -492,10 +493,14 @@ const TableComponent = ({
             sticky={{
                 offsetHeader: 64,
             }}
-            scroll={{
+            scroll={scroll && {
                 scrollToFirstRowOnChange: true,
                 y: (windowHeight < 950) ? 450 : 650
             }}
+            // scroll={{
+            //     scrollToFirstRowOnChange: true,
+            //     y: (windowHeight < 950) ? 450 : 650
+            // }}
         />
     );
 };

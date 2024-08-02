@@ -55,7 +55,8 @@ const MccCodesPage = () => {
         <div className="mccs-page-area">
             <div className="mccs-page-table-area">
                 <Table whichTable={"mccs"}
-                       datas={mccCodes} />
+                       datas={mccCodes}
+                       scroll={false} />
             </div>
             <Pagination pageCount={mccCodesPageCount}
                         setPage={setMccCodesCurrentPage}
