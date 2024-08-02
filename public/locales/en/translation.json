@@ -20,6 +20,7 @@
     "nav": {
         "terminals": "Terminals",
         "transactions": "Transactions",
+        "mccCodes": "MCC codes",
         "users": "Users",
         "banks": "Banks"
     },

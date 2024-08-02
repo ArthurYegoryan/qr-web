@@ -269,6 +269,33 @@ const TableComponent = ({
         }
     ];
 
+    const mccsColumns = [
+        {
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
+                     alt="ID" 
+                     style={{
+                        width: "20px"
+                     }}
+                />
+            ),
+            dataIndex: 'number',
+            key: 'number',
+            width: "5px",
+        },
+        {
+            title: "Code",
+            dataIndex: 'code',
+            key: 'code',
+            width: "7px",
+        },{
+            title: "Name",
+            dataIndex: 'name',
+            key: 'name',
+            width: "45px",
+        },
+    ]
+
     const usersColumns = [
         {
             title: 'ID',
@@ -425,6 +452,7 @@ const TableComponent = ({
     }
     else if (whichTable === "terminals") columns = terminalsColumns;
     else if (whichTable === "transactions") columns = transactionsColumns;
+    else if (whichTable === "mccs") columns = mccsColumns;
     else if (whichTable === "banks") columns = banksColumns;
 
     return (

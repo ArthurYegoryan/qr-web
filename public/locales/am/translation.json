@@ -20,6 +20,7 @@
     "nav": {
         "terminals": "Տերմինալներ",
         "transactions": "Գործարքներ",
+        "mccCodes": "MCC կոդեր",
         "users": "Օգտագործողներ",
         "banks": "Բանկեր"
     },

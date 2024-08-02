@@ -20,6 +20,7 @@
     "nav": {
         "terminals": "Терминалы",
         "transactions": "Транзакции",
+        "mccCodes": "MCC коды",
         "users": "Пользователи",
         "banks": "Банки"
     },

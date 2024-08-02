@@ -1,0 +1,11 @@
+.mccs-page-area {
+    min-width: 700px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.mccs-page-table-area {
+    min-width: 700px;
+    width: 50%;
+}

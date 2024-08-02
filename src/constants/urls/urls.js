@@ -14,7 +14,7 @@ export const urls = {
     EXPORT_TRANSACTIONS_URL: `/api/transactions_export`,
 
     MCC_URL: `/api/mcc`,
-    MCC_Page_URL: `/api/mcc_page`,
+    MCC_PAGE_URL: `/api/mcc_page`,
 
     CITIES_URL: `/api/cities`,
     CITIES_PAGE_URL: `/api/cities_page`,
