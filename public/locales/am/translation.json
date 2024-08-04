@@ -131,5 +131,8 @@
         "onlyArmenian": "Պետք է լինի միայն հայերեն",
         "onlyRussian": "Պետք է լինի միայն ռուսերեն",
         "onlyEnglish": "Պետք է լինի միայն անգլերեն"
+    },
+    "mccsSection": {
+        "mccCode": "MCC կոդ"
     }
 }

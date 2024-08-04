@@ -1,4 +1,5 @@
 import "./MccCodesPage.css";
+import MccCodesSearchArea from "./mccCodesSearchArea/MccCodesSearchArea";
 import Table from "../../generalComponents/table/Table";
 import Pagination from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
@@ -53,14 +54,20 @@ const MccCodesPage = () => {
 
     return (
         <div className="mccs-page-area">
-            <div className="mccs-page-table-area">
-                <Table whichTable={"mccs"}
-                       datas={mccCodes}
-                       scroll={false} />
+            <div className="mccs-page-search-area">
+                <MccCodesSearchArea setMccCodes={setMccCodes} />
             </div>
-            <Pagination pageCount={mccCodesPageCount}
+            <div className="mccs-page-content">
+                <div className="mccs-page-table-area">
+                    <Table whichTable={"mccs"}
+                        datas={mccCodes}
+                        scroll={false} />
+                </div>
+                <Pagination pageCount={mccCodesPageCount}
                         setPage={setMccCodesCurrentPage}
                         leftMargin={paginationLeftMarginClassname} />
+            </div>
+            
             {showLoading &&
                 <Loader />
             }
