@@ -30,7 +30,7 @@ const TransactionsPage = () => {
     const dispatch = useDispatch();
 
     const windowHeight = window.screen.height;
-    const pageSize = windowHeight < 950 ? 7 : 10;
+    const pageSize = windowHeight < 950 ? 8 : 10;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -109,6 +109,7 @@ const TransactionsPage = () => {
                                     transactionTypes={transactionTypes} />
             <Table whichTable={"transactions"}
                    datas={transactions}
+                   size="small"
                    windowHeight={windowHeight} />
             <div className={`transactions-page-pagination`}>
                 <PaginationComponent pageCount={!isSearchedTransactionsData ? transactionsPageCount : searchedTransactionsPageCount}
