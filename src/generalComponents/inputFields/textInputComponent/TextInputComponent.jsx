@@ -67,7 +67,7 @@ export default function TextInput({
                             onChange={(e) => {
                                 if (searchCondition ? searchCondition(e) : true) {
                                     setValue(e.target.value);
-                                    if (!e.target.value) onChangeHandler("");
+                                    if (!e.target.value) onChangeHandler();
                                     else onChangeHandler(e);
                                 }
                             }}

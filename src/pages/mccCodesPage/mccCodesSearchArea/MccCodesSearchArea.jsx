@@ -18,8 +18,8 @@ const MccCodesSearchArea = ({
     const [ prevPage, setPrevPage ] = useState(1);
     const { t } = useTranslation();
 
-    const searchCondition = (evt) => {
-        return Number(evt.target.value) >= 0;
+    const searchCondition = (e) => {
+        return Number(e.target.value) >= 0 && e.target.value.length <= 4;
     }
 
     const mccsPageDataDetector = () => {
@@ -43,7 +43,7 @@ const MccCodesSearchArea = ({
 
     const onChangeHandler = (e) => {
         if (e) {
-            if (Number(e.target.value) >= 0) {
+            if (Number(e.target.value) >= 0 && e.target.value.length <= 4) {
                 const matchedMccs = [];
 
                 mccCodesAll.map((mcc) => {
