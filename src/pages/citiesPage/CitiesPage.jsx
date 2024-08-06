@@ -1,4 +1,5 @@
 import "./CitiesPage.css";
+import CitiesSearchArea from "./citiesSearchArea/CitiesSearchArea";
 import Table from "../../generalComponents/table/Table";
 import Pagination from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
@@ -12,9 +13,16 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CitiesPage = () => {
+    const [ makeCallForCitiesPageData, setMakeCallForCitiesPageData ] = useState(false);
+    const [ citiesAll, setCitiesAll ] = useState([]);
     const [ cities, setCities ] = useState([]);
     const [ citiesPageCount, setCitiesPageCount ] = useState(1);
     const [ citiesCurrentPage, setCitiesCurrentPage ] = useState(1);
+
+    const [ isSearchedCitiesData, setIsSearchedCitiesData ] = useState(false);
+    const [ searchedCitiesPageCount, setSearchedCitiesPageCount ] = useState(1);
+    const [ searchedCitiesCurrentPage, setSearchedCitiesCurrentPage ] = useState(1);
+
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const navigate = useNavigate();
@@ -28,6 +36,28 @@ const CitiesPage = () => {
     else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
+        const callForAllCities = async () => {
+            try {
+                setShowLoading(true);
+                const responseCities = await getDataApi(urls.CITIES_URL)
+                setShowLoading(false);
+
+                if (responseCities.status === 200) {
+                    setCitiesAll(responseCities.data);
+                } else if (responseCities.status === 401) {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+
+                    navigate(urls.LOGIN_URL);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        callForAllCities();
+    }, []);
+
+    useEffect(() => {
         const callForCitiesPages = async () => {
             try {
                 setShowLoading(true);
@@ -38,6 +68,7 @@ const CitiesPage = () => {
                     setCities(addNumeration(response.data.items, citiesCurrentPage, pageSize));
                     setCitiesPageCount(response.data.pages);
                     setCitiesCurrentPage(response.data.page);
+                    setIsSearchedCitiesData(false);
                 } else if (response.status === 401) {
                     localStorage.clear();
                     dispatch(editToken(""));
@@ -49,18 +80,31 @@ const CitiesPage = () => {
             }
         };
         callForCitiesPages();
-    }, [citiesCurrentPage]);
+    }, [citiesCurrentPage, makeCallForCitiesPageData]);
 
     return (
         <div className="cities-page-area">
-            <div className="cities-page-table-area">
-                <Table whichTable={"cities"}
-                       datas={cities}
-                       scroll={false} />
+            <div className="cities-page-search-area">
+                <CitiesSearchArea setCities={setCities}
+                                    citiesAll={citiesAll}
+                                    makeCallForCitiesPageData={makeCallForCitiesPageData}
+                                    setMakeCallForCitiesPageData={setMakeCallForCitiesPageData}
+                                    pageSize={pageSize}
+                                    setIsSearchedCitiesData={setIsSearchedCitiesData}
+                                    setSearhedCitiesPageCount={setSearchedCitiesPageCount}
+                                    searchedCitiesCurrentPage={searchedCitiesCurrentPage} />
             </div>
-            <Pagination pageCount={citiesPageCount}
-                        setPage={setCitiesCurrentPage}
-                        leftMargin={paginationLeftMarginClassname} />
+            <div className="cities-page-content">
+                <div className="cities-page-table-area">
+                    <Table whichTable={"cities"}
+                            datas={cities}
+                            scroll={false} />
+                </div>
+                <Pagination pageCount={isSearchedCitiesData ? searchedCitiesPageCount : citiesPageCount}
+                            setPage={isSearchedCitiesData ? setSearchedCitiesCurrentPage : setCitiesCurrentPage}
+                            leftMargin={paginationLeftMarginClassname} />
+            </div>
+            
             {showLoading &&
                 <Loader />
             }

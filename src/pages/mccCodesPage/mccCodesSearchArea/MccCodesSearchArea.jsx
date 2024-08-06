@@ -1,4 +1,3 @@
-import "./MccCodesSearchArea.css";
 import TextInputComponent from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { useState } from "react";
@@ -11,7 +10,7 @@ const MccCodesSearchArea = ({
     setMakeCallForMccPageData,
     pageSize,
     setIsSearchedMccsData,
-    setSearhedMccCodesPageCount,
+    setSearchedMccCodesPageCount,
     searchedMccCodesCurrentPage
 }) => {
     const [ matchedMccs, setMatchedMccs ] = useState([]);
@@ -31,7 +30,7 @@ const MccCodesSearchArea = ({
         }
 
         setIsSearchedMccsData(true);
-        setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
+        setSearchedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
 
         setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
     };
@@ -60,7 +59,7 @@ const MccCodesSearchArea = ({
                 }
 
                 setIsSearchedMccsData(true);
-                setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
+                setSearchedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
 
                 setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
             }

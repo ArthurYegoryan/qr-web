@@ -134,5 +134,8 @@
     },
     "mccsSection": {
         "mccCode": "MCC կոդ"
+    },
+    "citiesSection": {
+        "city": "Քաղաք"
     }
 }

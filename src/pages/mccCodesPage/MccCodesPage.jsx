@@ -20,7 +20,7 @@ const MccCodesPage = () => {
     const [ mccCodesCurrentPage, setMccCodesCurrentPage ] = useState(1);
 
     const [ isSearchedMccsData, setIsSearchedMccsData ] = useState(false);
-    const [ searhedMccCodesPageCount, setSearhedMccCodesPageCount ] = useState(1);
+    const [ searchedMccCodesPageCount, setSearchedMccCodesPageCount ] = useState(1);
     const [ searchedMccCodesCurrentPage, setSearchedMccCodesCurrentPage ] = useState(1);
 
     const [ showLoading, setShowLoading ] = useState(false);
@@ -91,7 +91,7 @@ const MccCodesPage = () => {
                                     setMakeCallForMccPageData={setMakeCallForMccPageData}
                                     pageSize={pageSize}
                                     setIsSearchedMccsData={setIsSearchedMccsData}
-                                    setSearhedMccCodesPageCount={setSearhedMccCodesPageCount}
+                                    setSearchedMccCodesPageCount={setSearchedMccCodesPageCount}
                                     searchedMccCodesCurrentPage={searchedMccCodesCurrentPage} />
             </div>
             <div className="mccs-page-content">
@@ -100,7 +100,7 @@ const MccCodesPage = () => {
                             datas={mccCodes}
                             scroll={false} />
                 </div>
-                <Pagination pageCount={isSearchedMccsData ? searhedMccCodesPageCount : mccCodesPageCount}
+                <Pagination pageCount={isSearchedMccsData ? searchedMccCodesPageCount : mccCodesPageCount}
                             setPage={isSearchedMccsData ? setSearchedMccCodesCurrentPage : setMccCodesCurrentPage}
                             leftMargin={paginationLeftMarginClassname} />
             </div>

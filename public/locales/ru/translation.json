@@ -134,5 +134,8 @@
     },
     "mccsSection": {
         "mccCode": "MCC код"
+    },
+    "citiesSection": {
+        "city": "Город"
     }
 }
