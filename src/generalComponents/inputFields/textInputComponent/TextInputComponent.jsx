@@ -69,16 +69,13 @@ export default function TextInput({
                                     setValue(e.target.value);
                                     if (!e.target.value) onChangeHandler("");
                                     else onChangeHandler(e);
-                                } else {
-                                    // console.log("Mtanq");
-                                    // onChangeHandler();
                                 }
                             }}
                             value={value}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                    <SearchIcon />
+                                        <SearchIcon />
                                     </InputAdornment>
                                 ),
                         

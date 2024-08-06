@@ -18,9 +18,9 @@ const MccCodesSearchArea = ({
     const [ prevPage, setPrevPage ] = useState(1);
     const { t } = useTranslation();
 
-    // const searchCondition = (evt) => {
-    //     return Number(evt.target.value) >= 0;
-    // }
+    const searchCondition = (evt) => {
+        return Number(evt.target.value) >= 0;
+    }
 
     const mccsPageDataDetector = () => {
         const searchedMccsByPage = [];
@@ -43,25 +43,27 @@ const MccCodesSearchArea = ({
 
     const onChangeHandler = (e) => {
         if (e) {
-            const matchedMccs = [];
+            if (Number(e.target.value) >= 0) {
+                const matchedMccs = [];
 
-            mccCodesAll.map((mcc) => {
-                if (mcc.code.includes(e.target.value)) {
-                    matchedMccs.push(mcc);
+                mccCodesAll.map((mcc) => {
+                    if (mcc.code.includes(e.target.value)) {
+                        matchedMccs.push(mcc);
+                    }
+                });
+
+                setMatchedMccs(matchedMccs);
+
+                const searchedMccsByPage = [];
+                for (let i = 0; i < (matchedMccs.length < pageSize ? matchedMccs.length : pageSize); i++) {
+                    searchedMccsByPage.push(matchedMccs[(searchedMccCodesCurrentPage - 1) * 10 + i]);
                 }
-            });
 
-            setMatchedMccs(matchedMccs);
+                setIsSearchedMccsData(true);
+                setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
 
-            const searchedMccsByPage = [];
-            for (let i = 0; i < (matchedMccs.length < pageSize ? matchedMccs.length : pageSize); i++) {
-                searchedMccsByPage.push(matchedMccs[(searchedMccCodesCurrentPage - 1) * 10 + i]);
+                setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
             }
-
-            setIsSearchedMccsData(true);
-            setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
-
-            setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
         } else {
             setMakeCallForMccPageData(!makeCallForMccPageData);
         }
@@ -71,7 +73,7 @@ const MccCodesSearchArea = ({
         <div className="mcc-codes-search-area">
             <TextInputComponent placeholder={t("mccsSection.mccCode")}
                                 isSearchInput={true}
-                                // searchCondition={searchCondition}
+                                searchCondition={searchCondition}
                                 onChangeHandler={onChangeHandler} />
         </div>
     );
