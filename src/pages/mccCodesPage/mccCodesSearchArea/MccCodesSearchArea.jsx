@@ -1,49 +1,78 @@
 import "./MccCodesSearchArea.css";
 import TextInputComponent from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
-import Button from "../../../generalComponents/buttons/Button";
-import SearchIcon from '@mui/icons-material/Search';
-import { mccValidation } from "../../../utils/fieldsValidations/termDataFieldsValidation";
+import { addNumeration } from "../../../utils/helpers/addNumeration";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 const MccCodesSearchArea = ({
-    setMccCodes
+    setMccCodes,
+    mccCodesAll,
+    makeCallForMccPageData,
+    setMakeCallForMccPageData,
+    pageSize,
+    setIsSearchedMccsData,
+    setSearhedMccCodesPageCount,
+    searchedMccCodesCurrentPage
 }) => {
-    const mccs = useSelector((state) => state.mccs);
-    const [ searchedMccCode, setSearchedMccCode ] = useState(null);
-    const [ emptyMccError, setEmptyMccError ] = useState(false);
-    const [ invalidMccError, setInvalidMccError ] = useState(false);
+    const [ matchedMccs, setMatchedMccs ] = useState([]);
+    const [ prevPage, setPrevPage ] = useState(1);
     const { t } = useTranslation();
 
-    const onClickHandler = () => {
-        setEmptyMccError(false);
-        setInvalidMccError(false);
+    // const searchCondition = (evt) => {
+    //     return Number(evt.target.value) >= 0;
+    // }
 
-        if (!searchedMccCode) {
-            setEmptyMccError(true);
-        } else {
-            if (!mccValidation(searchedMccCode)) {
-                setInvalidMccError(true);
-            } else {
-                // make call for search mcc code
-            }
+    const mccsPageDataDetector = () => {
+        const searchedMccsByPage = [];
+        for (let i = 0; i < (matchedMccs.length < pageSize ? matchedMccs.length : pageSize); i++) {
+            const currentMcc = matchedMccs[(searchedMccCodesCurrentPage - 1) * 10 + i];
+
+            if (currentMcc) searchedMccsByPage.push(currentMcc);
         }
+
+        setIsSearchedMccsData(true);
+        setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
+
+        setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
+    };
+
+    if (searchedMccCodesCurrentPage !== prevPage) {
+        setPrevPage(searchedMccCodesCurrentPage);
+        mccsPageDataDetector();
     }
+
+    const onChangeHandler = (e) => {
+        if (e) {
+            const matchedMccs = [];
+
+            mccCodesAll.map((mcc) => {
+                if (mcc.code.includes(e.target.value)) {
+                    matchedMccs.push(mcc);
+                }
+            });
+
+            setMatchedMccs(matchedMccs);
+
+            const searchedMccsByPage = [];
+            for (let i = 0; i < (matchedMccs.length < pageSize ? matchedMccs.length : pageSize); i++) {
+                searchedMccsByPage.push(matchedMccs[(searchedMccCodesCurrentPage - 1) * 10 + i]);
+            }
+
+            setIsSearchedMccsData(true);
+            setSearhedMccCodesPageCount(Math.ceil(matchedMccs.length / pageSize));
+
+            setMccCodes(addNumeration(searchedMccsByPage, searchedMccCodesCurrentPage, pageSize));
+        } else {
+            setMakeCallForMccPageData(!makeCallForMccPageData);
+        }
+    };
 
     return (
         <div className="mcc-codes-search-area">
-            <TextInputComponent label={t("mccsSection.mccCode")}
-                                existsError={emptyMccError || invalidMccError}
-                                errorText={
-                                    emptyMccError ? t("searchArea.emptyFieldError") :
-                                    invalidMccError ? t("terminalsSection.invalidMcc") : null
-                                }
-                                onChangeHandler={(evt) => setSearchedMccCode(evt.target.value)} />
-            <Button label={t("searchArea.searchBtn")}
-                    endIcon={<SearchIcon />}
-                    marginLeft={"10px"}
-                    onClickHandler={onClickHandler} />
+            <TextInputComponent placeholder={t("mccsSection.mccCode")}
+                                isSearchInput={true}
+                                // searchCondition={searchCondition}
+                                onChangeHandler={onChangeHandler} />
         </div>
     );
 };
