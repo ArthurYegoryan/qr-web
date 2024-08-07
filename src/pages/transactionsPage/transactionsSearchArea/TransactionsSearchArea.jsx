@@ -138,7 +138,6 @@ const TransactionsSearchArea = ({
                                          firstRowLabel="------"
                                          firstRowValue=""
                                          width="150px"
-                                         marginTop={"36px"}
                                          existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
                                          onChooseHandler={(evt) => {
@@ -175,15 +174,13 @@ const TransactionsSearchArea = ({
                                            ...transactionsSearchInfo,
                                            searchValue: (evt.target.value)
                                        })
-                                   }}
-                                   marginTop={"36px"} />
+                                   }} />
                         <SelectComponent label={t("searchArea.chooseTrxType")}
                                          hasFirstRow={true}
                                          firstRowLabel={t("------")}
                                          firstRowValue={null}
                                          chooseData={trxTypesList}
                                          width={"250px"}
-                                         marginTop={"36px"}
                                          marginLeft={"10px"}
                                          onChooseHandler={(evt) => {
                                             setTransactionsSearchInfo({

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
 import "./MainPage.css";
 import { useSelector } from "react-redux";
@@ -14,9 +14,9 @@ const MainPage = () => {
     return (
         <div className="main-page">
             <Header />
-            <main className={`main-section ${className}`}>
+            {/* <main className={`main-section ${className}`}>
                 <Outlet />
-            </main>
+            </main> */}
         </div>
     );
 };

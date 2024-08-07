@@ -6,11 +6,12 @@
 
 .transactions-search-input-fields {
     display: flex;
+    margin-top: 13px;
 }
 
 .transactions-search-calendar-fields {
     display: flex;
-    margin-top: 23px;
+    /* margin-top: 23px; */
     margin-left: 15px;
 }
 

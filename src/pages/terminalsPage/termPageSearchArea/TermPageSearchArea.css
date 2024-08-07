@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     height: 80px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .terminals-page-search-export-content {

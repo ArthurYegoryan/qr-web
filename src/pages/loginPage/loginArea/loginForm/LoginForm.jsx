@@ -104,7 +104,7 @@ const LoginForm = () => {
                         existsError={emptyPasswordError}
                         errorText={t("userSection.emptyPasswordError")}
                         marginTop="15px" />
-                <ForgotPassword />
+                {/* <ForgotPassword /> */}
                 {wrongUsernamePasswordError &&
                     <div className="login-error-message-div">
                         <label style={{ color: colors.loginFailedColor}} className="login-error-message">
@@ -115,7 +115,8 @@ const LoginForm = () => {
                 <div className="login-button">
                     <Button type="submit" 
                         label="Login" 
-                        backgroundColor='rgb(103, 103, 255)'
+                        backgroundColor={colors.originalBgColor}
+                        hoverColor={colors.originalHoverColor}
                         width="220px"
                         onClickHandler={onClickHandler}
                     />
