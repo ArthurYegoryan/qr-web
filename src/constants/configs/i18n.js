@@ -10,6 +10,9 @@ i18n
     .init({
         debug: false,
         fallbackLang: "am",
+        backend: {
+            loadPath: 'locales/am/translation.json'
+        }
     });
 
 i18n.changeLanguage("am");
