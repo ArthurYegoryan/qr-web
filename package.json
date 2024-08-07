@@ -21,7 +21,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.18.0",
     "axios": "^1.6.2",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.12",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.0",

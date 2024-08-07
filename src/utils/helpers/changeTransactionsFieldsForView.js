@@ -1,11 +1,15 @@
+import * as dayjs from "dayjs";
+
 export const changeTransactionsFieldsForView = (items, currentPage, pageSize) => {
+    const addingHours =  - new Date().getTimezoneOffset() / 60;
+
     items.map((item) => {
-        item.number = items.indexOf(item) + 1 + (currentPage - 1) * pageSize;
+       item.number = items.indexOf(item) + 1 + (currentPage - 1) * pageSize;
 
         const amount = String(item.amount);
         item.amount = amount.slice(0, amount.length - 2) + "," + amount.slice(amount.length - 2);
 
-        item.createdAt = item.createdAt.slice(0, 10) + " " + item.createdAt.slice(11, 19);
+        item.createdAt = dayjs(item.createdAt).add(addingHours, "hour").format("DD-MM-YYYY HH:mm:ss");
     });
 
     return items;
