@@ -1,4 +1,4 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 
 export const changeTransactionsFieldsForView = (items, currentPage, pageSize) => {
     const addingHours =  - new Date().getTimezoneOffset() / 60;

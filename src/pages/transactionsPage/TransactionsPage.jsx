@@ -24,6 +24,7 @@ const TransactionsPage = () => {
     const [ transactionsPageForSearch, setTransactionsPageForSearch ] = useState(1);          // For transactions search
     const [ searchedTransactionsPageCount, setSearchedTransactionsPageCount ] = useState(1);  // For transactions search
     const [ isSearched, setIsSearched ] = useState(false);
+    const [ makeCallForTransactions, setMakeCallForTransactions ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
     const navigate = useNavigate();
@@ -35,6 +36,16 @@ const TransactionsPage = () => {
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
     else paginationLeftMarginClassname = "-close-menu";
+
+    useEffect(() => {
+        if (!isSearchedTransactionsData) {
+            const interval = setInterval(() => {
+                setMakeCallForTransactions(!makeCallForTransactions);
+            }, 60000);
+
+            return () => clearInterval(interval);
+        }
+    }, [isSearchedTransactionsData, makeCallForTransactions]);
 
     useEffect(() => {
         try {
@@ -60,7 +71,7 @@ const TransactionsPage = () => {
         } catch(err) {
             console.log(err.message);
         }
-    }, [transactionsPage, isSearched]);
+    }, [transactionsPage, isSearched, makeCallForTransactions]);
 
     useEffect(() => {
         try {

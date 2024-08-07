@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
+import dayjs from "dayjs";
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
 import { changeTransactionsFieldsForView } from "../../../utils/helpers/changeTransactionsFieldsForView";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
@@ -69,6 +70,9 @@ const TransactionsSearchArea = ({
 
         const makeCallForSearchedTransactions = async () => {
             try {
+                searchParams.startDate = dayjs(searchParams.startDate).format("YYYY-MM-DD HH:mm:ss");
+                searchParams.endDate = dayjs(searchParams.endDate).format("YYYY-MM-DD HH:mm:ss");
+
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL 
                                             + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams);
