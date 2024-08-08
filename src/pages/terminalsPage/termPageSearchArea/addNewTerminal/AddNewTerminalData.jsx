@@ -5,6 +5,7 @@ import SelectComponent from "../../../../generalComponents/inputFields/selectCom
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessAnimation from "../../../../generalComponents/successAnimation/SuccessAnimation";
+import Loader from "../../../../generalComponents/loaders/Loader";
 import { postDataApi } from "../../../../apis/postDataApi";
 import { getFieldsArrayFromAllObjectsArray } from "../../../../utils/helpers/getFieldsArrayFromAllObjectsArray";
 import { colors } from "../../../../assets/styles/colors";
@@ -59,6 +60,7 @@ const AddNewTerminalData = ({
     const [ emptyMerchantAddressInAmError, setEmptyMerchantAddressInAmError ] = useState(false);
     const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
     const [ terminalExistsError, setTerminalExistsError ] = useState(false);
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
@@ -110,7 +112,9 @@ const AddNewTerminalData = ({
                 }
             });
 
+            setShowLoading(true);
             const response = await postDataApi(urls.ADD_NEW_TERMINAL_URL, terminalDataForCall);
+            setShowLoading(false);
 
             if (response.status === 201) {
                 setIsTermDataChanged(!isTermDataChanged);
@@ -298,6 +302,9 @@ const AddNewTerminalData = ({
                         onClickHandler={() => onCloseHandler()} 
                 />
             </div>
+            {showLoading &&
+                <Loader />
+            }
             {openCloseSuccessModal &&
                 <SuccessAnimation />
             }

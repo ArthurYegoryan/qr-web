@@ -2,6 +2,7 @@ const URL = process.env.REACT_APP_API_URL;
 
 export const urls = {
     LOGIN_URL: `/jwt/login`,
+    REFRESH_TOKEN_URL: `/jwt/refresh`,
 
     TERMINALS_URL: `/api/terminals`,
     SEARCH_TERMINALS_URL: `/api/terminal_search`,
