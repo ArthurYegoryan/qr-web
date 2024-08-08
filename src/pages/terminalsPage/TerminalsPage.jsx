@@ -41,7 +41,7 @@ const TerminalsPage = () => {
     const { t } = useTranslation();
 
     const windowHeight = window.screen.height;
-    const pageSize = windowHeight < 950 ? 7 : 10;
+    const pageSize = windowHeight < 950 ? 5 : 10;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";

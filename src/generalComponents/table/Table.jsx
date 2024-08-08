@@ -509,7 +509,7 @@ const TableComponent = ({
             }}
             scroll={scroll && {
                 scrollToFirstRowOnChange: true,
-                y: (windowHeight < 950) ? 450 : 650
+                y: (windowHeight < 950) ? 450 : 650,
             }}
         />
     );
