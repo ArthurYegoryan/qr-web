@@ -1,5 +1,5 @@
 import './LoginForm.css';
-import ForgotPassword from "../forgotPassword/ForgotPassword";
+// import ForgotPassword from "../forgotPassword/ForgotPassword";
 import TextInput from '../../../../generalComponents/inputFields/textInputComponent/TextInputComponent';
 import Button from "../../../../generalComponents/buttons/Button";
 import ModalComponent from '../../../../generalComponents/modalComponent/ModalComponent';
