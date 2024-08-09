@@ -28,9 +28,13 @@ export const checkFieldsValidation = (
         setEmptyTaxError,
         setInvalidTaxError,
         setEmptyMerchantNameError,
+        setLongMerchantNameError,
         setEmptyMerchantNameInAmError,
+        setLongMerchantNameInAmError,
         setEmptyMerchantAddressError,
+        setLongMerchantAddressError,
         setEmptyMerchantAddressInAmError,
+        setLongMerchantAddressInAmError,
         setEmptyMerchantCityError,
     ],
     {
@@ -104,18 +108,38 @@ export const checkFieldsValidation = (
     if (!merchantNameGlobal) {
         existsError = true;
         setEmptyMerchantNameError(true);
+    } else {
+        if (merchantNameGlobal.length > 99) {
+            existsError = true;
+            setLongMerchantNameError(true);
+        }
     }
     if (!merchantNameLocal) {
         existsError = true;
         setEmptyMerchantNameInAmError(true);
+    } else {
+        if (merchantNameLocal.length > 99) {
+            existsError = true;
+            setLongMerchantNameInAmError(true);
+        }
     }
     if (!merchantAddressGlobal) {
         existsError = true;
         setEmptyMerchantAddressError(true);
+    } else {
+        if (merchantAddressGlobal.length > 99) {
+            existsError = true;
+            setLongMerchantAddressError(true);
+        }
     }
     if (!merchantAddressLocal) {
         existsError = true;
         setEmptyMerchantAddressInAmError(true);
+    } else {
+        if (merchantAddressLocal.length > 99) {
+            existsError = true;
+            setLongMerchantAddressInAmError(true);
+        }
     }
     if (!city_id) {
         console.log("City id: ", city_id);

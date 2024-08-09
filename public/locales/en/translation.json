@@ -72,6 +72,7 @@
         "wrongUsernamePassword": "Incorrect username or password",
         "wrongUsernameEmail": "Incorrect username or email address",
         "usernameLengthError": "Username must contain at least 3 characters",
+        "longFieldError": "Must contain no more than 99 characters",
         "logout": "Logout"
     },
     "searchArea": {

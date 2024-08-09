@@ -55,9 +55,13 @@ const AddNewTerminalData = ({
     const [ emptyTaxError, setEmptyTaxError ] = useState(false);
     const [ invalidTaxError, setInvalidTaxError ] = useState(false);
     const [ emptyMerchantNameError, setEmptyMerchantNameError ] = useState(false);
+    const [ longMerchantNameError, setLongMerchantNameError ] = useState(false);
     const [ emptyMerchantNameInAmError, setEmptyMerchantNameInAmError ] = useState(false);
+    const [ longMerchantNameInAmError, setLongMerchantNameInAmError ] = useState(false);
     const [ emptyMerchantAddressError, setEmptyMerchantAddressError ] = useState(false);
+    const [ longMerchantAddressError, setLongMerchantAddressError ] = useState(false);
     const [ emptyMerchantAddressInAmError, setEmptyMerchantAddressInAmError ] = useState(false);
+    const [ longMerchantAddressInAmError, setLongMerchantAddressInAmError ] = useState(false);
     const [ emptyMerchantCityError, setEmptyMerchantCityError ] = useState(false);
     const [ terminalExistsError, setTerminalExistsError ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
@@ -81,9 +85,13 @@ const AddNewTerminalData = ({
         setEmptyTaxError,
         setInvalidTaxError,
         setEmptyMerchantNameError,
+        setLongMerchantNameError,
         setEmptyMerchantNameInAmError,
+        setLongMerchantNameInAmError,
         setEmptyMerchantAddressError,
+        setLongMerchantAddressError,
         setEmptyMerchantAddressInAmError,
+        setLongMerchantAddressInAmError,
         setEmptyMerchantCityError,
         setTerminalExistsError
     ];
@@ -213,9 +221,10 @@ const AddNewTerminalData = ({
                     <TextInput label={t("terminalsSection.merchantName")}
                                 marginTop={"10px"}
                                 width="340px"
-                                existsError={emptyMerchantNameError}
+                                existsError={emptyMerchantNameError || longMerchantNameError}
                                 errorText={
-                                    emptyMerchantNameError && t("searchArea.emptyFieldError")
+                                    emptyMerchantNameError ? t("searchArea.emptyFieldError") :
+                                    longMerchantNameError ? t("userSection.longFieldError") : null
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
@@ -224,9 +233,10 @@ const AddNewTerminalData = ({
                     <TextInput label={t("terminalsSection.merchantNameAm")}
                                 marginTop={"10px"}
                                 width="340px"
-                                existsError={emptyMerchantNameInAmError}
+                                existsError={emptyMerchantNameInAmError || longMerchantNameInAmError}
                                 errorText={
-                                    emptyMerchantNameInAmError && t("searchArea.emptyFieldError")
+                                    emptyMerchantNameInAmError ? t("searchArea.emptyFieldError") :
+                                    longMerchantNameInAmError ? t("userSection.longFieldError") : null
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
@@ -235,9 +245,10 @@ const AddNewTerminalData = ({
                     <TextInput label={t("terminalsSection.merchantAddress")}
                                 marginTop={"10px"}
                                 width="340px"
-                                existsError={emptyMerchantAddressError}
+                                existsError={emptyMerchantAddressError || longMerchantAddressError}
                                 errorText={
-                                    emptyMerchantAddressError && t("searchArea.emptyFieldError")
+                                    emptyMerchantAddressError ? t("searchArea.emptyFieldError") :
+                                    longMerchantAddressError ? t("userSection.longFieldError") : null
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,
@@ -246,9 +257,10 @@ const AddNewTerminalData = ({
                     <TextInput label={t("terminalsSection.merchantAddressAm")}
                                 marginTop={"10px"}
                                 width="340px"
-                                existsError={emptyMerchantAddressInAmError}
+                                existsError={emptyMerchantAddressInAmError || longMerchantAddressInAmError}
                                 errorText={
-                                    emptyMerchantAddressInAmError && t("searchArea.emptyFieldError")
+                                    emptyMerchantAddressInAmError ? t("searchArea.emptyFieldError") :
+                                    longMerchantAddressInAmError ? t("userSection.longFieldError") : null
                                 }
                                 onChangeHandler={(evt) => setNewTerminalData({
                                     ...newTerminalData,

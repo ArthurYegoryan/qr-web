@@ -72,6 +72,7 @@
         "wrongUsernamePassword": "Սխալ մուտքանուն կամ գաղտնաբառ",
         "wrongUsernameEmail": "Սխալ մուտքանուն կամ էլ. հասցե",
         "usernameLengthError": "Մուտքանունը պետք է պարունակի նվազագույնը 3 նիշ",
+        "longFieldError": "Պետք է պարունակի առավելագույնը 99 նիշ",
         "logout": "Դուրս գալ"
     },
     "searchArea": {
