@@ -70,8 +70,8 @@ const TransactionsSearchArea = ({
 
         const makeCallForSearchedTransactions = async () => {
             try {
-                searchParams.startDate = dayjs(searchParams.startDate).format("YYYY-MM-DD HH:mm:ss");
-                searchParams.endDate = dayjs(searchParams.endDate).format("YYYY-MM-DD HH:mm:ss");
+                if (searchParams.startDate) searchParams.startDate = dayjs(searchParams.startDate).format("YYYY-MM-DD HH:mm:ss");
+                if (searchParams.endDate) searchParams.endDate = dayjs(searchParams.endDate).format("YYYY-MM-DD HH:mm:ss");
 
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL 
