@@ -20,6 +20,7 @@ const TransactionsPage = () => {
     const [ transactionsPageCount, setTransactionsPageCount ] = useState(1);
     const [ transactionsPage, setTransactionsPage ] = useState(1);
     const [ transactionTypes, setTransactionTypes ] = useState([]);
+    const [ statusCodes, setStatusCodes ] = useState([]);
     const [ isSearchedTransactionsData, setIsSearchedTransactionsData ] = useState(false);    // For transactions search
     const [ transactionsPageForSearch, setTransactionsPageForSearch ] = useState(1);          // For transactions search
     const [ searchedTransactionsPageCount, setSearchedTransactionsPageCount ] = useState(1);  // For transactions search
@@ -86,6 +87,7 @@ const TransactionsPage = () => {
                     responseStatusCodes.status === 200
                 ) {
                     setTransactionTypes(responseTransactionTypes.data);
+                    setStatusCodes(responseStatusCodes.data);
 
                     dispatch(saveTransactionTypes(responseTransactionTypes.data));
                     dispatch(saveStatusCodes(responseStatusCodes.data));
@@ -117,7 +119,8 @@ const TransactionsPage = () => {
                                     isSearched={isSearched}
                                     setIsSearched={setIsSearched}
                                     transactionsSearchFields={transactionsSearchFields}
-                                    transactionTypes={transactionTypes} />
+                                    transactionTypes={transactionTypes}
+                                    statusCodes={statusCodes} />
             <Table whichTable={"transactions"}
                    datas={transactions}
                    size="small"

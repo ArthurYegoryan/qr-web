@@ -79,6 +79,7 @@
         "searchBy": "Поиск по",
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
+        "chooseTrxStatus": "Выберите статус транзакции",
         "startDate": "Начало",
         "endDate": "Конец",
         "searchBtn": "Поиск",

@@ -1,0 +1,5 @@
+.MuiMenu-paper {
+    max-height: 200px !important;
+    max-width: 300px !important;
+    overflow-x: auto !important;
+}

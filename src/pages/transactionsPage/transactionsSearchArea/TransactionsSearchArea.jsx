@@ -8,6 +8,8 @@ import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
 import dayjs from "dayjs";
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
+import { getStatusCodeIdByName } from "../../../utils/helpers/getStatusCodeIdByName";
+import { getStatusCodesList } from "../../../utils/helpers/getStatusCodesList";
 import { changeTransactionsFieldsForView } from "../../../utils/helpers/changeTransactionsFieldsForView";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
@@ -30,6 +32,7 @@ const TransactionsSearchArea = ({
     setIsSearched,
     transactionsSearchFields,
     transactionTypes, 
+    statusCodes,
     setTransactions
 }) => {
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
@@ -39,6 +42,9 @@ const TransactionsSearchArea = ({
         transactionType_id: null,
         startDate: new Date(Date.now() - 604800000),
         endDate: new Date(Date.now()),
+        statusCode_id: 0,
+        order_by: null,
+        desc: true
     });
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
@@ -186,6 +192,19 @@ const TransactionsSearchArea = ({
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
                                                 transactionType_id: trxTypesDetector[evt.target.value]
+                                            });
+                                         }} />
+                        <SelectComponent label={t("searchArea.chooseTrxStatus")}
+                                         hasFirstRow={true}
+                                         firstRowLabel={t("------")}
+                                         firstRowValue={null}
+                                         chooseData={getStatusCodesList(statusCodes)}
+                                         width={"300px"}
+                                         marginLeft={"10px"}
+                                         onChooseHandler={(evt) => {
+                                            setTransactionsSearchInfo({
+                                                ...transactionsSearchInfo,
+                                                statusCode_id: getStatusCodeIdByName(statusCodes, evt.target.value)
                                             });
                                          }} />
                     </div>

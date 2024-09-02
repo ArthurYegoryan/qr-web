@@ -79,6 +79,7 @@
         "searchBy": "Search by",
         "searchData": "Search data",
         "chooseTrxType": "Choose transaction type",
+        "chooseTrxStatus": "Choose transaction status",
         "startDate": "Start",
         "endDate": "End",
         "searchBtn": "Search",
