@@ -42,7 +42,7 @@ const TransactionsSearchArea = ({
         transactionType_id: null,
         startDate: new Date(Date.now() - 604800000),
         endDate: new Date(Date.now()),
-        statusCode_id: 0,
+        statusCode_id: null,
         order_by: null,
         desc: true
     });
