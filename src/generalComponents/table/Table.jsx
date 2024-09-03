@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Typography } from 'antd';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { useSelector } from 'react-redux';
 
@@ -6,7 +6,6 @@ const TableComponent = ({
     whichTable, 
     datas,
     setCurrentData,
-    banks,
     size = "normal",
     windowHeight,
     minWidth,
@@ -21,14 +20,7 @@ const TableComponent = ({
 
     const terminalsColumns = [
         {
-            title: (
-                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
-                     alt="ID" 
-                     style={{
-                         width: "20px"
-                     }}
-                />               
-            ),
+            title: <i>N</i>,
             dataIndex: 'number',
             key: 'number',
             width: "5px",
@@ -50,6 +42,14 @@ const TableComponent = ({
             dataIndex: 'serial_number',
             key: 'serial_number',
             width: "15px",
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 80 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: 'MCC',
@@ -106,7 +106,15 @@ const TableComponent = ({
             title: 'Merchant name',
             dataIndex: 'merchantNameLocal',
             key: 'merchantNameLocal',
-            width: 25,
+            width: 20,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: 'TAX',
@@ -131,13 +139,21 @@ const TableComponent = ({
             title: 'Merchant address',
             dataIndex: 'merchantAddressLocal',
             key: 'merchantAddressLocal',
-            width: 25,
+            width: 20,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: 'Registr. date',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: 13,
+            width: 20,
         },
         {
             title: (
@@ -192,7 +208,15 @@ const TableComponent = ({
             title: "S/N",
             dataIndex: 'posTerminal',
             key: 'posTerminal',
-            width: "20px",
+            width: 12,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: (
@@ -277,7 +301,7 @@ const TableComponent = ({
             ),
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: "20px",
+            width: "15px",
         },
         {
             title: (
@@ -290,7 +314,7 @@ const TableComponent = ({
             ),
             dataIndex: 'statusCode',
             key: 'statusCode',
-            width: "20px",
+            width: "25px",
         },
         {
             title: (
@@ -322,14 +346,7 @@ const TableComponent = ({
 
     const mccsColumns = [
         {
-            title: (
-                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
-                     alt="ID" 
-                     style={{
-                        width: "20px"
-                     }}
-                />
-            ),
+            title: <i>N</i>,
             dataIndex: 'number',
             key: 'number',
             width: "5px",
@@ -349,14 +366,7 @@ const TableComponent = ({
 
     const citiesColumns = [
         {
-            title: (
-                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
-                     alt="ID" 
-                     style={{
-                        width: "20px"
-                     }}
-                />
-            ),
+            title: <i>N</i>,
             dataIndex: 'number',
             key: 'number',
             width: "5px",
@@ -387,62 +397,6 @@ const TableComponent = ({
             width: "25px",
         },
     ]
-
-    const usersColumns = [
-        {
-            title: 'ID',
-            width: 10,
-            dataIndex: 'id',
-            key: 'id',
-        },
-        {
-            title: 'Username',
-            width: 20,
-            dataIndex: 'username',
-            key: 'username',
-        },
-        {
-            title: 'Bank',
-            dataIndex: 'bank',
-            key: 'bank',
-            width: 20,
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 35,
-        },
-        {
-            title: 'Is active',
-            dataIndex: 'is_active',
-            key: 'is_active',
-            width: 11,
-        },
-        {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-            width: 20,
-        },
-        {
-            title: 'Action',
-            key: 'operation',
-            width: 15,
-            render: (record) => (
-                <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
-                        setCurrentData(record);
-                        onClickEditButton(record);
-                    }} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
-                        setCurrentData(record);
-                        onClickDeleteButton(record);
-                    }} />
-                </Space>
-            )
-        },
-    ];
 
     const banksColumns = [
         {
@@ -524,25 +478,9 @@ const TableComponent = ({
         },
     ]
 
-    const data = [];
-
     let columns = [];
 
-    if (whichTable === "users") {
-        columns = usersColumns;
-
-        for (let i = 0; i < datas.length; i++) {
-            data.push({
-                id: datas[i].id,
-                username: datas[i].username,
-                bank: datas[i].bank ? banks[datas[i].bank] : "FPS",
-                email: datas[i].email,
-                is_active: datas[i].is_active,
-                role: datas[i].role
-            });
-        }
-    }
-    else if (whichTable === "terminals") columns = terminalsColumns;
+    if (whichTable === "terminals") columns = terminalsColumns;
     else if (whichTable === "transactions") columns = transactionsColumns;
     else if (whichTable === "mccs") columns = mccsColumns;
     else if (whichTable === "cities") columns = citiesColumns;
@@ -551,7 +489,7 @@ const TableComponent = ({
     return (
         <Table
             columns={columns}
-            dataSource={whichTable === "users" ? data : datas}
+            dataSource={datas}
             pagination={false}
             size={size}
             sticky={{

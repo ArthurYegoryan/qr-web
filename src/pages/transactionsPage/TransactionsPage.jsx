@@ -163,7 +163,7 @@ const TransactionsPage = () => {
                    datas={transactions}
                    size="small"
                    windowHeight={windowHeight}
-                   minWidth={"1300px"}
+                   minWidth={"1400px"}
                    scrollX={true}
                    filterHandlers={filterHandlers} />
             <div className={`transactions-page-pagination`}>
