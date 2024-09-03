@@ -18,7 +18,7 @@ import { colors } from "../../../assets/styles/colors";
 import { paths } from "../../../constants/paths/paths";
 import { urls } from "../../../constants/urls/urls";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
@@ -31,6 +31,7 @@ const TransactionsSearchArea = ({
     isSearched,
     setIsSearched,
     transactionsSearchFields,
+    transactionsSortFields,
     transactionTypes, 
     statusCodes,
     setTransactions
@@ -63,6 +64,26 @@ const TransactionsSearchArea = ({
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
 
+    useEffect(() => {
+        setTransactionsSearchInfo({
+            ...transactionsSearchInfo,
+            order_by: transactionsSortFields?.order_by,
+            desc: transactionsSortFields?.desc
+        });
+    }, [transactionsSortFields]);
+
+    useEffect(() => {
+        if (
+            transactionsSearchInfo.order_by !== prevSearchInfo.order_by ||
+            transactionsSearchInfo.desc !== prevSearchInfo.desc
+        ) {
+            prevSearchInfo.order_by = transactionsSearchInfo.order_by;
+            prevSearchInfo.desc = transactionsSearchInfo.desc;
+
+            callForTransactionsSearchedData();
+        }
+    }, [transactionsSearchInfo]);
+
     const callForTransactionsSearchedData = () => {
         if (!transactionsSearchInfo.searchField) transactionsSearchInfo.searchField = null;
         if (!transactionsSearchInfo.transactionType_id) transactionsSearchInfo.transactionType_id = null;
@@ -85,7 +106,7 @@ const TransactionsSearchArea = ({
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, pageSize));
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, pageSize, transactionsSearchInfo.desc, response.data.total));
                     setIsSearchedTransactionsData(true);
                     setSearchedTransactionsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);

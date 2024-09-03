@@ -14,4 +14,7 @@ export const colors = {
     /* Login */
     loginBgColor: "#ceeced",          // very light blue  "#40CBE1"
     loginFailedColor: "#FF5757",      // red +-
+
+    /* Labels */
+    errorLabelColor: "#d32f2f"        // red
 };

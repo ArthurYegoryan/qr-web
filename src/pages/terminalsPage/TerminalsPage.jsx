@@ -128,6 +128,8 @@ const TerminalsPage = () => {
                    datas={makeObjFieldsToString(terminals)}
                    size="small"
                    windowHeight={windowHeight}
+                   minWidth={"1500px"}
+                   scrollBoth={true}
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);
                        setOpenCloseEditModal(true);

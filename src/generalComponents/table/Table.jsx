@@ -9,7 +9,11 @@ const TableComponent = ({
     banks,
     size = "normal",
     windowHeight,
-    scroll = true,
+    minWidth,
+    scrollBoth = false,
+    scrollX = false,
+    scrollY = false,
+    filterHandlers,
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
@@ -21,9 +25,9 @@ const TableComponent = ({
                 <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
                      alt="ID" 
                      style={{
-                        width: "20px"
+                         width: "20px"
                      }}
-                />
+                />               
             ),
             dataIndex: 'number',
             key: 'number',
@@ -168,49 +172,95 @@ const TableComponent = ({
     const transactionsColumns = [
         {
             title: (
-                <img src={process.env.PUBLIC_URL + 'img/sharp.svg'} 
-                     alt="ID" 
-                     style={{
-                        width: "20px"
-                     }}
-                />
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byId()}
+                    />
+                    &nbsp;&nbsp;<i>N</i>
+                </span>                
             ),
             dataIndex: 'number',
             key: 'number',
             width: "5px",
         },
         {
-            title: 'S/N',
+            title: "S/N",
             dataIndex: 'posTerminal',
             key: 'posTerminal',
             width: "20px",
         },
         {
-            title: 'Terminal ID',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byTerminalId()}
+                    />
+                    &nbsp;&nbsp;Terminal ID
+                </span>                
+            ),
             dataIndex: 'terminalId',
             key: 'terminalId',
             width: 10,
         },
         {
-            title: 'Merchant ID',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byMerchantId()}
+                    />
+                    &nbsp;&nbsp;Merchant ID
+                </span>                
+            ),
             dataIndex: 'merchantId',
             key: 'merchantId',
             width: 10,
         },
         {
-            title: 'RRN',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byRrn()}
+                    />
+                    &nbsp;&nbsp;RRN
+                </span>                
+            ),
             dataIndex: 'rrn',
             key: 'rrn',
             width: "6px",
         },
         {
             title: (
-                <img src={process.env.PUBLIC_URL + 'img/amount.svg'} 
-                     alt="Amount" 
-                     style={{
-                        width: "40px"
-                     }}
-                />
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byAmount()}
+                    />
+                    &nbsp;&nbsp;Amount
+                </span>                
             ),
             dataIndex: 'amount',
             key: 'amount',
@@ -507,10 +557,21 @@ const TableComponent = ({
             sticky={{
                 offsetHeader: 64,
             }}
-            scroll={scroll && {
-                scrollToFirstRowOnChange: true,
-                y: (windowHeight < 950) ? 450 : 650,
-            }}
+            scroll={
+                scrollBoth ? {
+                    scrollToFirstRowOnChange: true,
+                    y: (windowHeight < 950) ? 450 : 650,
+                    x: minWidth
+                } :
+                scrollX ? {
+                    scrollToFirstRowOnChange: true,
+                    x: minWidth
+                } : 
+                scrollY ? {
+                    scrollToFirstRowOnChange: true,
+                    y: (windowHeight < 950) ? 450 : 650,
+                } : null
+            }
         />
     );
 };

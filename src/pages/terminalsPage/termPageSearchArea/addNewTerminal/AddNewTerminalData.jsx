@@ -2,6 +2,7 @@ import "./AddNewTerminalData.css";
 import Button from "../../../../generalComponents/buttons/Button";
 import TextInput from "../../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../../generalComponents/inputFields/selectComponent/SelectComponent";
+import AutoCompleteSelect from "../../../../generalComponents/inputFields/autoCompleteSelect/AutoCompleteSelect";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
 import SuccessAnimation from "../../../../generalComponents/successAnimation/SuccessAnimation";
@@ -50,8 +51,6 @@ const AddNewTerminalData = ({
     const [ invalidMidError, setInvalidMidError ] = useState(false);
     const [ emptyPosTypeError, setEmptyPosTypeError ] = useState(false);
     const [ emptyMccError, setEmptyMccError ] = useState(false);
-    const [ invalidMccError, setInvalidMccError ] = useState(false);
-    const [ mccNotExistsError, setMccNotExistsError ] = useState(false);
     const [ emptyTaxError, setEmptyTaxError ] = useState(false);
     const [ invalidTaxError, setInvalidTaxError ] = useState(false);
     const [ emptyMerchantNameError, setEmptyMerchantNameError ] = useState(false);
@@ -80,8 +79,6 @@ const AddNewTerminalData = ({
         setInvalidMidError,
         setEmptyPosTypeError,
         setEmptyMccError,
-        setInvalidMccError,
-        setMccNotExistsError,
         setEmptyTaxError,
         setInvalidTaxError,
         setEmptyMerchantNameError,
@@ -191,20 +188,18 @@ const AddNewTerminalData = ({
                                                 posModel_id: evt.target.value
                                             });
                                         }} />
-                    <TextInput label={t("terminalsSection.mcc")}
-                                marginTop={"10px"}
-                                existsError={emptyMccError || invalidMccError || mccNotExistsError}
-                                errorText={
-                                    emptyMccError ? t("searchArea.emptyFieldError") :
-                                    invalidMccError ? t("terminalsSection.invalidMcc") : 
-                                    mccNotExistsError ? t("terminalsSection.mccNotExists") : null
-                                }
-                                onChangeHandler={(evt) => {
-                                    setNewTerminalData({
-                                        ...newTerminalData,
-                                        mcc_id: (evt.target.value).trim()
-                                    });
-                                }} />                    
+                    <AutoCompleteSelect label={t("terminalsSection.mcc")}
+                                        data={getFieldsArrayFromAllObjectsArray(mccs, "code")}
+                                        width={"223px"}
+                                        marginTop={"10px"}
+                                        existsError={emptyMccError}
+                                        errorText={t("searchArea.emptyFieldError")}
+                                        onChangeHandler={(evt) => {
+                                            setNewTerminalData({
+                                                ...newTerminalData,
+                                                mcc_id: evt.target.innerText
+                                            });
+                                        }} />
                 </div>
                 <div className="add-term-data-fields">
                     <TextInput label={t("terminalsSection.tax")}
@@ -268,16 +263,18 @@ const AddNewTerminalData = ({
                                 })} />
                 </div>
                 <div className="add-term-data-fields">
-                    <SelectComponent label={t("terminalsSection.merchantCity")}
-                                    chooseData={getFieldsArrayFromAllObjectsArray(cities, "name_am")}
-                                    existsError={emptyMerchantCityError}
-                                    errorText={t("searchArea.emptyFieldError")}
-                                    onChooseHandler={(evt) => {
-                                        setNewTerminalData({
-                                            ...newTerminalData,
-                                            city_id: evt.target.value
-                                        });
-                                    }} />
+                    <AutoCompleteSelect label={t("terminalsSection.merchantCity")}
+                                        data={getFieldsArrayFromAllObjectsArray(cities, "name_am")}
+                                        existsError={emptyMerchantCityError}
+                                        errorText={t("searchArea.emptyFieldError")}
+                                        width="340px"
+                                        onChangeHandler={(evt) => {
+                                            console.log(evt.target.innerText);
+                                            setNewTerminalData({
+                                                ...newTerminalData,
+                                                city_id: evt.target.innerText
+                                            });
+                                        }} />
                     <TextInput label={t("terminalsSection.merchantPhoneNumber")}
                                 marginTop={"10px"}
                                 width="340px"

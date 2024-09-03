@@ -16,6 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const TransactionsPage = () => {
+    const [ transactionsSortFields, setTransactionsSortFields ] = useState({
+        order_by: null,
+        desc: true,
+    });
     const [ transactions, setTransactions ] = useState([]);
     const [ transactionsPageCount, setTransactionsPageCount ] = useState(1);
     const [ transactionsPage, setTransactionsPage ] = useState(1);
@@ -39,7 +43,7 @@ const TransactionsPage = () => {
     else paginationLeftMarginClassname = "-close-menu";
 
     useEffect(() => {
-        if (!isSearchedTransactionsData) {
+        if (!isSearchedTransactionsData && transactionsPage === 1) {
             const interval = setInterval(() => {
                 setMakeCallForTransactions(!makeCallForTransactions);
             }, 60000);
@@ -56,7 +60,7 @@ const TransactionsPage = () => {
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPage, pageSize));
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPage, pageSize, transactionsSortFields.desc, response.data.total));
                     setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
@@ -109,6 +113,39 @@ const TransactionsPage = () => {
         }
     }, []);
 
+    const filterHandlers = {
+        byId: () => {
+            setTransactionsSortFields({
+                order_by: "id",
+                desc: transactionsSortFields.desc === true ? false : true,
+            });
+        },
+        byTerminalId: () => {
+            setTransactionsSortFields({
+                order_by: "terminalId",
+                desc: transactionsSortFields.desc === true ? false : true,
+            });
+        },
+        byMerchantId: () => {
+            setTransactionsSortFields({
+                order_by: "merchantId",
+                desc: transactionsSortFields.desc === true ? false : true,
+            });
+        },
+        byRrn: () => {
+            setTransactionsSortFields({
+                order_by: "rrn",
+                desc: transactionsSortFields.desc === true ? false : true,
+            });
+        },
+        byAmount: () => {
+            setTransactionsSortFields({
+                order_by: "amount",
+                desc: transactionsSortFields.desc === true ? false : true,
+            });
+        }
+    }
+
     return (
         <div className="transactions-page-area">
             <TransactionsSearchArea pageSize={pageSize}
@@ -119,12 +156,16 @@ const TransactionsPage = () => {
                                     isSearched={isSearched}
                                     setIsSearched={setIsSearched}
                                     transactionsSearchFields={transactionsSearchFields}
+                                    transactionsSortFields={transactionsSortFields}
                                     transactionTypes={transactionTypes}
                                     statusCodes={statusCodes} />
             <Table whichTable={"transactions"}
                    datas={transactions}
                    size="small"
-                   windowHeight={windowHeight} />
+                   windowHeight={windowHeight}
+                   minWidth={"1300px"}
+                   scrollX={true}
+                   filterHandlers={filterHandlers} />
             <div className={`transactions-page-pagination`}>
                 <PaginationComponent pageCount={!isSearchedTransactionsData ? transactionsPageCount : searchedTransactionsPageCount}
                                      setPage={!isSearchedTransactionsData ? setTransactionsPage : setTransactionsPageForSearch}
