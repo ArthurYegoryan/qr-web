@@ -1,13 +1,15 @@
 import "./DeleteTerminalData.css";
 import Button from "../../../generalComponents/buttons/Button";
 import SuccessAnimation from "../../../generalComponents/successAnimation/SuccessAnimation";
+import Loader from "../../../generalComponents/loaders/Loader";
 import { putDataApi } from "../../../apis/putDataApi";
+import { refreshTokenMakeCall } from "../../../utils/helpers/refreshTokenMakeCall";
 import { urls } from "../../../constants/urls/urls";
 import { paths } from "../../../constants/paths/paths";
 import { colors } from "../../../assets/styles/colors";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useTranslation } from "react-i18next";
 
@@ -17,12 +19,16 @@ const DeleteTerminalData = ({
     isTermDataDeleted,
     onCloseHandler 
 }) => {
+    const [ showLoading, setShowLoading ] = useState(false);
     const [ showSuccessAnimation, setShowSuccessAnimation ] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
     const onDeleteClickHandler = async () => {
+        setShowLoading(true);
         const response = await putDataApi(urls.CLOSE_TERMINAL_URL + `${terminal.id}`);
+        setShowLoading(false);
 
         if (response.status === 200) {
             setIsTermDataDeleted(!isTermDataDeleted);
@@ -31,10 +37,37 @@ const DeleteTerminalData = ({
                 onCloseHandler();
             }, 2500);
         } else if (response.status === 401) {
-            localStorage.clear();
-            dispatch(editToken(""));
-    
-            <Navigate to={paths.LOGIN} />;
+            setShowLoading(true);
+            const response = await refreshTokenMakeCall(
+                setShowLoading, 
+                [ putDataApi ], 
+                [urls.CLOSE_TERMINAL_URL + `${terminal.id}`],
+                true
+            );
+            setShowLoading(false);
+
+            if (response.callsResponses.length) {
+                dispatch(editToken(response.responseRefreshToken.data.access_token));
+                localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                if (response.callsResponses[0].status === 200) {
+                    setIsTermDataDeleted(!isTermDataDeleted);
+                    setShowSuccessAnimation(true);
+                    setTimeout(() => {
+                        onCloseHandler();
+                    }, 2500);
+                } else if (response.callsResponses[0].status === 401) {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+            
+                    navigate(paths.LOGIN);
+                }
+            } else {
+                localStorage.clear();
+                dispatch(editToken(""));
+        
+                navigate(paths.LOGIN);
+            }
         }
     };
 
@@ -55,6 +88,9 @@ const DeleteTerminalData = ({
             </div>
             {showSuccessAnimation &&
                 <SuccessAnimation />
+            }
+            {showLoading &&
+                <Loader />
             }
         </div>
     )

@@ -53,6 +53,7 @@ const LoginForm = () => {
 
                 if (response.status === 200) {
                     localStorage.setItem("token", response.data.access_token);
+                    localStorage.setItem("refresh_token", response.data.refresh_token);
                     localStorage.setItem("username", loginParams.username);
                     localStorage.setItem("role", "bank");
 

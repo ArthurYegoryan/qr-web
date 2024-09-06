@@ -8,13 +8,14 @@ import ErrorModalBody from "../../../../generalComponents/modalComponent/errorMo
 import SuccessAnimation from "../../../../generalComponents/successAnimation/SuccessAnimation";
 import Loader from "../../../../generalComponents/loaders/Loader";
 import { postDataApi } from "../../../../apis/postDataApi";
+import { refreshTokenMakeCall } from "../../../../utils/helpers/refreshTokenMakeCall";
 import { getFieldsArrayFromAllObjectsArray } from "../../../../utils/helpers/getFieldsArrayFromAllObjectsArray";
 import { colors } from "../../../../assets/styles/colors";
 import { useState } from "react";
 import { urls } from "../../../../constants/urls/urls";
 import { paths } from "../../../../constants/paths/paths";
 import { editToken } from "../../../../redux/slices/authorization/authSlice";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { checkFieldsValidation } from "../../../../utils/fieldsValidations/checkTermDataFieldsValidation";
@@ -67,6 +68,7 @@ const AddNewTerminalData = ({
     const [ openCloseSuccessModal, setOpenCloseSuccessModal ] = useState(false);
     const [ openCloseErrorModal, setOpenCloseErrorModal ] = useState(false);
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -130,10 +132,40 @@ const AddNewTerminalData = ({
             } else if (response.status === 409) {
                 setTerminalExistsError(true);
             } else if (response.status === 401) {
-                localStorage.clear();
-                dispatch(editToken(""));
+                setShowLoading(true);
+                const response = await refreshTokenMakeCall(
+                    setShowLoading, 
+                    [ postDataApi ], 
+                    [urls.ADD_NEW_TERMINAL_URL],
+                    true,
+                    terminalDataForCall
+                );
+                setShowLoading(false);
 
-                <Navigate to={paths.LOGIN} />;
+                if (response.callsResponses.length) {
+                    dispatch(editToken(response.responseRefreshToken.data.access_token));
+                    localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                    if (response.callsResponses[0].status === 201) {
+                        setIsTermDataChanged(!isTermDataChanged);
+                        setOpenCloseSuccessModal(true);
+                        setTimeout(() => {
+                            onCloseHandler();
+                        }, 3000);
+                    } else if (response.callsResponses[0].status === 409) {
+                        setTerminalExistsError(true);
+                    } else if (response.callsResponses[0].status === 401) {
+                        localStorage.clear();
+                        dispatch(editToken(""));
+                
+                        navigate(paths.LOGIN);
+                    }
+                } else {
+                    localStorage.clear();
+                    dispatch(editToken(""));
+            
+                    navigate(paths.LOGIN);
+                }
             } else {
                 throw Error("Connection error!");
             }
@@ -269,7 +301,6 @@ const AddNewTerminalData = ({
                                         errorText={t("searchArea.emptyFieldError")}
                                         width="340px"
                                         onChangeHandler={(evt) => {
-                                            console.log(evt.target.innerText);
                                             setNewTerminalData({
                                                 ...newTerminalData,
                                                 city_id: evt.target.innerText

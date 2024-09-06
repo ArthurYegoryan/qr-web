@@ -7,6 +7,7 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
+import { refreshTokenMakeCall } from "../../utils/helpers/refreshTokenMakeCall";
 import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 import { changeTerminalsFieldsForView } from "../../utils/helpers/changeTerminalsFieldsForView";
 import { urls } from "../../constants/urls/urls";
@@ -66,14 +67,50 @@ const TerminalsPage = () => {
                     dispatch(savePaymentSystems(responsePaymentSystems.data));
                     dispatch(saveCities(responseCities.data));
                     dispatch(saveMccs(responseMcc.data));                    
-                } else if (responseCities.status === 401 ||
-                           responseMcc.status === 401 ||
-                           responsePosModels.status === 401 ||
-                           responsePaymentSystems.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    navigate(paths.LOGIN);
+                } else if (
+                    responseCities.status === 401 ||
+                    responseMcc.status === 401 ||
+                    responsePosModels.status === 401 ||
+                    responsePaymentSystems.status === 401
+                ) {
+                    const responses = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [
+                            getDataApi,
+                            getDataApi,
+                            getDataApi,
+                            getDataApi,
+                        ],
+                        [
+                            urls.CITIES_URL,
+                            urls.MCC_URL,
+                            urls.POS_MODELS_URL,
+                            urls.PAY_SYS_URL
+                        ]
+                    );
+
+                    if (responses.callsResponses.length) {
+                        dispatch(editToken(responses.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", responses.responseRefreshToken.data.access_token);
+
+                        let allCallsIsOK = true;
+
+                        responses.callsResponses.map((callResponse) => {
+                            if (callResponse.status !== 200) allCallsIsOK = false;
+                        });
+
+                        if (allCallsIsOK) {
+                            dispatch(saveCities(responses.callsResponses[0].data));
+                            dispatch(saveMccs(responses.callsResponses[1].data));
+                            dispatch(savePosModels(responses.callsResponses[2].data));
+                            dispatch(savePaymentSystems(responses.callsResponses[3].data));
+                        } else {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw Error("Terminals data error!");
                 }
@@ -98,10 +135,23 @@ const TerminalsPage = () => {
                     setTerminalsPageCount(response.data.pages);
                     setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    navigate(paths.LOGIN);
+                    const response = await refreshTokenMakeCall(setShowLoading, [ getDataApi ], [urls.TERMINALS_URL + `?page=${terminalsPage}&size=${pageSize}`]);
+
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTerminals(changeTerminalsFieldsForView(response.callsResponses[0].data.items, terminalsPage, pageSize));
+                            setTerminalsPageCount(response.callsResponses[0].data.pages);
+                            setIsSearchedTerminalsData(false);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw new Error("Connection error!");
                 }
