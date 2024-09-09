@@ -4,6 +4,7 @@ import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import TransactionsSearchArea from "./transactionsSearchArea/TransactionsSearchArea";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
+import { refreshTokenMakeCall } from "../../utils/helpers/refreshTokenMakeCall";
 import { transactionsSearchFields } from "../../constants/tableFields/transactionsSearchFields";
 import { changeTransactionsFieldsForView } from "../../utils/helpers/changeTransactionsFieldsForView";
 import { editToken } from "../../redux/slices/authorization/authSlice";
@@ -64,10 +65,23 @@ const TransactionsPage = () => {
                     setTransactionsPageCount(response.data.pages);
                     setIsSearchedTransactionsData(false);
                 } else if (response.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    navigate(paths.LOGIN);
+                    const response = await refreshTokenMakeCall(setShowLoading, [ getDataApi ], [urls.TRANSACTIONS_URL + `?page=${transactionsPage}&size=${pageSize}`]);
+
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTransactions(changeTransactionsFieldsForView(response.callsResponses[0].data.items, transactionsPage, pageSize));
+                            setTransactionsPageCount(response.callsResponses[0].data.pages);
+                            setIsSearchedTransactionsData(false);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw new Error("Connection error!");
                 }                
@@ -99,10 +113,34 @@ const TransactionsPage = () => {
                     responseTransactionTypes.status === 401 || 
                     responseStatusCodes.status === 401
                 ) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    navigate(paths.LOGIN);
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ getDataApi, getDataApi ], 
+                        [urls.TRANSACTION_TYPES_URL, urls.STATUS_CODES_URL]);
+
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        let allCallsIsOK = true;
+
+                        response.callsResponses.map((callResponse) => {
+                            if (callResponse.status !== 200) allCallsIsOK = false;
+                        });
+
+                        if (allCallsIsOK) {
+                            setTransactionTypes(response.callsResponses[0].data);
+                            setStatusCodes(response.callsResponses[1].data);
+
+                            dispatch(saveTransactionTypes(response.callsResponses[0].data));
+                            dispatch(saveStatusCodes(response.callsResponses[1].data));
+                        } else {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw new Error("Connection error!");
                 }                

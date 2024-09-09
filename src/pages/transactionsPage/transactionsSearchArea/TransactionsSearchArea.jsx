@@ -13,6 +13,7 @@ import { getStatusCodesList } from "../../../utils/helpers/getStatusCodesList";
 import { changeTransactionsFieldsForView } from "../../../utils/helpers/changeTransactionsFieldsForView";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
+import { refreshTokenMakeCall } from "../../../utils/helpers/refreshTokenMakeCall";
 import { exportDataApi } from "../../../apis/exportDataApi";
 import { colors } from "../../../assets/styles/colors";
 import { paths } from "../../../constants/paths/paths";
@@ -106,15 +107,37 @@ const TransactionsSearchArea = ({
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, pageSize, transactionsSearchInfo.desc, response.data.total));
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, 
+                        pageSize, transactionsSearchInfo.desc, response.data.total));
                     setIsSearchedTransactionsData(true);
                     setSearchedTransactionsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
-                    dispatch(editToken(""));
-                    localStorage.clear();
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ postDataApi ], 
+                        [urls.SEARCH_TRANSACTIONS_URL + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams],
+                        true,
+                        searchParams
+                    );
 
-                    navigate(paths.LOGIN);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTransactions(changeTransactionsFieldsForView(response.callsResponses[0].data.items, 
+                                transactionsPageForSearch, pageSize, transactionsSearchInfo.desc, response.callsResponses[0].data.total));
+                            setIsSearchedTransactionsData(true);
+                            setSearchedTransactionsPageCount(response.callsResponses[0].data.pages);
+                            setCurrentSearchPage(response.callsResponses[0].data.page);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log("Error: ", err);
@@ -238,7 +261,7 @@ const TransactionsSearchArea = ({
                                         showIcon
                                         showTimeSelect
                                         timeIntervals={15}
-                                        minDate={"06.01.2024"}
+                                        minDate={"05.01.2024"}
                                         maxDate={Date.now()}
                                         showYearDropdown
                                         selected={transactionsSearchInfo.startDate}
@@ -255,7 +278,7 @@ const TransactionsSearchArea = ({
                                         showIcon
                                         showTimeSelect
                                         timeIntervals={15}
-                                        minDate={"06.01.2024"}
+                                        minDate={"05.01.2024"}
                                         maxDate={Date.now()}
                                         showYearDropdown
                                         selected={transactionsSearchInfo.endDate}

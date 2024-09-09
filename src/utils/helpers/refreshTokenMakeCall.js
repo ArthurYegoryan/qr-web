@@ -30,8 +30,6 @@ export const refreshTokenMakeCall = async (
                     }
                 );
     
-                console.log("Response call method: ", response);
-    
                 callsResponses.push(response);
             } else {
                 const response = await callMethods[i](
