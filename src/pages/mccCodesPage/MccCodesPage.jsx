@@ -5,6 +5,8 @@ import Pagination from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { addNumeration } from "../../utils/helpers/addNumeration";
 import { getDataApi } from "../../apis/getDataApi";
+import { refreshTokenMakeCall } from "../../utils/helpers/refreshTokenMakeCall";
+import { paths } from "../../constants/paths/paths";
 import { urls } from "../../constants/urls/urls";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useState, useEffect } from "react";
@@ -45,10 +47,25 @@ const MccCodesPage = () => {
                 if (responseMccs.status === 200) {
                     setMccCodesAll(responseMccs.data);
                 } else if (responseMccs.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ getDataApi ], 
+                        [urls.MCC_URL]
+                    );
 
-                    navigate(urls.LOGIN_URL);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setMccCodesAll(response.callsResponses[0].data);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log(err);
@@ -70,10 +87,27 @@ const MccCodesPage = () => {
                     setMccCodesCurrentPage(responseMccPage.data.page);
                     setIsSearchedMccsData(false);
                 } else if (responseMccPage.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ getDataApi ], 
+                        [urls.MCC_PAGE_URL + `?page=${mccCodesCurrentPage}&size=${pageSize}`]);
 
-                    navigate(urls.LOGIN_URL);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setMccCodes(addNumeration(response.callsResponses[0].data.items, mccCodesCurrentPage, pageSize));
+                            setMccCodesPageCount(response.callsResponses[0].data.pages);
+                            setMccCodesCurrentPage(response.callsResponses[0].data.page);
+                            setIsSearchedMccsData(false);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log(err);
