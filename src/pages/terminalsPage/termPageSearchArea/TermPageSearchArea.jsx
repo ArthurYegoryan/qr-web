@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { terminalsSearchFields } from "../../../constants/tableFields/terminalsSearchFields";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { changeTerminalsFieldsForView } from "../../../utils/helpers/changeTerminalsFieldsForView";
+import { refreshTokenMakeCall } from "../../../utils/helpers/refreshTokenMakeCall";
 import { postDataApi } from "../../../apis/postDataApi";
 import { exportDataApi } from "../../../apis/exportDataApi";
 import { colors } from "../../../assets/styles/colors";
@@ -74,10 +75,30 @@ const TermPageSearchArea = ({
                     setSearchedTerminalsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
-                    dispatch(editToken(""));
-                    localStorage.clear();
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ postDataApi ], 
+                        [urls.SEARCH_TERMINALS_URL + `?page=${terminalsPageForSearch}&size=${pageSize}`, searchParams],
+                        true,
+                        searchParams
+                    );
 
-                    navigate(paths.LOGIN);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTerminals(changeTerminalsFieldsForView(response.callsResponses[0].data.items, terminalsPageForSearch, pageSize));
+                            setIsSearchedTerminalsData(true);
+                            setSearchedTerminalsPageCount(response.callsResponses[0].data.pages);
+                            setCurrentSearchPage(response.callsResponses[0].data.page);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log("Error: ", err);
