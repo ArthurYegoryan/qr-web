@@ -116,7 +116,7 @@ const TransactionsSearchArea = ({
                     const response = await refreshTokenMakeCall(
                         setShowLoading, 
                         [ postDataApi ], 
-                        [urls.SEARCH_TRANSACTIONS_URL + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams],
+                        [urls.SEARCH_TRANSACTIONS_URL + `?page=${transactionsPageForSearch}&size=${pageSize}`],
                         true,
                         searchParams
                     );

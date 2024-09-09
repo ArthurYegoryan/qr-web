@@ -57,7 +57,7 @@ const CitiesPage = () => {
                         localStorage.setItem("token", response.responseRefreshToken.data.access_token);
 
                         if (response.callsResponses[0].status === 200) {
-                            setCitiesAll(responseCities.data);
+                            setCitiesAll(response.callsResponses[0].data);
                         } else if (response.callsResponses[0].status === 401) {
                             localStorage.clear();
                             dispatch(editToken(""));
