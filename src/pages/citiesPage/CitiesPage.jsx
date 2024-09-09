@@ -5,6 +5,8 @@ import Pagination from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { addNumeration } from "../../utils/helpers/addNumeration";
 import { getDataApi } from "../../apis/getDataApi";
+import { refreshTokenMakeCall } from "../../utils/helpers/refreshTokenMakeCall";
+import { paths } from "../../constants/paths/paths";
 import { urls } from "../../constants/urls/urls";
 import { editToken } from "../../redux/slices/authorization/authSlice";
 import { useState, useEffect } from "react";
@@ -45,10 +47,24 @@ const CitiesPage = () => {
                 if (responseCities.status === 200) {
                     setCitiesAll(responseCities.data);
                 } else if (responseCities.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ getDataApi ], 
+                        [urls.CITIES_URL]);
 
-                    navigate(urls.LOGIN_URL);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setCitiesAll(responseCities.data);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log(err);
@@ -70,10 +86,27 @@ const CitiesPage = () => {
                     setCitiesCurrentPage(response.data.page);
                     setIsSearchedCitiesData(false);
                 } else if (response.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ getDataApi ], 
+                        [urls.CITIES_PAGE_URL + `?page=${citiesCurrentPage}&size=${pageSize}`]);
 
-                    navigate(urls.LOGIN_URL);
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setCities(addNumeration(response.callsResponses[0].data.items, citiesCurrentPage, pageSize));
+                            setCitiesPageCount(response.callsResponses[0].data.pages);
+                            setCitiesCurrentPage(response.callsResponses[0].data.page);
+                            setIsSearchedCitiesData(false);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log(err);
