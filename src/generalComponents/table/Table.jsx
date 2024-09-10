@@ -41,11 +41,11 @@ const TableComponent = ({
             title: 'S/N',
             dataIndex: 'serial_number',
             key: 'serial_number',
-            width: "15px",
+            width: "20px",
             ellipsis: true,
             render: (value) => {
                 return value.trim() && (
-                    <Typography.Text style={{ maxWidth: 80 }} ellipsis copyable>
+                    <Typography.Text style={{ maxWidth: 140, minWidth: 140 }} ellipsis copyable>
                         {value.trim()}
                     </Typography.Text>
                 )
