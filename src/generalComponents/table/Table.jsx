@@ -42,14 +42,6 @@ const TableComponent = ({
             dataIndex: 'serial_number',
             key: 'serial_number',
             width: "20px",
-            ellipsis: true,
-            render: (value) => {
-                return value.trim() && (
-                    <Typography.Text style={{ maxWidth: 140, minWidth: 140 }} ellipsis copyable>
-                        {value.trim()}
-                    </Typography.Text>
-                )
-            }
         },
         {
             title: 'MCC',
@@ -110,7 +102,7 @@ const TableComponent = ({
             ellipsis: true,
             render: (value) => {
                 return value.trim() && (
-                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                    <Typography.Text style={{ maxWidth: 120, minWidth: 120 }} ellipsis copyable>
                         {value.trim()}
                     </Typography.Text>
                 )
@@ -143,7 +135,7 @@ const TableComponent = ({
             ellipsis: true,
             render: (value) => {
                 return value.trim() && (
-                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                    <Typography.Text style={{ maxWidth: 120, minWidth: 120 }} ellipsis copyable>
                         {value.trim()}
                     </Typography.Text>
                 )
