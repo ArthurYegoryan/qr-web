@@ -9,7 +9,11 @@ i18n
     .use(initReactI18next)
     .init({
         debug: false,
+        // lng: "am",
         fallbackLang: "am",
+        // backend: {
+        //     loadPath: 'locales/am/translation.json'
+        // }
     });
 
 i18n.changeLanguage("am");

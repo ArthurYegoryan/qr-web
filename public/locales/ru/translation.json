@@ -2,17 +2,26 @@
     "generalMessages": {
         "willBeAvailableSoon": "Скоро будет доступно!"
     },
+    "generalErrors": {
+        "connectionError": "Ошибка подключения, пожалуйста, повторите попытку!"
+    },
     "questions": {
-        "doYouWantDelete": "Вы хотите удалить"
+        "doYouWantToInactivate": "Вы хотите деактивировать с"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "серийным номером данные терминала?"
     },
     "operations": {
         "delete": "Удалить",
         "cancel": "Отменить",
-        "close": "Закрыть"
+        "close": "Закрыть",
+        "inactivate": "Деактивировать"
     },
     "nav": {
         "terminals": "Терминалы",
         "transactions": "Транзакции",
+        "mccCodes": "MCC коды",
+        "cities": "Города",
         "users": "Пользователи",
         "banks": "Банки"
     },
@@ -28,15 +37,18 @@
         "region": "Регион",
         "merchantAddress": "Адрес торговой точки (английском)",
         "merchantAddressAm": "Адрес торговой точки (армянском)",
-        "merchantCity": "Город торговой точки (английском)",
-        "merchantCityAm": "Город торговой точки (армянском)",
+        "merchantCity": "Город торговой точки",
         "merchantPhoneNumber": "Номер телефона торговой точки",
         "merchantWebPage": "Веб-сайт торговой точки",
         "merchantEmail": "Адрес эл. почты торговой точки",
         "paymentSystem": "Платежная система",
-        "invalidSerial": "Неверный серийный номер",
-        "invalidTid": "Неверный Terminal ID",
-        "invalidMid": "Неверный Merchant ID"
+        "invalidSerial": "Должен содержать заглавные буквы или цифры на латыни и иметь длину от 8 до 24",
+        "invalidTid": "Должен содержать только цифры и иметь длину ровно 8",
+        "invalidMid": "Должен содержать только цифры и иметь длину от 8 до 15",
+        "invalidMcc": "Должен содержать только цифры и иметь длину ровно 4",
+        "mccNotExists": "Указанный MCC не существует",
+        "invalidTax": "Должен содержать только цифры и иметь длину ровно 8",
+        "terminalAlreadyExists": "Терминал с заданным серийным номером существует и активен!"
     },
     "userSection": {
         "userData": "данные пользователя?",
@@ -60,16 +72,16 @@
         "wrongUsernamePassword": "Неверное имя пользователя или пароль",
         "wrongUsernameEmail": "Неверное имя пользователя или адрес электронной почты",
         "usernameLengthError": "Имя пользователя должно содержать не менее 3 символов",
+        "longFieldError": "Должен содержать не более 99 символов",
         "logout": "Выходить"
     },
     "searchArea": {
         "searchBy": "Поиск по",
         "searchData": "Данные для поиска",
         "chooseTrxType": "Выберите тип транзакции",
-        "startDate": "Дата начала",
-        "startTime": "Время начала",
-        "endDate": "Дата окончания",
-        "endTime": "Время окончания",
+        "chooseTrxStatus": "Выберите статус транзакции",
+        "startDate": "Начало",
+        "endDate": "Конец",
         "searchBtn": "Поиск",
         "emptyFieldError": "Заполните поле"
     },
@@ -86,8 +98,8 @@
         "changeTerminalData": "Изменить данные терминала",
         "saveBtn": "Сохранить"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Удалить данные терминала"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Деактивировать данные терминала"
     },
     "trxTypes": {
         "all": "Все",
@@ -121,5 +133,11 @@
         "onlyArmenian": "Должно быть только на армянском языке",
         "onlyRussian": "Должно быть только на русском языке",
         "onlyEnglish": "Должно быть только на английском языке"
+    },
+    "mccsSection": {
+        "mccCode": "MCC код"
+    },
+    "citiesSection": {
+        "city": "Город"
     }
 }

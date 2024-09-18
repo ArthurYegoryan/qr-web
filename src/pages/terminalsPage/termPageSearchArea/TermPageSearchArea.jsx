@@ -4,22 +4,27 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import WillBeSoonModalBody from "../../../generalComponents/modalComponent/willBeSoonModalBody/WillBeSoonModalBody";
 import Loader from "../../../generalComponents/loaders/Loader";
 import AddNewTerminalData from "./addNewTerminal/AddNewTerminalData";
 import SearchIcon from '@mui/icons-material/Search';
 import { terminalsSearchFields } from "../../../constants/tableFields/terminalsSearchFields";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
+import { changeTerminalsFieldsForView } from "../../../utils/helpers/changeTerminalsFieldsForView";
+import { refreshTokenMakeCall } from "../../../utils/helpers/refreshTokenMakeCall";
 import { postDataApi } from "../../../apis/postDataApi";
+import { exportDataApi } from "../../../apis/exportDataApi";
+import { colors } from "../../../assets/styles/colors";
 import { urls } from "../../../constants/urls/urls";
+import { paths } from "../../../constants/paths/paths";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
 const TermPageSearchArea = ({ 
-    windowHeight,
+    pageSize,
     terminalsPageForSearch,
     setIsSearchedTerminalsData,
     setSearchedTerminalsPageCount,
@@ -29,7 +34,7 @@ const TermPageSearchArea = ({
     setIsTermDataChanged,
     isTermDataChanged
 }) => {
-    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
     const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ currentSearchField, setCurrentSearchField ] = useState("");
     const [ terminalsSearchInfo, setTerminalsSearchInfo ] = useState({
@@ -40,11 +45,11 @@ const TermPageSearchArea = ({
     const [ showLoading, setShowLoading ] = useState(false);
     const [ isOpenErrorModal, setIsOpenErrorModal ] = useState(false);
     const [ isOpenAddTermModal, setIsOpenAddTermModal ] = useState(false);
-    const [ openCloseWillBeSoonModal, setOpenCloseWillBeSoonModal ] = useState(false);
     const [ prevSearchInfo, setPrevSearchInfo ] = useState({...terminalsSearchInfo});
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
-
+    const [ showConnectionError, setShowConnectionError ] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -61,19 +66,39 @@ const TermPageSearchArea = ({
             try {
                 setShowLoading(true);
                 const response = await postDataApi(urls.SEARCH_TERMINALS_URL + 
-                                        `?page=${terminalsPageForSearch}&size=${(windowHeight < 950) ? 7 : 10}`, searchParams);
+                                        `?page=${terminalsPageForSearch}&size=${pageSize}`, searchParams);
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(response.data.items);
+                    setTerminals(changeTerminalsFieldsForView(response.data.items, terminalsPageForSearch, pageSize));
                     setIsSearchedTerminalsData(true);
-                    setSearchedTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setSearchedTerminalsPageCount(response.data.pages);
                     setCurrentSearchPage(response.data.page);
                 } else if (response.status === 401) {
-                    dispatch(editToken(""));
-                    localStorage.clear();
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ postDataApi ], 
+                        [urls.SEARCH_TERMINALS_URL + `?page=${terminalsPageForSearch}&size=${pageSize}`, searchParams],
+                        true,
+                        searchParams
+                    );
 
-                    window.location.reload()
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTerminals(changeTerminalsFieldsForView(response.callsResponses[0].data.items, terminalsPageForSearch, pageSize));
+                            setIsSearchedTerminalsData(true);
+                            setSearchedTerminalsPageCount(response.callsResponses[0].data.pages);
+                            setCurrentSearchPage(response.callsResponses[0].data.page);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 }
             } catch (err) {
                 console.log("Error: ", err);
@@ -85,6 +110,15 @@ const TermPageSearchArea = ({
     if (terminalsPageForSearch !== currentSearchPage) {
         setCurrentSearchPage(terminalsPageForSearch);
         callForTerminalsSearchedData();
+    }
+
+    const onCliCkExportBtn = async () => {
+        setShowConnectionError(false);
+        try {
+            await exportDataApi(urls.EXPORT_TERMINALS_URL)
+        } catch (err) {
+            setShowConnectionError(true);
+        }
     }
 
     return (
@@ -146,17 +180,15 @@ const TermPageSearchArea = ({
                             height="30px"
                             marginTop="5px"
                             marginLeft="10px" 
-                            onClickHandler={() => {
-                                setOpenCloseWillBeSoonModal(true);
-                            }} />
+                            onClickHandler={onCliCkExportBtn} />
                 </div>
-                {/* {(role === "admin" || role === "bank") &&
+                {(role === "admin" || role === "bank") &&
                     <div className="terminals-page-add-new-term">
                         <Button label={t("addNewTerminal.addNewTerminal")}
                                 marginTop="5px" 
                                 onClickHandler={() => setIsOpenAddTermModal(true)} />
                     </div>
-                } */}
+                }
             </div>
             {isOpenAddTermModal &&
                 <ModalComponent onCloseHandler={() => setIsOpenAddTermModal(false)} 
@@ -176,11 +208,10 @@ const TermPageSearchArea = ({
                                 bgcolor="red" 
                 />
             }
-            {openCloseWillBeSoonModal &&
-                <ModalComponent onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} 
-                                isOpen={openCloseWillBeSoonModal} 
-                                title={t("export.export")}
-                                body={<WillBeSoonModalBody onCloseHandler={() => setOpenCloseWillBeSoonModal(false)} />} />      
+            {showConnectionError &&
+                <p style={{ color: colors.loginFailedColor, marginTop: 0 }} className="terminals-page-search-export-error-text">
+                    {t("generalErrors.connectionError")}
+                </p>
             }
             {showLoading &&
                 <Loader />

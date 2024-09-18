@@ -4,7 +4,7 @@ import TextInput from "../../../../generalComponents/inputFields/textInputCompon
 import CheckBoxLabels from "../../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
+// import SuccessModalBody from "../../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import addNewBank from "../../../../testApis/addNewBank";
 import { checkFieldsValidation } from "../../../../utils/fieldsValidations/checkBankDataFieldsValidation";
 import { resetPrevValidations } from "../../../../utils/fieldsValidations/resetPrevValidations";
@@ -178,9 +178,9 @@ const AddNewTerminalData = ({
                     />
                 </div>
             </div>
-            {openCloseSuccessModal &&
+            {/* {openCloseSuccessModal &&
                 <SuccessModalBody />
-            }
+            } */}
             {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                                 isOpen={true}

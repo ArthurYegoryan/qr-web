@@ -2,17 +2,26 @@
     "generalMessages": {
         "willBeAvailableSoon": "Շուտով հասանելի կլինի!"
     },
+    "generalErrors": {
+        "connectionError": "Կապի խնդիր, կրկին փորձեք!"
+    },
     "questions": {
-        "doYouWantDelete": "Դուք ցանկանու՞մ եք ջնջել"
+        "doYouWantToInactivate": "Դուք ցանկանու՞մ եք ապաակտիվացնել"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "սերիալ համարով տերմինալի տվյալները:"
     },
     "operations": {
         "delete": "Ջնջել",
         "cancel": "Չեղարկել",
-        "close": "Փակել"
+        "close": "Փակել",
+        "inactivate": "Ապաակտիվացնել"
     },
     "nav": {
         "terminals": "Տերմինալներ",
         "transactions": "Գործարքներ",
+        "mccCodes": "MCC կոդեր",
+        "cities": "Քաղաքներ",
         "users": "Օգտագործողներ",
         "banks": "Բանկեր"
     },
@@ -28,15 +37,18 @@
         "region": "Մարզ",
         "merchantAddress": "Վաճառակետի հասցե (լատինատառ)",
         "merchantAddressAm": "Վաճառակետի հասցե (հայատառ)",
-        "merchantCity": "Վաճառակետի քաղաք (լատինատառ)",
-        "merchantCityAm": "Վաճառակետի քաղաք (հայատառ)",
+        "merchantCity": "Վաճառակետի քաղաք",
         "merchantPhoneNumber": "Վաճառակետի հեռախոսահամար",
         "merchantWebPage": "Վաճառակետի վեբ կայք",
         "merchantEmail": "Վաճառակետի էլ. հասցե",
         "paymentSystem": "Վճարային համակարգ",
-        "invalidSerial": "Անվավեր սերիական համար",
-        "invalidTid": "Անվավեր Terminal ID",
-        "invalidMid": "Անվավեր Merchant ID"
+        "invalidSerial": "Պետք է պարունակի լատիներեն մեծատառ տառեր կամ թվեր և ունենա 8-ից 24 երկարություն",
+        "invalidTid": "Պետք է պարունակի միայն թվեր և ունենա ճիշտ 8 երկարություն",
+        "invalidMid": "Պետք է պարունակի միայն թվեր և ունենա 8-ից 15 երկարություն",
+        "invalidMcc": "Պետք է պարունակի միայն թվեր և ունենա ճիշտ 4 երկարություն",
+        "mccNotExists": "Տվյալ MCC-ն գոյություն չունի",
+        "invalidTax": "Պետք է պարունակի միայն թվեր և ունենա ճիշտ 8 երկարություն",
+        "terminalAlreadyExists": "Տվյալ սերիական համարով տերմինալը գոյություն ունի և ակտիվ է!"
     },
     "userSection": {
         "userData": "օգտատիրոջ տվյալները",
@@ -60,16 +72,16 @@
         "wrongUsernamePassword": "Սխալ մուտքանուն կամ գաղտնաբառ",
         "wrongUsernameEmail": "Սխալ մուտքանուն կամ էլ. հասցե",
         "usernameLengthError": "Մուտքանունը պետք է պարունակի նվազագույնը 3 նիշ",
+        "longFieldError": "Պետք է պարունակի առավելագույնը 99 նիշ",
         "logout": "Դուրս գալ"
     },
     "searchArea": {
         "searchBy": "Որոնում ըստ",
         "searchData": "Որոնման տվյալ",
         "chooseTrxType": "Ընտրել գործարքի տեսակը",
-        "startDate": "Սկզբի ամսաթիվ",
-        "startTime": "Սկզբի ժամանակ",
-        "endDate": "Ավարտի ամսաթիվ",
-        "endTime": "Ավարտի ժամանակ",
+        "chooseTrxStatus": "Ընտրել գործարքի կարգավիճակը",
+        "startDate": "Սկիզբ",
+        "endDate": "Ավարտ",
         "searchBtn": "Որոնել",
         "emptyFieldError": "Լրացրեք դաշտը"
     },
@@ -86,8 +98,8 @@
         "changeTerminalData": "Փոփոխել տերմինալի տվյալները",
         "saveBtn": "Պահպանել"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Ջնջել տերմինալի տվյալները"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Ապաակտիվացնել տերմինալի տվյալները"
     },
     "trxTypes": {
         "all": "Ամբողջը",
@@ -121,5 +133,11 @@
         "onlyArmenian": "Պետք է լինի միայն հայերեն",
         "onlyRussian": "Պետք է լինի միայն ռուսերեն",
         "onlyEnglish": "Պետք է լինի միայն անգլերեն"
+    },
+    "mccsSection": {
+        "mccCode": "MCC կոդ"
+    },
+    "citiesSection": {
+        "city": "Քաղաք"
     }
 }

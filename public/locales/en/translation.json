@@ -2,17 +2,26 @@
     "generalMessages": {
         "willBeAvailableSoon": "Will be available soon!"
     },
+    "generalErrors": {
+        "connectionError": "Connection error, please try again!"
+    },
     "questions": {
-        "doYouWantDelete": "Do yow want to delete"
+        "doYouWantToInactivate": "Do yow want to inactivate"
+    },
+    "questionsPostfixes": {
+        "terminalsDataWithSearial": "serial number terminal data?"
     },
     "operations": {
         "delete": "Delete",
         "cancel": "Cancel",
-        "close": "Close"
+        "close": "Close",
+        "inactivate": "Inactivate"
     },
     "nav": {
         "terminals": "Terminals",
         "transactions": "Transactions",
+        "mccCodes": "MCC codes",
+        "cities": "Cities",
         "users": "Users",
         "banks": "Banks"
     },
@@ -28,15 +37,18 @@
         "region": "Region",
         "merchantAddress": "Merchant address (en)",
         "merchantAddressAm": "Merchant address (am)",
-        "merchantCity": "Merchant city (en)",
-        "merchantCityAm": "Merchant city (am)",
+        "merchantCity": "Merchant city",
         "merchantPhoneNumber": "Merchant phone number",
         "merchantWebPage": "Merchant WEB page",
         "merchantEmail": "Merchant email",
         "paymentSystem": "Payment system",
-        "invalidSerial": "Invalid serial number",
-        "invalidTid": "Invalid Terminal ID",
-        "invalidMid": "Invalid Merchant ID"
+        "invalidSerial": "Must contain capital letters or numbers in latin and have from 8 to 24 length",
+        "invalidTid": "Must contain only numbers and have a length of exactly 8",
+        "invalidMid": "Must contain only numbers and have from 8 to 15 length",
+        "invalidMcc": "Must contain only numbers and have a length of exactly 4",
+        "mccNotExists": "This MCC doesn't exist",
+        "invalidTax": "Must contain only numbers and have a length of exactly 8",
+        "terminalAlreadyExists": "The terminal with the specified serial number exists and is active!"
     },
     "userSection": {
         "userData": "user data?",
@@ -60,16 +72,16 @@
         "wrongUsernamePassword": "Incorrect username or password",
         "wrongUsernameEmail": "Incorrect username or email address",
         "usernameLengthError": "Username must contain at least 3 characters",
+        "longFieldError": "Must contain no more than 99 characters",
         "logout": "Logout"
     },
     "searchArea": {
         "searchBy": "Search by",
         "searchData": "Search data",
         "chooseTrxType": "Choose transaction type",
-        "startDate": "Start date",
-        "startTime": "Start time",
-        "endDate": "End date",
-        "endTime": "End time",
+        "chooseTrxStatus": "Choose transaction status",
+        "startDate": "Start",
+        "endDate": "End",
         "searchBtn": "Search",
         "emptyFieldError": "Fill the field"
     },
@@ -86,8 +98,8 @@
         "changeTerminalData": "Change terminal data",
         "saveBtn": "Save"
     },
-    "deleteTerminalData": {
-        "deleteTerminalData": "Delete terminal data"
+    "inactivateTerminalData": {
+        "inactivateTerminalData": "Inactivate terminal data"
     },
     "trxTypes": {
         "all": "All",
@@ -121,5 +133,11 @@
         "onlyArmenian": "Must be only in armenian",
         "onlyRussian": "Must be only in russian",
         "onlyEnglish": "Must be only in english"
+    },
+    "mccsSection": {
+        "mccCode": "MCC code"
+    },
+    "citiesSection": {
+        "city": "City"
     }
 }

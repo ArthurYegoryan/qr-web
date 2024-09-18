@@ -4,7 +4,7 @@ import TextInput from "../../../generalComponents/inputFields/textInputComponent
 import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
+// import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeBankData from "../../../testApis/changeBankData";
 import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkBankDataFieldsValidation";
 import { resetPrevValidations } from "../../../utils/fieldsValidations/resetPrevValidations";
@@ -190,9 +190,9 @@ const ChangeBankData = ({
                     />
                 </div>
             </div>
-            {openCloseSuccessModal &&
+            {/* {openCloseSuccessModal &&
                 <SuccessModalBody />
-            }
+            } */}
             {openCloseErrorModal &&
                 <ModalComponent onCloseHandler={setOpenCloseErrorModal}
                                 isOpen={true}

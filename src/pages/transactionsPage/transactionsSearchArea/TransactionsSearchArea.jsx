@@ -2,48 +2,163 @@ import "./TransactionsSearchArea.css";
 import TextInput from "../../../generalComponents/inputFields/textInputComponent/TextInputComponent";
 import SelectComponent from "../../../generalComponents/inputFields/selectComponent/SelectComponent";
 import Button from "../../../generalComponents/buttons/Button";
-// import Calendar from "../../../generalComponents/inputFields/calendarComponent/CalendarComponent";
-// import Time from "../../../generalComponents/inputFields/timeComponent/TimeComponent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../generalComponents/loaders/Loader";
 import SearchIcon from '@mui/icons-material/Search';
+import dayjs from "dayjs";
 import { trxTypesDetector } from "../../../utils/helpers/trxtypesDetector";
+import { getStatusCodeIdByName } from "../../../utils/helpers/getStatusCodeIdByName";
+import { getStatusCodesList } from "../../../utils/helpers/getStatusCodesList";
+import { changeTransactionsFieldsForView } from "../../../utils/helpers/changeTransactionsFieldsForView";
 import { searchingValidation } from "../../../utils/helpers/searchingValidation";
 import { postDataApi } from "../../../apis/postDataApi";
+import { refreshTokenMakeCall } from "../../../utils/helpers/refreshTokenMakeCall";
+import { exportDataApi } from "../../../apis/exportDataApi";
+import { colors } from "../../../assets/styles/colors";
+import { paths } from "../../../constants/paths/paths";
 import { urls } from "../../../constants/urls/urls";
 import { editToken } from "../../../redux/slices/authorization/authSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const TransactionsSearchArea = ({ 
+    pageSize,
+    transactionsPageForSearch,
+    setIsSearchedTransactionsData,
+    setSearchedTransactionsPageCount,
     isSearched,
     setIsSearched,
     transactionsSearchFields,
+    transactionsSortFields,
     transactionTypes, 
+    statusCodes,
     setTransactions
 }) => {
     const [ transactionsSearchInfo, setTransactionsSearchInfo ] = useState({
         hasSearchParams: false,
-        searchField: "",
-        searchValue: "",
-        // transactionType: "",
-        startDate: "",
-        startTime: "",        
-        endDate: "",
-        endTime: ""
+        searchField: null,
+        searchValue: null,
+        transactionType_id: null,
+        startDate: new Date(Date.now() - 604800000),
+        endDate: new Date(Date.now()),
+        statusCode_id: null,
+        order_by: null,
+        desc: true
     });
+    const [ currentSearchPage, setCurrentSearchPage ] = useState(1);
     const [ showLoading, setShowLoading ] = useState(false);
-    const [ prevSearchInfo, setPrevSearchInfo ] = useState({...transactionsSearchInfo});
+    const [ prevSearchInfo, setPrevSearchInfo ] = useState({
+        ...transactionsSearchInfo,
+        startDate: null,
+        endDate: null
+    });
     const [ searchByFieldEmptyError, setSearchByFieldEmptyError ] = useState(false);
     const [ searchDataFieldEmptyError, setSearchDataFieldEmptyError ] = useState(false);
+    const [ showConnectionError, setShowConnectionError ] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { i18n, t } = useTranslation();
 
-    // console.log("Transaction types: ", JSON.stringify(transactionTypes, null, 2));                    // Asel Vardanin name_ru lcni !!!
     const trxTypesList = [];
     transactionTypes.map((trxType) => {trxTypesList.push(trxType[`name_${i18n.language}`])});
+
+    useEffect(() => {
+        setTransactionsSearchInfo({
+            ...transactionsSearchInfo,
+            order_by: transactionsSortFields?.order_by,
+            desc: transactionsSortFields?.desc
+        });
+    }, [transactionsSortFields]);
+
+    useEffect(() => {
+        if (
+            transactionsSearchInfo.order_by !== prevSearchInfo.order_by ||
+            transactionsSearchInfo.desc !== prevSearchInfo.desc
+        ) {
+            prevSearchInfo.order_by = transactionsSearchInfo.order_by;
+            prevSearchInfo.desc = transactionsSearchInfo.desc;
+
+            callForTransactionsSearchedData();
+        }
+    }, [transactionsSearchInfo]);
+
+    const callForTransactionsSearchedData = () => {
+        if (!transactionsSearchInfo.searchField) transactionsSearchInfo.searchField = null;
+        if (!transactionsSearchInfo.transactionType_id) transactionsSearchInfo.transactionType_id = null;
+
+        let searchParams = {};
+        for (const field in transactionsSearchInfo) {
+            if (field !== "hasSearchParams") {
+                searchParams[field] = transactionsSearchInfo[field];
+            }
+        }
+
+        const makeCallForSearchedTransactions = async () => {
+            try {
+                if (searchParams.startDate) searchParams.startDate = dayjs(searchParams.startDate).format("YYYY-MM-DD HH:mm:ss");
+                if (searchParams.endDate) searchParams.endDate = dayjs(searchParams.endDate).format("YYYY-MM-DD HH:mm:ss");
+
+                setShowLoading(true);
+                const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL 
+                                            + `?page=${transactionsPageForSearch}&size=${pageSize}`, searchParams);
+                setShowLoading(false);
+
+                if (response.status === 200) {
+                    setTransactions(changeTransactionsFieldsForView(response.data.items, transactionsPageForSearch, 
+                        pageSize, transactionsSearchInfo.desc, response.data.total));
+                    setIsSearchedTransactionsData(true);
+                    setSearchedTransactionsPageCount(response.data.pages);
+                    setCurrentSearchPage(response.data.page);
+                } else if (response.status === 401) {
+                    const response = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [ postDataApi ], 
+                        [urls.SEARCH_TRANSACTIONS_URL + `?page=${transactionsPageForSearch}&size=${pageSize}`],
+                        true,
+                        searchParams
+                    );
+
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTransactions(changeTransactionsFieldsForView(response.callsResponses[0].data.items, 
+                                transactionsPageForSearch, pageSize, transactionsSearchInfo.desc, response.callsResponses[0].data.total));
+                            setIsSearchedTransactionsData(true);
+                            setSearchedTransactionsPageCount(response.callsResponses[0].data.pages);
+                            setCurrentSearchPage(response.callsResponses[0].data.page);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log("Error: ", err);
+            }
+        };
+        makeCallForSearchedTransactions();
+    };
+
+    if (transactionsPageForSearch !== currentSearchPage) {
+        setCurrentSearchPage(transactionsPageForSearch);
+        callForTransactionsSearchedData();
+    }
+
+    const onCliCkExportBtn = async () => {
+        setShowConnectionError(false);
+        try {
+            await exportDataApi(urls.EXPORT_TRANSACTIONS_URL)
+        } catch (err) {
+            setShowConnectionError(true);
+        }
+    }
 
     return (
         <div className="transactions-search-area">
@@ -62,37 +177,7 @@ const TransactionsSearchArea = ({
                 );
 
                 if (makeSearchCall) {
-                    // transactionsSearchInfo.transactionType = trxTypesDetector[transactionsSearchInfo.transactionType];
-                    // transactionsSearchInfo.searchField = transactionsSearchFields[transactionsSearchInfo.searchField];
-
-                    let searchParams = {};
-                    for (const field in transactionsSearchInfo) {
-                        if (field !== "hasSearchParams") {
-                            searchParams[field] = transactionsSearchInfo[field];
-                        }
-                    }
-
-                    const makeCallForSearchedTransactions = async () => {
-                        try {
-                            setShowLoading(true);
-                            const response = await postDataApi(urls.SEARCH_TRANSACTIONS_URL, searchParams);
-                            setShowLoading(false);
-
-                            console.log("Response: ", response);
-
-                            if (response.status === 200) {
-                                setTransactions(response.data);
-                            } else if (response.status === 401) {
-                                dispatch(editToken(""));
-                                localStorage.clear();
-
-                                window.location.reload()
-                            }
-                        } catch (err) {
-                            console.log("Error: ", err);
-                        }
-                    };
-                    makeCallForSearchedTransactions();
+                    callForTransactionsSearchedData();
                 }
             }}>
                 <div className="transactions-search-inputs">
@@ -103,15 +188,32 @@ const TransactionsSearchArea = ({
                                          firstRowLabel="------"
                                          firstRowValue=""
                                          width="150px"
-                                         marginTop={"36px"}
                                          existsError={searchByFieldEmptyError}
                                          errorText={t("searchArea.emptyFieldError")} 
                                          onChooseHandler={(evt) => {
                                             setSearchByFieldEmptyError(false);
-                                            setTransactionsSearchInfo({
-                                                ...transactionsSearchInfo,
-                                                searchField: transactionsSearchFields[evt.target.value]
-                                            });
+                                            if (transactionsSearchFields[evt.target.value] === "rrn") {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: transactionsSearchFields[evt.target.value],
+                                                    startDate: null,
+                                                    endDate: null
+                                                });
+                                            } else if (!evt.target.value) {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: null,
+                                                    startDate: new Date(Date.now() - 604800000),
+                                                    endDate: new Date(Date.now())
+                                                });
+                                            } else {
+                                                setTransactionsSearchInfo({
+                                                    ...transactionsSearchInfo,
+                                                    searchField: transactionsSearchFields[evt.target.value],
+                                                    startDate: new Date(Date.now() - 604800000),
+                                                    endDate: new Date(Date.now())
+                                                });
+                                            }
                                         }}/>
                         <TextInput label={t("searchArea.searchData")}
                                    existsError={searchDataFieldEmptyError}
@@ -122,55 +224,69 @@ const TransactionsSearchArea = ({
                                            ...transactionsSearchInfo,
                                            searchValue: (evt.target.value)
                                        })
-                                   }}
-                                   marginTop={"36px"} />
+                                   }} />
                         <SelectComponent label={t("searchArea.chooseTrxType")}
                                          hasFirstRow={true}
                                          firstRowLabel={t("------")}
-                                         firstRowValue=""
+                                         firstRowValue={null}
                                          chooseData={trxTypesList}
                                          width={"250px"}
-                                         marginTop={"36px"}
                                          marginLeft={"10px"}
                                          onChooseHandler={(evt) => {
                                             setTransactionsSearchInfo({
                                                 ...transactionsSearchInfo,
-                                                // searchField: trxTypesDetector[evt.target.value]
-                                                transactionType: trxTypesDetector[evt.target.value]
+                                                transactionType_id: trxTypesDetector[evt.target.value]
+                                            });
+                                         }} />
+                        <SelectComponent label={t("searchArea.chooseTrxStatus")}
+                                         hasFirstRow={true}
+                                         firstRowLabel={t("------")}
+                                         firstRowValue={null}
+                                         chooseData={getStatusCodesList(statusCodes)}
+                                         width={"300px"}
+                                         marginLeft={"10px"}
+                                         onChooseHandler={(evt) => {
+                                            setTransactionsSearchInfo({
+                                                ...transactionsSearchInfo,
+                                                statusCode_id: getStatusCodeIdByName(statusCodes, evt.target.value)
                                             });
                                          }} />
                     </div>
                     <div className="transactions-search-calendar-fields">
                         <div className="transactions-search-date">
-                            <span>Սկիզբ</span>
-                            <DatePicker showTimeSelect />
+                            <span>{t("searchArea.startDate")}</span>
+                            <DatePicker dateFormat="dd-MM-yyyy HH:mm"
+                                        timeFormat="HH:mm"
+                                        isClearable
+                                        showIcon
+                                        showTimeSelect
+                                        timeIntervals={15}
+                                        minDate={"05.01.2024"}
+                                        maxDate={Date.now()}
+                                        showYearDropdown
+                                        selected={transactionsSearchInfo.startDate}
+                                        onChange={(date) => setTransactionsSearchInfo({
+                                            ...transactionsSearchInfo,
+                                            startDate: date
+                                        })} />
                         </div>
                         <div className="transactions-search-date">
-                            <span>Ավարտ</span>
-                            <DatePicker showTimeSelect />
+                            <span>{t("searchArea.endDate")}</span>
+                            <DatePicker dateFormat="dd-MM-yyyy HH:mm"
+                                        timeFormat="HH:mm"
+                                        isClearable
+                                        showIcon
+                                        showTimeSelect
+                                        timeIntervals={15}
+                                        minDate={"05.01.2024"}
+                                        maxDate={Date.now()}
+                                        showYearDropdown
+                                        selected={transactionsSearchInfo.endDate}
+                                        onChange={(date) => setTransactionsSearchInfo({
+                                            ...transactionsSearchInfo,
+                                            endDate: date
+                                        })} />
                         </div>
-                        {/* <Calendar label={t("searchArea.startDate")}
-                                  defaultDate={null}
-                                  width="100px"
-                                  fields={transactionsSearchInfo}
-                                  setField={setTransactionsSearchInfo} 
-                                  changeFieldName="startDate" />
-                        <Time label={t("searchArea.startTime")}
-                              width="100px"
-                              fields={transactionsSearchInfo}
-                              setField={setTransactionsSearchInfo} 
-                              changeFieldName="startTime" />
-                        <Calendar label={t("searchArea.endDate")}
-                                  marginLeft="25px" 
-                                  width="100px"
-                                  fields={transactionsSearchInfo}
-                                  setField={setTransactionsSearchInfo} 
-                                  changeFieldName="endDate" />
-                        <Time label={t("searchArea.endTime")}
-                              width="100px"
-                              fields={transactionsSearchInfo}
-                              setField={setTransactionsSearchInfo} 
-                              changeFieldName="endTime" /> */}
                     </div>                    
                 </div>
                 <div className="transactions-search-buttons">
@@ -178,9 +294,15 @@ const TransactionsSearchArea = ({
                             type="submit"
                             endIcon={<SearchIcon />}
                             marginRight="10px" />
-                    <Button label={t("export.reporting")} />
+                    <Button label={t("export.reporting")}
+                            onClickHandler={onCliCkExportBtn} />
                 </div>
             </form>
+            {showConnectionError &&
+                <p style={{ color: colors.loginFailedColor, marginTop: 0 }} className="transactions-page-search-export-error-text">
+                    {t("generalErrors.connectionError")}
+                </p>
+            }
             {showLoading &&
                 <Loader />
             }

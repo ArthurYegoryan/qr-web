@@ -5,7 +5,7 @@ import SelectComponent from "../../../generalComponents/inputFields/selectCompon
 import CheckBoxLabels from "../../../generalComponents/inputFields/checkbox/CheckBoxComponent";
 import ModalComponent from "../../../generalComponents/modalComponent/ModalComponent";
 import ErrorModalBody from "../../../generalComponents/modalComponent/errorModalBody/ErrorModalBody";
-import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
+// import SuccessModalBody from "../../../generalComponents/modalComponent/successModalBody/SuccessModalBody";
 import changeUserData from "../../../testApis/changeUserData";
 import { urls } from "../../../constants/urls/urls";
 import { checkFieldsValidation } from "../../../utils/fieldsValidations/checkEditUserDataFieldsValidation";
@@ -145,9 +145,9 @@ const ChangeUserData = ({
                     />
                 </div>
             </div>
-            {openCloseSuccessModal &&
+            {/* {openCloseSuccessModal &&
                 <SuccessModalBody />
-            }
+            } */}
             {openCloseModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseModal(false)}
                                 isOpen={true}

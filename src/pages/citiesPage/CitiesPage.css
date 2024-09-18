@@ -1,0 +1,18 @@
+.cities-page-area {
+    min-width: 700px;
+}
+
+.cities-page-search-area,
+.cities-page-content {
+    display: flex;
+    justify-content: center;
+}
+
+.cities-page-content {
+    margin-top: 20px;
+}
+
+.cities-page-table-area {
+    min-width: 700px;
+    width: 50%;
+}

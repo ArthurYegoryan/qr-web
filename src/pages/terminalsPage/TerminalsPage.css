@@ -1,15 +1,8 @@
-.terminals-page-pagination-open-menu {
-   position: fixed;
-   bottom: 3px;
-   left: 55%;
-}
-
-.terminals-page-pagination-close-menu {
-   position: fixed;
-   bottom: 3px;
-   left: 45%;
-}
-
 .terminals-page-area {
-   min-width: 1500px;
+   min-width: 830px;
+}
+
+.terminals-page-pagination {
+   display: flex;
+   justify-content: center;
 }

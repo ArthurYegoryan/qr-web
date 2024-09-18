@@ -1,0 +1,18 @@
+.mccs-page-area {
+    min-width: 700px;
+}
+
+.mccs-page-search-area,
+.mccs-page-content {
+    display: flex;
+    justify-content: center;
+}
+
+.mccs-page-content {
+    margin-top: 20px;
+}
+
+.mccs-page-table-area {
+    min-width: 700px;
+    width: 50%;
+}

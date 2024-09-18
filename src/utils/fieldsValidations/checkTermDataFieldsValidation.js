@@ -1,20 +1,18 @@
-import { serialValidation, midTidValidation, mccValidation, taxValidation } from "./termDataFieldsValidation";
+import { serialValidation, tidValidation, midValidation, mccValidation, taxValidation } from "./termDataFieldsValidation";
 
 export const checkFieldsValidation = (
     { 
-        serial, 
-        tid, 
-        mid, 
-        pos_type, 
-        mcc, 
-        merchant_tax_number, 
-        merchant_name, 
-        merchant_name_in_am, 
-        merchant_address, 
-        merchant_address_in_am, 
-        merchant_city, 
-        merchant_city_in_am, 
-        bank, 
+        serial_number, 
+        terminalId, 
+        merchantId, 
+        posModel_id, 
+        mcc_id, 
+        merchantTin, 
+        merchantNameGlobal, 
+        merchantNameLocal, 
+        merchantAddressGlobal, 
+        merchantAddressLocal, 
+        city_id,
     },
     [
         setEmptySerialError,
@@ -25,96 +23,104 @@ export const checkFieldsValidation = (
         setInvalidMidError,
         setEmptyPosTypeError,
         setEmptyMccError,
-        setInvalidMccError,
         setEmptyTaxError,
         setInvalidTaxError,
         setEmptyMerchantNameError,
+        setLongMerchantNameError,
         setEmptyMerchantNameInAmError,
+        setLongMerchantNameInAmError,
         setEmptyMerchantAddressError,
+        setLongMerchantAddressError,
         setEmptyMerchantAddressInAmError,
+        setLongMerchantAddressInAmError,
         setEmptyMerchantCityError,
-        setEmptyMerchantCityInAmError,
-        setEmptyBankError,
-    ]
+    ],
 ) => {
     let existsError = false;
 
-    if (!serial.length) {
+    if (!serial_number) {
         existsError = true;
         setEmptySerialError(true);
     } else {
-        if (!serialValidation(serial)) {
+        if (!serialValidation(serial_number)) {
             existsError = true;
             setInvalidSerialError(true);
         }
     }
-    if (!tid.length) {
+    if (!terminalId) {
         existsError = true;
         setEmptyTidError(true);
     } else {
-        if (!midTidValidation(tid)) {
+        if (!tidValidation(terminalId)) {
             existsError = true;
             setInvalidTidError(true);
         }
     }
-    if (!mid.length) {
+    if (!merchantId) {
         existsError = true;
         setEmptyMidError(true);
     } else {
-        if (!midTidValidation(mid)) {
+        if (!midValidation(merchantId)) {
             existsError = true;
             setInvalidMidError(true);
         }
     }
-    if (!pos_type.length) {
+    if (!posModel_id) {
         existsError = true;
         setEmptyPosTypeError(true);
     }
-    if (!mcc.length) {
+    if (!mcc_id) {
         existsError = true;
         setEmptyMccError(true);
-    } else {
-        if (!mccValidation(mcc)) {
-            existsError = true;
-            setInvalidMccError(true);
-        }
-    }
-    if (!merchant_tax_number.length) {
+    } 
+    if (!merchantTin) {
         existsError = true;
         setEmptyTaxError(true);
     } else {
-        if (!taxValidation(merchant_tax_number)) {
+        if (!taxValidation(merchantTin)) {
             existsError = true;
             setInvalidTaxError(true);
         }
     }
-    if (!merchant_name.length) {
+    if (!merchantNameGlobal) {
         existsError = true;
         setEmptyMerchantNameError(true);
+    } else {
+        if (merchantNameGlobal.length > 99) {
+            existsError = true;
+            setLongMerchantNameError(true);
+        }
     }
-    if (!merchant_name_in_am.length) {
+    if (!merchantNameLocal) {
         existsError = true;
         setEmptyMerchantNameInAmError(true);
+    } else {
+        if (merchantNameLocal.length > 99) {
+            existsError = true;
+            setLongMerchantNameInAmError(true);
+        }
     }
-    if (!merchant_address.length) {
+    if (!merchantAddressGlobal) {
         existsError = true;
         setEmptyMerchantAddressError(true);
+    } else {
+        if (merchantAddressGlobal.length > 99) {
+            existsError = true;
+            setLongMerchantAddressError(true);
+        }
     }
-    if (!merchant_address_in_am.length) {
+    if (!merchantAddressLocal) {
         existsError = true;
         setEmptyMerchantAddressInAmError(true);
+    } else {
+        if (merchantAddressLocal.length > 99) {
+            existsError = true;
+            setLongMerchantAddressInAmError(true);
+        }
     }
-    if (!merchant_city.length) {
+    if (!city_id) {
         existsError = true;
         setEmptyMerchantCityError(true);
-    }
-    if (!merchant_city_in_am.length) {
-        existsError = true;
-        setEmptyMerchantCityInAmError(true);
-    }
-    if (!bank.length) {
-        existsError = true;
-        setEmptyBankError(true);
     }
 
     return existsError;

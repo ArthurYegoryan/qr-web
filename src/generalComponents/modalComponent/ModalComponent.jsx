@@ -3,6 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { colors } from "../../assets/styles/colors";
 
 const ModalComponent = ({ 
     onCloseHandler, 
@@ -12,12 +13,11 @@ const ModalComponent = ({
     bgcolor = 'background.paper'
 }) => {
     const modalStyle = {
-        position: 'absolute',  //  as 'absolute'
+        position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        // width: 400,
-        bgcolor: bgcolor, // 'background.paper'
+        bgcolor: bgcolor,
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -38,10 +38,10 @@ const ModalComponent = ({
                         </button>
                     </div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        <div className="modal-modal-title-div">
+                        <div style={{ backgroundColor: colors.originalBgColor }} className="modal-modal-title-div">
                             <div className="modal-modal-title-text">
                                 <span>{title}</span>
-                            </div>                            
+                            </div>
                         </div>
                     </Typography>
                     <div className="modal-modal-body-div">

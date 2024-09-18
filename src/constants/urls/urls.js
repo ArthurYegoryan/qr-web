@@ -2,15 +2,20 @@ const URL = process.env.REACT_APP_API_URL;
 
 export const urls = {
     LOGIN_URL: `/jwt/login`,
+    REFRESH_TOKEN_URL: `/jwt/refresh`,
 
     TERMINALS_URL: `/api/terminals`,
     SEARCH_TERMINALS_URL: `/api/terminal_search`,
+    ADD_NEW_TERMINAL_URL: `/api/terminal`,
+    CLOSE_TERMINAL_URL: "/api/terminal/close/",
+    EXPORT_TERMINALS_URL: "/api/terminals_export",
 
     TRANSACTIONS_URL: `/api/transactions`,
     SEARCH_TRANSACTIONS_URL: `/api/transaction_search`,
+    EXPORT_TRANSACTIONS_URL: `/api/transactions_export`,
 
     MCC_URL: `/api/mcc`,
-    MCC_Page_URL: `/api/mcc_page`,
+    MCC_PAGE_URL: `/api/mcc_page`,
 
     CITIES_URL: `/api/cities`,
     CITIES_PAGE_URL: `/api/cities_page`,

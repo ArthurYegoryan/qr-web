@@ -7,22 +7,22 @@ import ModalComponent from "../../generalComponents/modalComponent/ModalComponen
 import PaginationComponent from "../../generalComponents/pagination/Pagination";
 import Loader from "../../generalComponents/loaders/Loader";
 import { getDataApi } from "../../apis/getDataApi";
+import { refreshTokenMakeCall } from "../../utils/helpers/refreshTokenMakeCall";
+import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
+import { changeTerminalsFieldsForView } from "../../utils/helpers/changeTerminalsFieldsForView";
+import { urls } from "../../constants/urls/urls";
+import { paths } from "../../constants/paths/paths";
 import { savePosModels } from "../../redux/slices/posModels/posModelsSlice";
 import { savePaymentSystems } from "../../redux/slices/paymentSystems/paymentSystemsSlice";
 import { saveCities } from "../../redux/slices/cities/citiesSlice";
 import { saveMccs } from "../../redux/slices/mccs/mccsSlice";
-import { urls } from "../../constants/urls/urls";
-import { useDispatch, useSelector } from "react-redux";
 import { editToken } from "../../redux/slices/authorization/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { makeObjFieldsToString } from "../../utils/helpers/makeObjFieldsToString";
 
 const TerminalsPage = () => {
-    // const [ mccs, setMccs ] = useState([]);
-    // const [ posModels, setPosModels ] = useState([]);
-    // const [ cities, setCities ] = useState([]);
-    // const [ paySystems, setPaySystems ] = useState([]);
     const [ terminals, setTerminals ] = useState([]);
     const [ terminalsPageCount, setTerminalsPageCount ] = useState(1);
     const [ isTermDataChanged, setIsTermDataChanged ] = useState(false);
@@ -37,10 +37,12 @@ const TerminalsPage = () => {
     const [ openCloseEditModal, setOpenCloseEditModal ] = useState(false);
     const [ showLoading, setShowLoading ] = useState(false);
     const { isMenuOpen } = useSelector((state) => state.menu);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
     const windowHeight = window.screen.height;
+    const pageSize = windowHeight < 950 ? 5 : 10;
 
     let paginationLeftMarginClassname = "";
     if (isMenuOpen) paginationLeftMarginClassname = "-open-menu";
@@ -61,24 +63,54 @@ const TerminalsPage = () => {
                     responsePosModels.status === 200 &&
                     responsePaymentSystems.status === 200
                 ) {
-                    // setMccs(responseMcc.data);
-                    // setPosModels(responsePosModels.data);
-                    // setCities(responseCities.data);
-                    // setPaySystems(responsePaymentSystems.data);
-
                     dispatch(savePosModels(responsePosModels.data));
                     dispatch(savePaymentSystems(responsePaymentSystems.data));
                     dispatch(saveCities(responseCities.data));
-                    dispatch(saveMccs(responseMcc.data));
+                    dispatch(saveMccs(responseMcc.data));                    
+                } else if (
+                    responseCities.status === 401 ||
+                    responseMcc.status === 401 ||
+                    responsePosModels.status === 401 ||
+                    responsePaymentSystems.status === 401
+                ) {
+                    const responses = await refreshTokenMakeCall(
+                        setShowLoading, 
+                        [
+                            getDataApi,
+                            getDataApi,
+                            getDataApi,
+                            getDataApi,
+                        ],
+                        [
+                            urls.CITIES_URL,
+                            urls.MCC_URL,
+                            urls.POS_MODELS_URL,
+                            urls.PAY_SYS_URL
+                        ]
+                    );
+
+                    if (responses.callsResponses.length) {
+                        dispatch(editToken(responses.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", responses.responseRefreshToken.data.access_token);
+
+                        let allCallsIsOK = true;
+
+                        responses.callsResponses.map((callResponse) => {
+                            if (callResponse.status !== 200) allCallsIsOK = false;
+                        });
+
+                        if (allCallsIsOK) {
+                            dispatch(saveCities(responses.callsResponses[0].data));
+                            dispatch(saveMccs(responses.callsResponses[1].data));
+                            dispatch(savePosModels(responses.callsResponses[2].data));
+                            dispatch(savePaymentSystems(responses.callsResponses[3].data));
+                        } else {
+                            localStorage.clear();
+                            dispatch(editToken(""));
                     
-                } else if (responseCities.status === 401 ||
-                           responseMcc.status === 401 ||
-                           responsePosModels.status === 401 ||
-                           responsePaymentSystems.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    window.location.reload();
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw Error("Terminals data error!");
                 }
@@ -94,19 +126,32 @@ const TerminalsPage = () => {
             const getTerminalsData = async () => {
                 setShowLoading(true);
                 const response = await getDataApi(
-                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${(windowHeight < 950) ? 7 : 10}`
+                    urls.TERMINALS_URL + `?page=${terminalsPage}&size=${pageSize}`
                 );
                 setShowLoading(false);
 
                 if (response.status === 200) {
-                    setTerminals(response.data.items);
-                    setTerminalsPageCount(Math.ceil(response.data.total / response.data.size));
+                    setTerminals(changeTerminalsFieldsForView(response.data.items, terminalsPage, pageSize));
+                    setTerminalsPageCount(response.data.pages);
                     setIsSearchedTerminalsData(false);
                 } else if (response.status === 401) {
-                    localStorage.clear();
-                    dispatch(editToken(""));
-            
-                    window.location.reload();
+                    const response = await refreshTokenMakeCall(setShowLoading, [ getDataApi ], [urls.TERMINALS_URL + `?page=${terminalsPage}&size=${pageSize}`]);
+
+                    if (response.callsResponses.length) {
+                        dispatch(editToken(response.responseRefreshToken.data.access_token));
+                        localStorage.setItem("token", response.responseRefreshToken.data.access_token);
+
+                        if (response.callsResponses[0].status === 200) {
+                            setTerminals(changeTerminalsFieldsForView(response.callsResponses[0].data.items, terminalsPage, pageSize));
+                            setTerminalsPageCount(response.callsResponses[0].data.pages);
+                            setIsSearchedTerminalsData(false);
+                        } else if (response.callsResponses[0].status === 401) {
+                            localStorage.clear();
+                            dispatch(editToken(""));
+                    
+                            navigate(paths.LOGIN);
+                        }
+                    }
                 } else {
                     throw new Error("Connection error!");
                 }
@@ -119,7 +164,7 @@ const TerminalsPage = () => {
 
     return (
         <div className="terminals-page-area">
-            <TermPageSearchArea windowHeight={windowHeight}
+            <TermPageSearchArea pageSize={pageSize}
                                 terminalsPageForSearch={terminalsPageForSearch}
                                 setIsSearchedTerminalsData={setIsSearchedTerminalsData}
                                 setSearchedTerminalsPageCount={setSearchedTerminalsPageCount}
@@ -132,6 +177,9 @@ const TerminalsPage = () => {
             <Table whichTable={"terminals"}
                    datas={makeObjFieldsToString(terminals)}
                    size="small"
+                   windowHeight={windowHeight}
+                   minWidth={"1500px"}
+                   scrollBoth={true}
                    onClickEditButton={(terminal) => {
                        setSelectedTerminal(terminal);
                        setOpenCloseEditModal(true);
@@ -140,9 +188,10 @@ const TerminalsPage = () => {
                        setSelectedTerminal(terminal);
                        setOpenCloseDeleteModal(true);
                    }} />
-            <div className={`terminals-page-pagination${paginationLeftMarginClassname}`}>
+            <div className={`terminals-page-pagination`}>
                 <PaginationComponent pageCount={!isSearchedTerminalsData ? terminalsPageCount : searchedTerminalsPageCount}
-                                     setPage={!isSearchedTerminalsData ? setTerminalsPage : setTerminalsPageForSearch} />
+                                     setPage={!isSearchedTerminalsData ? setTerminalsPage : setTerminalsPageForSearch}
+                                     leftMargin={paginationLeftMarginClassname} />
             </div>
             {openCloseEditModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseEditModal(false)} 
@@ -157,7 +206,7 @@ const TerminalsPage = () => {
             {openCloseDeleteModal &&
                 <ModalComponent onCloseHandler={() => setOpenCloseDeleteModal(false)} 
                                 isOpen={openCloseDeleteModal}
-                                title={t("deleteTerminalData.deleteTerminalData")}
+                                title={t("inactivateTerminalData.inactivateTerminalData")}
                                 body={<DeleteTerminalData terminal={selectedTerminal}
                                 setIsTermDataDeleted={setIsTermDataDeleted}
                                 isTermDataDeleted={isTermDataDeleted}

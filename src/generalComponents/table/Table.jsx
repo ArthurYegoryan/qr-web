@@ -1,23 +1,28 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Typography } from 'antd';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const TableComponent = ({ 
     whichTable, 
     datas,
     setCurrentData,
-    banks,
     size = "normal",
+    windowHeight,
+    minWidth,
+    scrollBoth = false,
+    scrollX = false,
+    scrollY = false,
+    filterHandlers,
     onClickEditButton, 
     onClickDeleteButton 
 }) => {
-    // const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
+    const role = useSelector((state) => state.auth.role.payload) ?? localStorage.getItem("role");
 
     const terminalsColumns = [
         {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
+            title: <i>N</i>,
+            dataIndex: 'number',
+            key: 'number',
             width: "5px",
         },
         {
@@ -36,7 +41,7 @@ const TableComponent = ({
             title: 'S/N',
             dataIndex: 'serial_number',
             key: 'serial_number',
-            width: "15px",
+            width: "20px",
         },
         {
             title: 'MCC',
@@ -74,7 +79,7 @@ const TableComponent = ({
             title: 'Inactive date',
             dataIndex: 'inactiveDate',
             key: 'inactiveDate',
-            width: "11px",
+            width: 13,
         },
         {
             title: (
@@ -93,7 +98,15 @@ const TableComponent = ({
             title: 'Merchant name',
             dataIndex: 'merchantNameLocal',
             key: 'merchantNameLocal',
-            width: 25,
+            width: 20,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120, minWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: 'TAX',
@@ -118,13 +131,21 @@ const TableComponent = ({
             title: 'Merchant address',
             dataIndex: 'merchantAddressLocal',
             key: 'merchantAddressLocal',
-            width: 25,
+            width: 20,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120, minWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
             title: 'Registr. date',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: 13,
+            width: 20,
         },
         {
             title: (
@@ -139,141 +160,235 @@ const TableComponent = ({
             key: 'paymentSystem',
             width: 13,
         },
-        // {
-        //     title: 'Action',
-        //     key: 'operation',
-        //     width: 10,
-        //     render: (record) => (
-        //         <Space size="middle">
-        //             <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
-        //                 (role === "admin" || role === "bank") && onClickEditButton(record);
-        //             }} />
-        //             <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
-        //                 (role === "admin" || role === "bank") && onClickDeleteButton(record);
-        //             }} />
-        //         </Space>
-        //     )
-        // },
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 10,
+            render: (record) => (
+                <Space size="middle">
+                    {/* <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickEditButton(record);
+                    }} /> */}
+                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
+                        (role === "admin" || role === "bank") && onClickDeleteButton(record);
+                    }} />
+                </Space>
+            )
+        },
     ];
 
     const transactionsColumns = [
         {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byId()}
+                    />
+                    &nbsp;&nbsp;<i>N</i>
+                </span>                
+            ),
+            dataIndex: 'number',
+            key: 'number',
             width: "5px",
         },
         {
-            title: 'S/N',
+            title: "S/N",
             dataIndex: 'posTerminal',
             key: 'posTerminal',
-            width: "20px",
+            width: 12,
+            ellipsis: true,
+            render: (value) => {
+                return value.trim() && (
+                    <Typography.Text style={{ maxWidth: 120 }} ellipsis copyable>
+                        {value.trim()}
+                    </Typography.Text>
+                )
+            }
         },
         {
-            title: 'Terminal ID',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byTerminalId()}
+                    />
+                    &nbsp;&nbsp;Terminal ID
+                </span>                
+            ),
             dataIndex: 'terminalId',
             key: 'terminalId',
             width: 10,
         },
         {
-            title: 'Merchant ID',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byMerchantId()}
+                    />
+                    &nbsp;&nbsp;Merchant ID
+                </span>                
+            ),
             dataIndex: 'merchantId',
             key: 'merchantId',
             width: 10,
-        },        
+        },
         {
-            title: 'RRN',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byRrn()}
+                    />
+                    &nbsp;&nbsp;RRN
+                </span>                
+            ),
             dataIndex: 'rrn',
             key: 'rrn',
             width: "6px",
         },
         {
-            title: 'Amount',
+            title: (
+                <span>
+                    <img src={process.env.PUBLIC_URL + 'img/sort.svg'} 
+                        alt="Sort" 
+                        style={{
+                            width: "15px",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => filterHandlers.byAmount()}
+                    />
+                    &nbsp;&nbsp;Amount
+                </span>                
+            ),
             dataIndex: 'amount',
             key: 'amount',
             width: 10,
         },
         {
-            title: 'Date',
-            dataIndex: 'date',
-            key: 'date',
-            width: "20px",
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/calendar.svg'} 
+                     alt="Date" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            width: "15px",
         },
         {
-            title: 'Status',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/info.svg'} 
+                     alt="Status" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'statusCode',
             key: 'statusCode',
-            width: "20px",
+            width: "25px",
         },
         {
-            title: 'Transaction type',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/transactions.svg'} 
+                     alt="Transaction type" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'transactionType',
             key: 'transactionType',
             width: "15px",
         },
         {
-            title: 'Pay sys',
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/bank_1.svg'} 
+                     alt="Bank" 
+                     style={{
+                        width: "40px"
+                     }}
+                />
+            ),
             dataIndex: 'paymentSystem',
             key: 'paymentSystem',
             width: "10px",
         }
     ];
 
-    const usersColumns = [
+    const mccsColumns = [
         {
-            title: 'ID',
-            width: 10,
-            dataIndex: 'id',
-            key: 'id',
+            title: <i>N</i>,
+            dataIndex: 'number',
+            key: 'number',
+            width: "5px",
         },
         {
-            title: 'Username',
-            width: 20,
-            dataIndex: 'username',
-            key: 'username',
+            title: "Code",
+            dataIndex: 'code',
+            key: 'code',
+            width: "7px",
+        },{
+            title: "Name",
+            dataIndex: 'name',
+            key: 'name',
+            width: "45px",
+        },
+    ]
+
+    const citiesColumns = [
+        {
+            title: <i>N</i>,
+            dataIndex: 'number',
+            key: 'number',
+            width: "5px",
         },
         {
-            title: 'Bank',
-            dataIndex: 'bank',
-            key: 'bank',
-            width: 20,
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/arm_flag.svg'} 
+                     alt="Name AM" 
+                     style={{
+                        width: "30px"
+                     }}
+                />
+            ),
+            dataIndex: 'name_am',
+            key: 'name_am',
+            width: "25px",
+        },{
+            title: (
+                <img src={process.env.PUBLIC_URL + 'img/uk_flag.svg'} 
+                     alt="Name EN" 
+                     style={{
+                        width: "30px"
+                     }}
+                />
+            ),
+            dataIndex: 'name_en',
+            key: 'name_en',
+            width: "25px",
         },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 35,
-        },
-        {
-            title: 'Is active',
-            dataIndex: 'is_active',
-            key: 'is_active',
-            width: 11,
-        },
-        {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-            width: 20,
-        },
-        {
-            title: 'Action',
-            key: 'operation',
-            width: 15,
-            render: (record) => (
-                <Space size="middle">
-                    <BsFillPencilFill style={{ color: "blue", cursor: "pointer" }} onClick={() => {
-                        setCurrentData(record);
-                        onClickEditButton(record);
-                    }} />
-                    <BsFillTrashFill style={{ color: "red", cursor: "pointer" }} onClick={() => {
-                        setCurrentData(record);
-                        onClickDeleteButton(record);
-                    }} />
-                </Space>
-            )
-        },
-    ];
+    ]
 
     const banksColumns = [
         {
@@ -355,37 +470,38 @@ const TableComponent = ({
         },
     ]
 
-    const data = [];
-
     let columns = [];
 
-    if (whichTable === "users") {
-        columns = usersColumns;
-
-        for (let i = 0; i < datas.length; i++) {
-            data.push({
-                id: datas[i].id,
-                username: datas[i].username,
-                bank: datas[i].bank ? banks[datas[i].bank] : "FPS",
-                email: datas[i].email,
-                is_active: datas[i].is_active,
-                role: datas[i].role
-            });
-        }
-    }
-    else if (whichTable === "terminals") columns = terminalsColumns;
+    if (whichTable === "terminals") columns = terminalsColumns;
     else if (whichTable === "transactions") columns = transactionsColumns;
+    else if (whichTable === "mccs") columns = mccsColumns;
+    else if (whichTable === "cities") columns = citiesColumns;
     else if (whichTable === "banks") columns = banksColumns;
 
     return (
         <Table
             columns={columns}
-            dataSource={whichTable === "users" ? data : datas}
+            dataSource={datas}
             pagination={false}
             size={size}
             sticky={{
                 offsetHeader: 64,
             }}
+            scroll={
+                scrollBoth ? {
+                    scrollToFirstRowOnChange: true,
+                    y: (windowHeight < 950) ? 450 : 650,
+                    x: minWidth
+                } :
+                scrollX ? {
+                    scrollToFirstRowOnChange: true,
+                    x: minWidth
+                } : 
+                scrollY ? {
+                    scrollToFirstRowOnChange: true,
+                    y: (windowHeight < 950) ? 450 : 650,
+                } : null
+            }
         />
     );
 };
